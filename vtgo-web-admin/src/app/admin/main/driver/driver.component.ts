@@ -2,7 +2,6 @@ import { DriverViewModel } from './driver-model/driver.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 
-import { DriverService } from './driver.service';
 import { DriverSearch } from './driver-model/driver-search.model';
 import { DataService } from '../../../core/services/data.service';
 import { AuthenService } from '../../../core/services/authen.service';
