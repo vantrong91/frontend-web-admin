@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-12">
+    <input type="text" class="form-control input-search-admin text-right" placeholder="Tìm Kiếm">
+  </div>
+  <div class="col-12">
+    <ngx-datatable class='material selection-cell datatable' [selectionType]="'cell'" [rows]='rows' [columnMode]='"force"' [headerHeight]='50'
+      [footerHeight]='50' [rowHeight]='"auto"' [limit]="3">
+      <ngx-datatable-column name="STT" [width]="50">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="default">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Mã xe</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Company">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Loại xe</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Biển số</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Số đăng ký</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Số đăng kiểm</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Bảo hiểm dân sự</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span>
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

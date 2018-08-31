@@ -1,0 +1,294 @@
+<form [formGroup]="addEditForm" novalidate>
+  <ngb-tabset>
+    <ngb-tab title="Thông Tin Công ty kinh doanh vận tải">
+      <ng-template ngbTabContent>
+        <input type="text" hidden id="AccountId">
+        <div class="form-group row my-3">
+          <label for="FullName" class="col-sm-2 col-form-label text-md-right">Tên công ty<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" [(ngModel)]="_entity.fullName" class="form-control" id="fullName" placeholder="Tên công ty" formControlName="fullName">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Director" class="col-sm-2 col-form-label text-md-right">Giám đốc<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Director" placeholder="Giám đốc" formControlName="director">
+          </div>
+          <label for="Taxcode" class="col-sm-2 col-form-label text-md-right">Mã số thuế<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Taxcode" placeholder="Mã số thuế" formControlName="taxcode">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPhone" placeholder="Số điện thoại liên hệ" formControlName="contactPhone">
+          </div>
+          <label for="CompanyPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="CompanyPhone" placeholder="Số điện thoại công ty" formControlName="companyPhone">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Fax" class="col-sm-2 col-form-label text-md-right">Số Fax<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Fax" placeholder="Fax" formControlName="fax">
+          </div>
+          <label for="Fax" class="col-sm-2 col-form-label text-md-right">Số Fax</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Fax" placeholder="Fax">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Email" class="col-sm-2 col-form-label text-md-right">Email<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="Email" class="form-control" id="Email" placeholder="Email" formControlName="email">
+          </div>
+          <label for="Website" class="col-sm-2 col-form-label text-md-right">Website</label>
+          <div class="col-sm-4">
+            <input type="Email" class="form-control" id="Website" placeholder="Website" formControlName="website">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPn" class="col-sm-2 col-form-label text-md-right">Người liên hệ</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPn" placeholder="Họ tên người liên hệ" formControlName="contactPn">
+          </div>
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPnPhone" placeholder="SĐT người liên hệ" formControlName="contactPnPhone">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Email</label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" id="ContactPnEmail" placeholder="Email người liên hệ" formControlName="contactPnEmail">
+          </div>
+        </div>
+        <hr class="hr-border-color mb-1">
+        <div>Trụ sở công ty</div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="nationailt" placeholder="Quốc gia">
+          </div>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Tỉnh/Thành phố">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Quận/Huyện">
+          </div>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Phường/Xã">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Sổ nhà/đường</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số nhà/đường">
+          </div>
+        </div>
+        <hr class="hr-border-color mb-1">
+        <div>Địa chỉ liên hệ</div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quốc gia">
+          </div>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" id="ContactPnEmail" placeholder="Tỉnh/Thành phố">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quận/Huyện">
+          </div>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" id="ContactPnEmail" placeholder="Phường/Xã">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Sổ nhà/đường</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Số nhà/đường">
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Giấy cấp phép liên quan">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label for="BusiLic" class="col-sm-2 col-form-label text-md-right">Giấy đăng ký<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="BusiLic" placeholder="Số giấy đăng ký kinh doanh" formControlName="busiLic">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="BusiLicIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="BusiLicIssDate" placeholder="Ngày cấp" formControlName="busiLicIssDate">
+          </div>
+          <label for="BusiLic" class="col-sm-2 col-form-label text-md-right">Nơi cấp<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="BusiLic" placeholder="Nơi cấp" formControlName="busiLic">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="TranLic" class="col-sm-2 col-form-label text-md-right">Giấy phép<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="TranLic" placeholder="Số giấy phép kinh doanh vận tải" formControlName="tranLic">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="TranLicIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="TranLicIssDate" placeholder="Ngày cấp" formControlName="tranLicIssDate">
+          </div>
+          <label for="TranLicExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="TranLicExpDate" placeholder="Ngày hết hạn" formControlName="tranLicExpDate">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Mod" class="col-sm-2 col-form-label text-md-right">Họ và tên<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Mod" placeholder="Người điều hành vận tải" formControlName="mod">
+          </div>
+          <label for="ModLic" class="col-sm-2 col-form-label text-md-right">Số giấy phép<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ModLic" placeholder="Số giây phép điều hành vận tải" formControlName="modLic">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ModLicIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="ModLicIssDate" placeholder="Ngày cấp" formControlName="modLicIssDate">
+          </div>
+          <label for="ModLicExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="ModLicExpDate" placeholder="Ngày hết hạn" formControlName="modLicExpDate">
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Tài khoản ngân hàng">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+          <div class="col-sm-4">
+            <select class="custom-select">
+              <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
+              <option value="1">Vietcombank</option>
+              <option value="2">MBBank</option>
+            </select>
+          </div>
+          <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số tài khoản">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Người thụ hưởng">
+          </div>
+          <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
+          <div class="col-sm-4">
+            <select class="custom-select">
+              <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
+              <option value="1">Vietcombank</option>
+              <option value="2">MBBank</option>
+            </select>
+          </div>
+        </div>
+        <div class="" formArrayName="banks" *ngFor="let bank of addEditForm.controls['banks']['controls']; let i=index">
+          <div [formGroupName]="i">
+            <div class="row my-3 border-top" *ngIf="i>0">
+              <div class="col text-right mt-1">
+                <button class="btn btn-danger" (click)="onRemoveBankGroup($event,i)">
+                  <span class="fa fa-trash-o"></span>
+                </button>
+              </div>
+            </div>
+            <div class="form-group row my-3">
+              <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+              <div class="col-sm-4">
+                <select class="custom-select" formControlName="branch" name="Branch">
+                  <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
+                  <option value="1">Vietcombank</option>
+                  <option value="2">MBBank</option>
+                </select>
+                <input type="hidden" formControlName="branch" name="Branch" />
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Số tài khoản" formControlName="accountNumber" name="accountNumber">
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Người thụ hưởng">
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
+              <div class="col-sm-4">
+                <select class="custom-select">
+                  <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
+                  <option value="1">Vietcombank</option>
+                  <option value="2">MBBank</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm tài khoản
+          </button>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Hồ sơ đính kèm">
+      <ng-template ngbTabContent>
+        <div class="form-group my-3">
+          <label class="col-sm-6">Đăng ký kinh doanh</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile01">
+            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label class="col-sm-6">Mẫu dấu công ty</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile02">
+            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile03">
+            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile04">
+            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="22">Save</button>
+  </div>
+</form>
