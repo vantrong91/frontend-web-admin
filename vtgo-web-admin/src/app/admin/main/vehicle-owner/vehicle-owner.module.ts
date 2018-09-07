@@ -13,6 +13,7 @@ import {
   IVehicleOwnerServiceToken,
   VehicleOwnerService
 } from '../../../core';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {
     ReactiveFormsModule,
     NgbTabsetModule,
     FormsModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    DpDatePickerModule
   ],
   declarations: [VehicleOwnerComponent, CompanyComponent, PersonalComponent],
   providers: [{

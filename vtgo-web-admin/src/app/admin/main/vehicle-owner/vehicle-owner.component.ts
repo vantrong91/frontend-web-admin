@@ -1,29 +1,37 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewChecked, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  PersonalViewModel,
   CompanyViewModel,
-  SearchModel,
+  IVehicleOwnerService,
   IVehicleOwnerServiceToken,
-  IVehicleOwnerService
+  PersonalViewModel,
+  SearchModel,
+  IHelperService,
+  IHelperServiceToken
 } from '../../../core';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-vehicle-owner',
   templateUrl: './vehicle-owner.component.html',
   styleUrls: ['./vehicle-owner.component.scss']
 })
-export class VehicleOwnerComponent implements OnInit {
+export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   closeResult: string;
   tabCompany = true;
   modalCompany = false;
   entityPersonal: PersonalViewModel;
   entityCompany: CompanyViewModel;
   searchObject: SearchModel;
-  listOwner: any;
-
-  constructor(private modalService: NgbModal, @Inject(IVehicleOwnerServiceToken) private vehicleOwnerService: IVehicleOwnerService) { }
-
+  listOwnerCompany: any;
+  listOwnerPersonal: any;
+  noneShow: boolean;
+  constructor(private modalService: NgbModal,
+    @Inject(IVehicleOwnerServiceToken) private vehicleOwnerService: IVehicleOwnerService,
+    @Inject(IHelperServiceToken) private helperService: IHelperService) {
+  }
+  @ViewChild('companyTable') _companyTable: DatatableComponent;
+  @ViewChild('personTable') _personTable: DatatableComponent;
   ngOnInit() {
     this.initData();
   }
@@ -37,10 +45,15 @@ export class VehicleOwnerComponent implements OnInit {
     this.vehicleOwnerService.Get(search).subscribe(
       (response: any) => {
         if (response.status === 0) {
-          this.listOwner = response.data;
+          if (this.searchObject.ownerType === 0) {
+            this.listOwnerCompany = response.data;
+          } else {
+            this.listOwnerPersonal = response.data;
+          }
         }
       },
-      error => { }
+      error => {
+      }
     );
   }
 
@@ -61,10 +74,10 @@ export class VehicleOwnerComponent implements OnInit {
         if (response.status === 0) {
           if (this.tabCompany) {
             this.entityCompany = new CompanyViewModel();
-            this.entityCompany = response.data[0];
+            this.entityCompany = this.mapingCompanyModel(response.data[0]);
           } else {
             this.entityPersonal = new PersonalViewModel();
-            this.entityPersonal = response.data[0];
+            this.entityPersonal = this.mapingPersonalModel(response.data[0]);
           }
         }
       }
@@ -98,39 +111,34 @@ export class VehicleOwnerComponent implements OnInit {
 
       } else {
         this.entityCompany = new CompanyViewModel();
-        this.entityCompany.fullName = 'Company';
       }
     } else {
       // Function change data Personal code here
       this.entityCompany = undefined;
       if (this.entityPersonal) {
-
       } else {
         this.entityPersonal = new PersonalViewModel();
-        this.entityPersonal.fullName = 'Personal';
-        this.entityPersonal.licenseNo = '1231230';
       }
     }
 
     // gan data vao service
-    this.modalService.open(content, { size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   edit(accountId, content) {
     this.getOwnerById(accountId);
-
+    this.noneShow = false;
     // gan data vao service
-    this.modalService.open(content, { size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content, { size: 'lg' });
   }
 
+  view(accountId, content) {
+    this.getOwnerById(accountId);
+    this.noneShow = true;
+
+    // gan data vao service
+    this.modalService.open(content, { size: 'lg' });
+  }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -154,4 +162,66 @@ export class VehicleOwnerComponent implements OnInit {
   // getValueInMap(map: Map, key: string) {
   //   return map.get(key);
   // }
+  ngAfterViewChecked() {
+    if (this.tabCompany) {
+      this._companyTable.recalculate();
+    } else {
+      this._personTable.recalculate();
+    }
+  }
+
+  mapingCompanyModel(responseModel): CompanyViewModel {
+    let entity = new CompanyViewModel();
+    entity = responseModel;
+
+    if (entity.businessLicenseIssueDate) {
+      entity.businessLicenseIssueDate = this.helperService.formatDateTime(entity.businessLicenseIssueDate);
+    }
+
+    if (entity.businessTransportLicenseExpDate) {
+      entity.businessTransportLicenseExpDate = this.helperService.formatDateTime(entity.businessTransportLicenseExpDate);
+    }
+
+    if (entity.businessTransportLicenseIssueDate) {
+      entity.businessTransportLicenseIssueDate = this.helperService.formatDateTime(entity.businessTransportLicenseIssueDate);
+    }
+
+    if (entity.moderatorLicenseExpDate) {
+      entity.moderatorLicenseExpDate = this.helperService.formatDateTime(entity.moderatorLicenseExpDate);
+    }
+
+    if (entity.moderatorLicenseIssueDate) {
+      entity.moderatorLicenseIssueDate = this.helperService.formatDateTime(entity.moderatorLicenseIssueDate);
+    }
+
+    console.log(entity);
+    return entity;
+  }
+  mapingPersonalModel(responseModel): PersonalViewModel {
+    let entity = new PersonalViewModel();
+    entity = responseModel;
+
+    if (entity.businessLicenseIssueDate) {
+      entity.businessLicenseIssueDate = this.helperService.formatDateTime(entity.businessLicenseIssueDate);
+    }
+
+    if (entity.businessTransportLicenseExpDate) {
+      entity.businessTransportLicenseExpDate = this.helperService.formatDateTime(entity.businessTransportLicenseExpDate);
+    }
+
+    if (entity.businessTransportLicenseIssueDate) {
+      entity.businessTransportLicenseIssueDate = this.helperService.formatDateTime(entity.businessTransportLicenseIssueDate);
+    }
+
+    if (entity.moderatorLicenseExpDate) {
+      entity.moderatorLicenseExpDate = this.helperService.formatDateTime(entity.moderatorLicenseExpDate);
+    }
+
+    if (entity.moderatorLicenseIssueDate) {
+      entity.moderatorLicenseIssueDate = this.helperService.formatDateTime(entity.moderatorLicenseIssueDate);
+    }
+
+    console.log(entity);
+    return entity;
+  }
 }

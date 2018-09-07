@@ -1,7 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { IAuthenServiceToken, AuthenService, IDataServiceToken, DataService } from '../core';
+import { IAuthenServiceToken, AuthenService, IDataServiceToken, DataService,
+  IHelperServiceToken, HelperService } from '../core';
 @NgModule({
   imports: [
     CommonModule
@@ -15,6 +16,10 @@ import { IAuthenServiceToken, AuthenService, IDataServiceToken, DataService } fr
     {
       provide: IDataServiceToken,
       useClass: DataService
+    },
+    {
+      provide: IHelperServiceToken,
+      useClass: HelperService
     }
   ],
   exports: [NotFoundComponent]

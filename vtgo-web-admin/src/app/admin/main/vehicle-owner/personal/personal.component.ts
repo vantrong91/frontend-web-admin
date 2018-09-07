@@ -22,9 +22,11 @@ export class PersonalComponent implements OnInit {
       this.addEditForm.reset();
     }
   }
-
+  @Input() noneShow: boolean;
   @Output() personViewModelChange = new EventEmitter<PersonalViewModel>();
-
+  datePickerConfig = {
+    format: 'DD/MM/YYYY'
+  };
   // Form Group
   public addEditForm: FormGroup;
 
@@ -39,15 +41,15 @@ export class PersonalComponent implements OnInit {
       contactPersonPhone: new FormControl(''),
       contactPersonEmail: new FormControl(''),
       businessLicense: new FormControl(''),
-      businessLicenseIssueDate: new FormControl(''),
+      businessLicenseIssueDate: new FormControl(new Date()),
       businessLicenseIssueBy: new FormControl(''),
       moderator: new FormControl(''),
       moderatorLicense: new FormControl(''),
-      moderatorLicenseIssueDate: new FormControl(''),
-      moderatorLicenseExpDate: new FormControl(''),
+      moderatorLicenseIssueDate: new FormControl(new Date()),
+      moderatorLicenseExpDate: new FormControl(new Date()),
       businessTransportLicense: new FormControl(''),
-      businessTransportLicenseIssueDate: new FormControl(''),
-      businessTransportLicenseExpDate: new FormControl(''),
+      businessTransportLicenseIssueDate: new FormControl(new Date()),
+      businessTransportLicenseExpDate: new FormControl(new Date()),
       nationality: new FormControl(''),
       licenseNo: new FormControl(''),
       issueDate: new FormControl(''),
@@ -55,12 +57,14 @@ export class PersonalComponent implements OnInit {
       gender: new FormControl(''),
       ethnic: new FormControl(''),
       vehicleOwnerType: new FormControl(''),
-      banks: new FormArray([this.initBankArray()])
+      bankAccountLst: new FormArray([this.initBankArray()]),
+      address: this.initAddress(),
+      contactAddress: this.initContactAddress()
     });
   }
 
   ngOnInit() {
-    console.log('Form', this.addEditForm.controls['Banks']);
+    console.log('Form', this.addEditForm.controls['bankAccountLst']);
   }
 
   onSave(event) {
@@ -76,21 +80,57 @@ export class PersonalComponent implements OnInit {
       bankCode: new FormControl(),
       branch: new FormControl(),
       accountNumber: new FormControl(),
-      nameOwner: new FormControl()
+      ownerName: new FormControl()
+    });
+  }
+
+  initAddress() {
+    return this.formBuilder.group({
+      country: new FormControl(),
+      district: new FormControl(),
+      province: new FormControl(),
+      householdNo: new FormControl(),
+      wards: new FormControl()
+    });
+  }
+
+  initContactAddress() {
+    return this.formBuilder.group({
+      country: new FormControl(),
+      district: new FormControl(),
+      province: new FormControl(),
+      street: new FormControl(),
+      wards: new FormControl()
+    });
+  }
+
+  setDate(): void {
+    // Set today date using the patchValue function
+    const date = new Date();
+    this.addEditForm.patchValue({
+      myDate: {
+        date: {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate()
+        }
+      }
     });
   }
 
   onAddBankGroup(event) {
     event.preventDefault();
-    const banks = this.addEditForm.get('Banks') as FormArray;
+    const banks = this.addEditForm.get('bankAccountLst') as FormArray;
     banks.push(this.initBankArray());
   }
 
   onRemoveBankGroup(event, groupIndex) {
     event.preventDefault();
-    const banks = this.addEditForm.get('Banks') as FormArray;
+    const banks = this.addEditForm.get('bankAccountLst') as FormArray;
     if (banks.length > 1) {
       banks.removeAt(groupIndex);
     }
   }
+  onbusinessLicenseIssueDateSelect(event) { }
+
 }

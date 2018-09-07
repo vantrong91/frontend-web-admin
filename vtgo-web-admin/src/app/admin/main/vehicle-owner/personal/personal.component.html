@@ -4,29 +4,39 @@
       <ng-template ngbTabContent>
         <input type="text" hidden id="AccountId">
         <div class="form-group row my-3">
-          <label for="FullName" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
+          <label for="FullName" class="col-sm-2 col-form-label text-md-right">Họ và tên <span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="FullName" placeholder="Họ tên" name="FullName" formControlName="fullName" tabindex="1">
+            <input type="text" class="form-control" id="FullName" placeholder="Họ tên" name="FullName"
+                   formControlName="fullName" tabindex="1">
           </div>
-          <label for="Nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch<span class="text-danger">*</span></label>
+          <label for="Nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch<span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="Nationality" placeholder="Quốc tịch" formControlName="nationality" tabindex="2">
-          </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="LicenseNo" class="col-sm-2 col-form-label text-md-right">Số giấy tờ<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="LicenseNo" placeholder="Số giây tờ" formControlName="licenseNo" tabindex="3">
-          </div>
-          <label for="IssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="date" class="form-control" id="IssueDate" placeholder="Ngày cấp" formControlName="issueDate" tabindex="4">
+            <input type="text" class="form-control" id="Nationality" placeholder="Quốc tịch"
+                   formControlName="nationality" tabindex="2">
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label for="IssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp<span class="text-danger">*</span></label>
+          <label for="LicenseNo" class="col-sm-2 col-form-label text-md-right">Số giấy tờ<span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="IssueBy" placeholder="Nơi cấp" formControlName="issueBy" tabindex="5">
+            <input type="text" class="form-control" id="LicenseNo" placeholder="Số giây tờ" formControlName="licenseNo"
+                   tabindex="3">
+          </div>
+          <label for="IssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input class="form-control" id="IssueDate" placeholder="Ngày cấp" formControlName="issueDate"
+                   [dpDayPicker]="datePickerConfig" tabindex="4">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="IssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="IssueBy" placeholder="Nơi cấp" formControlName="issueBy"
+                   tabindex="5">
           </div>
           <label for="Gender" class="col-sm-2 col-form-label text-md-right">Giới tính<span class="text-danger">*</span></label>
           <div class="col-sm-4">
@@ -38,129 +48,121 @@
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label for="Ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc<span class="text-danger">*</span></label>
+          <label for="Ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc<span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="Ethnic" placeholder="Dân tộc" tabindex="7">
+            <input type="text" class="form-control" id="Ethnic" placeholder="Dân tộc" tabindex="7"
+                   formControlName="ethnic">
           </div>
-          <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
+          <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPhone" placeholder="Số điện thoại" formControlName="contactPhone" tabindex="8">
-          </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="Email" class="col-sm-2 col-form-label text-md-right">Email<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="Email" class="form-control" id="Email" placeholder="Email" formControlName="email" tabindex="9">
-          </div>
-          <label for="ContactPn" class="col-sm-2 col-form-label text-md-right">Họ và tên<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPn" placeholder="Họ tên người liên hệ" formControlName="contactPerson" tabindex="10">
+            <input type="text" class="form-control" id="ContactPhone" placeholder="Số điện thoại"
+                   formControlName="contactPhone" tabindex="8">
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
+          <label for="Email" class="col-sm-2 col-form-label text-md-right">Email<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="Email" class="form-control" id="Email" placeholder="Email" formControlName="email"
+                   tabindex="9">
+          </div>
+          <label for="ContactPn" class="col-sm-2 col-form-label text-md-right">Họ và tên<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="ContactPn" placeholder="Họ tên người liên hệ"
+                   formControlName="contactPerson" tabindex="10">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" placeholder="SĐT người liên hệ" formControlName="contactPersonPhone"
-              tabindex="11">
+                   tabindex="11">
           </div>
-          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Email<span class="text-danger">*</span></label>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Email<span
+            class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="email" class="form-control" placeholder="Email người liên hệ" formControlName="contactPersonEmail"
-              tabindex="12">
+            <input type="email" class="form-control" placeholder="Email người liên hệ"
+                   formControlName="contactPersonEmail"
+                   tabindex="12">
           </div>
         </div>
         <hr class="hr-border-color mb-1">
         <div>Nơi cư trú</div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quốc gia" formControlName="nationality" tabindex="11">
+        <div [formGroup]="addEditForm.controls['address']">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Quốc gia" formControlName="country" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Tỉnh/Thành phố" formControlName="province"
+                     tabindex="12">
+            </div>
           </div>
-          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnEmail" placeholder="Tỉnh/Thành phố" formControlName="nationality"
-              tabindex="12">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Quận/Huyện" formControlName="district" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Phường/Xã" formControlName="wards" tabindex="12">
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quận/Huyện" formControlName="nationality" tabindex="11">
-          </div>
-          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnEmail" placeholder="Phường/Xã" formControlName="nationality" tabindex="12">
-          </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Sổ hộ khẩu</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Số sổ hộ khẩu" formControlName="nationality"
-              tabindex="11">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Sổ hộ khẩu</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Số sổ hộ khẩu" formControlName="householdNo"
+                     tabindex="11">
+            </div>
           </div>
         </div>
         <hr class="hr-border-color mb-1">
         <div>Chỗ ở hiện tại</div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quốc gia" formControlName="nationality" tabindex="11">
+        <div [formGroup]="addEditForm.controls['contactAddress']">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Quốc gia" formControlName="country" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control" placeholder="Tỉnh/Thành phố" formControlName="province"
+                     tabindex="12">
+            </div>
           </div>
-          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="email" class="form-control" id="ContactPnEmail" placeholder="Tỉnh/Thành phố" formControlName="nationality"
-              tabindex="12">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Quận/Huyện" formControlName="district" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="ContactPnEmail" placeholder="Phường/Xã"
+                     formControlName="wards" tabindex="12">
+            </div>
           </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Quận/Huyện" formControlName="nationality" tabindex="11">
-          </div>
-          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input type="email" class="form-control" id="ContactPnEmail" placeholder="Phường/Xã" formControlName="nationality" tabindex="12">
-          </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label for="ContactPnPhone" class="col-sm-2 col-form-label text-md-right">Sổ nhà/đường</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="ContactPnPhone" placeholder="Số nhà/đường" formControlName="nationality" tabindex="11">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Số nhà/đường</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" placeholder="Số nhà/đường" formControlName="street"
+                     tabindex="11">
+            </div>
           </div>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Tài khoản ngân hàng">
       <ng-template ngbTabContent>
-        <div class="form-group row my-3">
-          <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
-          <div class="col-sm-4">
-            <select class="custom-select">
-              <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
-              <option value="1">Vietcombank</option>
-              <option value="2">MBBank</option>
-            </select>
-          </div>
-          <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tài khoản">
-          </div>
-        </div>
-        <div class="form-group row mb-3">
-          <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Người thụ hưởng">
-          </div>
-          <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
-          <div class="col-sm-4">
-            <select class="custom-select">
-              <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
-              <option value="1">Vietcombank</option>
-              <option value="2">MBBank</option>
-            </select>
-          </div>
-        </div>
-        <div class="" formArrayName="banks" *ngFor="let bank of addEditForm.controls['banks']['controls']; let i=index">
+        <div class="" formArrayName="bankAccountLst" *ngFor="let bank of addEditForm.controls['bankAccountLst']['controls']; let i=index">
           <div [formGroupName]="i">
             <div class="row my-3 border-top" *ngIf="i>0">
               <div class="col text-right mt-1">
@@ -172,36 +174,82 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="custom-select" formControlName="branch" name="Branch">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="bankCode"
+                        name="Branch">
                   <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
                   <option value="1">Vietcombank</option>
                   <option value="2">MBBank</option>
                 </select>
-                <input type="hidden" formControlName="branch" name="Branch" />
+                <input type="hidden" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="bankCode"/>
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Số tài khoản" formControlName="accountNumber" name="accountNumber">
+                <input type="text" [attr.disabled]="noneShow ? 'disabled' : null" class="form-control"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Số tài khoản" [attr.disabled]="noneShow ? 'disabled' : null"
+                       formControlName="accountNumber"
+                       name="accountNumber">
               </div>
             </div>
             <div class="form-group row mb-3">
               <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Người thụ hưởng">
+                <input type="text" [attr.disabled]="noneShow ? 'disabled' : null" class="form-control"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Người thụ hưởng" formControlName="ownerName">
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
               <div class="col-sm-4">
-                <select class="custom-select">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch">
                   <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
                   <option value="1">Vietcombank</option>
                   <option value="2">MBBank</option>
                 </select>
+                <input type="hidden" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch"/>
+              </div>
+            </div>
+            <div class="form-group row my-3">
+              <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+              <div class="col-sm-4">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="bankCode"
+                        name="Branch">
+                  <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
+                  <option value="1">Vietcombank</option>
+                  <option value="2">MBBank</option>
+                </select>
+                <input type="hidden" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="bankCode"/>
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
+              <div class="col-sm-4">
+                <input type="text" [attr.disabled]="noneShow ? 'disabled' : null" class="form-control"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Số tài khoản" [attr.disabled]="noneShow ? 'disabled' : null"
+                       formControlName="accountNumber"
+                       name="accountNumber">
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
+              <div class="col-sm-4">
+                <input type="text" [attr.disabled]="noneShow ? 'disabled' : null" class="form-control"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Người thụ hưởng" formControlName="ownerName">
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
+              <div class="col-sm-4">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch">
+                  <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
+                  <option value="1">Vietcombank</option>
+                  <option value="2">MBBank</option>
+                </select>
+                <input type="hidden" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch"/>
               </div>
             </div>
           </div>
         </div>
         <div class="text-center">
-          <button type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm tài khoản</button>
+          <button type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm tài khoản
+          </button>
         </div>
       </ng-template>
     </ngb-tab>
@@ -241,41 +289,48 @@
         <div class="form-group row my-3">
           <label class="col-sm-2 col-form-label text-md-right">Loại giấy phép</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Loại giấy phép " formControlName="BusiLic" tabindex="13">
+            <input type="text" class="form-control" placeholder="Loại giấy phép" tabindex="13">
           </div>
-          <label  class="col-sm-2 col-form-label text-md-right">Số giấy phép </label>
+          <label class="col-sm-2 col-form-label text-md-right">Số giấy phép </label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số giấy phép " formControlName="businessLicense" tabindex="13">
+            <input type="text" class="form-control" placeholder="Số giấy phép " formControlName="businessLicense"
+                   tabindex="13">
           </div>
         </div>
         <div class="form-group row mb-3">
           <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
           <div class="col-sm-4">
-            <input type="date" class="form-control" placeholder="Ngày cấp" formControlName="businessLicenseIssueDate" tabindex="15">
+            <input class="form-control" placeholder="Ngày cấp" formControlName="businessLicenseIssueDate" tabindex="15"
+                   [dpDayPicker]="datePickerConfig">
           </div>
-          <label  class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
+          <label class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Nơi cấp" formControlName="businessLicenseIssueBy" tabindex="15">
+            <input type="text" class="form-control" placeholder="Nơi cấp" formControlName="businessLicenseIssueBy"
+                   tabindex="15">
           </div>
         </div>
         <div class="form-group row mb-3 ">
-          <label  class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
+          <label class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Người điều hành vận tải" formControlName="moderator" tabindex="17">
+            <input type="text" class="form-control" placeholder="Người điều hành vận tải" formControlName="moderator"
+                   tabindex="17">
           </div>
           <label class="col-sm-2 col-form-label text-md-right">Số giấy phép</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số giây phép điều hành vận tải" formControlName="moderatorLicense" tabindex="17">
+            <input type="text" class="form-control" placeholder="Số giây phép điều hành vận tải"
+                   formControlName="moderatorLicense" tabindex="17">
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label  class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
+          <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
           <div class="col-sm-4">
-            <input type="date" class="form-control" id="BusiLicIssDate" placeholder="Ngày cấp" formControlName="moderatorLicenseIssueDate">
+            <input class="form-control" id="BusiLicIssDate" placeholder="Ngày cấp"
+                   formControlName="moderatorLicenseIssueDate" [dpDayPicker]="datePickerConfig">
           </div>
-          <label  class="col-sm-2 col-form-label text-md-right">Nơi cấp</label>
+          <label class="col-sm-2 col-form-label text-md-right">Nơi cấp</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="Mod" placeholder="Nơi cấp" formControlName="moderatorLicenseExpDate" tabindex="16">
+            <input type="text" class="form-control" id="Mod" placeholder="Nơi cấp"
+                   formControlName="moderatorLicenseExpDate" tabindex="16">
           </div>
         </div>
       </ng-template>

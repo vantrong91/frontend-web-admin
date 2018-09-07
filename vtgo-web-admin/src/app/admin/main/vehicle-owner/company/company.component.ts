@@ -14,17 +14,21 @@ export class CompanyComponent implements OnInit {
   _entity: CompanyViewModel;
   /* Public Variables */
   @Input()
-  set personViewModel(company: CompanyViewModel) {
+  set companyViewModel(company: CompanyViewModel) {
     if (company !== null || company !== undefined) {
       this._entity = new CompanyViewModel();
       this._entity = company;
+      console.log('company', company);
       this.addEditForm.reset(company);
     } else {
       this.addEditForm.reset();
     }
   }
+  @Input() noneShow: boolean;
   @Output() personViewModelChange = new EventEmitter<CompanyViewModel>();
-
+  datePickerConfig = {
+    format: 'DD/MM/YYYY'
+  };
   // Form Group
   public addEditForm: FormGroup;
   /* Ctor */
@@ -33,31 +37,35 @@ export class CompanyComponent implements OnInit {
       accountId: new FormControl(''),
       fullName: new FormControl('', [Validators.required]),
       director: new FormControl(''),
-      taxcode: new FormControl(''),
+      taxCode: new FormControl(''),
       contactPhone: new FormControl(''),
       companyPhone: new FormControl(''),
       fax: new FormControl(''),
       website: new FormControl(''),
       email: new FormControl(''),
-      contactPn: new FormControl(''),
-      contactPnPhone: new FormControl(''),
-      contactPnEmail: new FormControl(''),
-      busiLic: new FormControl(''),
-      busiLicIssDate: new FormControl(''),
-      busiLicIssBy: new FormControl(''),
-      tranLic: new FormControl(''),
-      tranLicIssDate: new FormControl(''),
-      tranLicExpDate: new FormControl(''),
-      mod: new FormControl(''),
-      modLic: new FormControl(''),
-      modLicIssDate: new FormControl(''),
-      modLicExpDate: new FormControl(''),
-      banks: new FormArray([this.initBankArray()])
+      contactPerson: new FormControl(''),
+      contactPersonPhone: new FormControl(''),
+      contactPersonEmail: new FormControl(''),
+      businessLicense: new FormControl(''),
+      businessLicenseIssueDate: new FormControl(new Date()),
+      businessLicenseIssueBy: new FormControl(''),
+      businessTransportLicense: new FormControl(''),
+      businessTransportLicenseIssueDate: new FormControl(new Date()),
+      businessTransportLicenseExpDate: new FormControl(new Date()),
+      businessTransportLicenseIssueBy: new FormControl(''),
+      moderator: new FormControl(''),
+      moderatorLicense: new FormControl(''),
+      moderatorLicenseIssueDate: new FormControl(new Date()),
+      moderatorLicenseExpDate: new FormControl(new Date()),
+      vehicleOwnerType: new FormControl(''),
+      bankAccountLst: new FormArray([this.initBankArray()]),
+      address: this.initAddress(),
+      contactAddress: this.initContactAddress()
     });
   }
 
   ngOnInit() {
-    console.log('Form', this.addEditForm.controls['Banks']);
+    console.log('Form', this.addEditForm.controls['bankAccountLst']);
   }
 
   onSave(event) {
@@ -73,22 +81,57 @@ export class CompanyComponent implements OnInit {
       bankCode: new FormControl(),
       branch: new FormControl(),
       accountNumber: new FormControl(),
-      nameOwner: new FormControl()
+      ownerName: new FormControl()
+    });
+  }
+
+  initAddress() {
+    return this.formBuilder.group({
+      country: new FormControl(),
+      district: new FormControl(),
+      province: new FormControl(),
+      street: new FormControl(),
+      wards: new FormControl()
+    });
+  }
+
+  initContactAddress() {
+    return this.formBuilder.group({
+      country: new FormControl(),
+      district: new FormControl(),
+      province: new FormControl(),
+      street: new FormControl(),
+      wards: new FormControl()
+    });
+  }
+
+  setDate(): void {
+    // Set today date using the patchValue function
+    const date = new Date();
+    this.addEditForm.patchValue({
+      myDate: {
+        date: {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate()
+        }
+      }
     });
   }
 
   onAddBankGroup(event) {
     event.preventDefault();
-    const banks = this.addEditForm.get('Banks') as FormArray;
+    const banks = this.addEditForm.get('bankAccountLst') as FormArray;
     banks.push(this.initBankArray());
   }
 
   onRemoveBankGroup(event, groupIndex) {
     event.preventDefault();
-    const banks = this.addEditForm.get('Banks') as FormArray;
+    const banks = this.addEditForm.get('bankAccountLst') as FormArray;
     if (banks.length > 1) {
       banks.removeAt(groupIndex);
     }
   }
+  onbusinessLicenseIssueDateSelect(event) { }
 
 }

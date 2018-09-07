@@ -11,9 +11,6 @@ import { ConfigService } from './core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DataService} from './core/services/data.service';
 import {AuthenService} from './core/services/authen.service';
-import {IDataServiceToken} from './core/tokens/data.service.token';
-import {IAuthenServiceToken} from './core/tokens/authen.service.token';
-import {IDataService} from './core/interfaces/idata.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrConfig, ToastrModule } from "ngx-toastr";
 // Load Config
@@ -38,7 +35,7 @@ export function ConfigLoader(configService: ConfigService) {
     ToastrModule.forRoot({
       preventDuplicates: true
       // maxOpened: 2
-    })  
+    })
   ],
   providers: [
     DataService,
@@ -50,8 +47,6 @@ export function ConfigLoader(configService: ConfigService) {
       deps: [ConfigService],
       multi: true
     }
-    // { provide: IDataServiceToken, useValue: DataService },
-    // { provide: IAuthenServiceToken, useValue: AuthenService }
   ],
   bootstrap: [AppComponent]
 })

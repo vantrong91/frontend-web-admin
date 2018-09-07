@@ -1,7 +1,6 @@
 export class CompanyViewModel {
 
     constructor() {
-        this.accountId = 0;
     }
   accountId: number;
   fullName: string;
@@ -25,7 +24,7 @@ export class CompanyViewModel {
   businessTransportLicense: string;
   businessTransportLicenseIssueDate: number;
   businessTransportLicenseExpDate: number;
-  businessTransportLicenseIssueBy: number;
+  businessTransportLicenseIssueBy: string;
   vehicleOwnerType: number;
   contactAddress: Map<string, string>;
   address: Map<string, string>;
