@@ -14,7 +14,8 @@ import {AuthenService} from './core/services/authen.service';
 import {IDataServiceToken} from './core/tokens/data.service.token';
 import {IAuthenServiceToken} from './core/tokens/authen.service.token';
 import {IDataService} from './core/interfaces/idata.service';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrConfig, ToastrModule } from "ngx-toastr";
 // Load Config
 export function ConfigLoader(configService: ConfigService) {
   // Note: this factory need to return a function (that return a promise)
@@ -32,7 +33,12 @@ export function ConfigLoader(configService: ConfigService) {
     HttpClientModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+      // maxOpened: 2
+    })  
   ],
   providers: [
     DataService,

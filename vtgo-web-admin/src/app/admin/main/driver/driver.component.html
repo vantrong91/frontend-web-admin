@@ -1,297 +1,320 @@
 <div class="row">
-    <div class="col-md-4 my-auto">
-        <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
-    </div>
-    <div class="col-md-1">
-        <button class="btn btn-success w-150" (click)="search(searchParam);">Tìm kiếm</button>
-    </div>
+  <div class="col-md-4 my-auto">
+    <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin"
+      placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-success w-150" (click)="search(searchParam);">Tìm kiếm</button>
+  </div>
 </div>
 <div class="row mt-2">
-    <div class="col-md-11">
-        <small>
+  <div class="col-md-11">
+    <small>
       <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
       <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
     </small>
-    </div>
-    <div class="col-md-1">
-        <button type="button" class="btn btn-success w-100" (click)="isAdd = true; open(content);">Add</button>
-    </div>
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-success w-100" (click)="isAdd = true; open(content);">Add</button>
+  </div>
 </div>
 
 <!-- ======================================= tblDriver ========================================== -->
 
 <div class="row mt-2" [ngClass]="'d-block'">
-    <div class="col">
-        <div class="driver-view-title">Lái xe cá nhân</div>
-        <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
-            <!-- Row Detail Template -->
-            <ngx-datatable-row-detail [rowHeight]="750" #myDetailRow (toggle)="onDetailToggle($event)">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                    <div style="padding-left:35px;">
-                        <div class="container">
-                            <u><i>Thông tin chi tiết:</i></u>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Quốc gia:</strong>
-                                <div class="col-3">{{row.nationality}} </div>
-                                <strong class="col-3 text-right">- Dân tộc: </strong>
-                                <div class="col-3">{{row.ethnic}}</div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Ngày sinh:</strong>
-                                <div class="col-3">{{row.birthday}}</div>
-                                <strong class="col-3 text-right">- Email:</strong>
-                                <div class="col-3">{{row.email}}</div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- VehicleId:</strong>
-                                <div class="col-3">{{row.vehicleId}}</div>
-                                <strong class="col-3 text-right">- Trạng thái:</strong>
-                                <div class="col-3">
-                                    <span [ngSwitch]="row.state">
+  <div class="col">
+    <div class="driver-view-title">Lái xe cá nhân</div>
+    <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="750" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div class="container">
+              <u><i>Thông tin chi tiết:</i></u>
+              <div class="row">
+                <strong class="col-2 text-right">- Quốc gia:</strong>
+                <div class="col-3">{{row.nationality}} </div>
+                <strong class="col-3 text-right">- Dân tộc: </strong>
+                <div class="col-3">{{row.ethnic}}</div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- Ngày sinh:</strong>
+                <div class="col-3">{{'2012/12/15'|date:'dd/MM/yyyy'}}</div>
+                <strong class="col-3 text-right">- Email:</strong>
+                <div class="col-3">{{row.email}}</div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- VehicleId:</strong>
+                <div class="col-3">{{row.vehicleId}}</div>
+                <strong class="col-3 text-right">- Trạng thái:</strong>
+                <div class="col-3">
+                  <span [ngSwitch]="row.state">
                     <span *ngSwitchCase="0">
                       Chưa đăng ký xe rỗng
                     </span>
-                                    <span *ngSwitchCase="1">
+                    <span *ngSwitchCase="1">
                       Đơn hàng chờ xác nhận
                     </span>
-                                    <span *ngSwitchCase="2">
+                    <span *ngSwitchCase="2">
                       Có yêu cầu chưa báo giá
                     </span>
-                                    <span *ngSwitchCase="3">
+                    <span *ngSwitchCase="3">
                       Báo giá cao, cần xem lại báo giá
                     </span>
-                                    <span *ngSwitchCase="4">
+                    <span *ngSwitchCase="4">
                       Đang chờ vận chuyển
                     </span>
-                                    <span *ngSwitchCase="5">
+                    <span *ngSwitchCase="5">
                       Đang chở hàng
                     </span>
-                                    <span *ngSwitchDefault>
+                    <span *ngSwitchDefault>
                       Null
                     </span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Giấy tờ:</strong>
-                                <div class="col-3">
-                                    <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}</div>
-                                    <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{row.issueDate}}. Nơi cấp: {{row.issueBy}}</div>
-                                </div>
-                                <strong class="col-3 text-right">- Giấy phép:</strong>
-                                <div class="col-3">
-                                    <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.extLicenseNo}}</div>
-                                    <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{row.extIssueDate}}. Nơi cấp: {{row.extIssueBy}}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Cư trú:</strong>
-                                <div class="col-10">
-                                    Số hộ khẩu: {{row.address.householdNo}}, {{row.address.wards}}, {{row.address.district}}, {{row.address.province}}, {{row.address.country}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Thường trú:</strong>
-                                <div class="col-10">
-                                    {{row.contactAddress.street}}, {{row.contactAddress.wards}}, {{row.contactAddress.district}}, {{row.contactAddress.province}}, {{row.contactAddress.country}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <strong class="col-2 text-right">- Hình ảnh:</strong>
-                                <div class="container imgView">
-                                    <div class="row">
-                                        <p> + ACD:</p>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <p> + CMND:</p>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <p> + GPLX:</p>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <p> + SHK:</p>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                            <div class="col-3">
-                                                <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg" alt="Ảnh 1" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- Giấy tờ:</strong>
+                <div class="col-3">
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}</div>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{ row.issueDate | date: 'dd/MM/yyyy'}}. Nơi cấp:
+                    {{row.issueBy}}
+                  </div>
+                </div>
+                <strong class="col-3 text-right">- Giấy phép:</strong>
+                <div class="col-3">
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.extLicenseNo}}</div>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{row.extIssueDate | date: 'dd/MM/yyyy'}}. Nơi
+                    cấp: {{row.extIssueBy}}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- Cư trú:</strong>
+                <div class="col-10">
+                  Số hộ khẩu: {{row.address.householdNo}}, {{row.address.wards}}, {{row.address.district}},
+                  {{row.address.province}}, {{row.address.country}}
+                </div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- Thường trú:</strong>
+                <div class="col-10">
+                  {{row.contactAddress.street}}, {{row.contactAddress.wards}}, {{row.contactAddress.district}},
+                  {{row.contactAddress.province}}, {{row.contactAddress.country}}
+                </div>
+              </div>
+              <div class="row">
+                <strong class="col-2 text-right">- Hình ảnh:</strong>
+                <div class="container imgView">
+                  <div class="row">
+                    <p> + ACD:</p>
+                    <div class="row">
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
                     </div>
-                </ng-template>
-            </ngx-datatable-row-detail>
-            <!-- Column Templates -->
-            <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                    <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-                    </a>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
-                <ng-template let-column="column" ngx-datatable-header-template>
-                    <span class="default">
+                  </div>
+                  <div class="row">
+                    <p> + CMND:</p>
+                    <div class="row">
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p> + GPLX:</p>
+                    <div class="row">
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p> + SHK:</p>
+                    <div class="row">
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                      <div class="col-3">
+                        <img src="https://1.bp.blogspot.com/--wE8dtWg9Zs/WsRevSsXNtI/AAAAAAAALp0/lch5a_yilRkjkFgNfrCfxDN0ZrLT3OlPQCLcBGAs/s640/phoi26jpg.jpg"
+                          alt="Ảnh 1" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+      <!-- Column Templates -->
+      <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="default">
             <strong>STT</strong>
           </span>
-                </ng-template>
-                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-                    <strong>{{rowIndex+1}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="accountId" [width]="80" [maxWidth]="80">
-                <ng-template ngx-datatable-header-template>
-                    <span>
+        </ng-template>
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <strong>{{rowIndex+1}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="accountId" [width]="80" [maxWidth]="80">
+        <ng-template ngx-datatable-header-template>
+          <span>
             <strong>ID</strong>
           </span>
-                </ng-template>
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <strong>{{value}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="fullName" [width]="150">
-                <ng-template ngx-datatable-header-template>
-                    <span>Họ tên</span>
-                </ng-template>
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <strong>{{value}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="gender" [maxWidth]="75" [minWidth]="60">
-                <ng-template ngx-datatable-header-template>
-                    <span>Giới tính</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{row.gender===0?'Nữ':'Nam'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="phoneNumber" [width]="80">
-                <ng-template ngx-datatable-header-template>
-                    SĐT
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="licenseNo" [width]="80">
-                <ng-template ngx-datatable-header-template>
-                    Số giấy phép
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="extLicenseNo" [width]="80">
-                <ng-template ngx-datatable-header-template>
-                    Số giấy tờ
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="action" [minWidth]="120" [width]="120" [maxWidth]="120" [resizeable]="false">
-                <ng-template let-column="colmun" ngx-datatable-header-template>
-                    <span>
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <strong>{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fullName" [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Họ tên</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <strong>{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="gender" [maxWidth]="75" [minWidth]="60">
+        <ng-template ngx-datatable-header-template>
+          <span>Giới tính</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.gender===0?'Nữ':'Nam'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="phoneNumber" [width]="80">
+        <ng-template ngx-datatable-header-template>
+          SĐT
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="licenseNo" [width]="80">
+        <ng-template ngx-datatable-header-template>
+          Số giấy phép
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="extLicenseNo" [width]="80">
+        <ng-template ngx-datatable-header-template>
+          Số giấy tờ
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="action" [minWidth]="150" [width]="150" [maxWidth]="150" [resizeable]="false">
+        <ng-template let-column="colmun" ngx-datatable-header-template>
+          <span>
             <strong>Thao tác</strong>
           </span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                    <button type="button" class="btn btn-info button-custom-admin" (click)="toggleExpandRow(row)">
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="toggleExpandRow(row)">
             <i class=" fa fa-eye "></i>
           </button>
-                    <button type="button " class="btn btn-warning button-custom-admin ml-2 " (click)="isAdd=false;open(content); getDriver(row); ">
-            <i class="fa fa-edit "></i>
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="isAdd=false; open(content); getDriver(row);">
+            <i class="fa fa-edit"></i>
           </button>
-                    <button type="button " class="btn btn-danger button-custom-admin ml-2 " (click)="openSm(del,row.accountId) ">
-            <i class="fa fa-trash "></i>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.accountId)">
+            <i class="fa fa-trash"></i>
           </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
-
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 </div>
 <!-- ======================================= Modal ========================================== -->
-<ng-template #content let-c="close " let-d="dismiss ">
-    <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Lái xe</h3>
-        <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-      <span aria-hidden="true ">&times;</span>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class=" modal-header">
+    <h3 class="modal-title" id="modal-basic-title">Lái xe</h3>
+    <button class="close" aria-label="Close" (click)="d( 'Cross click')">
+      <span aria-hidden="true">&times;</span>
     </button>
-    </div>
-    <div class="modal-body ">
-        <app-driver-info [driverViewModel]="_entityDriver" (driverViewModelChange)="isAdd?onAddDriver($event):onEditDriver($event);"></app-driver-info>
-    </div>
+  </div>
+  <div class="modal-body">
+    <app-driver-info [driverViewModel]="_entityDriver" (closeModalEvent)="c('close from Save')" (driverViewModelChange)="isAdd?onAddDriver($event):onEditDriver($event);"></app-driver-info>
+  </div>
 </ng-template>
 
-<pre>{{closeResult}}</pre>
-
-<ng-template #del let-c="close " let-d="dismiss ">
-    <div class="modal-header ">
-        <h3 class="modal-title ">Thông báo</h3>
-        <button type="button " class="close " aria-label="Close " (click)="d( 'Close') ">
-      <span aria-hidden="true ">&times;</span>
+<ng-template #del let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Thông báo</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
     </button>
-    </div>
-    <div class="modal-body ">
-        <p>Bạn có muốn xóa lái xe ... không?</p>
-    </div>
-    <div class="modal-footer ">
-        <button class="btn btn-primary " (click)="d( 'No-delete') ">Không</button>
-        <button class="btn btn-danger " (click)="c( 'Yes-Delete') ">Có</button>
-    </div>
+  </div>
+  <div class="modal-body">
+    <p>Xác nhận xóa...?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="d( 'No-delete')">Không</button>
+    <button class="btn btn-danger" (click)="c( 'Yes-Delete')">Có</button>
+  </div>
 </ng-template>

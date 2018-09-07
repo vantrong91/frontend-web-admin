@@ -1,11 +1,11 @@
 import { DriverViewModel } from './driver-model/driver.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-
 import { DriverSearch } from './driver-model/driver-search.model';
 import { DataService } from '../../../core/services/data.service';
 import { AuthenService } from '../../../core/services/authen.service';
 import { enterView } from '@angular/core/src/render3/instructions';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +24,6 @@ export class DriverComponent implements OnInit {
     onDetailToggle(event) {
         //console.log('Detail Toggled', event);
     }
-
     isAdd = false;
     rows: any = '';
     closeResult: string;
@@ -32,8 +31,10 @@ export class DriverComponent implements OnInit {
     _entityDriver: DriverViewModel;
     constructor(private modalServices: NgbModal,
         private dataService: DataService,
+        private toastr: ToastrService,
         private authenServices: AuthenService
     ) { }
+
 
     ngOnInit() {
         this.loadData();
@@ -57,24 +58,25 @@ export class DriverComponent implements OnInit {
     }
 
     txtSearch(event) {
-        if (event.keyCode === 13) {
-            this.search(this.searchParam);
-            event.target.select();
-        }
+        // if (event.keyCode === 13) {
+        //     this.search(this.searchParam);
+        //     event.target.select();
+        // }
+        this.search(this.searchParam);
     }
 
     open(ele) {
         this._entityDriver = new DriverViewModel();
         this.modalServices
-        .open(ele, { size: 'lg' })
-        .result.then(
-            result => {
-                this.closeResult = `Close with: ${result}`;
-            },
-            reason =>
-                (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
-        );
-
+            .open(ele, { size: 'lg' })
+            .result.then(
+                result => {
+                    this.closeResult = `Close with: ${result}`;
+                },
+                reason => {
+                    (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`);
+                }
+            );
     }
     private getDismissReason(reason: any) {
         switch (reason) {
@@ -94,41 +96,55 @@ export class DriverComponent implements OnInit {
                     this.dataService.Post('driver/delete', { accountId: id }).subscribe(
                         result => {
                             if (result.status === 0) {
-                                console.log(id + " has been deleted!");
+                                this.toastr.info("Đã xóa id " + id, "Thông báo..");
                                 this.loadData();
                             } else {
-                                alert("Đã xả ra lỗi xin vui lòng thử lại");
+                                this.toastr.error("Đã xả ra lỗi xin vui lòng thử lại", "Thông báo...");
                             }
                         }
                     );
                 },
-                reason =>
-                    (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
+                reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),
             );
     }
+
     onAddDriver(event) {
         this.dataService.Post('driver/create', event).subscribe(
             response => {
                 if (response.status === 0) {
-                    // console.log("Add success!");
+                    this.toastr.success("Đã thêm lái xe mới!", "Thông báo...");
                     this.loadData();
                 }
                 else {
                     switch (response.message) {
                         case 'PhoneNumber was existed':
-                            alert("Số điện thoại đã được sử dụng.");
+                            this.toastr.clear();
+                            this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
+                        {
+                            closeButton:true,
+                            disableTimeOut: true
+                        });
                             break;
                         case 'Email was existed':
-                            alert("Email đã được sử dụng.");
+                            this.toastr.clear();
+                            this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
+                            {
+                                closeButton:true,
+                                disableTimeOut: true
+                            });
                             break;
                         default:
-                            alert("Đã xảy ra lỗi xin vui lòng thử lại...")
+                            this.toastr.clear();
+                            this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
+                            {
+                                closeButton:true,
+                                disableTimeOut: true
+                            });
                     }
                 }
             }
         );
     }
-
 
     getDriver(event) {
         this._entityDriver = event;
@@ -140,10 +156,13 @@ export class DriverComponent implements OnInit {
                 console.log(response);
                 if (response.message === "Successful") {
                     this.loadData();
-                    console.log("Update Success!");
+
+                    this.toastr.info("Chỉnh sửa thành công!", "Thông báo...");
                 }
-                else
-                alert("Đã xảy ra lỗi!");
+                else {
+                    this.toastr.clear();
+                    this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
+                }
             }
         );
     }

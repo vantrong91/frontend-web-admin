@@ -11,7 +11,8 @@ const routes: Routes = [
       {path: 'vehicleowner', loadChildren: './vehicle-owner/vehicle-owner.module#VehicleOwnerModule'},
       {path: 'vehicle', loadChildren: './vehicle/vehicle.module#VehicleModule'},
       {path: 'driver', loadChildren: './driver/driver.module#DriverModule'},
-      {path: 'customer', loadChildren: './customer/customer.module#CustomerModule'}
+      {path: 'customer', loadChildren: './customer/customer.module#CustomerModule'},
+      {path: 'goodsowner', loadChildren: './goodsowner/goodsowner.module#GoodsownerModule'}
     ]
   }
 ];

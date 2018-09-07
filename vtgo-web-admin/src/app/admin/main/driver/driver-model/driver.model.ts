@@ -1,10 +1,10 @@
 export class DriverViewModel {
   constructor() {
     this.accountId = 0;
-    this.issueDate = 0;
-    this.issueDate = 0;
+    // this.issueDate = 0;
+    // this.extIssueDate = 0;
   }
-
+  attNum: string;
 
   accountId: number;
   fullName: string;
@@ -22,8 +22,8 @@ export class DriverViewModel {
   extLicenseNo: string;
   extIssueDate: number;
   extIssueBy: string;
-  attachProperties: string;
-  properties: Map<string, object>;
+  properties: string;
+  attachProperties: Map<string, object>;
   vehicleId: string;
   state: string;
   birthday: string;

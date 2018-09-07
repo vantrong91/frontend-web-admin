@@ -1,24 +1,22 @@
-.driver-view-title {
+.goodsowner-view-title {
     align-content: center;
     align-items: center;
-    display: flex;
+    display: block;
     padding: 8px 20px;
     color: #000000a4;
     background-color: #DDDDDD;
+    font-weight: 600;
 }
 
 .imgView {
     overflow: scroll;
     height: 500px;
-    background-color: #a7a6a654 !important;
-    padding: 20px;
 }
 
 .imgView img {
     max-width: 100%;
     margin: 0px auto 10px;
 }
-
-.container .row {
+.container .row{
     padding-bottom: 10px;
 }
