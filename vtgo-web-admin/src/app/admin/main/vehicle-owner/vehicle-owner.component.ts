@@ -175,23 +175,53 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     entity = responseModel;
 
     if (entity.businessLicenseIssueDate) {
-      entity.businessLicenseIssueDate = this.helperService.formatDateTime(entity.businessLicenseIssueDate);
+      const businessLicense = new Date(entity.businessLicenseIssueDate);
+      const businessLicenseFormat = {
+        year: businessLicense.getUTCFullYear(),
+        month: businessLicense.getUTCMonth(),
+        day: businessLicense.getUTCDay()
+      };
+      entity.businessLicenseIssueDate = businessLicenseFormat;
     }
 
     if (entity.businessTransportLicenseExpDate) {
-      entity.businessTransportLicenseExpDate = this.helperService.formatDateTime(entity.businessTransportLicenseExpDate);
+      const businessTransportExpDate = new Date(entity.businessTransportLicenseExpDate);
+      const businessTransportExpDateFormat = {
+        year: businessTransportExpDate.getUTCFullYear(),
+        month: businessTransportExpDate.getUTCMonth(),
+        day: businessTransportExpDate.getUTCDay()
+      };
+      entity.businessTransportLicenseExpDate = businessTransportExpDateFormat;
     }
 
     if (entity.businessTransportLicenseIssueDate) {
-      entity.businessTransportLicenseIssueDate = this.helperService.formatDateTime(entity.businessTransportLicenseIssueDate);
+      const businessTransportIssueDate = new Date(entity.businessTransportLicenseIssueDate);
+      const businessTransportIssueDateFormat = {
+        year: businessTransportIssueDate.getUTCFullYear(),
+        month: businessTransportIssueDate.getUTCMonth(),
+        day: businessTransportIssueDate.getUTCDay()
+      };
+      entity.businessTransportLicenseIssueDate = businessTransportIssueDateFormat;
     }
 
     if (entity.moderatorLicenseExpDate) {
-      entity.moderatorLicenseExpDate = this.helperService.formatDateTime(entity.moderatorLicenseExpDate);
+      const moderatorLicenseIssueExp = new Date(entity.moderatorLicenseExpDate);
+      const moderatorLicenseExpDateFormat = {
+        year: moderatorLicenseIssueExp.getUTCFullYear(),
+        month: moderatorLicenseIssueExp.getUTCMonth(),
+        day: moderatorLicenseIssueExp.getUTCDay()
+      };
+      entity.moderatorLicenseExpDate = moderatorLicenseExpDateFormat;
     }
 
     if (entity.moderatorLicenseIssueDate) {
-      entity.moderatorLicenseIssueDate = this.helperService.formatDateTime(entity.moderatorLicenseIssueDate);
+      const moderatorLicenseIssue = new Date(entity.moderatorLicenseIssueDate);
+      const businessTransportIssueDateFormat = {
+        year: moderatorLicenseIssue.getUTCFullYear(),
+        month: moderatorLicenseIssue.getUTCMonth(),
+        day: moderatorLicenseIssue.getUTCDay()
+      };
+      entity.moderatorLicenseIssueDate = businessTransportIssueDateFormat;
     }
 
     console.log(entity);

@@ -1,12 +1,15 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { CompanyViewModel } from '../../../../core';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { MyFormatter } from '../../../../core/services/format-date.service';
 
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
-  styleUrls: ['./company.component.scss']
+  styleUrls: ['./company.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: MyFormatter }]
 })
 export class CompanyComponent implements OnInit {
 
@@ -73,6 +76,14 @@ export class CompanyComponent implements OnInit {
     if (this.addEditForm.valid) {
       this._entity = this.addEditForm.value;
       this.personViewModelChange.emit(this._entity);
+    }
+  }
+
+  checkDisabled() {
+    if (this.noneShow === true) {
+      return true;
+    } else {
+      return null;
     }
   }
 

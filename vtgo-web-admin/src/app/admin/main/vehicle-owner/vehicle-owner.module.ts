@@ -7,7 +7,7 @@ import { VehicleOwnerRoutingModule } from './vehicle-owner-routing.module';
 import { VehicleOwnerComponent } from './vehicle-owner.component';
 import { CompanyComponent } from './company/company.component';
 import { PersonalComponent } from './personal/personal.component';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../shared';
 import {
   IVehicleOwnerServiceToken,
@@ -22,6 +22,7 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     NgxDatatableModule,
     ReactiveFormsModule,
     NgbTabsetModule,
+    NgbDatepickerModule,
     FormsModule,
     SharedModule.forRoot(),
     DpDatePickerModule
