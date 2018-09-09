@@ -1,0 +1,264 @@
+<form [formGroup]="addEditForm" novalidate>
+  <ngb-tabset>
+    <ngb-tab title="Thông tin đăng ký xe">
+      <ng-template ngbTabContent>
+
+        <div class="form-group row my-3">
+          <label for="UserId" class="col-sm-2 col-form-label text-md-right">ID Người dùng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="UserId" formControlName="userId" disabled>
+          </div>
+
+          <label for="VehicleId" class="col-sm-2 col-form-label text-md-right">Id</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="VehicleId" disabled formControlName="vehicleId">
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="ownerId" class="col-sm-2 col-form-label text-md-right">ID Chủ xe</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" disabled id="ownerId" formControlName="ownerId">
+          </div>
+
+          <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger" *ngIf="addEditForm.get('vehicleCode').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="vehicleCode" placeholder="Mã xe" formControlName="vehicleCode" tabindex="1">
+          </div>
+
+        </div>
+
+        <!-- <div formArrayName="route" *ngFor="let rou of route.controls; let i=index">
+          <div class="form-group row mb-3">
+            <label attr.for="{{i}}" class="col-sm-2">{{i}}</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="{{i}}" placeholder="Router" [formControlName]="i">
+            </div>
+            <div class="col-sm-1">
+              <span>
+                <button class="btn btn-primary" type="button" (click)="addRoute();current=true">
+                  Add
+                </button>
+              </span>
+            </div>
+            <div class="col-sm-1">
+              <span>
+                <button class="btn btn-outline-danger" [hidden]="isShow" type="button" (click)="subRoute(i);current=true">
+                  Sub
+                </button>
+              </span>
+            </div>
+          </div>
+          <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe <span class="text-danger">*</span></label>
+          <div class="col-sm-4"> 
+          </div>
+        </div> -->
+        <div class="form-group row mb-3">
+          <label for="route" class="col-sm-2 col-form-label text-md-right">Tuyến xe <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="route" placeholder="Tuyến xe" name="LicencePlate" formControlName="route" tabindex="2">
+          </div>
+          <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe <span class="text-danger">*</span></label>
+          <div class="col-sm-4"> 
+              <input type="text" class="form-control" id="LicencePlate" placeholder="Loại xe" tabindex="3">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="LicencePlate" class="col-sm-2 col-form-label text-md-right">Biển số <span class="text-danger" *ngIf="addEditForm.get('licencePlate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="LicencePlate" placeholder="Nhập biển số" formControlName="licencePlate" tabindex="4">
+          </div>
+          <label for="Weight" class="col-sm-2 col-form-label text-md-right">Tải trọng <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select" id="Weight" tabindex="5">
+              <option selected>&#45;&#45; 10 tấn &#45;&#45;</option>
+              <option value="1">10 tấn</option>
+              <option value="2">20 tấn</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Licence" class="col-sm-2 col-form-label text-md-right">Số đăng ký xe <span class="text-danger" *ngIf="addEditForm.get('licence').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Licence" placeholder="Số đăng ký xe" name="Licence" formControlName="licence" tabindex="6">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="LicenceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'licenceIssueDate').value | date: 'yyyy-MM-dd'" class="form-control" id="LicenceIssueDate" name="LicenceIssueDate" placeholder="Ngày cấp" formControlName="licenceIssueDate"
+              tabindex="7">
+          </div>
+          <label for="LicenceIssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="LicenceIssueBy" name="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="8">
+              <option selected>&#45;&#45; CA Thành Phố Hà Nội &#45;&#45;</option>
+              <option value="1">CA TP Hà Nội</option>
+              <option value="2">CA TP Vinh</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="RegistrationNo" class="col-sm-2 col-form-label text-md-right">Số đăng kiểm xe <span class="text-danger" *ngIf="addEditForm.get('registrationNo').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="RegistrationNo" placeholder="Số đăng kiểm xe" name="RegistrationNo" formControlName="registrationNo" tabindex="9">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="RegIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'registrationIssueDate').value | date: 'yyyy-MM-dd'" class="form-control" id="RegIssueDate" placeholder="Ngày cấp" formControlName="registrationIssueDate" tabindex="10">
+          </div>
+          <label for="RegistrationExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'registrationExpDate').value | date: 'yyyy-MM-dd'" class="form-control" id="RegistrationExpDate" placeholder="Ngày hết hạn" tabindex="11" formControlName="registrationExpDate">
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="CivInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm dân sự <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="CivInsurance" placeholder="Bảo hiểm dân sự" name="CivInsurance" formControlName="civilInsurance" tabindex="12">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="CivInsuIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'civilInsuranceIssueDate').value | date: 'yyyy-MM-dd'" class="form-control" id="CivInsuIssDate" placeholder="Ngày cấp" formControlName="civilInsuranceIssueDate"
+              tabindex="13">
+          </div>
+          <label for="CivInsuExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'civilInsuranceExpDate').value | date: 'yyyy-MM-dd'" class="form-control" id="CivInsuExpDate" placeholder="Ngày hết hạn" formControlName="civilInsuranceExpDate" tabindex="14">
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="CargoInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm hàng hóa <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="CargoInsurance" placeholder="Bảo hiểm hàng hóa" name="CargoInsurance" formControlName="cargoInsurance" tabindex="15">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="InsuranIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'cargoInsuranceIssueDate').value | date: 'yyyy-MM-dd'" class="form-control" id="InsuranIssDate" placeholder="Ngày cấp" formControlName="cargoInsuranceIssueDate"
+              tabindex="16">
+          </div>
+          <label for="CargoInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'cargoInsuranceExpDate').value | date: 'yyyy-MM-dd'" class="form-control" id="CargoInsuranceExpDate" placeholder="Ngày hết hạn" formControlName="cargoInsuranceExpDate" tabindex="17">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="ItinerMonitor" class="col-sm-2 col-form-label text-md-right">Giám sát <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="itineraryMonitoring" placeholder="Giấy xác nhận đã gắn thiết
+          bị GS hành trình" name="itineraryMonitoring" formControlName="itineraryMonitoring" tabindex="18">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="itineraryMonitoringIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'itineraryMonitoringIssueDate').value | date: 'yyyy-MM-dd'" class="form-control" id="itineraryMonitoringIssueDate" placeholder="Ngày cấp" formControlName="itineraryMonitoringIssueDate" tabindex="19">
+          </div>
+          <label for="itineraryMonitoringExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get( 'itineraryMonitoringExpDate').value | date: 'yyyy-MM-dd'" class="form-control" id="itineraryMonitoringExpDate" placeholder="Ngày hết hạn" formControlName="itineraryMonitoringExpDate" tabindex="20">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-sm-2 col-form-label text-md-right">Đính kèm <span class="text-danger">*</span></label>
+        </div>
+
+        <div class="form-group row mb-3 ml-4 mr-1">
+          <label class="col-sm-6">Đăng ký xe (ảnh chụp trang bìa và các trang liên quan)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile01">
+            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group row mb-3 ml-4 mr-1">
+          <label class="col-sm-6">Đăng kiểm xe (chụp 2 mặt của giấy tờ)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile02">
+            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group row mb-3 ml-4 mr-1">
+          <label class="col-sm-6">Bảo hiểm dân sự xe (chụp 2 mặt của giấy phép)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile03">
+            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group row mb-3 ml-4 mr-1">
+          <label class="col-sm-6">Bảo hiểm hàng hóa xe (chụp 2 mặt của giấy phép)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile04">
+            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+        <div class="form-group row mb-3 ml-4 mr-1">
+          <label class="col-sm-6">Giấy xác nhận thiết bị GS (chụp 2 mặt của giấy phép)</label>
+          <div class="custom-file col-sm-6">
+            <input type="file" class="custom-file-input" id="inputGroupFile05">
+            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+        </div>
+
+        <div class="form-group row mb-3">
+          <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="state" name="state" tabindex="21" formControlName="state">
+              <option selected>&#45;&#45; Trạng thái &#45;&#45;</option>
+              <option value="0">Chưa đăng ký xe</option>
+              <option value="1">Đơn hàng chờ xác nhận</option>
+              <option value="2">Có yêu cầu chưa báo giá</option>
+              <option value="3">Báo giá cao, cần xem lại báo giá </option>
+              <option value="4">Đang chờ vận chuyển</option>
+              <option value="5">Đang chở hàng</option>
+            </select>
+
+          </div>
+          <label for="DriverId" class="col-sm-2 col-form-label text-md-right">Id tài xế <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="DriverId" placeholder="AccountId tai xe" name="DriverId" formControlName="driverId" tabindex="22">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="DriverName" class="col-sm-2 col-form-label text-md-right">Tên tài xế <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="DriverName" placeholder="Tên tài xế" name="DriverName" formControlName="driverName" tabindex="23">
+          </div>
+          <label for="Password" class="col-sm-2 col-form-label text-md-right">Password <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="password" class="form-control" id="Password" placeholder="Password" name="Password" tabindex="24">
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+</form>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" [disabled]="!addEditForm.valid" (click)="onSave($event)">Save</button>
+</div>
+<br>Dirty: {{addEditForm.dirty}}
+<br>Touched: {{addEditForm.touched}}
+<br>Valid: {{addEditForm.valid}}
+<br>Value: {{addEditForm.value | json}}
+
+<!-- 8=========== End Popup ===========D -->

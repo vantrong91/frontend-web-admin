@@ -4,8 +4,10 @@ import { VehicleComponent } from './vehicle.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: VehicleComponent
+    path: '', component: VehicleComponent, data: {
+      title: 'Vehicle Page',
+      urls: [{ title: 'Main', url: '/admin/main'}, { title: 'Vehicle'}]
+    }
   }
 ];
 
