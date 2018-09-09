@@ -164,7 +164,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd-mm-yyyy" [disabled]="noneShow ? 'disabled' : null"
+                <input class="form-control" placeholder="dd/mm/yyyy" [disabled]="noneShow ? 'disabled' : null"
                   [ngClass]="{'mouse-hover': noneShow}" name="dp" ngbDatepicker #blid="ngbDatepicker" formControlName="businessLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="blid.toggle()" type="button">
@@ -192,7 +192,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd-mm-yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
+                <input class="form-control" placeholder="dd/mm/yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
                   [ngClass]="{'mouse-hover': noneShow}" name="dp" ngbDatepicker #btlid="ngbDatepicker" formControlName="businessTransportLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btlid.toggle()" type="button">
@@ -206,7 +206,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd-mm-yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
+                <input class="form-control" placeholder="dd/mm/yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
                   [ngClass]="{'mouse-hover': noneShow}" name="dp" ngbDatepicker #btled="ngbDatepicker" formControlName="businessTransportLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btled.toggle()" type="button">
@@ -234,7 +234,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd-mm-yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
+                <input class="form-control" placeholder="dd/mm/yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
                   [ngClass]="{'mouse-hover': noneShow}" name="dp" ngbDatepicker #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="mlid.toggle()" type="button">
@@ -248,7 +248,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd-mm-yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
+                <input class="form-control" placeholder="dd/mm/yyyy" [attr.disabled]="noneShow ? 'disabled' : null"
                   [ngClass]="{'mouse-hover': noneShow}" name="dp" ngbDatepicker #mled="ngbDatepicker" formControlName="moderatorLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="mled.toggle()" type="button">
@@ -275,14 +275,12 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch"
-                  name="Branch">
-                  <option selected>&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
-                  <option value=""></option>
-                  <option value="1">Vietcombank</option>
-                  <option value="2">MBBank</option>
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" 
+                formControlName="branch" name="Branch">
+                  <option [value]="null">&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
+                  <option [ngValue]="bank.branch">{{bank.branch}}</option>
                 </select>
-                <input type="hidden" [attr.disabled]="noneShow ? 'disabled' : null" formControlName="branch" name="Branch" />
+                <input type="hidden" formControlName="branch" name="Branch" />
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
               <div class="col-sm-4">

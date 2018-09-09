@@ -35,7 +35,7 @@ export class MyFormatter extends NgbDateParserFormatter {
 
     format(date: NgbDateStruct): string {
         return date ?
-            `${isNumber(date.day) ? padNumber(date.day) : ''}-${isNumber(date.month) ? padNumber(date.month) : ''}-${date.year}` :
+            `${isNumber(date.day) ? padNumber(date.day) : ''}/${isNumber(date.month) ? padNumber(date.month) : ''}/${date.year}` :
             '';
     }
 

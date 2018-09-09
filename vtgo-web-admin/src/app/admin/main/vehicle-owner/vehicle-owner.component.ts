@@ -107,18 +107,11 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     if (this.tabCompany) {
       // Function change data Campany code here
       this.entityPersonal = undefined;
-      if (this.entityCompany) {
-
-      } else {
-        this.entityCompany = new CompanyViewModel();
-      }
+      this.entityCompany = new CompanyViewModel();
     } else {
       // Function change data Personal code here
       this.entityCompany = undefined;
-      if (this.entityPersonal) {
-      } else {
-        this.entityPersonal = new PersonalViewModel();
-      }
+      this.entityPersonal = new PersonalViewModel();
     }
 
     // gan data vao service
@@ -182,6 +175,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         day: businessLicense.getUTCDay()
       };
       entity.businessLicenseIssueDate = businessLicenseFormat;
+    } else {
+      entity.businessLicenseIssueDate = null;
     }
 
     if (entity.businessTransportLicenseExpDate) {
@@ -192,6 +187,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         day: businessTransportExpDate.getUTCDay()
       };
       entity.businessTransportLicenseExpDate = businessTransportExpDateFormat;
+    } else {
+      entity.businessTransportLicenseExpDate = null;
     }
 
     if (entity.businessTransportLicenseIssueDate) {
@@ -202,6 +199,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         day: businessTransportIssueDate.getUTCDay()
       };
       entity.businessTransportLicenseIssueDate = businessTransportIssueDateFormat;
+    } else {
+      entity.businessTransportLicenseIssueDate = null;
     }
 
     if (entity.moderatorLicenseExpDate) {
@@ -212,6 +211,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         day: moderatorLicenseIssueExp.getUTCDay()
       };
       entity.moderatorLicenseExpDate = moderatorLicenseExpDateFormat;
+    } else {
+      entity.moderatorLicenseExpDate = null;
     }
 
     if (entity.moderatorLicenseIssueDate) {
@@ -222,8 +223,9 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         day: moderatorLicenseIssue.getUTCDay()
       };
       entity.moderatorLicenseIssueDate = businessTransportIssueDateFormat;
+    } else {
+      entity.moderatorLicenseIssueDate = null;
     }
-
     console.log(entity);
     return entity;
   }

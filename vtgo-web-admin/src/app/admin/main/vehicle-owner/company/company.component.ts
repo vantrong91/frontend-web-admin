@@ -18,10 +18,17 @@ export class CompanyComponent implements OnInit {
   /* Public Variables */
   @Input()
   set companyViewModel(company: CompanyViewModel) {
-    if (company !== null || company !== undefined) {
+    if (company !== null) {
       this._entity = new CompanyViewModel();
       this._entity = company;
       console.log('company', company);
+      if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
+        const bankAccountLstGroups = company.bankAccountLst.map(bankAccount => {
+          return this.formBuilder.group(bankAccount);
+        });
+        const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
+        this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
+      }
       this.addEditForm.reset(company);
     } else {
       this.addEditForm.reset();

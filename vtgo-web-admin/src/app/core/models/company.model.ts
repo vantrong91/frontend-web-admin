@@ -1,6 +1,7 @@
 export class CompanyViewModel {
 
     constructor() {
+      this.bankAccountLst = [];
     }
   accountId: number;
   fullName: string;
@@ -29,4 +30,5 @@ export class CompanyViewModel {
   contactAddress: Map<string, string>;
   address: Map<string, string>;
   attachProperties: Map<string, string>;
+  bankAccountLst: Array<any>;
 }
