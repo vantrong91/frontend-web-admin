@@ -12,7 +12,7 @@ import { SharedModule } from '../../../shared';
 import {
   IVehicleServiceToken,
   VehicleService
-} from '../../../core'
+} from '../../../core';
 
 @NgModule({
   imports: [
