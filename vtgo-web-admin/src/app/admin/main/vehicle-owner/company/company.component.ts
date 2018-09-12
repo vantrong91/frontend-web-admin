@@ -70,12 +70,17 @@ export class CompanyComponent implements OnInit {
       vehicleOwnerType: new FormControl(''),
       bankAccountLst: new FormArray([this.initBankArray()]),
       address: this.initAddress(),
-      contactAddress: this.initContactAddress()
+      contactAddress: this.initContactAddress(),
+      attachProperties: this.initAttachProperties(),
     });
   }
 
   ngOnInit() {
-    console.log('Form', this.addEditForm.controls['bankAccountLst']);
+    if (this.noneShow) {
+      this.addEditForm.disable();
+    } else {
+      this.addEditForm.enable();
+    }
   }
 
   onSave(event) {
@@ -92,6 +97,14 @@ export class CompanyComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  initAttachProperties() {
+    return this.formBuilder.group({
+      attachCode: new FormControl(),
+      attachName: new FormControl(),
+      attachPath: new FormControl()
+    });
   }
 
   initBankArray() {
