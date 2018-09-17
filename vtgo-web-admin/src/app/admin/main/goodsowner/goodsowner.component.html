@@ -10,7 +10,7 @@
 <div class="row mt-2">
     <div class="col-md-11"></div>
     <div class="col-md-1">
-        <button type="button" class="btn btn-success w-100" (click)="open(contentAdd);">Add</button>
+        <button type="button" class="btn btn-success w-100" (click)="isAdd= true;open(content);resetRes()">Add</button>
     </div>
 </div>
 
@@ -75,7 +75,7 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="address" [width]="80">
+            <ngx-datatable-column name="address" [width]="70">
                 <ng-template ngx-datatable-header-template>
                     Địa chỉ
                 </ng-template>
@@ -83,17 +83,17 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="action" [minWidth]="120" [width]="120" [maxWidth]="120" [resizeable]="false">
+            <ngx-datatable-column name="action" [minWidth]="130" [width]="130" [maxWidth]="130"  [resizeable]="false">
                 <ng-template let-column="colmun" ngx-datatable-header-template>
                     <span>
                         <strong>Thao tác</strong>
                     </span>
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                    <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentView); getOwner(row); ">
+                    <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentView); getOwner(row); toggleExpandRow(row) ">
                         <i class=" fa fa-eye "></i>
                     </button>
-                    <button type="button " class="btn btn-warning button-custom-admin ml-2 " (click)="open(contentEdit); getOwner(row); ">
+                    <button type="button " class="btn btn-warning button-custom-admin ml-2 " (click)="isAdd=false; open(content); getOwner(row);toggleExpandRow(row)">
                         <i class="fa fa-edit "></i>
                     </button>
                     <button type="button " class="btn btn-danger button-custom-admin ml-2 " (click)="openSm(del,row.accountId) ">
@@ -106,15 +106,16 @@
 
 </div>
 <!-- ======================================= Modal ========================================== -->
-<ng-template #contentEdit let-c="close " let-d="dismiss">
+<ng-template #content let-c="close " let-d="dismiss">
     <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Sửa thông tin chủ hàng</h3>
+        <h3 class="modal-title " id="modal-basic-title " *ngIf="!isAdd">Sửa thông tin chủ hàng</h3>
+        <h3 class="modal-title " id="modal-basic-title " *ngIf="isAdd">Thêm chủ hàng</h3>
         <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
             <span aria-hidden="true ">&times;</span>
         </button>
     </div>
     <div class="modal-body ">
-        <app-goodsowner-info [ownerViewModel]="_entityOwner" (ownerViewModelChange)="onEditOwner($event)" (closeForm)="c('')"></app-goodsowner-info>
+        <app-goodsowner-info [ownerViewModel]="_entityOwner" [imgList]="res" (ownerViewModelChange)="isAdd?onAddOwner($event):onEditOwner($event);" (closeForm)="c('Click button Save')" (onHandle)="getIsEdit($event)"></app-goodsowner-info>
     </div>
 </ng-template>
 
@@ -129,22 +130,7 @@
         </button>
     </div>
     <div class="modal-body ">
-        <app-view-info [ownerViewModel]="_entityOwner"></app-view-info>
-    </div>
-</ng-template>
-
-
-<!--============================================================================================-->
-
-<ng-template #contentAdd let-c="close " let-d="dismiss ">
-    <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Thêm chủ hàng</h3>
-        <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-            <span aria-hidden="true ">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body ">
-        <app-goodsowner-add  [ownerViewModel]="_entityOwner"  (ownerViewModelChange)="onAddOwner($event)" (closeForm)="c('')"></app-goodsowner-add>
+        <app-view-info [ownerViewModel]="_entityOwner" [imgList]="res"></app-view-info>
     </div>
 </ng-template>
 

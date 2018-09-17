@@ -2,14 +2,13 @@ import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule } from '@angular/forms';
-import { GoodsownerRoutingModule } from './goodsowner-routing.module';
+import { GoodsownerRoutingModule } from './owner-routing.module';
 import { GoodsOwnerComponent } from './goodsowner.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GoodsownerInfoComponent } from './goodsowner-edit/goodsowner-info.component';
+import { GoodsownerInfoComponent } from './goodsowner-info/goodsowner-info.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ViewInfoComponent } from './goodsowner-view/view-info.component';
-import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.component';
-
+import { FileUploadModule } from 'ng2-file-upload'
 
 @NgModule({
   imports: [
@@ -18,7 +17,8 @@ import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.componen
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    FileUploadModule
     
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -26,7 +26,6 @@ import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.componen
     GoodsOwnerComponent,
     GoodsownerInfoComponent,
     ViewInfoComponent,
-    GoodsownerAddComponent,
     
   ]
 })

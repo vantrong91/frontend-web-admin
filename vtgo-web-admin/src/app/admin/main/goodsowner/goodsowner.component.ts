@@ -19,6 +19,7 @@ export class GoodsOwnerComponent implements OnInit {
     expanded: any = {};
     rows: any = '';
     closeResult: string;
+    isAdd: boolean = true;
     searchParam: OwnerSearch;
     _entityOwner: OwnerViewModel;
     constructor(private modalServices: NgbModal,
@@ -26,6 +27,18 @@ export class GoodsOwnerComponent implements OnInit {
         private authenServices: AuthenService,
         private toastr: ToastrService
     ) { }
+
+    arrImg = [];
+    res = [];
+    toggleExpandRow(row) {
+        this.arrImg = row.attachProperties;
+        console.log(this.arrImg);
+        this.res = [];
+        for (var x in this.arrImg) {
+            this.arrImg.hasOwnProperty(x) && this.res.push(this.arrImg[x])
+        }
+    }
+
 
     ngOnInit() {
         this.loadData();
@@ -41,8 +54,6 @@ export class GoodsOwnerComponent implements OnInit {
     search(search) {
         this.dataService.Post('good-owner/search', search).subscribe(
             response => {
-                // console.log('-- response:');
-                // console.log(response);
                 if (response.status === 0) {
                     this.rows = response.data;
                 }
@@ -102,6 +113,7 @@ export class GoodsOwnerComponent implements OnInit {
             );
     }
     onAddOwner(event) {
+        this.res=[];
         this.dataService.Post('good-owner/create', event).subscribe(
             response => {
                 if (response.status === 0) {
@@ -109,17 +121,44 @@ export class GoodsOwnerComponent implements OnInit {
                     this.loadData();
                 }
                 else {
-                    this.toastr.error('Số điện thoại không hợp lệ', 'Cảnh báo');
+                    switch (response.message) {
+                        case 'PhoneNumber was existed':
+                            this.toastr.clear();
+                            this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
+                            break;
+                        case 'Email was existed':
+                            this.toastr.clear();
+                            this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
+                            break;
+                        default:
+                            this.toastr.clear();
+                            this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
+                    }
                 }
             }
         );
     }
 
-
+    resetRes(){
+        this.res = [];
+    }
     getOwner(event) {
         this._entityOwner = event;
         console.log(this._entityOwner);
     }
+
     onEditOwner(event) {
         this.dataService.Post('good-owner/update', event).subscribe(
             response => {
@@ -129,9 +168,18 @@ export class GoodsOwnerComponent implements OnInit {
                     this.toastr.success('Đã chỉnh sửa thành công thông tin chủ hàng!');
                 }
                 else
-                this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
+                    this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
             }
         );
     }
+
+    // getFile(file){
+    //     this.dataService.getFile('good-owner/getfile').subscribe(
+    //         response =>{
+    //             console.log(response);
+    //         }
+    //     )
+    // }
+
 
 }
