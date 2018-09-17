@@ -26,5 +26,5 @@ export class DriverViewModel {
   attachProperties: Map<string, object>;
   vehicleId: string;
   state: string;
-  birthday: string;
+  birthday: number;
 }

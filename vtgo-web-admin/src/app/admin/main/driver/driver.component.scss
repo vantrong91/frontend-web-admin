@@ -9,7 +9,7 @@
 
 .imgView {
     overflow: scroll;
-    height: 500px;
+    height: 460px;
     background-color: #a7a6a654 !important;
     padding: 20px;
 }
@@ -21,4 +21,12 @@
 
 .container .row {
     padding-bottom: 10px;
+}
+.btn-close{
+    cursor: pointer;
+    transition: .1s;
+}
+.btn-close:hover{
+    font-size: 18px;
+    color: #000000c7;
 }

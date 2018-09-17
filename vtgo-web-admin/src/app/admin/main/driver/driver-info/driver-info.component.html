@@ -1,254 +1,304 @@
 <form [formGroup]="addEditForm">
-  <!-- <ngb-tabset> -->
-  <!-- <ngb-tab title="Thông tin cá nhân tài xế">
+    <!-- <ngb-tabset> -->
+    <!-- <ngb-tab title="Thông tin cá nhân tài xế">
       <ng-template ngbTabContent> -->
-  <input type="text" id="accountid" hidden formControlName="accountId">
-  <div class="form-group row my-3">
-    <label for="inputGroupFile01">++++++</label>
-    <label for="fullname" class="col-sm-2 col-form-label text-md-right" required>Họ và tên <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" formControlName="fullName"
-        tabindex="1" />
+
+    <input type="text" id="accountid" hidden formControlName="accountId">
+    <div class="form-group row my-3">
+        <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">{{addEditForm.get('fullName').invalid&&addEditForm.get('fullName').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="" formControlName="fullName"
+                tabindex="1" />
+        </div>
+        <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">{{addEditForm.get('nationality').invalid&&addEditForm.get('nationality').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="nationality" name="nationality" placeholder="" formControlName="nationality"
+                tabindex="2" />
+        </div>
     </div>
-    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Quốc tịch"
-        formControlName="nationality" tabindex="2" required />
+    <div class="form-group row my-3">
+        <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số giấy tờ <span class="text-danger">{{addEditForm.get('licenseNo').invalid&&addEditForm.get('licenseNo').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="licenseno" name="licenseno" placeholder="" formControlName="licenseNo"
+                tabindex="3" />
+        </div>
+        <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">{{addEditForm.get('issueDate').invalid&&addEditForm.get('issueDate').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="date" [value]="_entity.accountId===0?'':addEditForm.get('issueDate').value |  date:'yyyy-MM-dd'"
+                class="form-control" id="issuedate" name="issuedate" formControlName="issueDate" tabindex="4" />
+        </div>
     </div>
-  </div>
-  <div class="form-group row my-3">
-    <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số giấy tờ <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="licenseno" name="licenseno" placeholder="Số giấy tờ" formControlName="licenseNo"
-        tabindex="3" required />
-    </div>
-    <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="date" [value]="_entity.accountId===0?'':addEditForm.get('issueDate').value |  date:'yyyy-MM-dd'"
-        class="form-control" id="issuedate" name="issuedate" formControlName="issueDate" tabindex="4" required />
-    </div>
-  </div>
-  <div class="form-group row my-3">
-    <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="issueby" name="issueby" placeholder="Nơi cấp" formControlName="issueBy"
-        tabindex="5" required />
-    </div>
-    <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="6" required>
-        <option selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
-        <option value="1">Nam</option>
-        <option value="0">Nữ</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc <span class="text-danger">*</span></label>
-    <div class="col-sm-4" required>
-      <input type="text" class="form-control" id="ethnic" name="ethnic" placeholder="Dân tộc" formControlName="ethnic"
-        tabindex="7" />
-    </div>
-    <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" id="email" name="email" placeholder="Email" formControlName="email"
-        (focusout)="checkEmailPhone($event,'Email');" required tabindex="8" required />
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại <span class="text-danger">*</span></label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại"
-        (focusout)="checkEmailPhone($event, 'Số điện thoại');" formControlName="phoneNumber" required tabindex="9"
-        required />
-    </div>
-  </div>
-  <hr class="hr-border-color mb-1">
-  <div formGroupName="address">Nơi cư trú
-    <div class="form-group row mb-3">
-      <label for="addrcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrcountry" name="addrcountry" placeholder="Quốc gia"
-          formControlName="country" tabindex="10" />
-      </div>
-      <label for="addrprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrprovince" name="addrprovince" placeholder="Tỉnh/Thành phố"
-          formControlName="province" tabindex="11" />
-      </div>
+    <div class="form-group row my-3">
+        <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">{{addEditForm.get('issueBy').invalid&&addEditForm.get('issueBy').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="issueby" name="issueby" placeholder="" formControlName="issueBy"
+                tabindex="5" />
+        </div>
+        <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">{{addEditForm.get('gender').invalid&&addEditForm.get('gender').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="6">
+                <option selected value="1">Nam</option>
+                <option value="0">Nữ</option>
+            </select>
+        </div>
     </div>
     <div class="form-group row mb-3">
-      <label for="addrdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrdistrict" name="addrdistrict" placeholder="Quận/ Huyện"
-          formControlName="district" tabindex="12" />
-      </div>
-      <label for="addrwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrwards" name="addrwards" placeholder="Phường/ Xã"
-          formControlName="wards" tabindex="13" />
-      </div>
+        <label for="ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc <span class="text-danger">{{addEditForm.get('ethnic').invalid&&addEditForm.get('ethnic').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="ethnic" name="ethnic" placeholder="" formControlName="ethnic"
+                tabindex="7" />
+        </div>
+        <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">{{addEditForm.get('email').touched&&(!mailValid||addEditForm.get('email').invalid)?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" id="email" name="email" placeholder="" formControlName="email"
+                (focusout)="isAdd?checkEmailPhone($event,'email'):''" tabindex="8" />
+        </div>
     </div>
     <div class="form-group row mb-3">
-      <label for="addrhouseholdno" class="col-sm-2 col-form-label text-md-right">Số hộ khẩu <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrhouseholdno" name="addrhouseholdno" placeholder="Sổ hộ khẩu"
-          formControlName="householdNo" tabindex="14" />
-      </div>
+        <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại <span class="text-danger">{{addEditForm.get('phoneNumber').touched&&(!phoneValid||addEditForm.get('phoneNumber').invalid)?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="" (focusout)="isAdd?checkEmailPhone($event, 'phone'):'';"
+                formControlName="phoneNumber" tabindex="9" />
+        </div>
     </div>
-  </div>
-  <hr class="hr-border-color mb-1">
-  <div formGroupName="contactAddress">Chỗ ở hiện tại
-    <div class="form-group row mb-3">
-      <label for="contactcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactcountry" name="contactcountry" placeholder="Quốc gia"
-          formControlName="country" tabindex="15" required />
-      </div>
-      <label for="contactprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactprovince" name="contactprovince" placeholder="Tỉnh/Thành phố"
-          formControlName="province" tabindex="16" required />
-      </div>
+    <hr class="hr-border-color mb-1">
+    <div formGroupName="address">Nơi cư trú
+        <div class="form-group row mb-3">
+            <label for="addrcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">{{addEditForm.get('address').get('country').invalid&&addEditForm.get('address').get('country').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addrcountry" name="addrcountry" placeholder=""
+                    formControlName="country" tabindex="10" />
+            </div>
+            <label for="addrprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('address').get('province').invalid&&addEditForm.get('address').get('province').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addrprovince" name="addrprovince" placeholder=""
+                    formControlName="province" tabindex="11" />
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label for="addrdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">{{addEditForm.get('address').get('district').invalid&&addEditForm.get('address').get('district').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addrdistrict" name="addrdistrict" placeholder=""
+                    formControlName="district" tabindex="12" />
+            </div>
+            <label for="addrwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('address').get('wards').invalid&&addEditForm.get('address').get('wards').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addrwards" name="addrwards" placeholder="" formControlName="wards"
+                    tabindex="13" />
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label for="addrhouseholdno" class="col-sm-2 col-form-label text-md-right">Số hộ khẩu <span class="text-danger">{{addEditForm.get('address').get('householdNo').invalid&&addEditForm.get('address').get('householdNo').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addrhouseholdno" name="addrhouseholdno" placeholder=""
+                    formControlName="householdNo" tabindex="14" />
+            </div>
+        </div>
     </div>
-    <div class="form-group row mb-3">
-      <label for="contactdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactdistrict" name="contactdistrict" placeholder="Quận/ Huyện"
-          formControlName="district" tabindex="17" required />
-      </div>
-      <label for="contactwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">*</span></label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactwards" name="contactwards" placeholder="Phường/ Xã"
-          formControlName="wards" tabindex="18" required />
-      </div>
+    <hr class="hr-border-color mb-1">
+    <div formGroupName="contactAddress">Chỗ ở hiện tại
+        <div class="form-group row mb-3">
+            <label for="contactcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">{{addEditForm.get('contactAddress').get('country').invalid&&addEditForm.get('contactAddress').get('country').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="contactcountry" name="contactcountry" placeholder=""
+                    formControlName="country" tabindex="15" />
+            </div>
+            <label for="contactprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('contactAddress').get('province').invalid&&addEditForm.get('contactAddress').get('province').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="contactprovince" name="contactprovince" placeholder=""
+                    formControlName="province" tabindex="16" />
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label for="contactdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">{{addEditForm.get('contactAddress').get('district').invalid&&addEditForm.get('contactAddress').get('district').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="contactdistrict" name="contactdistrict" placeholder=""
+                    formControlName="district" tabindex="17" />
+            </div>
+            <label for="contactwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('contactAddress').get('wards').invalid&&addEditForm.get('contactAddress').get('wards').touched?'*':'&nbsp;'}}</span></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="contactwards" name="contactwards" placeholder=""
+                    formControlName="wards" tabindex="18" />
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label for="contactstreet" class="col-sm-2 col-form-label text-md-right">Số nhà/ đường <span class="text-danger"></span></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="contactstreet" name="contactstreet" placeholder=""
+                    formControlName="street" tabindex="19" />
+            </div>
+        </div>
     </div>
-    <div class="form-group row mb-3">
-      <label for="contactstreet" class="col-sm-2 col-form-label text-md-right">Số nhà/ đường <span class="text-danger">*</span></label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="contactstreet" name="contactstreet" placeholder="Số nhà/ đường"
-          formControlName="street" tabindex="19" />
-      </div>
-    </div>
-  </div>
-  <hr class="hr-border-color mb-1">
-  <!-- </ng-template>
+    <hr class="hr-border-color mb-1">
+    <!-- </ng-template>
     </ngb-tab>
     <ngb-tab title="Giấy phép">
       <ng-template ngbTabContent> -->
-  <div>Thông tin giấy phép</div>
-  <div class="form-group row my-3">
-    <label for="typelicenseno" class="col-sm-2 col-form-label text-md-right" required>Loại giấy phép</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="typelicenseno" name="typelicenseno" placeholder="Loại giấy phép "
-        formControlName="typeLicenseno" tabindex="20" required>
+    <div>Thông tin giấy phép</div>
+    <div class="form-group row my-3">
+        <label for="typelicenseno" class="col-sm-2 col-form-label text-md-right">Loại giấy phép <span class="text-danger">{{addEditForm.get('typeLicenseno').invalid&&addEditForm.get('typeLicenseno').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="typelicenseno" name="typelicenseno" placeholder="B1-B2-C-D..."
+                formControlName="typeLicenseno" tabindex="20">
+        </div>
+        <label for="extlicenseno" class="col-sm-2 col-form-label text-md-right">Số giấy phép <span class="text-danger">{{addEditForm.get('extLicenseNo').invalid&&addEditForm.get('extLicenseNo').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="extlicenseno" name="extlicenseno" placeholder=""
+                formControlName="extLicenseNo" tabindex="21">
+        </div>
     </div>
-    <label for="extlicenseno" class="col-sm-2 col-form-label text-md-right">Số giấy phép </label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="extlicenseno" name="extlicenseno" placeholder="Số giấy phép "
-        formControlName="extLicenseNo" tabindex="21" required>
+    <div class="form-group row mb-3">
+        <label for="extissuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">{{addEditForm.get('extIssueDate').invalid&&addEditForm.get('extIssueDate').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="date" [value]="_entity.accountId===0?'':addEditForm.get('extIssueDate').value |  date:'yyyy-MM-dd'"
+                class="form-control" id="extissuedate" name="extissuedate" formControlName="extIssueDate" tabindex="22" />
+        </div>
+        <label for="extissueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">{{addEditForm.get('extIssueBy').invalid&&addEditForm.get('extIssueBy').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="extissueby" name="extissueby" placeholder="" formControlName="extIssueBy"
+                tabindex="23">
+        </div>
     </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="extissuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
-    <div class="col-sm-4">
-      <input type="date" [value]="_entity.accountId===0?'':addEditForm.get('extIssueDate').value |  date:'yyyy-MM-dd'"
-        class="form-control" id="extissuedate" name="extissuedate" formControlName="extIssueDate" required tabindex="22"
-        required />
+    <hr class="hr-border-color mb-1">
+    <div>Properties</div>
+    <div class="form-group row my-3">
+        <label for="properties" class="col-sm-2 col-form-label text-md-right">Properties </label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="properties" name="properties" placeholder="" formControlName="properties"
+                tabindex="24">
+        </div>
+        <label for="vehicleid" class="col-sm-2 col-form-label text-md-right">Vehicleid </label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="vehicleid" name="vehicleid" placeholder="" formControlName="vehicleId"
+                tabindex="25">
+        </div>
     </div>
-    <label for="extissueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="extissueby" name="extissueby" placeholder="Nơi cấp" formControlName="extIssueBy"
-        tabindex="23" required>
+    <div class="form-group row mb-3">
+        <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái <span class="text-danger">{{addEditForm.get('state').invalid&&addEditForm.get('state').touched?'*':'&nbsp;'}}</span></label>
+        <div class="col-sm-4">
+            <select class="form-control" id="state" name="state" formControlName="state" tabindex="26">
+                <option value="0" selected>Chưa đăng ký xe rỗng</option>
+                <option value="1">Đơn hàng chờ xác nhận</option>
+                <option value="2">Có yêu cầu chưa báo giá</option>
+                <option value="3">Báo giá cao, cần xem lại báo giá</option>
+                <option value="4">Đang chờ vận chuyển</option>
+                <option value="5">Đang chở hàng</option>
+            </select>
+        </div>
+        <label for="birthday" class="col-sm-2 col-form-label text-md-right">Ngày sinh </label>
+        <div class="col-sm-4">
+            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="" formControlName="birthday"
+                tabindex="27">
+        </div>
     </div>
-  </div>
-  <hr class="hr-border-color mb-1">
-  <div>Properties</div>
-  <div class="form-group row my-3">
-    <label for="properties" class="col-sm-2 col-form-label text-md-right">Properties</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="properties" name="properties" placeholder="Properties"
-        formControlName="properties" tabindex="24">
-    </div>
-    <label for="vehicleid" class="col-sm-2 col-form-label text-md-right">Vehicleid</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="vehicleid" name="vehicleid" placeholder="Vehicleid" formControlName="vehicleId"
-        tabindex="25">
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái</label>
-    <div class="col-sm-4">
-      <select class="form-control" id="state" name="state" formControlName="state" tabindex="26">
-        <option value="0" selected>Chưa đăng ký xe rỗng</option>
-        <option value="1">Đơn hàng chờ xác nhận</option>
-        <option value="2">Có yêu cầu chưa báo giá</option>
-        <option value="3">Báo giá cao, cần xem lại báo giá</option>
-        <option value="4">Đang chờ vận chuyển</option>
-        <option value="5">Đang chở hàng</option>
-      </select>
-    </div>
-    <label for="birthday" class="col-sm-2 col-form-label text-md-right">Ngày sinh </label>
-    <div class="col-sm-4">
-      <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Ngày sinh " formControlName="birthday"
-        tabindex="27">
-    </div>
-  </div>
-  <hr class="hr-border-color mb-1">
-  <!-- </ng-template>
+    <hr class="hr-border-color mb-1">
+    <!-- </ng-template>
     </ngb-tab>
     <ngb-tab title="Hồ sơ đính kèm">
       <ng-template ngbTabContent> -->
-  <div class="form-group row my-3">
-    <label class="col-sm-6">Chứng minh nhân dân/ Hộ chiếu/ Thẻ căn cước</label>
-    <div class="col-sm-6" formGroupName="attachProperties">
-      <!-- <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="form-control" id="inputGroupFile01" formArrayName="CMND" (change)="selectFile($event,'CMND')" /> -->
-      <div class="row">
-        <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
-          (change)="selectFile($event,'CMND')" ng2FileSelect [uploader]="uploader" tabindex="28" />
-        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
-      </div>
-      <div class="row uploadList" *ngFor="let item of uploader.queue">
-        <div class="col-sm-6">{{item.file.name}}</div>
-        <div class="col-sm-4">
-          <div class="progress">
-            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-          </div>
+    <div *ngIf="isAdd">Hồ sơ đính kèm
+        <div class="form-group row my-3">
+            <label class="col-sm-6">Chứng minh nhân dân/ Hộ chiếu/ Thẻ căn cước</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+                <div class="row">
+                    <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
+                        id="inputGroupFile01" (change)="selectFile('CMND')" ng2FileSelect [uploader]="uploaderCMND"
+                        tabindex="28" />
+                    <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                            aria-hidden="true"></i></label>
+                </div>
+                <div class="row uploadList" *ngFor="let item of uploaderCMND.queue">
+                    <div class="col-sm-6">{{item.file.name}}</div>
+                    <div class="col-sm-4">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-1">
-          <button type="button" class="btn btn-danger" (click)="item.remove()"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class="form-group row my-3">
+            <label class="col-sm-6">ACD</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+                <div class="row">
+                    <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
+                        id="inputGroupFile01" (change)="selectFile('ACD')" ng2FileSelect [uploader]="uploaderACD"
+                        tabindex="28" />
+                    <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                            aria-hidden="true"></i></label>
+                </div>
+                <div class="row uploadList" *ngFor="let item of uploaderACD.queue">
+                    <div class="col-sm-6">{{item.file.name}}</div>
+                    <div class="col-sm-4">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="form-group row my-3">
+            <label class="col-sm-6">Giấy phép lái xe (chụp 2 mặt giấy phép)</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+                <div class="row">
+                    <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
+                        id="inputGroupFile01" (change)="selectFile('GPLX')" ng2FileSelect [uploader]="uploaderGPLX"
+                        tabindex="28" />
+                    <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                            aria-hidden="true"></i></label>
+                </div>
+                <div class="row uploadList" *ngFor="let item of uploaderGPLX.queue">
+                    <div class="col-sm-6">{{item.file.name}}</div>
+                    <div class="col-sm-4">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row my-3">
+            <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+                <div class="row">
+                    <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
+                        id="inputGroupFile01" (change)="selectFile('SHK')" ng2FileSelect [uploader]="uploaderSHK"
+                        tabindex="28" required />
+                    <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                            aria-hidden="true"></i></label>
+                </div>
+                <div class="row uploadList" *ngFor="let item of uploaderSHK.queue">
+                    <div class="col-sm-6">{{item.file.name}}</div>
+                    <div class="col-sm-4">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-
-  <div class="form-group row my-3" formGroupName="attachProperties">
-    <label class="col-sm-6">ACD (chụp 2 mặt của giấy tờ)</label>
-    <div class="col-sm-6">
-      <input type="file" accept="image/*" name="files[]" multiple class="form-control" id="inputGroupFile02" (change)="selectFile($event,'ACD')"
-        tabindex="29" />
-    </div>
-  </div>
-  <div class="form-group row my-3" formGroupName="attachProperties">
-    <label class="col-sm-6">Giấy phép lái xe (chụp 2 mặt giấy phép)</label>
-    <div class="col-sm-6">
-      <input type="file" accept="image/*" name="files[]" multiple class="form-control" id="inputGroupFile03" (change)="selectFile($event,'GPLX')"
-        tabindex="30" />
-    </div>
-  </div>
-  <div class="form-group row my-3" formGroupName="attachProperties">
-    <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
-    <div class="col-sm-6">
-      <input type="file" accept="image/*" name="files[]" multiple class="form-control" id="inputGroupFile04" (change)="selectFile($event,'SHK')"
-        tabindex="31" />
-    </div>
-  </div>
-  <!-- </ng-template>
+    <!-- </ng-template>
     </ngb-tab> -->
-  <!-- </ngb-tabset> -->
-  <div class="modal-footer">
-    <button class="btn btn-success" (click)="(Save($event))" tabindex="32">Save</button>
-    <!-- [disabled]="addEditForm.invalid" -->
-  </div>
+    <!-- </ngb-tabset> -->
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="Save($event)" [disabled]="_entity.accountId===0?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
+            tabindex="32">Save</button>
+    </div>
 </form>
