@@ -5,3 +5,14 @@
         overflow-x: hidden;
     }
 }
+// input.ng-invalid {border-color: red;}
+input.has-error{
+    border-color: red;
+}
+select.has-error{
+    border-color: red;
+}
+
+.mouse-hover {
+    cursor: no-drop;
+}

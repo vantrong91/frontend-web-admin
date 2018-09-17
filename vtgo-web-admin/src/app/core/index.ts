@@ -14,6 +14,7 @@ export * from './models/search.model';
 export * from './models/personal.model';
 export * from './models/company.model';
 export * from './models/vehicle.model';
+export * from './models/vehicleImg.model';
 // Export Service
 export * from './services/authen.service';
 export * from './services/config.service';

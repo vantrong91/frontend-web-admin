@@ -17,9 +17,9 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Phương tiện vận tải</div>
-    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listVehicle' [columnMode]='"force"' [headerHeight]='50'
-      [footerHeight]='50' [rowHeight]='"auto"' [limit]="10">
-      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
+    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listVehicle' [columns]="columns" [columnMode]='"force"' [headerHeight]='50'
+      [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #vehicleTable [externalSorting]="true" [sorts]="[{prop: 'vehicleId', dir: 'desc'}]">
+      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="default align-center">
             <strong>STT</strong>
@@ -99,7 +99,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <button type="button" class="btn btn-info button-custom-admin">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.vehicleId,content)">
             <i class="fa fa-eye"></i>
           </button>
           <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="isAdd=false;edit(row.vehicleId, content)">
@@ -122,7 +122,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-vehiclepopup  [vehicleViewModel]="entityVehicle" (vehicleViewModelChange)="isAdd ? onSubmitVehicle($event) : onEditVehicle($event)"></app-vehiclepopup>
+      <app-vehiclepopup [noneShow]="noneShow" [vehicleViewModel]="entityVehicle" (closeModalEvent)="c('close from Save')" (vehicleViewModelChange)="isAdd ? onSubmitVehicle($event) : onEditVehicle($event)"></app-vehiclepopup>
     </div>
 </ng-template>
 
