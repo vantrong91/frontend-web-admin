@@ -23,29 +23,6 @@
           </div>
         </div>
 
-        <div formArrayName="vehicleType" *ngFor="let vehicleT of vehicleType.controls; let i = index">
-          <div [formGroupName]="i">
-            <div class="form-group row mb-3">
-              <label class="col-sm-2 col-form-label text-md-right">Loại xe {{i+1}}</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="Loại xe" formControlName="vehicleTypeName" [ngClass]="{'mouse-hover': noneShow}">
-              </div>
-              <div class="col-sm-2">
-                <span>
-                  <button *ngIf="!noneShow" class="btn btn-outline-success mr-2" type="button" (click)="addVehicleType()">
-                    Add
-                  </button>
-                </span>
-                <span>
-                  <button class="btn btn-outline-danger" *ngIf="vehicleType.controls.length >1" type="button" (click)="subVehicleType(i)">
-                    Sub
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div formArrayName="route" *ngFor="let rou of route.controls; let i = index">
           <div [formGroupName]="i">
             <div class="form-group row mb-3">
@@ -84,15 +61,21 @@
           </div>
         </div>
         <!-- ========================================================================= -->
-
-        <!-- *ngIf="addEditForm.get('licence').errors" -->
-        <!-- [ngClass]="{'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}" -->
+		
         <div class="form-group row mb-3">
           <label for="Licence" class="col-sm-2 col-form-label text-md-right">Số đăng ký xe <span class="text-danger" *ngIf="addEditForm.get('licence').errors">*</span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="Licence" placeholder="Số đăng ký xe" formControlName="licence" tabindex="6" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}">
           </div>
-          <div class="col-sm-6">
+          <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="VehicleType" formControlName="vehicleType" tabindex="8"
+              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('vehicleType').touched || addEditForm.get('vehicleType').dirty) && !addEditForm.get('vehicleType').valid}">
+              <option value="" selected>&#45;&#45; Xe Công &#45;&#45;</option>
+              <option value="1">Xe Bán Tải</option>
+              <option value="2">Xe Con</option>
+              <option value="3">Xe Lăn</option>
+            </select>
           </div>
         </div>
         <!-- ========================================================================== -->

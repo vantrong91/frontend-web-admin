@@ -35,9 +35,6 @@ export class VehiclepopupComponent implements OnInit {
   get route(): FormArray {
     return <FormArray>this.addEditForm.get('route');
   }
-  get vehicleType(): FormArray {
-    return <FormArray>this.addEditForm.get('vehicleType');
-  }
 
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
@@ -61,7 +58,7 @@ export class VehiclepopupComponent implements OnInit {
       ownerId: '',
       vehicleCode: ['', [Validators.required]],
       route: this.formBuilder.array([this.buildRoute()]),
-      vehicleType: this.formBuilder.array([this.buildVehicleType()]),
+      vehicleType: [, [Validators.required]],,
       licencePlate: ['', [Validators.required]],
       weight: [, [Validators.required]],
       licence: ['', [Validators.required]],
@@ -199,6 +196,7 @@ export class VehiclepopupComponent implements OnInit {
       itineraryMonitoring: 'Test data',
       driverName: 'Hoang TV',
       driverId: 123,
+	  vehicleType: 1,
       state: 4,
       weight: 100,
       licenceIssueDate: '2018-01-01',
@@ -211,19 +209,6 @@ export class VehiclepopupComponent implements OnInit {
       itineraryMonitoringIssueDate: '2018-08-08',
       itineraryMonitoringExpDate: '2018-09-09'
     })
-  }
-  buildVehicleType(): FormGroup {
-    return this.formBuilder.group({
-      vehicleTypeName: '',
-    })
-  }
-
-  addVehicleType(){
-    this.vehicleType.push(this.buildVehicleType());
-  }
-
-  subVehicleType(i){
-    this.vehicleType.removeAt(i);
   }
 
   buildRoute(): FormGroup {
@@ -249,13 +234,6 @@ export class VehiclepopupComponent implements OnInit {
     this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
     this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
     this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
-
-    let vehicleTypeData = {};
-    let myVehicle = this.addEditForm.get('vehicleType').value;
-    for (let j = 0; j < myVehicle.length; j++) {
-      vehicleTypeData[j+1] = myVehicle[j].vehicleTypeName;
-    }
-    this._entity.vehicleType = vehicleTypeData;
 
     let routeData = {};
     let myRoute = this.addEditForm.get('route').value;
