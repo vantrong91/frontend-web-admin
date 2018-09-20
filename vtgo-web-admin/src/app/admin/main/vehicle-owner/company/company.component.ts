@@ -39,6 +39,14 @@ export class CompanyComponent implements OnInit {
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
+  bankList = [{
+    'bankCode': 'MBB',
+    'bankName': 'Ngân hàng quân đội'
+  },
+    {
+      'bankCode': 'VPB',
+      'bankName': 'Ngân hàng VPbank'
+    }];
   // Form Group
   public addEditForm: FormGroup;
   /* Ctor */

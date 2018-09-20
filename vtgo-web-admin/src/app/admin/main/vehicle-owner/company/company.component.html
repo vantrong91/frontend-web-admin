@@ -273,11 +273,14 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="custom-select" formControlName="branch" name="Branch" [attr.disabled]="noneShow ? 'disabled' : null">
-                  <option [value]="null">&#45;&#45; Chọn ngân hàng &#45;&#45;</option>
-                  <option [ngValue]="bank.branch">{{bank.branch}}</option>
+                <!--<select class="custom-select" formControlName="bankCode" name="bankCode" [attr.disabled]="noneShow ? 'disabled' : null">-->
+                  <!--<option [value]="null">&#45;&#45; Chọn ngân hàng &#45;&#45;</option>-->
+                  <!--<option [ngValue]="bank.bankCode">{{bank.bankCode}}</option>-->
+                <!--</select>-->
+                <select class="form-control" formControlName="bankCode" name="bankCode">
+                  <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
                 </select>
-                <input type="hidden" formControlName="branch" name="Branch" />
+                <input type="hidden" formControlName="bankCode" name="bankCode" />
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
               <div class="col-sm-4">
