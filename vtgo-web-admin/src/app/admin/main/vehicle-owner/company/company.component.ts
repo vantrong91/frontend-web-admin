@@ -38,12 +38,10 @@ export class CompanyComponent implements OnInit {
           return attachment;
         });
         company.attachProperties = attachments;
-        console.log(attachments);
         if (attachments && attachments.length > 0) {
           const attachmentGroups = attachments.map(attachment => {
             return this.formBuilder.group(attachment);
           });
-          console.log(attachmentGroups);
           const attachmenttArrays = this.formBuilder.array(attachmentGroups);
           this.addEditForm.setControl('attachProperties', attachmenttArrays);
         }

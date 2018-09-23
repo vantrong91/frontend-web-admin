@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PersonalViewModel} from '../../../../core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PersonalViewModel } from '../../../../core';
 
 @Component({
   selector: 'app-personal',
@@ -17,6 +17,27 @@ export class PersonalComponent implements OnInit {
     if (personal !== null || personal !== undefined) {
       this._entity = new PersonalViewModel();
       this._entity = personal;
+      if (personal && personal.bankAccountLst && personal.bankAccountLst.length > 0) {
+        const bankAccountLstGroups = personal.bankAccountLst.map((bankAccount: any) => {
+          return this.formBuilder.group(bankAccount);
+        });
+        const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
+        this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
+      }
+      if (personal && (personal.attachProperties !== undefined || personal.attachProperties !== null)) {
+        const attachments = Object.keys(personal.attachProperties).map(function (index) {
+          const attachment = personal.attachProperties[index];
+          return attachment;
+        });
+        personal.attachProperties = attachments;
+        if (attachments && attachments.length > 0) {
+          const attachmentGroups = attachments.map(attachment => {
+            return this.formBuilder.group(attachment);
+          });
+          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+        }
+      }
       this.addEditForm.reset(personal);
     } else {
       this.addEditForm.reset();
@@ -27,6 +48,14 @@ export class PersonalComponent implements OnInit {
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
+  bankList = [{
+    'bankCode': 'MBB',
+    'bankName': 'Ngân hàng quân đội'
+  },
+  {
+    'bankCode': 'VPB',
+    'bankName': 'Ngân hàng VPbank'
+  }];
   // Form Group
   public addEditForm: FormGroup;
 
@@ -59,12 +88,17 @@ export class PersonalComponent implements OnInit {
       vehicleOwnerType: new FormControl(''),
       bankAccountLst: new FormArray([this.initBankArray()]),
       address: this.initAddress(),
-      contactAddress: this.initContactAddress()
+      contactAddress: this.initContactAddress(),
+      attachProperties: new FormArray([this.initAttachProperties()])
     });
   }
 
   ngOnInit() {
-    console.log('Form', this.addEditForm.controls['bankAccountLst']);
+    if (this.noneShow) {
+      this.addEditForm.disable();
+    } else {
+      this.addEditForm.enable();
+    }
   }
 
   onSave(event) {
@@ -91,6 +125,13 @@ export class PersonalComponent implements OnInit {
       province: new FormControl(),
       householdNo: new FormControl(),
       wards: new FormControl()
+    });
+  }
+  initAttachProperties() {
+    return this.formBuilder.group({
+      attachCode: new FormControl(),
+      attachName: new FormControl(),
+      attachPath: new FormControl()
     });
   }
 

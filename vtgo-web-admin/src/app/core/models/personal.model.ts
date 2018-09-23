@@ -1,7 +1,8 @@
 export class PersonalViewModel {
 
   constructor() {
-    this.accountId = 0;
+    this.bankAccountLst = [];
+    this.attachProperties = [];
   }
   accountId: number;
   fullName: string;
@@ -29,5 +30,6 @@ export class PersonalViewModel {
   vehicleOwnerType: number;
   contactAddress: Map<string, string>;
   address: Map<string, string>;
-  attachProperties: Map<string, string>;
+  attachProperties: Array<any>;
+  bankAccountLst: Array<any>;
 }
