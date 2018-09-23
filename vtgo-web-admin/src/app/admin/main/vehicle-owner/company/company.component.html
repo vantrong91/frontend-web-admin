@@ -313,32 +313,39 @@
     </ngb-tab>
     <ngb-tab title="Hồ sơ đính kèm">
       <ng-template ngbTabContent>
-        <div class="form-group my-3">
-          <label class="col-sm-6">Đăng ký kinh doanh</label>
-          <div class="custom-file col-sm-6">
-            <input type="file" class="custom-file-input" id="inputGroupFile01">
-            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+        <div class="" [ngClass]="{'d-none': !noneShow}" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+          <div class="aa">
+            <a href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
           </div>
         </div>
-        <div class="form-group mb-3">
-          <label class="col-sm-6">Mẫu dấu công ty</label>
-          <div class="custom-file col-sm-6">
-            <input type="file" class="custom-file-input" id="inputGroupFile02">
-            <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+        <div class="" [ngClass]="{'d-none': noneShow}">
+          <div class="form-group my-3">
+            <label class="col-sm-6">Đăng ký kinh doanh</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" multiple (change)="fileChoseBusiness($event)">
+              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseBusinessLicense}}</label>
+            </div>
           </div>
-        </div>
-        <div class="form-group mb-3">
-          <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
-          <div class="custom-file col-sm-6">
-            <input type="file" class="custom-file-input" id="inputGroupFile03">
-            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          <div class="form-group mb-3">
+            <label class="col-sm-6">Mẫu dấu công ty</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile02" multiple (change)="fileCompanySeal($event)">
+              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseCompanySeal}}</label>
+            </div>
           </div>
-        </div>
-        <div class="form-group mb-3">
-          <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
-          <div class="custom-file col-sm-6">
-            <input type="file" class="custom-file-input" id="inputGroupFile04">
-            <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          <div class="form-group mb-3">
+            <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile03" multiple (change)="fileBusinessTransport($event)">
+              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseBusinessTransport}}</label>
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile04" multiple (change)="fileModerator($event)">
+              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseModerator}}</label>
+            </div>
           </div>
         </div>
       </ng-template>

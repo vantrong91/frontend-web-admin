@@ -13,6 +13,10 @@ import { MyFormatter } from '../../../../core/services/format-date.service';
 })
 export class CompanyComponent implements OnInit {
 
+  fileChoseBusinessLicense = 'Choose file';
+  fileChoseCompanySeal = 'Choose file';
+  fileChoseBusinessTransport = 'Choose file';
+  fileChoseModerator = 'Choose file';
   /* Private Vảiables */
   _entity: CompanyViewModel;
   /* Public Variables */
@@ -21,13 +25,28 @@ export class CompanyComponent implements OnInit {
     if (company !== null) {
       this._entity = new CompanyViewModel();
       this._entity = company;
-      console.log('company', company);
       if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
-        const bankAccountLstGroups = company.bankAccountLst.map(bankAccount => {
+        const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
           return this.formBuilder.group(bankAccount);
         });
         const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
         this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
+      }
+      if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
+        const attachments = Object.keys(company.attachProperties).map(function (index) {
+          const attachment = company.attachProperties[index];
+          return attachment;
+        });
+        company.attachProperties = attachments;
+        console.log(attachments);
+        if (attachments && attachments.length > 0) {
+          const attachmentGroups = attachments.map(attachment => {
+            return this.formBuilder.group(attachment);
+          });
+          console.log(attachmentGroups);
+          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+        }
       }
       this.addEditForm.reset(company);
     } else {
@@ -43,10 +62,10 @@ export class CompanyComponent implements OnInit {
     'bankCode': 'MBB',
     'bankName': 'Ngân hàng quân đội'
   },
-    {
-      'bankCode': 'VPB',
-      'bankName': 'Ngân hàng VPbank'
-    }];
+  {
+    'bankCode': 'VPB',
+    'bankName': 'Ngân hàng VPbank'
+  }];
   // Form Group
   public addEditForm: FormGroup;
   /* Ctor */
@@ -79,7 +98,7 @@ export class CompanyComponent implements OnInit {
       bankAccountLst: new FormArray([this.initBankArray()]),
       address: this.initAddress(),
       contactAddress: this.initContactAddress(),
-      attachProperties: this.initAttachProperties(),
+      attachProperties: new FormArray([this.initAttachProperties()])
     });
   }
 
@@ -142,6 +161,30 @@ export class CompanyComponent implements OnInit {
       street: new FormControl(),
       wards: new FormControl()
     });
+  }
+
+  fileEvent(event) {
+    const getFiles = event.target.files;
+    if (getFiles.length !== null) {
+      if (getFiles.length === 1) {
+        return getFiles[0].name;
+      } else {
+        return 'So file da chon ' + getFiles.length + '(hover mouse watch name file)';
+      }
+    }
+  }
+  fileChoseBusiness(event) {
+    this.fileChoseBusinessLicense = this.fileEvent(event);
+  }
+
+  fileCompanySeal(event) {
+    this.fileChoseCompanySeal = this.fileEvent(event);
+  }
+  fileBusinessTransport(event) {
+    this.fileChoseBusinessTransport = this.fileEvent(event);
+  }
+  fileModerator(event) {
+    this.fileChoseModerator = this.fileEvent(event);
   }
 
   setDate(): void {
