@@ -157,7 +157,7 @@
               formControlName="businessLicense">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
           <div class="col-sm-4">
             <div class="form-group">
@@ -185,7 +185,7 @@
               formControlName="businessTransportLicense">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label for="TranLicIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
           <div class="col-sm-4">
             <div class="form-group">
@@ -227,7 +227,7 @@
               formControlName="moderatorLicense">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label for="ModLicIssDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
           <div class="col-sm-4">
             <div class="form-group">
@@ -273,7 +273,7 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="form-control" formControlName="bankCode" name="bankCode" [attr.disabled]="noneShow ? 'disabled' : null">
+                <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}" [attr.disabled]="noneShow ? 'disabled' : null">
                   <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
                 </select>
                 <input type="hidden" formControlName="bankCode" name="bankCode" />
@@ -292,7 +292,7 @@
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
               <div class="col-sm-4">
-                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null" [ngClass]="{'mouse-hover': noneShow}">
                   <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
                   <option value="1">Vietcombank</option>
                   <option value="2">MBBank</option>
@@ -313,7 +313,7 @@
           <div class="form-group">
             <label class="col-sm-6">Đăng ký kinh doanh</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='DKKD' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode ==='DKKD'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -321,7 +321,7 @@
           <div class="form-group">
             <label class="col-sm-6">Mẫu dấu công ty</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='DAUCT' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'DAUCT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -329,7 +329,7 @@
           <div class="form-group">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='GPKDVT' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'GPKDVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -337,7 +337,7 @@
           <div class="form-group">
             <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='GPDHVT' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'GPDHVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>

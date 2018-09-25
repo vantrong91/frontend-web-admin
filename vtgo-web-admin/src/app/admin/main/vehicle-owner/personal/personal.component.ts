@@ -1,13 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalViewModel } from '../../../../core';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { MyFormatter } from '../../../../core/services/format-date.service';
 
 @Component({
   selector: 'app-personal',
   templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.scss']
+  styleUrls: ['./personal.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: MyFormatter }]
 })
 export class PersonalComponent implements OnInit {
+  fileChoseRegistrationBook = 'Choose file';
+  fileChosePassport = 'Choose file';
+  fileChoseTransportationBusiness = 'Choose file';
+  fileChoseTransportOperator = 'Choose file';
   /* Private Vảiables */
   _entity: PersonalViewModel;
 
@@ -157,6 +164,29 @@ export class PersonalComponent implements OnInit {
         }
       }
     });
+  }
+  // file
+  fileEvent(event) {
+    const getFiles = event.target.files;
+    if (getFiles.length !== null) {
+      if (getFiles.length === 1) {
+        return getFiles[0].name;
+      } else {
+        return 'So file da chon ' + getFiles.length + '(hover mouse watch name file)';
+      }
+    }
+  }
+  fileRegistrationBook(event) {
+    this.fileChoseRegistrationBook = this.fileEvent(event);
+  }
+  filePassport(event) {
+    this.fileChosePassport = this.fileEvent(event);
+  }
+  fileTransportationBusiness(event) {
+    this.fileChoseTransportationBusiness = this.fileEvent(event);
+  }
+  fileTransportOperator(event) {
+    this.fileChoseTransportOperator = this.fileEvent(event);
   }
 
   onAddBankGroup(event) {

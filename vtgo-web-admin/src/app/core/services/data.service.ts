@@ -1,20 +1,20 @@
-import {Inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ConfigService} from '../services/config.service';
-import {IAuthenServiceToken} from '../tokens/authen.service.token';
-import {IAuthenService} from '../interfaces/iauthen.service';
-import {ErrorHandle} from '../models/handleError';
-import {IDataService} from '../interfaces/idata.service';
-import {AuthenService} from './authen.service';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ConfigService } from '../services/config.service';
+import { IAuthenServiceToken } from '../tokens/authen.service.token';
+import { IAuthenService } from '../interfaces/iauthen.service';
+import { ErrorHandle } from '../models/handleError';
+import { IDataService } from '../interfaces/idata.service';
+import { AuthenService } from './authen.service';
 
 @Injectable()
-export class DataService{
+export class DataService {
   private header: HttpHeaders;
 
   constructor(private http: HttpClient,
-              private configuration: ConfigService,
-              @Inject(IAuthenServiceToken) private authenService: IAuthenService) {
+    private configuration: ConfigService,
+    @Inject(IAuthenServiceToken) private authenService: IAuthenService) {
     this.header = new HttpHeaders();
     this.header = this.header.append('Content-Type', 'application/json');
   }
@@ -25,7 +25,7 @@ export class DataService{
       this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
     }
     const urlGet = this.configuration.getConfiguration().BASE_API + url;
-    return this.http.get(urlGet, {headers: this.header});
+    return this.http.get(urlGet, { headers: this.header });
   }
 
   Post(url: string, model?: any): Observable<any> {
@@ -34,7 +34,7 @@ export class DataService{
       this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
     }
     const urlPost = this.configuration.getConfiguration().BASE_API + url;
-    return this.http.post(urlPost, model, {headers: this.header});
+    return this.http.post(urlPost, model, { headers: this.header });
 
   }
 
@@ -44,7 +44,7 @@ export class DataService{
       this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
     }
     const urlPut = this.configuration.getConfiguration().BASE_API + url;
-    return this.http.put(urlPut, model, {headers: this.header});
+    return this.http.put(urlPut, model, { headers: this.header });
   }
 
   Delete(url: string): Observable<any> {
@@ -53,7 +53,7 @@ export class DataService{
       this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
     }
     const urlDelete = this.configuration.getConfiguration().BASE_API + url;
-    return this.http.delete(urlDelete, {headers: this.header});
+    return this.http.delete(urlDelete, { headers: this.header });
   }
 
   getFile(url: string) {
@@ -65,7 +65,7 @@ export class DataService{
   }
 
   postDownload(url: string, data?: any) {
-    //const entity = Object.assign({staffLoginId: this.authenService.GetCurrentUser().staffId}, data);
+    // const entity = Object.assign({staffLoginId: this.authenService.GetCurrentUser().staffId}, data);
     return this.http
       .post(this.configuration.getConfiguration().BASE_API + url, {}, {
         headers: this.header,

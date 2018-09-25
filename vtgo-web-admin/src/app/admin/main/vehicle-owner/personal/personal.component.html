@@ -6,36 +6,46 @@
         <div class="form-group row my-3">
           <label for="FullName" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="FullName" placeholder="Họ tên"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="FullName" placeholder="Họ tên"
               name="FullName" formControlName="fullName" tabindex="1">
           </div>
           <label for="Nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="Nationality" placeholder="Quốc tịch"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Nationality" placeholder="Quốc tịch"
               formControlName="nationality" tabindex="2">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label for="LicenseNo" class="col-sm-2 col-form-label text-md-right">Số giấy tờ<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="LicenseNo" placeholder="Số giây tờ"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="LicenseNo" placeholder="Số giây tờ"
               formControlName="licenseNo" tabindex="3">
           </div>
           <label for="IssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input class="form-control" [ngClass]="{'d-none': !noneShow}" id="IssueDate" placeholder="Ngày cấp"
-              formControlName="issueDate" [dpDayPicker]="datePickerConfig" tabindex="4">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                  ngbDatepicker #isdate="ngbDatepicker" formControlName="issueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="isdate.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-group row mb-3">
           <label for="IssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="IssueBy" placeholder="Nơi cấp"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="IssueBy" placeholder="Nơi cấp"
               formControlName="issueBy" tabindex="5">
           </div>
           <label for="Gender" class="col-sm-2 col-form-label text-md-right">Giới tính<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <select class="custom-select" [ngClass]="{'d-none': !noneShow}" id="Gender" tabindex="6" [attr.disabled]="noneShow ? 'disabled' : null">
+            <select class="custom-select" [ngClass]="{'mouse-hover': noneShow}" id="Gender" tabindex="6"
+              [attr.disabled]="noneShow ? 'disabled' : null">
               <option selected>&#45;&#45; Chọn giới tính &#45;&#45;</option>
               <option value="1">Nam</option>
               <option value="2">Nữ</option>
@@ -45,36 +55,36 @@
         <div class="form-group row mb-3">
           <label for="Ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="Ethnic" placeholder="Dân tộc"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Ethnic" placeholder="Dân tộc"
               tabindex="7" formControlName="ethnic">
           </div>
           <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="ContactPhone" placeholder="Số điện thoại"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPhone" placeholder="Số điện thoại"
               formControlName="contactPhone" tabindex="8">
           </div>
         </div>
         <div class="form-group row mb-3">
           <label for="Email" class="col-sm-2 col-form-label text-md-right">Email<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="Email" class="form-control" [ngClass]="{'d-none': !noneShow}" id="Email" placeholder="Email"
+            <input type="Email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Email" placeholder="Email"
               formControlName="email" tabindex="9">
           </div>
           <label for="ContactPn" class="col-sm-2 col-form-label text-md-right">Họ và tên<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="ContactPn" placeholder="Họ tên người liên hệ"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPn" placeholder="Họ tên người liên hệ"
               formControlName="contactPerson" tabindex="10">
           </div>
         </div>
         <div class="form-group row mb-3">
           <label class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="SĐT người liên hệ"
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="SĐT người liên hệ"
               formControlName="contactPersonPhone" tabindex="11">
           </div>
           <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Email<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="email" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Email người liên hệ"
+            <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Email người liên hệ"
               formControlName="contactPersonEmail" tabindex="12">
           </div>
         </div>
@@ -84,31 +94,31 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Quốc gia"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
                 formControlName="country" tabindex="11">
             </div>
             <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Tỉnh/Thành phố"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
                 formControlName="province" tabindex="12">
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Quận/Huyện"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
                 formControlName="district" tabindex="11">
             </div>
             <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Phường/Xã"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Phường/Xã"
                 formControlName="wards" tabindex="12">
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Sổ hộ khẩu</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Số sổ hộ khẩu"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Số sổ hộ khẩu"
                 formControlName="householdNo" tabindex="11">
             </div>
           </div>
@@ -119,31 +129,31 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Quốc gia"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
                 formControlName="country" tabindex="11">
             </div>
             <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="email" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Tỉnh/Thành phố"
+              <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
                 formControlName="province" tabindex="12">
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Quận/Huyện"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
                 formControlName="district" tabindex="11">
             </div>
             <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" id="ContactPnEmail" placeholder="Phường/Xã"
-                formControlName="wards" tabindex="12">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPnEmail"
+                placeholder="Phường/Xã" formControlName="wards" tabindex="12">
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Số nhà/đường</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" placeholder="Số nhà/đường"
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Số nhà/đường"
                 formControlName="street" tabindex="11">
             </div>
           </div>
@@ -164,7 +174,7 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="form-control" [ngClass]="{'d-none': !noneShow}" formControlName="bankCode" name="bankCode"
+                <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" formControlName="bankCode" name="bankCode"
                   [attr.disabled]="noneShow ? 'disabled' : null">
                   <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
                 </select>
@@ -172,14 +182,14 @@
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" [ngClass]="{'mouse-hover': noneShow}"
+                <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" [ngClass]="{'mouse-hover': noneShow}"
                   placeholder="Số tài khoản" formControlName="accountNumber" name="accountNumber" [attr.disabled]="noneShow ? 'disabled' : null">
               </div>
             </div>
             <div class="form-group row mb-3">
               <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" [ngClass]="{'d-none': !noneShow}" [ngClass]="{'mouse-hover': noneShow}"
+                <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" [ngClass]="{'mouse-hover': noneShow}"
                   placeholder="Người thụ hưởng" formControlName="ownerName" [attr.disabled]="noneShow ? 'disabled' : null">
               </div>
               <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
@@ -205,7 +215,7 @@
           <div class="form-group">
             <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode === 'SHK' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'SHK'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -214,7 +224,7 @@
             <label class="col-sm-6">Chứng minh thu/Hộ chiếu/Thẻ căn cước công dân của chủ xe(chụp 2 mặt của giấy tờ)
             </label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode === 'CMND' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'CMND'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -222,7 +232,7 @@
           <div class="form-group">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode === 'GPKDVT' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'GPKDVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -230,7 +240,7 @@
           <div class="form-group">
             <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode === 'GPDHVT' ? 'd-block' : 'd-none'">
                 <a *ngIf="attach.attachCode === 'GPDHVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
               </div>
             </div>
@@ -240,28 +250,28 @@
           <div class="form-group my-3">
             <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
             <div class="custom-file col-sm-6">
-              <input type="file" class="custom-file-input" id="inputGroupFile01">
-              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+              <input type="file" class="custom-file-input" id="inputGroupFile01" multiple (change)="fileRegistrationBook($event)">
+              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseRegistrationBook}}</label>
             </div>
             <label class="col-sm-6">Chứng minh thu/Hộ chiếu/Thẻ căn cước công dân của chủ xe(chụp 2 mặt của giấy tờ)
             </label>
             <div class="custom-file col-sm-6">
-              <input type="file" class="custom-file-input" id="inputGroupFile02">
-              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">Choose file</label>
+              <input type="file" class="custom-file-input" id="inputGroupFile02" multiple (change)="filePassport($event)">
+              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChosePassport}}</label>
             </div>
           </div>
           <div class="form-group mb-3">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
             <div class="custom-file col-sm-6">
-              <input type="file" class="custom-file-input" id="inputGroupFile03">
-              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+              <input type="file" class="custom-file-input" id="inputGroupFile03" multiple (change)="fileTransportationBusiness($event)">
+              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseTransportationBusiness}}</label>
             </div>
           </div>
           <div class="form-group mb-3">
             <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
             <div class="custom-file col-sm-6">
-              <input type="file" class="custom-file-input" id="inputGroupFile04">
-              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">Choose file</label>
+              <input type="file" class="custom-file-input" id="inputGroupFile04" multiple (change)="fileTransportOperator($event)">
+              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseTransportOperator}}</label>
             </div>
           </div>
         </div>
@@ -280,11 +290,20 @@
               tabindex="13">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
           <div class="col-sm-4">
-            <input class="form-control" placeholder="Ngày cấp" formControlName="businessLicenseIssueDate" tabindex="15"
-              [dpDayPicker]="datePickerConfig">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                  ngbDatepicker #blid="ngbDatepicker" formControlName="businessLicenseIssueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="blid.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <label class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
           <div class="col-sm-4">
@@ -304,12 +323,23 @@
               tabindex="17">
           </div>
         </div>
-        <div class="form-group row mb-3">
+        <div class="row mb-1">
           <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
           <div class="col-sm-4">
-            <input class="form-control" id="BusiLicIssDate" placeholder="Ngày cấp" formControlName="moderatorLicenseIssueDate"
-              [dpDayPicker]="datePickerConfig">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                  ngbDatepicker #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="mlid.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="form-group row mb-3">
           <label class="col-sm-2 col-form-label text-md-right">Nơi cấp</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="Mod" placeholder="Nơi cấp" formControlName="moderatorLicenseExpDate"
