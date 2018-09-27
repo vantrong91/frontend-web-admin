@@ -273,7 +273,8 @@
             <div class="form-group row my-3">
               <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
               <div class="col-sm-4">
-                <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}" [attr.disabled]="noneShow ? 'disabled' : null">
+                <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}"
+                  [attr.disabled]="noneShow ? 'disabled' : null">
                   <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
                 </select>
                 <input type="hidden" formControlName="bankCode" name="bankCode" />
@@ -309,7 +310,7 @@
     </ngb-tab>
     <ngb-tab title="Hồ sơ đính kèm">
       <ng-template ngbTabContent>
-        <div [ngClass]="{'d-none': !noneShow}">
+        <div class="mt-2" [ngClass]="{'d-none': !noneShow}">
           <div class="form-group">
             <label class="col-sm-6">Đăng ký kinh doanh</label>
             <div class="row ml-1">
@@ -343,30 +344,50 @@
             </div>
           </div>
         </div>
-        <div [ngClass]="{'d-none': noneShow}">
-          <div class="form-group my-3">
+        <div class="mt-2" [ngClass]="{'d-none': noneShow}">
+          <div class="form-group">
             <label class="col-sm-6">Đăng ký kinh doanh</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='DKKD' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode ==='DKKD'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
             <div class="custom-file col-sm-6">
               <input type="file" class="custom-file-input" id="inputGroupFile01" multiple (change)="fileChoseBusiness($event)">
               <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseBusinessLicense}}</label>
             </div>
           </div>
-          <div class="form-group mb-3">
+          <div class="form-group">
             <label class="col-sm-6">Mẫu dấu công ty</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='DAUCT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'DAUCT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
             <div class="custom-file col-sm-6">
               <input type="file" class="custom-file-input" id="inputGroupFile02" multiple (change)="fileCompanySeal($event)">
               <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseCompanySeal}}</label>
             </div>
           </div>
-          <div class="form-group mb-3">
+          <div class="form-group">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='GPKDVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPKDVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
             <div class="custom-file col-sm-6">
               <input type="file" class="custom-file-input" id="inputGroupFile03" multiple (change)="fileBusinessTransport($event)">
               <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseBusinessTransport}}</label>
             </div>
           </div>
-          <div class="form-group mb-3">
+          <div class="form-group">
             <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;" [ngClass]="attach.attachCode ==='GPDHVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPDHVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
             <div class="custom-file col-sm-6">
               <input type="file" class="custom-file-input" id="inputGroupFile04" multiple (change)="fileModerator($event)">
               <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseModerator}}</label>
