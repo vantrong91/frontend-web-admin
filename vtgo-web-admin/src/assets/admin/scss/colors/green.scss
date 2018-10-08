@@ -6,9 +6,9 @@ File: scss
 */
 
 @import '../variable';
-$themecolor: #55ce63;
+$themecolor: #509b34;
 $themecolor-dark: #028ee1;
-$topbar: #55ce63;
+$topbar: #509b34;
 
 /*******************
 /*Top bar
@@ -17,11 +17,11 @@ $topbar: #55ce63;
 .topbar {
     background: #0178bc;
     /* Old browsers */
-    background: -moz-linear-gradient(left, #318f94 0%, #5ec58c 100%);
+    background: -moz-linear-gradient(left, #509b34 0%, #55ce63 100%);
     /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #318f94 0%, #5ec58c 100%);
+    background: -webkit-linear-gradient(left, #509b34 0%, #55ce63 100%);
     /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #318f94 0%, #5ec58c 100%);
+    background: linear-gradient(to right, #509b34 0%, #55ce63 100%);
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     .navbar-header {
         background: $white;

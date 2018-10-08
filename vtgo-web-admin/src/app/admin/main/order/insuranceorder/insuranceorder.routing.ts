@@ -5,8 +5,8 @@ import { InsuranceorderComponent } from './insuranceorder.component';
 const routes: Routes = [
   {
     path: '', component: InsuranceorderComponent, data: {
-      title: 'Insurance Order Page',
-      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Đơn hàng bảo hiểm hàng hóa'}]
+      title: 'VTGO Bảo hiểm hàng hóa',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Đơn hàng bảo hiểm hàng hóa'}]
     }
   }
 ];

@@ -5,7 +5,7 @@ import { BalanceHisComponent } from './balance-his.component';
 const routes: Routes = [
   {
     path: '', component: BalanceHisComponent, data: {
-      title: 'Balance History',
+      title: 'VTGO Lịch sử giao dịch',
       urls: [{ title: 'Main', url: '/admin/main' }, { title: 'Lịch sử giao dịch' }]
     }
   }

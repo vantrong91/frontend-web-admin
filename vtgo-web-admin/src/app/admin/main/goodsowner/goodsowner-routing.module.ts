@@ -4,8 +4,8 @@ import { GoodsOwnerComponent } from './goodsowner.component';
 const routes: Routes = [
   {
     path: '', component: GoodsOwnerComponent, data: {
-      title: 'Goodsowner Page',
-      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'GoodsOwner'}]
+      title: 'VTGO Chủ hàng',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Chủ hàng'}]
     }
 
   }
