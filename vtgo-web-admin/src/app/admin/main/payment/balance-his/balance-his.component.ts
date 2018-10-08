@@ -7,18 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BalanceHisComponent implements OnInit {
     toShow = 5;
-    
+
     constructor() { }
 
     ngOnInit() {
     }
 
-    changeShow(el){
-        this.toShow = el;
+    changeShow(el) {
+        if (el !== 0) {
+            this.toShow = el;
+        }
+        else {
+            this.toShow = undefined;
+        }
         console.log(this.toShow);
     }
 
-    search(event){
+    search(event) {
 
     }
 

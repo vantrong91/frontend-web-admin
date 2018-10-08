@@ -5,8 +5,8 @@ import { OrderListComponent } from './orderlist.component';
 const routes: Routes = [
   {
     path: '', component: OrderListComponent, data: {
-      title: 'Order List',
-      urls: [{ title: 'Main', url: '/admin/main' }, { title: 'Danh sách đơn hàng' }]
+      title: 'VTGO Đơn hàng',
+      urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Danh sách đơn hàng' }]
     }
   }
 ];

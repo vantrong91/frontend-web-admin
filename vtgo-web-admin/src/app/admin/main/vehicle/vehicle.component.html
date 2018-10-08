@@ -17,7 +17,7 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Phương tiện vận tải</div>
-    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listVehicle' [columns]="columns" [columnMode]='"force"' [headerHeight]='50'
+    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listVehicle' [columnMode]='"force"' [headerHeight]='50'
       [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #vehicleTable [externalSorting]="true" [sorts]="[{prop: 'vehicleId', dir: 'desc'}]">
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>

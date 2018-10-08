@@ -52,7 +52,12 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   }
 
   changeShow(el) {
-    this.toShow = el;
+    if(el !== 0){
+      this.toShow = el;
+    }else{
+      this.toShow = undefined;
+    }
+    
     console.log(this.toShow);
   }
 

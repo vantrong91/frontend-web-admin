@@ -9,14 +9,14 @@
 <div class="row">
 	<div class="col text-right">
 		<div ngbDropdown class="d-inline-block">
-			<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+			<button class="btn btn-outline-success" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
 				{{toShow==undefined?'Tất cả':toShow}}</button>
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 				<button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>
 				<button class="dropdown-item" (click)="changeShow(10)"><span class="mdi mdi-eye"></span> 10</button>
 				<button class="dropdown-item" (click)="changeShow(20)"><span class="mdi mdi-eye"></span> 20</button>
 				<button class="dropdown-item" (click)="changeShow(50)"><span class="mdi mdi-eye"></span> 50</button>
-				<button class="dropdown-item" (click)="changeShow()"><span class="mdi mdi-eye"></span> Tất cả</button>
+				<button class="dropdown-item" (click)="changeShow(0)"><span class="mdi mdi-eye"></span> Tất cả</button>
 			</div>
 		</div>
 	</div>

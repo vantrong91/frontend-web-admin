@@ -4,8 +4,8 @@ import { BalanceComponent } from './balance.component';
 const routes: Routes = [
   {
     path: '', component: BalanceComponent, data: {
-      title: 'Balance',
-      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Balance'}]
+      title: 'VTGO Ví tài khoản',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Ví'}]
     }
 
   }

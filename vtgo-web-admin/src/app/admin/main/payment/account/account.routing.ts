@@ -5,8 +5,8 @@ import { AccountComponent} from './account.component';
 const routes: Routes = [
     {
         path: '', component: AccountComponent, data: {
-            title: 'Account Page',
-            urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Tài khoản'}]
+            title: 'VTGO Tài khoản',
+            urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Tài khoản'}]
         }
     }
 ];

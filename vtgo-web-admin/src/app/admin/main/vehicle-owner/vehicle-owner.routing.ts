@@ -5,8 +5,8 @@ import { VehicleOwnerComponent } from './vehicle-owner.component';
 const routes: Routes = [
   {
     path: '', component: VehicleOwnerComponent, data: {
-      title: 'VehicleOwner Page',
-      urls: [{ title: 'Main', url: '/admin/main' }, { title: 'Chủ xe' }]
+      title: 'Chủ phương tiện',
+      urls: [{ title: 'Thông tin người dùng', url: '/admin/main' }, { title: 'Chủ phương tiện' }]
     }
   }
 ];

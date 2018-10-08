@@ -4,8 +4,8 @@ import { QuotationComponent } from './quotation.component';
 const routes: Routes = [
   {
     path: '', component: QuotationComponent, data: {
-      title: 'Quotation',
-      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Báo giá'}]
+      title: 'VTGO Báo giá',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Báo giá'}]
     }
 
   }
