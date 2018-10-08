@@ -1,7 +1,6 @@
 import { DriverViewModel } from './driver-model/driver.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { DriverSearch } from './driver-model/driver-search.model';
 import { DataService } from '../../../core/services/data.service';
 import { AuthenService } from '../../../core/services/authen.service';
 import { enterView } from '@angular/core/src/render3/instructions';
@@ -17,18 +16,25 @@ import { ToastrService } from 'ngx-toastr';
 export class DriverComponent implements OnInit {
     @ViewChild('myTable') table: any;
     expanded: any = {};
-    toggleExpandRow(row) {
-        // console.log('Toggled Expand Row!', row);
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-    onDetailToggle(event) {
-        //console.log('Detail Toggled', event);
-    }
     isAdd = false;
     rows: any = '';
     closeResult: string;
-    searchParam: DriverSearch;
+    searchParam: ' ';
     _entityDriver: DriverViewModel;
+
+    keyArr = [];
+    toggleExpandRow(row) {
+        // console.log('Toggled Expand Row!', row);
+        // this.keyArr.length = 0;
+        this.table.rowDetail.collapseAllRows();
+        this.table.rowDetail.toggleExpandRow(row);
+        this.keyArr = Object.keys(row.attachProperties);
+    }
+    onDetailToggle(event) {
+        // console.log('Detail Toggled', event);
+    }
+
+
     constructor(private modalServices: NgbModal,
         private dataService: DataService,
         private toastr: ToastrService,
@@ -40,15 +46,13 @@ export class DriverComponent implements OnInit {
         this.loadData();
     }
     loadData() {
-        this.searchParam = new DriverSearch();
-        this.searchParam.searchParam = '';
-        this.search(this.searchParam);
+        let search = '{}';
+        this.search(search);
     }
 
     search(search) {
         this.dataService.Post('driver/search', search).subscribe(
             response => {
-                // console.log('-- response:');
                 console.log(response);
                 if (response.status === 0) {
                     this.rows = response.data;
@@ -62,7 +66,11 @@ export class DriverComponent implements OnInit {
         //     this.search(this.searchParam);
         //     event.target.select();
         // }
-        this.search(this.searchParam);
+        console.log(this.searchParam);
+        if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
+            this.search('{}');
+        else
+            this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
     }
 
     open(ele) {
@@ -120,26 +128,26 @@ export class DriverComponent implements OnInit {
                         case 'PhoneNumber was existed':
                             this.toastr.clear();
                             this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
-                        {
-                            closeButton:true,
-                            disableTimeOut: true
-                        });
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
                             break;
                         case 'Email was existed':
                             this.toastr.clear();
                             this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
-                            {
-                                closeButton:true,
-                                disableTimeOut: true
-                            });
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
                             break;
                         default:
                             this.toastr.clear();
                             this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
-                            {
-                                closeButton:true,
-                                disableTimeOut: true
-                            });
+                                {
+                                    closeButton: true,
+                                    disableTimeOut: true
+                                });
                     }
                 }
             }
@@ -151,12 +159,13 @@ export class DriverComponent implements OnInit {
         console.log(this._entityDriver);
     }
     onEditDriver(event) {
+        // delete event.attachProperties;
+        // console.log(event);
         this.dataService.Post('driver/update', event).subscribe(
             response => {
                 console.log(response);
                 if (response.message === "Successful") {
                     this.loadData();
-
                     this.toastr.info("Chỉnh sửa thành công!", "Thông báo...");
                 }
                 else {

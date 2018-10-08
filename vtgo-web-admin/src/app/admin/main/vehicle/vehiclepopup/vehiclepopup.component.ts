@@ -1,139 +1,296 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { VehicleViewModel } from '../../../../core';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { MyFormatter } from '../../../../core/services/format-date.service';
+import { FileUploader } from 'ng2-file-upload';
 
 
 @Component({
   selector: 'app-vehiclepopup',
   templateUrl: './vehiclepopup.component.html',
-  styleUrls: ['./vehiclepopup.component.scss']
+  styleUrls: ['./vehiclepopup.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: MyFormatter }]
 })
 export class VehiclepopupComponent implements OnInit {
-
   _entity: VehicleViewModel;
   snackbar: any;
-  strIssueDate: any;
+  uri = '..DKYXE/';
+
+  uploader: FileUploader = new FileUploader({ url: this.uri });
+  attachmentList: any = [];
+  uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
+  attachmentDKYXE: any = [];
+  uploaderDKIEMXE: FileUploader = new FileUploader({ url: 'DKIEMXE' });
+  attachmentDKIEMXE: any = [];
+  uploaderBHDS: FileUploader = new FileUploader({ url: 'BHDS' });
+  attachmentBHDS: any = [];
+  uploaderBHHH: FileUploader = new FileUploader({ url: 'BHHH' });
+  attachmentBHHH: any = [];
+  uploaderGSHT: FileUploader = new FileUploader({ url: 'GSHT' });
+  attachmentGSHT: any = [];
+
   public addEditForm: FormGroup;
-  isShow = true;
 
   get route(): FormArray {
     return <FormArray>this.addEditForm.get('route');
   }
-  datePickerConfig = {
-    format: 'DD/MM/YYYY'
-  };
+  // get vehicleType(): FormArray {
+  //   return <FormArray>this.addEditForm.get('vehicleType');
+  // }
 
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
-    if (vehiclepopup !== undefined) {
+    if (vehiclepopup !== null) {
       this._entity = new VehicleViewModel();
-
+      this.resetFormData();
       this._entity = vehiclepopup;
+      console.log("JSON", vehiclepopup);
+      if(vehiclepopup.route !== null && vehiclepopup.route !== undefined){
+        const attachments = Object.keys(vehiclepopup.route).map(function (index){
+          const attachment = vehiclepopup.route[index];
+          console.log("a", attachment);
+          return attachment;
+        });
+        vehiclepopup.route = '';
+        let ahihi =[];
+        ahihi.push({routeName: attachments})
+        vehiclepopup.route = ahihi;
+        console.log(vehiclepopup);
+      }    
+      
+      if (vehiclepopup && (vehiclepopup.attachProperties !== undefined && vehiclepopup.attachProperties !== null)) {
+        const attachments = Object.keys(vehiclepopup.attachProperties).map(function (index) {
+          const attachment = vehiclepopup.attachProperties[index];
+          console.log("aa",attachment);
+          return attachment;
+        });
+        vehiclepopup.attachProperties = attachments;
+        if (attachments && attachments.length > 0) {
+          const attachmentGroups = attachments.map(attachment => {
+            return this.formBuilder.group(attachment);
+          });
+          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+        }
+      }
+
       this.addEditForm.reset(vehiclepopup);
-
-      console.log('onEdit');
     } else {
-      this.addEditForm.clearValidators();
-      console.log('onreset');
+      this.addEditForm.reset();
     }
-  }
-
+  };
+  @Input() noneShow: boolean;
+  @Output() closeModalEvent = new EventEmitter<any>();
   @Output() vehicleViewModelChange = new EventEmitter<VehicleViewModel>();
-
 
   constructor(private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
-      userId: '',
       vehicleId: '',
       ownerId: '',
       vehicleCode: ['', [Validators.required]],
-      route: '',
-      //VehicleType: new FormControl(''),
+      route: this.formBuilder.array([this.buildRoute()]),
+      vehicleType: ['', Validators.required],
       licencePlate: ['', [Validators.required]],
-      //Weight: new FormControl(''),
-      licence: ['',[Validators.required]],
-      licenceIssueDate: '',
-      licenceIssueBy: '1',
+      weight: [, [Validators.required]],
+      licence: ['', [Validators.required]],
+      licenceIssueDate: ['', [Validators.required]],
+      licenceIssueBy: ['-1', [Validators.required]],
       registrationNo: ['', [Validators.required]],
-      registrationIssueDate: new FormControl(''),
-      registrationExpDate: new FormControl(''),
-      civilInsurance: new FormControl(''),
-      civilInsuranceIssueDate: new FormControl(''),
-
-      civilInsuranceExpDate: new FormControl(''),
-      cargoInsurance: new FormControl(''),
-      cargoInsuranceIssueDate: new FormControl(''),
-      cargoInsuranceExpDate: new FormControl(''),
-      itineraryMonitoring: new FormControl(''),
-      itineraryMonitoringIssueDate: new FormControl(''),
-      itineraryMonitoringExpDate: new FormControl(''),
-      //AttachProp: new FormControl(''),
-      state: new FormControl(''),
-      driverId: new FormControl(''),
-      driverName: new FormControl(''),
+      registrationIssueDate: ['', [Validators.required]],
+      registrationExpDate: ['', [Validators.required]],
+      civilInsurance: ['', [Validators.required]],
+      civilInsuranceIssueDate: ['', [Validators.required]],
+      civilInsuranceExpDate: ['', [Validators.required]],
+      cargoInsurance: '',
+      cargoInsuranceIssueDate: '',
+      cargoInsuranceExpDate: '',
+      itineraryMonitoring: '',
+      itineraryMonitoringIssueDate: '',
+      itineraryMonitoringExpDate: '',
+      attachProperties: new FormData(),
+      state: new FormControl('-- Trạng thái --'),
+      driverId: '',
+      driverName: '',
       //password: new FormControl(''),
-    })
+    });
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentList.push(JSON.parse(response));
+    };
+    this.uploaderDKYXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentDKYXE.push(JSON.parse(response));
+    };
+    this.uploaderDKIEMXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentDKIEMXE.push(JSON.parse(response));
+    };
+    this.uploaderBHDS.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentBHDS.push(JSON.parse(response));
+    };
+    this.uploaderBHHH.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentBHHH.push(JSON.parse(response));
+    };
+    this.uploaderGSHT.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.attachmentGSHT.push(JSON.parse(response));
+    };
   }
 
   ngOnInit() {
+    if(this.noneShow){
+      this.addEditForm.disable();
+    } else {
+      this.addEditForm.enable();
+    }
+  }
+  // checkDisabled() {
+  //   if (this.noneShow === true) {
+  //     return true;
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  selectFile(code: string) {
+    switch (code) {
+      case 'DKYXE':
+        break;
+      case 'DKIEMXE':
+        break;
+      case 'BHDS':
+        break;
+      case 'BHHH':
+        break;
+      case 'GSHT':
+        break;
+      default:
+        alert("Error! Please try again late");
+    }
+    this.groupImg();
+  }
+  groupImg(): any {
+    this.uploader.queue.length = 0;
+    this.uploaderDKYXE.queue.forEach(e => this.uploader.queue.push(e));
+    this.uploaderDKIEMXE.queue.forEach(e => this.uploader.queue.push(e));
+    this.uploaderBHDS.queue.forEach(e => this.uploader.queue.push(e));
+    this.uploaderBHHH.queue.forEach(e => this.uploader.queue.push(e));
+    this.uploaderGSHT.queue.forEach(e => this.uploader.queue.push(e));
+  }
+
+  fetchImg() {
+    let myJson = '{';
+    let i = 0;
+    this.uploader.queue.forEach(element => {
+      let path = '../IMAGE/' + element.url + '/';
+      if (i < this.uploader.queue.length - 1)
+        myJson += '"' + i + '":{"attachPath":"' + path + '","attachName":"' + element.file.name + '","attachCode":"' + element.url + '"},';
+      else
+        myJson += '"' + i + '":{"attachPath":"' + path + '","attachName":"' + element.file.name + '","attachCode":"' + element.url + '"}';
+
+      i++;
+    });
+    myJson += '}';
+    return myJson;
   }
 
   onSave(event) {
+    this.addEditForm.get('attachProperties').setValue(JSON.parse(this.fetchImg()))
     event.preventDefault();
     if (this.addEditForm.valid) {
       this._entity = this.addEditForm.value;
-      //this.convert();
+      this.convert();
       this.vehicleViewModelChange.emit(this._entity);
+      this.closeModalEvent.emit();
     }
+  }
+  resetFormData(){
+    this.addEditForm.patchValue({
+      licenceIssueDate: '',
+      registrationIssueDate: '',
+      registrationExpDate: '',
+      civilInsuranceExpDate: '',
+      civilInsuranceIssueDate: '',
+      cargoInsuranceIssueDate: '',
+      cargoInsuranceExpDate: '',
+      itineraryMonitoringIssueDate: '',
+      itineraryMonitoringExpDate: '',
+    })
+  }
+  populateTestData() {
+    this.addEditForm.patchValue({
+      ownerId: 123,
+      vehicleCode: 'Tanker123',
+      licencePlate: '37E1-31201',
+      licence: 'Test data',
+      licenceIssueBy: 2,
+      registrationNo: 'Test data',
+      civilInsurance: 'Test data',
+      cargoInsurance: 'Test data',
+      itineraryMonitoring: 'Test data',
+      driverName: 'Hoang TV',
+      driverId: 123,
+      state: 4,
+      vehicleType: 2,
+      weight: 100,
+      licenceIssueDate: '2018-01-01',
+      registrationIssueDate: '2018-02-02',
+      registrationExpDate: '2018-03-03',
+      civilInsuranceExpDate: '2018-04-04',
+      civilInsuranceIssueDate: '2018-05-05',
+      cargoInsuranceIssueDate: '2018-06-06',
+      cargoInsuranceExpDate: '2018-07-07',
+      itineraryMonitoringIssueDate: '2018-08-08',
+      itineraryMonitoringExpDate: '2018-09-09'
+    })
+  }
+  // buildVehicleType(): FormGroup {
+  //   return this.formBuilder.group({
+  //     vehicleTypeName: '',
+  //   })
+  // }
+
+  // addVehicleType(){
+  //   this.vehicleType.push(this.buildVehicleType());
+  // }
+
+  // subVehicleType(i){
+  //   this.vehicleType.removeAt(i);
+  // }
+
+  buildRoute(): FormGroup {
+    return this.formBuilder.group({
+      routeName: '',
+    });
   }
 
   addRoute() {
-    
-    this.isShow = false;
+    this.route.push(this.buildRoute());
   }
-
   subRoute(i) {
-    if (this.route.length === 1) {
-      this.isShow = true;
-    } else {
-      this.route.removeAt(i);
+    this.route.removeAt(i);
+  }
+
+  convert() {
+    this._entity.licenceIssueDate = new Date(this._entity.licenceIssueDate).getTime();
+    this._entity.registrationIssueDate = new Date(this._entity.registrationIssueDate).getTime();
+    this._entity.registrationExpDate = new Date(this._entity.registrationExpDate).getTime();
+    this._entity.civilInsuranceExpDate = new Date(this._entity.civilInsuranceExpDate).getTime();
+    this._entity.civilInsuranceIssueDate = new Date(this._entity.civilInsuranceIssueDate).getTime();
+    this._entity.cargoInsuranceIssueDate = new Date(this._entity.cargoInsuranceIssueDate).getTime();
+    this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
+    this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
+    this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
+
+    // let vehicleTypeData = {};
+    // let myVehicle = this.addEditForm.get('vehicleType').value;
+    // for (let j = 0; j < myVehicle.length; j++) {
+    //   vehicleTypeData[j+1] = myVehicle[j].vehicleTypeName;
+    // }
+    // this._entity.vehicleType = vehicleTypeData;
+
+    let routeData = {};
+    let myRoute = this.addEditForm.get('route').value;
+    for (let index = 0; index < myRoute.length; index++) {
+      routeData[index+1] = myRoute[index].routeName;  
     }
+    this._entity.route = routeData;
   }
-  setDate(): void {
-    const date = new Date();
-    this.addEditForm.patchValue({
-      myDate: {
-        date: {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()
-        }
-      }
-    });
-  }
-  // convert() {
-  //   this.strIssueDate = this._entity.licenceIssueDate.toString().replace(/-/g, "");
-  //   this._entity.licenceIssueDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.registrationIssueDate.toString().replace(/-/g, "");
-  //   this._entity.registrationIssueDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.civilInsuranceExpDate.toString().replace(/-/g, "");
-  //   this._entity.civilInsuranceExpDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.civilInsuranceIssueDate.toString().replace(/-/g, "");
-  //   this._entity.civilInsuranceIssueDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.cargoInsuranceIssueDate.toString().replace(/-/g, "");
-  //   this._entity.cargoInsuranceIssueDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.cargoInsuranceExpDate.toString().replace(/-/g, "");
-  //   this._entity.cargoInsuranceExpDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.itineraryMonitoringIssueDate.toString().replace(/-/g, "");
-  //   this._entity.itineraryMonitoringIssueDate = parseInt(this.strIssueDate);
-
-  //   this.strIssueDate = this._entity.itineraryMonitoringExpDate.toString().replace(/-/g, "");
-  //   this._entity.itineraryMonitoringExpDate = parseInt(this.strIssueDate);
-  // }
 }

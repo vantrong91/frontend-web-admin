@@ -1,0 +1,31 @@
+:host ::ng-deep {
+    .tab-content {
+        max-height: calc(70vh - 70px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+.uploadList{
+    padding: 15px 0px;
+}
+
+.custom-file-label{
+    width: 90%;
+    margin-left: 20px;
+}
+
+
+.progress{
+    margin: 20px 0px;
+}
+
+.anhCMND{
+    margin-top: 20px;
+}
+
+.imgName{
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+}

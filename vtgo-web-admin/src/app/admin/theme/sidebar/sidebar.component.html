@@ -8,8 +8,8 @@
         <img src="assets/admin/images/users/1.jpg" alt="user" /></div>
       <!-- User profile text-->
       <div class="profile-text">
-        <span href="#" class="dropdown-toggle link u-dropdown text-open-profile" data-toggle="dropdown" role="button" aria-haspopup="true"
-          aria-expanded="true">Markarn Doe
+        <span href="#" class="dropdown-toggle link u-dropdown text-open-profile" data-toggle="dropdown" role="button"
+          aria-haspopup="true" aria-expanded="true">Markarn Doe
           <span class="caret"></span>
         </span>
         <div class="dropdown-menu animated flipInY">
@@ -39,16 +39,50 @@
           </a>
           <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component'">
             <li>
-              <a routerLink="vehicleowner" [routerLinkActive]="['router-link-active']">VehicleOwner</a>
+              <a routerLink="vehicleowner" [routerLinkActive]="['router-link-active']">Chủ xe</a>
             </li>
             <li>
-              <a routerLink="driver" [routerLinkActive]="['router-link-active']">Driver</a>
+              <a routerLink="driver" [routerLinkActive]="['router-link-active']">Lái xe</a>
             </li>
             <li>
-              <a routerLink="goodsowner" [routerLinkActive]="['router-link-active']">GoodsOwner</a>
+              <a routerLink="goodsowner" [routerLinkActive]="['router-link-active']">Chủ hàng</a>
             </li>
             <li>
-              <a routerLink="vehicle" [routerLinkActive]="['router-link-active']">Vehicle</a>
+              <a routerLink="vehicle" [routerLinkActive]="['router-link-active']">Xe</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component2'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component2')" aria-expanded="false">
+            <i class="mdi mdi-credit-card-multiple"></i>
+            <span class="hide-menu">Thanh toán</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component2'">
+            <li>
+              <a routerLink="balancehis" [routerLinkActive]="['router-link-active']">Lịch sử giao dịch</a>
+            </li>
+            <li>
+              <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component3'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component3')" aria-expanded="false">
+            <i class="mdi mdi-reorder-horizontal"></i>
+            <span>Đơn hàng</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component3'">
+            <li>
+              <a routerLink="rpq" [routerLinkActive]="['router-link-active']">Yêu cầu báo giá</a>
+            </li>
+            <li>
+              <a routerLink="quotation" [routerLinkActive]="['router-link-active']">Báo giá</a>
+            </li>
+            <li>
+              <a routerLink="orderlist" [routerLinkActive]="['router-link-active']">Đơn hàng</a>
+            </li>
+            <li>
+              <a routerLink="insuranceorder" [routerLinkActive]="['router-link-active']">Đơn hàng bảo hiểm hàng hóa</a>
             </li>
           </ul>
         </li>

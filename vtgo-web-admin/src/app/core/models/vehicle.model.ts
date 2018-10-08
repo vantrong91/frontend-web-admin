@@ -1,36 +1,36 @@
 export class VehicleViewModel {
 
     constructor() {
-        this.vehicleId = 0;
-
+        //this.userId = 0;
     }
     userId: number;
     vehicleId: number;
     ownerId: number;
     vehicleCode: string;
-    route: Map<number, string>;
-    vehicleType: Map<number, string>;
+    route:any;// Map<number, string>;
+    vehicleType: any;
     licencePlate: string;
     weight: number;
     licence: string;
-    licenceIssueDate: number;
+    licenceIssueDate: any;
     licenceIssueBy: string;
     registrationNo: string;
-    registrationIssueDate: number;
-    registrationExpDate: string;
+    registrationIssueDate: any;
+    registrationExpDate: any;
     civilInsurance: string;
-    civilInsuranceIssueDate: number;
-    civilInsuranceExpDate: number;
+    civilInsuranceIssueDate: any;
+    civilInsuranceExpDate: any;
     cargoInsurance: string;
-    cargoInsuranceIssueDate: number;
-    cargoInsuranceExpDate: number;
+    cargoInsuranceIssueDate: any;
+    cargoInsuranceExpDate: any;
     itineraryMonitoring: string;
-    itineraryMonitoringIssueDate: number;
-    itineraryMonitoringExpDate: number;
-    attachProperties: Map<string,object>;
+    itineraryMonitoringIssueDate: any;
+    itineraryMonitoringExpDate: any;
+    //attachProperties: Array<any>;
+    attachProperties: any;
     state: string;
     driverId: number;
     driverName: string;
-    stt?: number;
-    iz?: number;
+    stt?: any;
+    i?: any;
 }

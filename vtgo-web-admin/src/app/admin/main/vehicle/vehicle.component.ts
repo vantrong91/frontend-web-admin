@@ -1,21 +1,25 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenService } from '../../../core/services/authen.service';
+import { Component, OnInit, Inject, AfterViewChecked, ViewChild } from '@angular/core';
+import { ModalDismissReasons, NgbModal, } from '@ng-bootstrap/ng-bootstrap';
 
 import {
 
   SearchModel,
   IVehicleServiceToken,
   IVehicleService,
-  VehicleViewModel
+  VehicleViewModel,
+  VehicleImg,
+  IHelperService,
+  IHelperServiceToken
 } from '../../../core';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+
 
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.scss'],
 })
-export class VehicleComponent implements OnInit {
+export class VehicleComponent implements OnInit, AfterViewChecked {
   closeResult: string;
   entityVehicle: VehicleViewModel;
   listVehicle: any;
@@ -23,15 +27,18 @@ export class VehicleComponent implements OnInit {
   isAdd = false;
   isShow = false;
   txtNoti = '';
-  element: any;
   noneShow: boolean;
 
   constructor(private modalService: NgbModal,
-    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
+    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService,
+    @Inject(IHelperServiceToken) private helperService: IHelperService) {
   }
+  @ViewChild('vehicleTable') _vehicleTable: DatatableComponent;
   ngOnInit() {
     this.initData();
   }
+
+
 
   initData() {
     this.searchObject = new SearchModel();
@@ -42,6 +49,7 @@ export class VehicleComponent implements OnInit {
   search(search: SearchModel) {
     this.vehicleService.Get(search).subscribe(
       (response: any) => {
+        console.log(response);
         if (response.status === 0) {
           this.listVehicle = response.data;
         }
@@ -54,31 +62,32 @@ export class VehicleComponent implements OnInit {
         if (response.status === 0) {
           this.entityVehicle = new VehicleViewModel();
           this.entityVehicle = response.data[0];
+          console.log('mapping', this.entityVehicle.route);
+
         }
       }
     );
   }
-  // if (this.entityCompany) {
-        
-  // } else {
-  //   this.entityCompany = new CompanyViewModel();
-  //   this.entityCompany.fullName = 'Company';
-  // }
-  
+  //New Vehicle
   open(content) {
-    if(this.entityVehicle){} else{
-      this.entityVehicle = new VehicleViewModel;
-      //this.entityVehicle.driverName='Hoang';
-      this.entityVehicle = undefined;
-    }
-    //this.entityVehicle = new VehicleViewModel;
+    this.noneShow = false;
+    this.entityVehicle = new VehicleViewModel;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  //View Vehicle
+  view(vehicleId, content) {
+    this.entityVehicle = new VehicleViewModel;
+    this.getVehicleById(vehicleId);
+    this.noneShow = true;
+    this.modalService.open(content, { size: 'lg' });
+  }
+  // EDIT Vehicle
   edit(vehicleId, content) {
+    this.entityVehicle = new VehicleViewModel;
     this.getVehicleById(vehicleId);
     this.noneShow = false;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
@@ -87,7 +96,7 @@ export class VehicleComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-
+  //Delete Vehicle
   openSm(del, vehicleId) {
     this.modalService.open(del).result.then(result => {
       this.closeResult = `Close with: ${result}`;
@@ -102,7 +111,7 @@ export class VehicleComponent implements OnInit {
             }, 2000);
             this.txtNoti = 'Xóa thành công';
           } else {
-            alert("Đã xảy ra lỗi vui lòng thử lại!");
+            this.txtNoti = 'Xóa thất bại';
           }
         }
       );
@@ -119,9 +128,48 @@ export class VehicleComponent implements OnInit {
     }
   }
 
+
+  // mapingVehicleModel(responseModel): VehicleViewModel {
+  //   let entity = new VehicleViewModel();
+  //   entity = responseModel;
+  //   if (entity.cargoInsuranceExpDate) {
+  //     entity.cargoInsuranceExpDate = this.helperService.formatDateTime(entity.cargoInsuranceExpDate);
+  //   }
+  //   if (entity.cargoInsuranceIssueDate) {
+  //     entity.cargoInsuranceIssueDate = this.helperService.formatDateTime(entity.cargoInsuranceIssueDate);
+  //   }
+  //   if (entity.civilInsuranceExpDate) {
+  //     entity.civilInsuranceExpDate = this.helperService.formatDateTime(entity.civilInsuranceExpDate);
+  //   }
+  //   if (entity.civilInsuranceIssueDate) {
+  //     entity.civilInsuranceIssueDate = this.helperService.formatDateTime(entity.civilInsuranceIssueDate);
+  //   }
+  //   if (entity.itineraryMonitoringExpDate) {
+  //     entity.itineraryMonitoringExpDate = this.helperService.formatDateTime(entity.itineraryMonitoringExpDate);
+  //   }
+  //   if (entity.itineraryMonitoringIssueDate) {
+  //     entity.itineraryMonitoringIssueDate = this.helperService.formatDateTime(entity.itineraryMonitoringIssueDate);
+  //   }
+  //   if (entity.licenceIssueDate) {
+  //     entity.licenceIssueDate = this.helperService.formatDateTime(entity.licenceIssueDate);
+  //   }
+  //   if (entity.registrationExpDate) {
+  //     entity.registrationExpDate = this.helperService.formatDateTime(entity.registrationExpDate);
+  //   }
+  //   if (entity.registrationIssueDate) {
+  //     entity.registrationIssueDate = this.helperService.formatDateTime(entity.registrationIssueDate);
+  //   }
+  //   return entity;
+  // }
+
+  ngAfterViewChecked() {
+    this._vehicleTable.recalculate();
+  }
+  // add Vehicle
   onSubmitVehicle(event) {
     this.entityVehicle = event;
     console.log('save');
+    console.log(event);
     this.vehicleService.Create(this.entityVehicle).subscribe((response: any) => {
       if (response.status === 0) {
         this.initData();
@@ -132,11 +180,12 @@ export class VehicleComponent implements OnInit {
         }, 2000);
         this.txtNoti = 'Thêm thành công';
       } else {
-        alert('Có lỗi xảy ra');
+        this.txtNoti = 'Có lỗi xảy ra, thêm thất bại';
       }
     })
   }
 
+  // Edit Vehicle
   onEditVehicle(event) {
     this.entityVehicle = event;
     console.log('update')
@@ -146,14 +195,15 @@ export class VehicleComponent implements OnInit {
           console.log('done');
           this.initData();
           this.isShow = true;
-        setTimeout(() => {
-          this.isShow = false;
-        }, 2000);
-        this.txtNoti = 'Sửa thành công';
+          setTimeout(() => {
+            this.isShow = false;
+          }, 2000);
+          this.txtNoti = 'Sửa thành công';
         } else {
           alert('ERROR');
         }
       }
     );
   }
+
 }

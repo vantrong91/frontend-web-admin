@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '', component: DriverComponent, data: {
       title: 'Driver Page',
-      urls: [{ title: 'Main', url: 'admin/main'}, {title: 'Driver'}]
+      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Lái xe'}]
     }
   }
 ];

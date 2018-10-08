@@ -103,6 +103,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   open(content) {
+    
+    this.noneShow = false;
     // Instant Object
     if (this.tabCompany) {
       // Function change data Campany code here

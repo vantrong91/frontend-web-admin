@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { VehicleOwnerRoutingModule } from './vehicle-owner-routing.module';
+import { VehicleOwnerRoutingModule } from './vehicle-owner.routing';
 import { VehicleOwnerComponent } from './vehicle-owner.component';
 import { CompanyComponent } from './company/company.component';
 import { PersonalComponent } from './personal/personal.component';

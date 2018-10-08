@@ -35,6 +35,7 @@ export class CompanyComponent implements OnInit {
       if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
         const attachments = Object.keys(company.attachProperties).map(function (index) {
           const attachment = company.attachProperties[index];
+          console.log("aa",attachment);
           return attachment;
         });
         company.attachProperties = attachments;
@@ -112,6 +113,7 @@ export class CompanyComponent implements OnInit {
     event.preventDefault();
     if (this.addEditForm.valid) {
       this._entity = this.addEditForm.value;
+      console.log(this._entity);
       this.personViewModelChange.emit(this._entity);
     }
   }

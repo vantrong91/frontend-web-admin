@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-md-4 my-auto">
+    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin"
+      placeholder="Tìm Kiếm">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-success w-150" (click)="search(searchObject)">Tìm kiếm</button>
+  </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-11">
+    <small>
+      <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
+      <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
+    </small>
+  </div>  
+</div>
+
+<!-- ======================================= Quotation ========================================== -->
+
+<div class="row mt-2" [ngClass]="'d-block'">
+  <div class="col">
+    <div class="quotation">Quotation</div>
+    <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="5">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div class="container">
+              <u><i>Thông tin chi tiết:</i></u>
+              <div class="row mt-3">
+                <strong class="col-2 text-right">- Mã đơn hàng:</strong>
+                <div class="col-2">{{row.orderId}} </div>
+                <strong class="col-2 text-right">- Mã phương tiện: </strong>
+                <div class="col-2">{{row.vehicleId}}</div>
+                <strong class="col-2 text-right">- Mã chủ xe: </strong>
+                <div class="col-2">{{row.driverId}}</div>
+              </div>
+              <div class="row"></div>
+              <div class="row">
+                <strong class="col-3 text-right">- Thuế VAT:</strong>
+                <div class="col-3">{{row.vat}}</div>
+                <strong class="col-3 text-right">- Tiền hoa hồng:</strong>
+                <div class="col-3">{{row.commission}}</div>                
+              </div>
+              <div class="row">                
+                <strong class="col-3 text-right">- Tiền phạt:</strong>
+                <div class="col-3">{{row.finesAmount}}</div>
+                <strong class="col-3 text-right">- Phạt đến chậm:</strong>
+                <div class="col-3">{{row.delayPrice}}</div>
+              </div>
+              <div class="row">                
+                <strong class="col-3 text-right">- Tiền lưu xe lúc nhận:</strong>
+                <div class="col-3">{{row.receivePrice}}</div>
+                <strong class="col-3 text-right">- Tiền lưu xe lúc trả:</strong>
+                <div class="col-3">{{row.deliverPrice}}</div>
+              </div>
+              <div class="row">                
+                <strong class="col-3 text-right">- Thuế GTGT của chủ xe:</strong>
+                <div class="col-3">{{row.driverVatTax}}</div>
+                <strong class="col-3 text-right">- Thuế thu nhập cá nhân:</strong>
+                <div class="col-3">{{row.perVatTax}}</div>
+              </div>
+              <div class="row">                
+                <strong class="col-3 text-right">- Tiền còn lại:</strong>
+                <div class="col-3">{{row.reserveDriver}}</div>
+                <strong class="col-3 text-right">- Tiền thanh toán:</strong>
+                <div class="col-3">{{row.reserveOrder}}</div>
+              </div>  
+              <div class="row">                
+                <strong class="col-3 text-right">- Thời gian bắt đầu bốc hàng:</strong>
+                <div class="col-3">{{row.receiveTime| date:'dd-MM-yyyy'}}</div>
+                <strong class="col-3 text-right">- Thời gian kết thúc bốc hàng:</strong>
+                <div class="col-3">{{row.toReceiveTime| date:'dd-MM-yyyy'}}</div>
+              </div>  
+              <div class="row">                
+                <strong class="col-3 text-right">- Thời gian bắt đầu giao hàng:</strong>
+                <div class="col-3">{{row.deliverTime| date:'dd-MM-yyyy'}}</div>
+                <strong class="col-3 text-right">- Thời gian kết thúc giao hàng:</strong>
+                <div class="col-3">{{row.toDeliverTime| date:'dd-MM-yyyy'}}</div>
+              </div>       
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+      <!-- Column Templates -->
+      <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="default">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <strong>{{rowIndex+1}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="quotationId" [width]="80" [maxWidth]="80">
+        <ng-template ngx-datatable-header-template>
+          <span>
+            <strong>ID</strong>
+          </span>
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <strong class="cangiua">{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="price" [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Giá vận chuyển</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <strong class="cangiua">{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="state" [width]="100">
+        <ng-template ngx-datatable-header-template>
+          <span>Trạng thái</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <strong class="cangiua">{{value ==0?'Báo giá mới tạo':(value==1?'Báo cáo được khách hàng chấp nhận':(value==2?'Báo cáo bị khách hàng từ chối':(value==3?'Báo cáo được xác nhận chuyến':(value==4?'Báo cáo chờ vận chuyển':(value==5?'Báo giá chủ hàng có thay đổi':(value==6?'Báo giá bị tài xế hủy':(value==7?'Báo giá đang vận chuyển':'Hủy do hệ thống')))))))}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="numQuotation" [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Số lần báo giá</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <strong class="cangiua">{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>     
+    </ngx-datatable>
+  </div>
+</div>
