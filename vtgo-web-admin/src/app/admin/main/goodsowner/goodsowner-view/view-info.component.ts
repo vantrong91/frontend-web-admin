@@ -11,6 +11,7 @@ export class ViewInfoComponent implements OnInit {
 
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
+
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
@@ -19,10 +20,6 @@ export class ViewInfoComponent implements OnInit {
     } else
       this.addEditForm.reset();
   };
-
-  @Input('imgList') arrimg: any;
-
-
   constructor(private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
@@ -41,7 +38,6 @@ export class ViewInfoComponent implements OnInit {
       })
     });
   }
-    
 
   ngOnInit() {
   }

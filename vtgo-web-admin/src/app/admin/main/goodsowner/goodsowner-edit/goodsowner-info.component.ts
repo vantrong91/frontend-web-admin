@@ -42,8 +42,13 @@ export class GoodsownerInfoComponent implements OnInit {
       })
     });
   }
+
+
   ngOnInit() {
+
   }
+
+
   Save(event) {
     // event.preventDefault();
     this._entity = this.addEditForm.value;

@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '', component: GoodsOwnerComponent, data: {
       title: 'Goodsowner Page',
-      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'Chủ hàng'}]
+      urls: [{ title: 'Main', url: '/admin/main'}, {title: 'GoodsOwner'}]
     }
 
   }
