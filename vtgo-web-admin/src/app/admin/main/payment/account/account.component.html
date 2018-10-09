@@ -14,7 +14,7 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Tài khoản</div>
-    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts' [columns]="columns"
+    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts'
       [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #accountTable>
       <ngx-datatable-column name="accountId" [width]="100" prop="accountId">
         <ng-template let-column="column" ngx-datatable-header-template>

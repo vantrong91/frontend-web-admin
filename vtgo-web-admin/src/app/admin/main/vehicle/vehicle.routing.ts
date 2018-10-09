@@ -5,8 +5,8 @@ import { VehicleComponent } from './vehicle.component';
 const routes: Routes = [
   {
     path: '', component: VehicleComponent, data: {
-      title: 'Vehicle Page',
-      urls: [{ title: 'Main', url: '/admin/main'}, { title: 'Xe'}]
+      title: 'VTGO Phương tiện',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, { title: 'Phương tiện'}]
     }
   }
 ];

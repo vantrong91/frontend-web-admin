@@ -14,8 +14,10 @@ export class BalanceHisComponent implements OnInit {
     }
 
     changeShow(el){
+        if (el != 0)
         this.toShow = el;
-        console.log(this.toShow);
+      else
+        this.toShow = undefined;
     }
 
     search(event){

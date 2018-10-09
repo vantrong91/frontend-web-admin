@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '', component: BalanceHisComponent, data: {
       title: 'VTGO Lịch sử giao dịch',
-      urls: [{ title: 'Main', url: '/admin/main' }, { title: 'Lịch sử giao dịch' }]
+      urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Lịch sử giao dịch' }]
     }
   }
 ];
