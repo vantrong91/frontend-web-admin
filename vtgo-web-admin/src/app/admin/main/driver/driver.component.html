@@ -27,7 +27,7 @@
         <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
             [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
             <!-- Row Detail Template -->
-            <ngx-datatable-row-detail [rowHeight]="750" #myDetailRow (toggle)="onDetailToggle($event)">
+            <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div style="padding-left:35px;">
                         <div class="container">
@@ -163,14 +163,7 @@
                 </ng-template>
             </ngx-datatable-row-detail>
             <!-- Column Templates -->
-            <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false"
-                [canAutoResize]="false">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                    <span  [class.datatable-icon-right]="!expanded" [class.datatable-icon-up]="expanded"
-                   (click)="table.rowDetail.collapseAllRows()"></span>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
+            <ngx-datatable-column name="Index" [width]="60" >
                 <ng-template let-column="column" ngx-datatable-header-template>
                     <span class="default">
                         <strong>STT</strong>
@@ -180,7 +173,7 @@
                     <strong>{{rowIndex+1}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="accountId" [width]="80" [maxWidth]="80">
+            <ngx-datatable-column name="accountId" [width]="100">
                 <ng-template ngx-datatable-header-template>
                     <span>
                         <strong>ID</strong>
@@ -190,7 +183,7 @@
                     <strong>{{value}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="fullName" [width]="150">
+            <ngx-datatable-column name="fullName" [width]="250">
                 <ng-template ngx-datatable-header-template>
                     <span>Họ tên</span>
                 </ng-template>
@@ -198,7 +191,7 @@
                     <strong>{{value}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="gender" [maxWidth]="75" [minWidth]="60">
+            <ngx-datatable-column name="gender" [width]="60">
                 <ng-template ngx-datatable-header-template>
                     <span>Giới tính</span>
                 </ng-template>
@@ -206,7 +199,7 @@
                     {{row.gender===0?'Nữ':'Nam'}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="phoneNumber" [width]="80">
+            <ngx-datatable-column name="phoneNumber" [width]="100">
                 <ng-template ngx-datatable-header-template>
                     SĐT
                 </ng-template>
@@ -214,7 +207,7 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="licenseNo" [width]="80">
+            <ngx-datatable-column name="licenseNo" [width]="100">
                 <ng-template ngx-datatable-header-template>
                     Số giấy phép
                 </ng-template>
@@ -222,7 +215,7 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="extLicenseNo" [width]="80">
+            <ngx-datatable-column name="extLicenseNo" [width]="100">
                 <ng-template ngx-datatable-header-template>
                     Số giấy tờ
                 </ng-template>
@@ -230,13 +223,13 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="action" [minWidth]="150" [width]="150" [maxWidth]="150" [resizeable]="false">
+            <ngx-datatable-column name="action"  [width]="130" [maxWidth]="130">
                 <ng-template let-column="colmun" ngx-datatable-header-template>
                     <span>
                         <strong>Thao tác</strong>
                     </span>
                 </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
                     <button type="button" class="btn btn-info button-custom-admin" (click)="toggleExpandRow(row)">
                         <i class=" fa fa-eye "></i>
                     </button>

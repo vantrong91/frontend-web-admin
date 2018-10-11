@@ -21,9 +21,8 @@
         <div class="goodsowner-view-title">GoodsOwner</div>
         <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
             [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
-            <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
+           
+            <ngx-datatable-column name="Index" [maxWidth]="60">
                 <ng-template let-column="column" ngx-datatable-header-template>
                     <span class="default">
                         <strong>STT</strong>
@@ -33,7 +32,7 @@
                     <strong>{{rowIndex+1}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="accountId" [width]="80" [maxWidth]="80">
+            <ngx-datatable-column name="accountId" [width]="60" >
                 <ng-template ngx-datatable-header-template>
                     <span>
                         <strong>ID</strong>
@@ -43,7 +42,7 @@
                     <strong>{{value}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="fullName" [width]="80">
+            <ngx-datatable-column name="fullName" [width]="200">
                 <ng-template ngx-datatable-header-template>
                     <span>Họ tên</span>
                 </ng-template>
@@ -51,7 +50,7 @@
                     <strong>{{value}}</strong>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="gender" [maxWidth]="75" [width]="40">
+            <ngx-datatable-column name="gender"  [width]="80">
                 <ng-template ngx-datatable-header-template>
                     <span>Giới tính</span>
                 </ng-template>
@@ -59,7 +58,7 @@
                     {{row.gender===0?'Nữ':'Nam'}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="phoneNumber" [width]="60">
+            <ngx-datatable-column name="phoneNumber" [width]="90">
                 <ng-template ngx-datatable-header-template>
                     SĐT
                 </ng-template>
@@ -67,7 +66,7 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="identityNo" [width]="60">
+            <ngx-datatable-column name="identityNo" [width]="90">
                 <ng-template ngx-datatable-header-template>
                     Số giấy phép
                 </ng-template>
@@ -75,7 +74,7 @@
                     {{value}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="address" [width]="80">
+            <ngx-datatable-column name="address" [width]="140">
                 <ng-template ngx-datatable-header-template>
                     Địa chỉ
                 </ng-template>
