@@ -18,7 +18,8 @@ const routes: Routes = [
       { path: 'balancehis', loadChildren: './payment/balance-his/balance-his.module#BalanceHisModule' },
       { path: 'orderlist', loadChildren: './order/orderlist/orderlist.module#OrderListModule' },
       { path: 'quotation', loadChildren: './order/quotation/quotation.module#QuotationModule'},
-      { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' }
+      { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' },
+      { path: 'exchange', loadChildren: './payment/exchange/balance-his.module#BalanceHisModule' }
     ]
   }
 ];
