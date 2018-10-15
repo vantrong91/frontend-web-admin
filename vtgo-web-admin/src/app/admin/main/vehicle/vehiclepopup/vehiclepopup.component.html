@@ -45,14 +45,12 @@
             </div>
           </div>
         </div> -->
-
         <div formArrayName="route" *ngFor="let rou of addEditForm.controls['route']['controls']; let i = index">
           <div [formGroupName]="i">
             <div class="form-group row mb-3">
               <label class="col-sm-2 col-form-label text-md-right">Tuyến xe {{i+1}}</label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Tuyến xe" formControlName="routeName" [ngClass]="{'mouse-hover': noneShow}">
-
               </div>
               <div class="col-sm-2">
                 <span>
@@ -62,7 +60,7 @@
                 </span>
                 <span>
                   <button class="btn btn-outline-danger" *ngIf="route.controls.length >1" type="button" (click)="subRoute(i)">
-                      <span class="fa fa-trash-o"></span>
+                    <span class="fa fa-trash-o"></span>
                   </button>
                 </span>
               </div>

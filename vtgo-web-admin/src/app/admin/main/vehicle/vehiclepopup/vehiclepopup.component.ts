@@ -45,8 +45,7 @@ export class VehiclepopupComponent implements OnInit {
       this._entity = new VehicleViewModel();
       this.resetFormData();
       this._entity = vehiclepopup;
-      console.log("JSON", vehiclepopup);
-      if(vehiclepopup.route !== null && vehiclepopup.route !== undefined){
+      if(vehiclepopup &&vehiclepopup.route !== null && vehiclepopup.route !== undefined){
         const attachments = Object.keys(vehiclepopup.route).map(function (index){
           const attachment = vehiclepopup.route[index];
           console.log("a", attachment);
@@ -54,15 +53,13 @@ export class VehiclepopupComponent implements OnInit {
         });
         vehiclepopup.route = '';
         let ahihi =[];
-        ahihi.push({routeName: attachments})
+        ahihi.push({routeName: attachments});
         vehiclepopup.route = ahihi;
-        console.log(vehiclepopup);
       }    
       
       if (vehiclepopup && (vehiclepopup.attachProperties !== undefined && vehiclepopup.attachProperties !== null)) {
         const attachments = Object.keys(vehiclepopup.attachProperties).map(function (index) {
           const attachment = vehiclepopup.attachProperties[index];
-          console.log("aa",attachment);
           return attachment;
         });
         vehiclepopup.attachProperties = attachments;
@@ -74,7 +71,6 @@ export class VehiclepopupComponent implements OnInit {
           this.addEditForm.setControl('attachProperties', attachmenttArrays);
         }
       }
-
       this.addEditForm.reset(vehiclepopup);
     } else {
       this.addEditForm.reset();
@@ -257,7 +253,7 @@ export class VehiclepopupComponent implements OnInit {
 
   buildRoute(): FormGroup {
     return this.formBuilder.group({
-      routeName: '',
+      routeName: new FormControl,
     });
   }
 

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountViewModel } from '../../../../core'
+import { Component, OnInit, Inject } from '@angular/core';
+import { AccountViewModel, IAccountServiceToken, IAccountService, IHelperServiceToken, IHelperService, SearchModel } from '../../../../core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,49 +9,45 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AccountComponent implements OnInit {
 
-  accounts: AccountViewModel[] = [
-  {
-    "accountId": 1,
-    "accountToken": 1,
-    "accountType": 1,
-    "deviceToken": 1,
-    "email": "deptrai@gmail.com",
-    "osType": 1,
-    "password": "11111111111",
-    "phoneNumber": "111"
-  },
-  {
-    "accountId": 2,
-    "accountToken": 2,
-    "accountType": 2,
-    "deviceToken": 3,
-    "email": "tvhdhv@gmail.com",
-    "osType": 3,
-    "password": "123",
-    "phoneNumber": "111"
-  },
-  {
-    "accountId": 3,
-    "accountToken": 3,
-    "accountType": 3,
-    "deviceToken": 2,
-    "email": "thiendia@gmail.com",
-    "osType": 3,
-    "password": "456",
-    "phoneNumber": "111"
-  }]
-  constructor( private modalService: NgbModal) { }
+  listAccount: any;
+  searchObject: SearchModel;
+  searchParam: ' ';
+
+  constructor(private modalService: NgbModal,
+    @Inject(IAccountServiceToken) private accountService: IAccountService,
+    @Inject(IHelperServiceToken) private helperService: IHelperService) { }
   open(content) {
     this.modalService.open(content, { size: 'lg' });
   }
-  view(accountId, content){
-    
-  }
-  edit(accountId, content)
-  {
+  view(accountId, content) {
 
   }
   ngOnInit() {
+    this.initData();
   }
 
+  initData() {
+    let search = '{}';
+    this.search(search);
+  }
+
+  search(search) {
+    this.accountService.Get(search).subscribe(
+      (response: any) => {
+        if (response.status === 0) {
+          this.listAccount = response.data;
+        }
+      },
+      error => {
+
+      }
+    )
+  }
+  txtSearch(event) {
+    if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1) {
+      this.search('{}');
+    } else {
+      this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
+    }
+  }
 }

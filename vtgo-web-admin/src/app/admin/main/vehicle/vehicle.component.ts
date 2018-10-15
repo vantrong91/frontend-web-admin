@@ -49,7 +49,6 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   search(search: SearchModel) {
     this.vehicleService.Get(search).subscribe(
       (response: any) => {
-        console.log(response);
         if (response.status === 0) {
           this.listVehicle = response.data;
         }
@@ -62,7 +61,6 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
         if (response.status === 0) {
           this.entityVehicle = new VehicleViewModel();
           this.entityVehicle = response.data[0];
-          console.log('mapping', this.entityVehicle.route);
 
         }
       }
@@ -103,7 +101,6 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
       this.vehicleService.Delete(vehicleId).subscribe(
         (response: any) => {
           if (response.status === 0) {
-            console.log('done');
             this.initData();
             this.isShow = true;
             setTimeout(() => {
@@ -168,12 +165,9 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   // add Vehicle
   onSubmitVehicle(event) {
     this.entityVehicle = event;
-    console.log('save');
-    console.log(event);
     this.vehicleService.Create(this.entityVehicle).subscribe((response: any) => {
       if (response.status === 0) {
         this.initData();
-        console.log('sucssces');
         this.isShow = true;
         setTimeout(() => {
           this.isShow = false;
@@ -188,11 +182,9 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   // Edit Vehicle
   onEditVehicle(event) {
     this.entityVehicle = event;
-    console.log('update')
     this.vehicleService.Put(this.entityVehicle).subscribe(
       (response: any) => {
         if (response.status === 0) {
-          console.log('done');
           this.initData();
           this.isShow = true;
           setTimeout(() => {

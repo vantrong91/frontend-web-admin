@@ -1,9 +1,9 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
-    <input type="text" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm">
+    <input type="text" [(ngModel)]="searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
   </div>
   <div class="col-md-2">
-    <button type="button" class="btn btn-success w-100">Search</button>
+    <button type="button" class="btn btn-success w-100" (click)="search(searchParam)">Search</button>
   </div>
   <div class="col-md-5"></div>
   <div class="col-md-1">
@@ -14,36 +14,36 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Tài khoản</div>
-    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts'
-      [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #accountTable>
-      <ngx-datatable-column name="accountId" [width]="100" prop="accountId">
+    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='listAccount'
+      [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="5" #accountTable>
+      <ngx-datatable-column name="accountId" [minWidth]="100" [maxWidth]="100" prop="accountId" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Account Id</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
+          <strong>{{value}}</strong>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="password" [width]="100" prop="password">
+      <ngx-datatable-column name="accountToken" [width]="100" prop="fullName">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Password</strong>
+            <strong>Full Name</strong>
           </span>
         </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row" type="password">
-          <input id="password" type="password" value="{{value}}" disabled/>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <strong>{{value}}</strong>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="email" [width]="150" prop="email">
+      <ngx-datatable-column name="email" [width]="150" prop="email" headerClass="is-gender">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Email</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
+          <strong>{{value}}</strong>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="phoneNumber" [width]="100" prop="phoneNumber">
@@ -53,43 +53,13 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
+          <strong>{{value}}</strong>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="accountType" [width]="100" prop="accountType">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Account Type</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="accountToken" [width]="100" prop="accountToken">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Account Token</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="osType" [width]="100" prop="osType">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Os Type</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="deviceToken" [width]="100" prop="deviceToken">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Device Token</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">

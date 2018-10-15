@@ -8,6 +8,7 @@ import { AccountRoutingModule} from './account.routing';
 import { AccountComponent} from './account.component';
 import { SharedModule} from '../../../../shared';
 import { AccountInfoComponent } from './account-info/account-info.component';
+import { IAccountServiceToken, AccountService } from '../../../../core';
 
 @NgModule({
     imports: [
@@ -23,7 +24,11 @@ import { AccountInfoComponent } from './account-info/account-info.component';
     declarations: [
         AccountComponent,
         AccountInfoComponent
-    ]
+    ],
+    providers: [{
+        provide: IAccountServiceToken,
+        useClass: AccountService
+    }]
 })
 
 export class AccountModule {}
