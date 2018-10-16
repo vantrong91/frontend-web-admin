@@ -54,11 +54,15 @@
                         </div>
                         <div class="row">
                           <div class="col-2 offset-1">- Thời gian </div>
-                          <div class="col-9">: Từ {{row.receiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{row.toReceiveTime | date:'hh:mm:ss a dd/MM/yyyy'}} (theo timestamp)</div>
+                          <div class="col-9">: Từ {{row.receiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right"
+                              aria-hidden="true"></i> {{row.toReceiveTime | date:'hh:mm:ss a dd/MM/yyyy'}} (theo
+                            timestamp)</div>
                         </div>
                         <div class="row">
                           <div class="col-2 offset-1">- T.g thực tế </div>
-                          <div class="col-9">: Từ {{row.realReceiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{row.realToReceiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} (bắt đầu bốc
+                          <div class="col-9">: Từ {{row.realReceiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right"
+                              aria-hidden="true"></i> {{row.realToReceiveTime| date:'hh:mm:ss a dd/MM/yyyy'}} (bắt đầu
+                            bốc
                             hàng phục vụ tính toán tiền lưu xe cập nhập lúc xe nhập mã bốc hàng)</div>
                         </div>
                       </div>
@@ -78,11 +82,15 @@
                         </div>
                         <div class="row">
                           <div class="col-2 offset-1">- Thời gian </div>
-                          <div class="col-9">: Từ {{row.deliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{row.toDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} (theo timestamp)</div>
+                          <div class="col-9">: Từ {{row.deliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right"
+                              aria-hidden="true"></i> {{row.toDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} (theo
+                            timestamp)</div>
                         </div>
                         <div class="row">
                           <div class="col-2 offset-1">- T.g thực tế </div>
-                          <div class="col-9">: Từ {{row.realDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{row.realToDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} (bắt đầu bốc
+                          <div class="col-9">: Từ {{row.realDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} <i class="fa fa-long-arrow-right"
+                              aria-hidden="true"></i> {{row.realToDeliverTime| date:'hh:mm:ss a dd/MM/yyyy'}} (bắt đầu
+                            bốc
                             hàng phục vụ tính toán tiền lưu xe cập nhập lúc xe nhập mã bốc hàng)</div>
                         </div>
                       </div>
@@ -261,7 +269,8 @@
                           <ng-container *ngFor="let el of row.productImgLst">
                             <div class="col-3 imgView">
                               <!-- <img [src]="row.uRLFolderProductImg + el" alt=""> -->
-                              <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/26169267_1968609916798383_1011146939329326175_n.jpg?_nc_cat=108&oh=9d3b00579cb8ce90f698595232b01acc&oe=5C554EED" alt="">
+                              <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/26169267_1968609916798383_1011146939329326175_n.jpg?_nc_cat=108&oh=9d3b00579cb8ce90f698595232b01acc&oe=5C554EED"
+                                alt="">
                               <br>
                               {{el}}
                             </div>
@@ -279,38 +288,38 @@
       <!--Data col show-->
       <ngx-datatable-column name="Index" [width]="50" [maxWidth]="50">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span class="default">
+          <span class="tbl-header">
             <strong>STT</strong>
           </span>
         </ng-template>
         <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-          <strong>{{rowIndex+1}}</strong>
+          <span>{{rowIndex+1}}</span>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column [width]="50">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Mã Đơn hàng</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <strong>{{row.orderId}}</strong>
+          <span>{{row.orderId}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="50">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Tên đơn hàng</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <strong>{{row.orderName}}</strong>
+          <span>{{row.orderName}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [maxWidth]="90">
+      <ngx-datatable-column [width]="50">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Khối lượng</strong>
           </span>
         </ng-template>
@@ -330,27 +339,27 @@
       </ngx-datatable-column> -->
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span  class="tbl-header">
             <strong>Nơi nhận</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <strong>{{row.srcAddress }}</strong>
+          <span>{{row.srcAddress }}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span  class="tbl-header">
             <strong>Nơi giao</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <strong>{{row.dstAddress }}</strong>
+          <span>{{row.dstAddress }}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="60">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span  class="tbl-header">
             <strong>Trạng thái</strong>
           </span>
         </ng-template>
@@ -361,7 +370,7 @@
 
       <ngx-datatable-column name="action" [minWidth]="50" [width]="60" [maxWidth]="60" [resizeable]="false">
         <ng-template let-column="colmun" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Xem</strong>
           </span>
         </ng-template>

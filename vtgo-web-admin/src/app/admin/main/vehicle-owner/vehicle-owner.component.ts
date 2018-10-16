@@ -47,10 +47,12 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         if (response.status === 0) {
           if (this.searchObject.ownerType === 0) {
             this.listOwnerCompany = response.data;
+
           } else {
             this.listOwnerPersonal = response.data;
           }
         }
+        console.log(response.data);
       },
       error => {
       }
@@ -66,6 +68,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
       this.tabCompany = false;
       this.searchObject.ownerType = 1;
     }
+    this.search(this.searchObject);
   }
 
   getOwnerById(accountId: number) {
@@ -103,7 +106,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   open(content) {
-    
+
     this.noneShow = false;
     // Instant Object
     if (this.tabCompany) {

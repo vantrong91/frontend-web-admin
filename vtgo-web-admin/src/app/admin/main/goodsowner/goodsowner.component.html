@@ -1,169 +1,172 @@
 <div class="row">
     <div class="col-md-4 my-auto">
-        <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm"
-            (keyup)="txtSearch($event)">
+      <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin"
+        placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
     </div>
     <div class="col-md-1">
-        <button class="btn btn-success w-150" (click)="search(searchParam);">Tìm kiếm</button>
+      <button class="btn btn-success w-150" (click)="search(searchParam);">Tìm kiếm</button>
     </div>
-</div>
-<div class="row mt-2">
+  </div>
+  <div class="row mt-2">
     <div class="col-md-11"></div>
     <div class="col-md-1">
-        <button type="button" class="btn btn-success w-100" (click)="open(contentAdd);">Add</button>
+      <button type="button" class="btn btn-success w-100" (click)="open(contentAdd);">Add</button>
     </div>
-</div>
-
-<!-- ======================================= tblGoodsowner ========================================== -->
-
-<div class="row mt-2" [ngClass]="'d-block'">
+  </div>
+  
+  <!-- ======================================= tblGoodsowner ========================================== -->
+  
+  <div class="row mt-2" [ngClass]="'d-block'">
     <div class="col">
-        <div class="goodsowner-view-title">GoodsOwner</div>
-        <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
-            [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
-           
-            <ngx-datatable-column name="Index" [maxWidth]="60">
-                <ng-template let-column="column" ngx-datatable-header-template>
-                    <span class="default">
-                        <strong>STT</strong>
-                    </span>
-                </ng-template>
-                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-                    <strong>{{rowIndex+1}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="accountId" [width]="60" >
-                <ng-template ngx-datatable-header-template>
-                    <span>
-                        <strong>ID</strong>
-                    </span>
-                </ng-template>
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <strong>{{value}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="fullName" [width]="200">
-                <ng-template ngx-datatable-header-template>
-                    <span>Họ tên</span>
-                </ng-template>
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <strong>{{value}}</strong>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="gender"  [width]="80">
-                <ng-template ngx-datatable-header-template>
-                    <span>Giới tính</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{row.gender===0?'Nữ':'Nam'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="phoneNumber" [width]="90">
-                <ng-template ngx-datatable-header-template>
-                    SĐT
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="identityNo" [width]="90">
-                <ng-template ngx-datatable-header-template>
-                    Số giấy phép
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="address" [width]="130">
-                <ng-template ngx-datatable-header-template>
-                    Địa chỉ
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="action" [minWidth]="120" [width]="120" [maxWidth]="120" [resizeable]="false">
-                <ng-template let-column="colmun" ngx-datatable-header-template>
-                    <span>
-                        <strong>Thao tác</strong>
-                    </span>
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                    <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentView); getOwner(row); ">
-                        <i class=" fa fa-eye "></i>
-                    </button>
-                    <button type="button " class="btn btn-warning button-custom-admin ml-2 " (click)="open(contentEdit); getOwner(row); ">
-                        <i class="fa fa-edit "></i>
-                    </button>
-                    <button type="button " class="btn btn-danger button-custom-admin ml-2 " (click)="openSm(del,row.accountId) ">
-                        <i class="fa fa-trash "></i>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
+      <div class="goodsowner-view-title">GoodsOwner</div>
+      <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
+  
+        <ngx-datatable-column name="Index" [maxWidth]="60">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>STT</strong>
+            </span>
+          </ng-template>
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <span>{{rowIndex+1}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="accountId" [width]="60">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>ID</strong>
+            </span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span>{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="fullName" [width]="150">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>Họ tên</strong>
+            </span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <span>{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="gender" [width]="80">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header"><strong>Giới tính</strong></span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.gender===0?'Nữ':'Nam'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="phoneNumber" [width]="90">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header"><strong>SĐT</strong></span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value">
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="identityNo" [width]="80">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header"><strong>Số giấy phép</strong></span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value">
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="address" [width]="120">
+          <ng-template ngx-datatable-header-template>
+            <span class="tbl-header"><strong> Địa chỉ</strong></span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value">
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="action" [minWidth]="150" [width]="150" [maxWidth]="150">
+          <ng-template let-column="colmun" ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>Thao tác</strong>
+            </span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+            <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentView); getOwner(row); ">
+              <i class=" fa fa-eye "></i>
+            </button>
+            <button type="button " class="btn btn-warning button-custom-admin ml-2 " (click)="open(contentEdit); getOwner(row); ">
+              <i class="fa fa-edit "></i>
+            </button>
+            <button type="button " class="btn btn-danger button-custom-admin ml-2 " (click)="openSm(del,row.accountId) ">
+              <i class="fa fa-trash "></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
-
-</div>
-<!-- ======================================= Modal ========================================== -->
-<ng-template #contentEdit let-c="close " let-d="dismiss">
+  
+  </div>
+  <!-- ======================================= Modal ========================================== -->
+  <ng-template #contentEdit let-c="close " let-d="dismiss">
     <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Sửa thông tin chủ hàng</h3>
-        <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-            <span aria-hidden="true ">&times;</span>
-        </button>
+      <h3 class="modal-title " id="modal-basic-title ">Sửa thông tin chủ hàng</h3>
+      <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
     </div>
     <div class="modal-body ">
-        <app-goodsowner-info [ownerViewModel]="_entityOwner" (ownerViewModelChange)="onEditOwner($event)" (closeForm)="c('')"></app-goodsowner-info>
+      <app-goodsowner-info [ownerViewModel]="_entityOwner" (ownerViewModelChange)="onEditOwner($event)" (closeForm)="c('')"></app-goodsowner-info>
     </div>
-</ng-template>
-
-
-<!--============================================================================================-->
-
-<ng-template #contentView let-c="close " let-d="dismiss ">
+  </ng-template>
+  
+  
+  <!--============================================================================================-->
+  
+  <ng-template #contentView let-c="close " let-d="dismiss ">
     <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Xem thông tin chủ hàng</h3>
-        <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-            <span aria-hidden="true ">&times;</span>
-        </button>
+      <h3 class="modal-title " id="modal-basic-title ">Xem thông tin chủ hàng</h3>
+      <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
     </div>
     <div class="modal-body ">
-        <app-view-info [ownerViewModel]="_entityOwner"></app-view-info>
+      <app-view-info [ownerViewModel]="_entityOwner"></app-view-info>
     </div>
-</ng-template>
-
-
-<!--============================================================================================-->
-
-<ng-template #contentAdd let-c="close " let-d="dismiss ">
+  </ng-template>
+  
+  
+  <!--============================================================================================-->
+  
+  <ng-template #contentAdd let-c="close " let-d="dismiss ">
     <div class="modal-header ">
-        <h3 class="modal-title " id="modal-basic-title ">Thêm chủ hàng</h3>
-        <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-            <span aria-hidden="true ">&times;</span>
-        </button>
+      <h3 class="modal-title " id="modal-basic-title ">Thêm chủ hàng</h3>
+      <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
     </div>
     <div class="modal-body ">
-        <app-goodsowner-add  [ownerViewModel]="_entityOwner"  (ownerViewModelChange)="onAddOwner($event)" (closeForm)="c('')"></app-goodsowner-add>
+      <app-goodsowner-add [ownerViewModel]="_entityOwner" (ownerViewModelChange)="onAddOwner($event)" (closeForm)="c('')"></app-goodsowner-add>
     </div>
-</ng-template>
-
-
-
-
-<pre>{{closeResult}}</pre>
-
-<ng-template #del let-c="close " let-d="dismiss ">
+  </ng-template>
+  
+  
+  
+  
+  <pre>{{closeResult}}</pre>
+  
+  <ng-template #del let-c="close " let-d="dismiss ">
     <div class="modal-header ">
-        <h3 class="modal-title ">Thông báo</h3>
-        <button type="button " class="close " aria-label="Close " (click)="d( 'Close') ">
-            <span aria-hidden="true ">&times;</span>
-        </button>
+      <h3 class="modal-title ">Thông báo</h3>
+      <button type="button " class="close " aria-label="Close " (click)="d( 'Close') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
     </div>
     <div class="modal-body ">
-        <p>Bạn có muốn xóa chủ xe ... không?</p>
+      <p>Bạn có muốn xóa chủ xe ... không?</p>
     </div>
     <div class="modal-footer ">
-        <button class="btn btn-primary " (click)="d( 'No-delete') ">Không</button>
-        <button class="btn btn-danger " (click)="c( 'Yes-Delete') ">Có</button>
+      <button class="btn btn-primary " (click)="d( 'No-delete') ">Không</button>
+      <button class="btn btn-danger " (click)="c( 'Yes-Delete') ">Có</button>
     </div>
-</ng-template>
+  </ng-template>
+  

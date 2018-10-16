@@ -21,7 +21,7 @@
       [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #vehicleTable [externalSorting]="true" [sorts]="[{prop: 'vehicleId', dir: 'desc'}]">
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span class="default align-center">
+          <span class="default align-center tbl-header">
             <strong>STT</strong>
           </span>
         </ng-template>
@@ -33,8 +33,8 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="vehicleId" [width]="100" hidden prop="vehicleId">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Vehicle Id</strong>
+          <span class="tbl-header">
+            <strong>Id</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -43,7 +43,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="vehicleCode" [width]="100" prop="vehicleCode">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Mã xe</strong>
           </span>
         </ng-template>
@@ -53,7 +53,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="driverName" [width]="150" prop="driverName">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Tên tài xế</strong>
           </span>
         </ng-template>
@@ -63,7 +63,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="state" [width]="170" prop="state">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Trạng thái</strong>
           </span>
         </ng-template>
@@ -74,7 +74,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="licencePlate" [width]="140" prop="licencePlate">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Biển số</strong>
           </span>
         </ng-template>
@@ -84,7 +84,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="licence" [width]="120" prop="licence">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Số đăng ký</strong>
           </span>
         </ng-template>
@@ -94,7 +94,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [minWidth]="150" [maxWidth]="150">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Thao tác</strong>
           </span>
         </ng-template>
