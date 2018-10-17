@@ -22,29 +22,6 @@
               tabindex="1">
           </div>
         </div>
-
-        <!-- <div formArrayName="vehicleType" *ngFor="let vehicleT of vehicleType.controls; let i = index">
-          <div [formGroupName]="i">
-            <div class="form-group row mb-3">
-              <label class="col-sm-2 col-form-label text-md-right">Loại xe {{i+1}}</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="Loại xe" formControlName="vehicleTypeName" [ngClass]="{'mouse-hover': noneShow}">
-              </div>
-              <div class="col-sm-2">
-                <span>
-                  <button *ngIf="!noneShow" class="btn btn-outline-success mr-2" type="button" (click)="addVehicleType()">
-                    Add
-                  </button>
-                </span>
-                <span>
-                  <button class="btn btn-outline-danger" *ngIf="vehicleType.controls.length >1" type="button" (click)="subVehicleType(i)">
-                    Sub
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div formArrayName="route" *ngFor="let rou of addEditForm.controls['route']['controls']; let i = index">
           <div [formGroupName]="i">
             <div class="form-group row mb-3">
@@ -67,9 +44,6 @@
             </div>
           </div>
         </div>
-
-
-
         <div class="form-group row mb-3">
           <label for="LicencePlate" class="col-sm-2 col-form-label text-md-right">Biển số <span class="text-danger"
               *ngIf="addEditForm.get('licencePlate').errors">*</span></label>
@@ -261,12 +235,6 @@
             <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="DriverName" placeholder="Tên tài xế"
               formControlName="driverName" tabindex="23">
           </div>
-          <label hidden for="Password" class="col-sm-2 col-form-label text-md-right">Password <span class="text-danger"
-              hidden>*</span></label>
-          <div class="col-sm-4">
-            <input hidden [ngClass]="{'mouse-hover': noneShow}" type="password" class="form-control" id="Password"
-              placeholder="Password" tabindex="24">
-          </div>
         </div>
       </ng-template>
     </ngb-tab>
@@ -447,11 +415,10 @@
 
 <div class="modal-footer">
   <button *ngIf="!noneShow" type="button" class="btn btn-success" [disabled]="!addEditForm.valid" (click)="onSave($event)">Save</button>
-  <span *ngIf="!noneShow">
+  <!-- <span *ngIf="!noneShow">
     <button class="btn btn-danger" type="button" (click)="populateTestData()">
       Test Data
     </button>
-  </span>
+  </span> -->
 </div>
-<!-- <br> {{ this.addEditForm.value | json}} -->
 <!-- 8=========== End Popup ===========D -->

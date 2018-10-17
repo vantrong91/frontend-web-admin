@@ -7,7 +7,6 @@ import {
   IVehicleServiceToken,
   IVehicleService,
   VehicleViewModel,
-  VehicleImg,
   IHelperService,
   IHelperServiceToken
 } from '../../../core';
@@ -124,40 +123,6 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
       return `with: ${reason}`;
     }
   }
-
-
-  // mapingVehicleModel(responseModel): VehicleViewModel {
-  //   let entity = new VehicleViewModel();
-  //   entity = responseModel;
-  //   if (entity.cargoInsuranceExpDate) {
-  //     entity.cargoInsuranceExpDate = this.helperService.formatDateTime(entity.cargoInsuranceExpDate);
-  //   }
-  //   if (entity.cargoInsuranceIssueDate) {
-  //     entity.cargoInsuranceIssueDate = this.helperService.formatDateTime(entity.cargoInsuranceIssueDate);
-  //   }
-  //   if (entity.civilInsuranceExpDate) {
-  //     entity.civilInsuranceExpDate = this.helperService.formatDateTime(entity.civilInsuranceExpDate);
-  //   }
-  //   if (entity.civilInsuranceIssueDate) {
-  //     entity.civilInsuranceIssueDate = this.helperService.formatDateTime(entity.civilInsuranceIssueDate);
-  //   }
-  //   if (entity.itineraryMonitoringExpDate) {
-  //     entity.itineraryMonitoringExpDate = this.helperService.formatDateTime(entity.itineraryMonitoringExpDate);
-  //   }
-  //   if (entity.itineraryMonitoringIssueDate) {
-  //     entity.itineraryMonitoringIssueDate = this.helperService.formatDateTime(entity.itineraryMonitoringIssueDate);
-  //   }
-  //   if (entity.licenceIssueDate) {
-  //     entity.licenceIssueDate = this.helperService.formatDateTime(entity.licenceIssueDate);
-  //   }
-  //   if (entity.registrationExpDate) {
-  //     entity.registrationExpDate = this.helperService.formatDateTime(entity.registrationExpDate);
-  //   }
-  //   if (entity.registrationIssueDate) {
-  //     entity.registrationIssueDate = this.helperService.formatDateTime(entity.registrationIssueDate);
-  //   }
-  //   return entity;
-  // }
 
   ngAfterViewChecked() {
     this._vehicleTable.recalculate();

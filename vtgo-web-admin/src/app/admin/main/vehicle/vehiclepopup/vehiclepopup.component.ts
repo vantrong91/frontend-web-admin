@@ -72,6 +72,14 @@ export class VehiclepopupComponent implements OnInit {
         }
       }
       this.addEditForm.reset(vehiclepopup);
+      if(vehiclepopup.vehicleCode === null || vehiclepopup.vehicleCode === undefined){
+        this.addEditForm.controls['vehicleCode'].enable();
+        this.addEditForm.controls['ownerId'].enable();
+        
+      }else{
+        this.addEditForm.controls['vehicleCode'].disable();
+        this.addEditForm.controls['ownerId'].disable();
+      }
     } else {
       this.addEditForm.reset();
     }
@@ -137,13 +145,6 @@ export class VehiclepopupComponent implements OnInit {
       this.addEditForm.enable();
     }
   }
-  // checkDisabled() {
-  //   if (this.noneShow === true) {
-  //     return true;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   selectFile(code: string) {
     switch (code) {
@@ -237,20 +238,6 @@ export class VehiclepopupComponent implements OnInit {
       itineraryMonitoringExpDate: '2018-09-09'
     })
   }
-  // buildVehicleType(): FormGroup {
-  //   return this.formBuilder.group({
-  //     vehicleTypeName: '',
-  //   })
-  // }
-
-  // addVehicleType(){
-  //   this.vehicleType.push(this.buildVehicleType());
-  // }
-
-  // subVehicleType(i){
-  //   this.vehicleType.removeAt(i);
-  // }
-
   buildRoute(): FormGroup {
     return this.formBuilder.group({
       routeName: new FormControl,

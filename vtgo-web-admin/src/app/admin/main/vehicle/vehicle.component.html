@@ -18,8 +18,8 @@
   <div class="col">
     <div class="owner-view-title">Phương tiện vận tải</div>
     <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listVehicle' [columnMode]='"force"' [headerHeight]='50'
-      [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #vehicleTable [externalSorting]="true" [sorts]="[{prop: 'vehicleId', dir: 'desc'}]">
-      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false" [sortable]="true">
+      [footerHeight]='50' [rowHeight]='"auto"' #vehicleTable [sorts]="[{prop: 'vehicleId', dir: 'desc'}]" [limit]="5">
+      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="default align-center tbl-header">
             <strong>STT</strong>
@@ -32,7 +32,7 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="vehicleId" [width]="100" hidden prop="vehicleId">
-        <ng-template let-column="column" ngx-datatable-header-template>
+        <ng-template let-column="column" ngx-datatable-header-template >
           <span class="tbl-header">
             <strong>Id</strong>
           </span>
