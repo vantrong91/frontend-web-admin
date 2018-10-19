@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row" *ngFor="let item of balanceList">
+        <div class="col-6" [ngStyle]="{'font-weight': 'bold'}"> Mã lịch sử giao dịch: {{item.hisId}} </div>
+        <div class="col-6">Mã tài khoản giao dịch: {{item.accountId}} </div>
+        <div class="col-6">Loại giao dịch: {{item.hisType}} </div>
+        <div class="col-6">Nội dung giao dịch: {{item.hisContent}} </div>
+        <div class="col-6">Địa chỉ giao dịch: {{item.ip}} </div>
+        <div class="col-6">Trước giao dịch: {{item.balanceBefor}} </div>
+        <div class="col-6">Sau giao dịch: {{item.balanceAfter}} </div>
+        <div class="col-6">Số tiền giao dịch: {{item.amount}} </div>
+        <div class="col-6">Thời gian giao dịch: {{item.time | date}} </div>
+        <div class="col-12"><hr></div>
+    </div>
+</div>
+

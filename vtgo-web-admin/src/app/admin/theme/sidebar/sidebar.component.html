@@ -58,15 +58,15 @@
             <span class="hide-menu">Thanh toán</span>
           </a>
           <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component2'">
-            <li>
-              <a routerLink="exchange" [routerLinkActive]="['router-link-active']">Giao dịch</a>
-            </li>
-            <li>
+            <!-- <li>
               <a routerLink="balancehis" [routerLinkActive]="['router-link-active']">Lịch sử giao dịch</a>
             </li>
             <li>
               <a routerLink="balance" [routerLinkActive]="['router-link-active']">Bảng cân đối</a>
-            </li> 
+            </li>  -->
+            <li>
+              <a routerLink="account-exchange" [routerLinkActive]="['router-link-active']">Thanh toán chuyển khoản</a>
+            </li>
             <li>
               <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
             </li>
@@ -89,6 +89,29 @@
             </li>
             <li>
               <a routerLink="insuranceorder" [routerLinkActive]="['router-link-active']">Đơn hàng bảo hiểm hàng hóa</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component4'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component4')" aria-expanded="false">
+            <i class="mdi mdi-account-circle"></i>
+            <span>Bộ phận & phân quyền</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component4'">
+            <li>
+              <a routerLink="business" [routerLinkActive]="['router-link-active']">BP Kinh doanh</a>
+            </li>
+            <li>
+              <a routerLink="support" [routerLinkActive]="['router-link-active']">BP Hỗ trợ</a>
+            </li>
+            <li>
+              <a routerLink="accountant" [routerLinkActive]="['router-link-active']">BP Kế toán</a>
+            </li>
+            <li>
+              <a routerLink="technical" [routerLinkActive]="['router-link-active']">BP Kĩ thuật</a>
+            </li>
+            <li>
+              <a routerLink="manage" [routerLinkActive]="['router-link-active']">BP Quản lý</a>
             </li>
           </ul>
         </li>
