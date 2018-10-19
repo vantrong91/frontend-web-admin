@@ -42,7 +42,12 @@ export class BalanceHisComponent implements OnInit {
 
 
     changeShow(el) {
-        this.toShow = el;
+        if(el !==0){
+            this.toShow = el;
+        }else{
+            this.toShow = undefined;
+        }
+        
         console.log(this.toShow);
     }
 

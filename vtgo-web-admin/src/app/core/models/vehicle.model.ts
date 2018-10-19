@@ -1,13 +1,13 @@
 export class VehicleViewModel {
 
     constructor() {
-        //this.userId = 0;
+        this.vehicleId = 0;
     }
     userId: number;
     vehicleId: number;
     ownerId: number;
     vehicleCode: string;
-    route:any;// Map<number, string>;
+    route?: string[];
     vehicleType: any;
     licencePlate: string;
     weight: number;

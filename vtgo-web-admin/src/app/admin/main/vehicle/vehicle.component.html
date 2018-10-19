@@ -31,7 +31,7 @@
           </span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="vehicleId" [width]="100" hidden prop="vehicleId">
+      <ngx-datatable-column name="vehicleId" [width]="70" hidden prop="vehicleId">
         <ng-template let-column="column" ngx-datatable-header-template >
           <span class="tbl-header">
             <strong>Id</strong>
@@ -58,7 +58,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
+          <strong>{{value}}</strong>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="state" [width]="170" prop="state">
@@ -68,8 +68,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value === 0 ?"Chưa đăng ký xe" : value === 1 ?"Đơn hàng chờ xác nhận" : value === 2 ?"Có yêu cầu chưa báo giá" : value
-          === 3 ?"Báo giá cao, cần xem lại báo giá" : value === 4 ?"Đang chờ vận chuyển" :"Đang chở hàng"}}
+          {{value | showData2}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="licencePlate" [width]="140" prop="licencePlate">
@@ -92,7 +91,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [minWidth]="150" [maxWidth]="150">
+      <ngx-datatable-column [minWidth]="140" [maxWidth]="140">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Thao tác</strong>
@@ -122,7 +121,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-vehiclepopup [noneShow]="noneShow" [vehicleViewModel]="entityVehicle" (closeModalEvent)="c('close from Save')" (vehicleViewModelChange)="isAdd ? onSubmitVehicle($event) : onEditVehicle($event)"></app-vehiclepopup>
+      <app-vehiclepopup [noneShow]="noneShow" [vehicleViewModel]="_entityVehicle" (closeModalEvent)="c('close from Save')" (vehicleViewModelChange)="isAdd ? onSubmitVehicle($event) : onEditVehicle($event)"></app-vehiclepopup>
     </div>
 </ng-template>
 
@@ -141,6 +140,5 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="d('No-delete')">Không</button>
     <button type="button" class="btn btn-danger" (click)="c('Yes-Delete')">Có</button>
-    <!-- <button type="button" class="btn btn-light" (click)="c( 'Close click')">Có</button> -->
   </div>
 </ng-template>

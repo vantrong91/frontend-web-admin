@@ -18,9 +18,9 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.scss'],
 })
-export class VehicleComponent implements OnInit, AfterViewChecked {
+export class VehicleComponent implements OnInit {
   closeResult: string;
-  entityVehicle: VehicleViewModel;
+  _entityVehicle: VehicleViewModel;
   listVehicle: any;
   searchObject: SearchModel;
   isAdd = false;
@@ -36,8 +36,6 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.initData();
   }
-
-
 
   initData() {
     this.searchObject = new SearchModel();
@@ -58,9 +56,8 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
     this.vehicleService.GetVehicleById(vehicleId).subscribe(
       (response: any) => {
         if (response.status === 0) {
-          this.entityVehicle = new VehicleViewModel();
-          this.entityVehicle = response.data[0];
-
+          this._entityVehicle = new VehicleViewModel();
+          this._entityVehicle = response.data[0];
         }
       }
     );
@@ -68,7 +65,7 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   //New Vehicle
   open(content) {
     this.noneShow = false;
-    this.entityVehicle = new VehicleViewModel;
+    this._entityVehicle = new VehicleViewModel;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -77,14 +74,13 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
   }
   //View Vehicle
   view(vehicleId, content) {
-    this.entityVehicle = new VehicleViewModel;
+    this._entityVehicle = new VehicleViewModel();
     this.getVehicleById(vehicleId);
     this.noneShow = true;
     this.modalService.open(content, { size: 'lg' });
   }
   // EDIT Vehicle
   edit(vehicleId, content) {
-    this.entityVehicle = new VehicleViewModel;
     this.getVehicleById(vehicleId);
     this.noneShow = false;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
@@ -123,14 +119,10 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
       return `with: ${reason}`;
     }
   }
-
-  ngAfterViewChecked() {
-    this._vehicleTable.recalculate();
-  }
   // add Vehicle
   onSubmitVehicle(event) {
-    this.entityVehicle = event;
-    this.vehicleService.Create(this.entityVehicle).subscribe((response: any) => {
+    this._entityVehicle = event;
+    this.vehicleService.Create(this._entityVehicle).subscribe((response: any) => {
       if (response.status === 0) {
         this.initData();
         this.isShow = true;
@@ -146,8 +138,8 @@ export class VehicleComponent implements OnInit, AfterViewChecked {
 
   // Edit Vehicle
   onEditVehicle(event) {
-    this.entityVehicle = event;
-    this.vehicleService.Put(this.entityVehicle).subscribe(
+    this._entityVehicle = event;
+    this.vehicleService.Put(this._entityVehicle).subscribe(
       (response: any) => {
         if (response.status === 0) {
           this.initData();

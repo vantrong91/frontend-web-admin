@@ -23,7 +23,7 @@ import { IAccountServiceToken, AccountService } from '../../../../core';
     ],
     declarations: [
         AccountComponent,
-        AccountInfoComponent
+        AccountInfoComponent,
     ],
     providers: [{
         provide: IAccountServiceToken,

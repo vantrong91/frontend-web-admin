@@ -15,7 +15,12 @@ import { FileUploader } from 'ng2-file-upload';
 export class VehiclepopupComponent implements OnInit {
   _entity: VehicleViewModel;
   snackbar: any;
+  isAdd = false;
+  oldAttachPro: any;
+  oldvehicleCode: any;
+  oldownerId: any;
   uri = '..DKYXE/';
+  lstImg = [];
 
   uploader: FileUploader = new FileUploader({ url: this.uri });
   attachmentList: any = [];
@@ -23,11 +28,11 @@ export class VehiclepopupComponent implements OnInit {
   attachmentDKYXE: any = [];
   uploaderDKIEMXE: FileUploader = new FileUploader({ url: 'DKIEMXE' });
   attachmentDKIEMXE: any = [];
-  uploaderBHDS: FileUploader = new FileUploader({ url: 'BHDS' });
+  uploaderBHDS: FileUploader = new FileUploader({ url: 'BHDSXE' });
   attachmentBHDS: any = [];
-  uploaderBHHH: FileUploader = new FileUploader({ url: 'BHHH' });
+  uploaderBHHH: FileUploader = new FileUploader({ url: 'BHHHXE' });
   attachmentBHHH: any = [];
-  uploaderGSHT: FileUploader = new FileUploader({ url: 'GSHT' });
+  uploaderGSHT: FileUploader = new FileUploader({ url: 'GXNTBGS' });
   attachmentGSHT: any = [];
 
   public addEditForm: FormGroup;
@@ -35,53 +40,35 @@ export class VehiclepopupComponent implements OnInit {
   get route(): FormArray {
     return <FormArray>this.addEditForm.get('route');
   }
-  // get vehicleType(): FormArray {
-  //   return <FormArray>this.addEditForm.get('vehicleType');
-  // }
 
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
-    if (vehiclepopup !== null) {
-      this._entity = new VehicleViewModel();
-      this.resetFormData();
-      this._entity = vehiclepopup;
-      if(vehiclepopup &&vehiclepopup.route !== null && vehiclepopup.route !== undefined){
-        const attachments = Object.keys(vehiclepopup.route).map(function (index){
-          const attachment = vehiclepopup.route[index];
-          console.log("a", attachment);
-          return attachment;
-        });
-        vehiclepopup.route = '';
-        let ahihi =[];
-        ahihi.push({routeName: attachments});
-        vehiclepopup.route = ahihi;
-      }    
+    if (vehiclepopup.vehicleId !== 0) {
       
-      if (vehiclepopup && (vehiclepopup.attachProperties !== undefined && vehiclepopup.attachProperties !== null)) {
-        const attachments = Object.keys(vehiclepopup.attachProperties).map(function (index) {
-          const attachment = vehiclepopup.attachProperties[index];
-          return attachment;
-        });
-        vehiclepopup.attachProperties = attachments;
-        if (attachments && attachments.length > 0) {
-          const attachmentGroups = attachments.map(attachment => {
-            return this.formBuilder.group(attachment);
-          });
-          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
-          this.addEditForm.setControl('attachProperties', attachmenttArrays);
-        }
+      this.isAdd = false;
+      this._entity = new VehicleViewModel();
+      this._entity = vehiclepopup;
+      this.addEditForm.setControl('route', this.formBuilder.array(vehiclepopup.route || []));
+      if(vehiclepopup && (vehiclepopup.attachProperties !== undefined && vehiclepopup.attachProperties !==null)){
+        this.lstImg = Object.keys(vehiclepopup.attachProperties);
       }
       this.addEditForm.reset(vehiclepopup);
-      if(vehiclepopup.vehicleCode === null || vehiclepopup.vehicleCode === undefined){
+      this.oldAttachPro = this._entity.attachProperties;
+      this.oldvehicleCode = this._entity.vehicleCode;
+      this.oldownerId = this._entity.ownerId;
+      if (vehiclepopup.vehicleCode === null || vehiclepopup.vehicleCode === undefined) {
         this.addEditForm.controls['vehicleCode'].enable();
         this.addEditForm.controls['ownerId'].enable();
-        
-      }else{
+
+      } else {
         this.addEditForm.controls['vehicleCode'].disable();
         this.addEditForm.controls['ownerId'].disable();
       }
     } else {
+      this.isAdd = true;
+      this._entity = new VehicleViewModel();
       this.addEditForm.reset();
+      this.addRoute();
     }
   };
   @Input() noneShow: boolean;
@@ -93,7 +80,7 @@ export class VehiclepopupComponent implements OnInit {
       vehicleId: '',
       ownerId: '',
       vehicleCode: ['', [Validators.required]],
-      route: this.formBuilder.array([this.buildRoute()]),
+      route: this.formBuilder.array([]),
       vehicleType: ['', Validators.required],
       licencePlate: ['', [Validators.required]],
       weight: [, [Validators.required]],
@@ -116,7 +103,6 @@ export class VehiclepopupComponent implements OnInit {
       state: new FormControl('-- Trạng thái --'),
       driverId: '',
       driverName: '',
-      //password: new FormControl(''),
     });
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.attachmentList.push(JSON.parse(response));
@@ -139,7 +125,7 @@ export class VehiclepopupComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.noneShow){
+    if (this.noneShow) {
       this.addEditForm.disable();
     } else {
       this.addEditForm.enable();
@@ -172,80 +158,34 @@ export class VehiclepopupComponent implements OnInit {
     this.uploaderGSHT.queue.forEach(e => this.uploader.queue.push(e));
   }
 
-  fetchImg() {
-    let myJson = '{';
-    let i = 0;
-    this.uploader.queue.forEach(element => {
-      let path = '../IMAGE/' + element.url + '/';
-      if (i < this.uploader.queue.length - 1)
-        myJson += '"' + i + '":{"attachPath":"' + path + '","attachName":"' + element.file.name + '","attachCode":"' + element.url + '"},';
-      else
-        myJson += '"' + i + '":{"attachPath":"' + path + '","attachName":"' + element.file.name + '","attachCode":"' + element.url + '"}';
-
-      i++;
-    });
-    myJson += '}';
-    return myJson;
+  setAttachProp() {
+    let data = {};
+    for (let index = 0; index < this.uploader.queue.length; index++) {
+      const element = this.uploader.queue[index];
+      data[index] = { attachPath: '../IMAGE/' + element.url + '/', attachName: element.file.name, attachCode: element.url}
+    }
+    this.addEditForm.get('attachProperties').setValue(data);
   }
+
 
   onSave(event) {
-    this.addEditForm.get('attachProperties').setValue(JSON.parse(this.fetchImg()))
-    event.preventDefault();
-    if (this.addEditForm.valid) {
-      this._entity = this.addEditForm.value;
-      this.convert();
-      this.vehicleViewModelChange.emit(this._entity);
-      this.closeModalEvent.emit();
+    if (this.isAdd) {
+      this.setAttachProp();
     }
-  }
-  resetFormData(){
-    this.addEditForm.patchValue({
-      licenceIssueDate: '',
-      registrationIssueDate: '',
-      registrationExpDate: '',
-      civilInsuranceExpDate: '',
-      civilInsuranceIssueDate: '',
-      cargoInsuranceIssueDate: '',
-      cargoInsuranceExpDate: '',
-      itineraryMonitoringIssueDate: '',
-      itineraryMonitoringExpDate: '',
-    })
-  }
-  populateTestData() {
-    this.addEditForm.patchValue({
-      ownerId: 123,
-      vehicleCode: 'Tanker123',
-      licencePlate: '37E1-31201',
-      licence: 'Test data',
-      licenceIssueBy: 2,
-      registrationNo: 'Test data',
-      civilInsurance: 'Test data',
-      cargoInsurance: 'Test data',
-      itineraryMonitoring: 'Test data',
-      driverName: 'Hoang TV',
-      driverId: 123,
-      state: 4,
-      vehicleType: 2,
-      weight: 100,
-      licenceIssueDate: '2018-01-01',
-      registrationIssueDate: '2018-02-02',
-      registrationExpDate: '2018-03-03',
-      civilInsuranceExpDate: '2018-04-04',
-      civilInsuranceIssueDate: '2018-05-05',
-      cargoInsuranceIssueDate: '2018-06-06',
-      cargoInsuranceExpDate: '2018-07-07',
-      itineraryMonitoringIssueDate: '2018-08-08',
-      itineraryMonitoringExpDate: '2018-09-09'
-    })
-  }
-  buildRoute(): FormGroup {
-    return this.formBuilder.group({
-      routeName: new FormControl,
-    });
+    this._entity = this.addEditForm.value;
+    if (!this.isAdd){
+      this._entity.attachProperties = this.oldAttachPro;
+      this._entity.vehicleCode = this.oldvehicleCode;
+      this._entity.ownerId = this.oldownerId;
+    }
+    this.convert();
+    this.vehicleViewModelChange.emit(this._entity);
+    this.closeModalEvent.emit();
+
   }
 
   addRoute() {
-    this.route.push(this.buildRoute());
+    this.route.push(new FormControl());
   }
   subRoute(i) {
     this.route.removeAt(i);
@@ -261,19 +201,5 @@ export class VehiclepopupComponent implements OnInit {
     this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
     this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
     this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
-
-    // let vehicleTypeData = {};
-    // let myVehicle = this.addEditForm.get('vehicleType').value;
-    // for (let j = 0; j < myVehicle.length; j++) {
-    //   vehicleTypeData[j+1] = myVehicle[j].vehicleTypeName;
-    // }
-    // this._entity.vehicleType = vehicleTypeData;
-
-    let routeData = {};
-    let myRoute = this.addEditForm.get('route').value;
-    for (let index = 0; index < myRoute.length; index++) {
-      routeData[index+1] = myRoute[index].routeName;  
-    }
-    this._entity.route = routeData;
   }
 }
