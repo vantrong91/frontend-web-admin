@@ -13,6 +13,7 @@ export class BalanceHisComponent implements OnInit {
     toShow = 5;
     _entityBalance: BalanceModel;
     searchParam: SearchModel;
+    searchParam1: any;
     closeResult = "";
     rows: any;
     balance: any;
@@ -30,6 +31,17 @@ export class BalanceHisComponent implements OnInit {
         );
     }
 
+    txtSearch(event) {
+        // // if (event.keyCode === 13) {
+        // //     this.search(this.searchParam);
+        // //     event.target.select();
+        // // }
+        // console.log(this.searchParam);
+        // if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
+        //     this.search('{}');
+        // else
+        this.search(this.searchParam1);
+    }
 
     ngOnInit() {
         this.loadData();

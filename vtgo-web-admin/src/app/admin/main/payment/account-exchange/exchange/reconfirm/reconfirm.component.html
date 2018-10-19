@@ -1,0 +1,50 @@
+<form [formGroup]="reconfirmForm" novalidate id="form" *ngIf="isShow">
+  <ngb-tabset>
+    <ngb-tab title="Thông tin giao dịch">
+      <ng-template ngbTabContent>
+        <input type="text" id="accountid" hidden>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Mã người dùng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1" readonly="readonly" />
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2" readonly="readonly" />
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản ngân hàng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" tabindex="3" readonly="readonly"/>
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Thuộc ngân hàng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Tên ngân hàng" tabindex="4" readonly="readonly" />
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền chuyển thực tế</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số tiền chuyển thực tế" tabindex="5" formControlName="transferAmount"/>
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Phí chuyển thực tế</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Phí chuyển tiền thực tế" tabindex="6" formControlName="transferFees"/>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <!-- <ngb-tab title="Khác">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label class="col-sm-12">Nhận tiền, nhận hàng, thay đổi tiền...</label>
+        </div>
+      </ng-template>
+    </ngb-tab> -->
+  </ngb-tabset>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="reconfirm()">Đồng ý</button>
+  </div>
+
+</form>

@@ -19,7 +19,13 @@ const routes: Routes = [
       { path: 'orderlist', loadChildren: './order/orderlist/orderlist.module#OrderListModule' },
       { path: 'quotation', loadChildren: './order/quotation/quotation.module#QuotationModule'},
       { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' },
-      { path: 'exchange', loadChildren: './payment/exchange/balance-his.module#BalanceHisModule' }
+      { path: 'exchange', loadChildren: './payment/exchange/balance-his.module#BalanceHisModule' },
+      { path: 'account-exchange', loadChildren: './payment/account-exchange/account.module#AccountModule' },
+      { path: 'business', loadChildren: './decentralization/business/business.module#BusinessModule' },
+      { path: 'accountant', loadChildren: './decentralization/accountant/accountant.module#AccountantModule' },
+      { path: 'manage', loadChildren: './decentralization/manage/manage.module#ManageModule' },
+      { path: 'support', loadChildren: './decentralization/support/support.module#SupportModule' },
+      { path: 'technical', loadChildren: './decentralization/technical/technical.module#TechnicalModule' },
     ]
   }
 ];
