@@ -1,13 +1,9 @@
-#password{
-    border-style: none;
-    background: none;
-}
-
-.owner-view-title{
+.view-title {
     align-content: center;
     align-items: center;
-    display: flex;
+    display: block;
     padding: 8px 20px;
     color: #000000a4;
     background-color: #DDDDDD;
+    font-weight: 600;
 }

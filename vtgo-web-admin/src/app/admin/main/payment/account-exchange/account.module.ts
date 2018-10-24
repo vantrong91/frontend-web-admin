@@ -10,7 +10,6 @@ import { SharedModule} from '../../../../shared';
 import { BalanceHisComponent } from './balance-his/balance-his.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ExchangeComponent } from './exchange/exchange.component';
-import { ReconfirmComponent } from './exchange/reconfirm/reconfirm.component';
 
 
 @NgModule({
@@ -29,7 +28,6 @@ import { ReconfirmComponent } from './exchange/reconfirm/reconfirm.component';
         BalanceHisComponent,
         BalanceComponent,
         ExchangeComponent,
-        ReconfirmComponent
     ]
 })
 

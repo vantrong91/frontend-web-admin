@@ -15,16 +15,17 @@ export class AccountComponent implements OnInit {
   accountById: AccountManViewModel;
   balanceById: BalanceModel;
   balance: BalanceModel;
-  searchParam: ' ';
+  searchParam: SearchModel;
 
   constructor(private modalServices: NgbModal, private dataService: DataService) { }
   ngOnInit() {
     this.loadData();
   }
   loadData() {
-    let search = '{}';
-    this.search(search);
-    this.search2(search);
+    this.searchParam = new SearchModel();
+    this.searchParam.searchParam = '';
+    this.search(this.searchParam);
+    this.search2(this.searchParam);
   }
 
   search(search) {
@@ -41,7 +42,7 @@ export class AccountComponent implements OnInit {
     this.dataService.Post('balance/search', search).subscribe(
       response => {
         if (response.status === 0) {
-          this.balance = response.data;
+          this.balance = response.data;  
         }
       }
     );
@@ -87,10 +88,7 @@ export class AccountComponent implements OnInit {
 
 
   txtSearch(event) {
-    if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
-      this.search('{}');
-    else
-      this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
+    this.search(this.searchParam);
   }
 
 

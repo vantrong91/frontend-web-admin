@@ -1,4 +1,4 @@
-<form [formGroup]="exchangeForm" novalidate id="form">
+<form [formGroup]="reconfirmForm" novalidate id="form">
   <ngb-tabset>
     <ngb-tab title="Chuyển tiền">
       <ng-template ngbTabContent>
@@ -6,36 +6,52 @@
         <div class="form-group row my-3">
           <label for="" class="col-sm-2 col-form-label text-md-right">Mã người dùng</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1" readonly="readonly" />
+            <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1"
+              readonly="readonly" />
           </div>
           <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2" readonly="readonly" />
+            <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2"
+              readonly="readonly" />
           </div>
         </div>
         <div class="form-group row my-3">
           <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản ngân hàng</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" tabindex="3" readonly="readonly"/>
+            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" tabindex="3" />
           </div>
           <label for="" class="col-sm-2 col-form-label text-md-right">Thuộc ngân hàng</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Tên ngân hàng" tabindex="4" readonly="readonly" />
+            <!-- <input type="text" class="form-control" placeholder="Tên ngân hàng" tabindex="4" /> -->
+            <select class="form-control" (change)="bankChanged($event)">
+              <option>Chọn ngân hàng</option>
+              <option *ngFor="let i of listBank" [value]="i.transferId">{{i.bankName}} --- {{i.fee}}VNĐ</option>
+            </select>
           </div>
         </div>
         <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền cần chuyển</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền chuyển thực tế</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tiền cần chuyển" tabindex="5" readonly="readonly"/>
+            <input type="text" class="form-control" placeholder="Số tiền chuyển thực tế" tabindex="5" formControlName="transferAmount" />
           </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Phí chuyển tiền</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Phí chuyển thực tế</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Phí chuyển tiền" tabindex="6"
-              readonly="readonly" />
+            <input type="text" class="form-control" [value]="fee==null?'':fee" placeholder="Phí chuyển tiền thực tế"
+              tabindex="6" />
           </div>
         </div>
+        <div class="form-group row my-3" *ngIf="isShow">
+            <label for="" class="col-sm-2 col-form-label text-md-right">Mã xác thực</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Mã xác thực" tabindex="7" formControlName="code" />
+            </div>
+          </div>
         <div class="form-group row my-3">
-          <a class="col-sm-12 col-form-label text-md-center" href="https://www.vietcombank.com.vn/IBanking2015/55c3c0a782b739e063efa9d5985e2ab4/Account/Login" target="_blank" (click)="Show()">Đường link chuyển tiền</a>
+          <div class="col-sm-4"> </div>
+          <div class="col-sm-4">
+            <a class="btn btn-success btn-block" href="https://www.vietcombank.com.vn/IBanking2015/55c3c0a782b739e063efa9d5985e2ab4/Account/Login" target="_blank" (click)="changeShow()">Link banking</a>
+          </div>
+          <div class="col-sm-4"> </div>
         </div>
       </ng-template>
     </ngb-tab>
@@ -48,20 +64,7 @@
     </ngb-tab> -->
   </ngb-tabset>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="open(contentExchange)" *ngIf="isShow">Chuyển tiền</button>
+    <button type="button" class="btn btn-success" (click)="chaneBalance()">Chuyển tiền</button>
   </div>
 
 </form>
-
-<!-- ======================================= Modal ========================================== -->
-<ng-template #contentExchange let-c="close " let-d="dismiss">
-  <div class="modal-header ">
-    <h3 class="modal-title " id="modal-basic-title ">Xác nhận chuyển tiền</h3>
-    <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
-      <span aria-hidden="true ">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body ">
-    <app-reconfirm (closeForm)="c('')" [accountManModel]="balanceHisId"></app-reconfirm>
-  </div>
-</ng-template>
