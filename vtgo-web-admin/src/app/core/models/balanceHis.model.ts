@@ -5,10 +5,11 @@ export class BalanceHisModel {
     }
   hisId: number;
   accountId: number;
-  hisType: number;
+  hisType: string;
   hisContent: string;
   ip: string;
   balanceBefor: number;
   balanceAfter: number;
   amount: number;
+  time: number;
 }

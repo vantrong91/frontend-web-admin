@@ -20,7 +20,7 @@
           <a href="#" class="dropdown-item">
             <i class="ti-email"></i> Hộp thư</a>
           <div class="dropdown-divider"></div>
-          <a routerLink="setting" class="dropdown-item">
+          <a href="#" class="dropdown-item">
             <i class="ti-settings"></i> Cài đặt</a>
           <div class="dropdown-divider"></div>
           <a href="login.html" class="dropdown-item">
@@ -67,6 +67,7 @@
             <li>
               <a routerLink="account-exchange" [routerLinkActive]="['router-link-active']">Thanh toán chuyển khoản</a>
             </li>
+
           </ul>
         </li>
         <li [class.active]="showMenu === 'component3'">
@@ -95,7 +96,6 @@
             <span>Bộ phận & phân quyền</span>
           </a>
           <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component4'">
-
             <li>
               <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
             </li>
@@ -116,6 +116,26 @@
             </li>
           </ul>
         </li>
+        <li [class.active]="showMenu === 'component5'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component5')" aria-expanded="false">
+            <i class="mdi mdi-settings"></i>
+            <span>Cài đặt</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component5'">
+            <li>
+              <a routerLink="userinfo" [routerLinkActive]="['router-link-active']">Thông tin cá nhân</a>
+            </li>
+            <li>
+              <a routerLink="changepw" [routerLinkActive]="['router-link-active']">Đổi mật khẩu</a>
+            </li>
+            <li>
+              <a routerLink="feebanks" [routerLinkActive]="['router-link-active']">Phí chuyển khoản</a>
+            </li>
+            <li>
+              <a routerLink="orther" [routerLinkActive]="['router-link-active']">Khác</a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- End Sidebar navigation -->
@@ -124,7 +144,7 @@
   <!-- Bottom points-->
   <div class="sidebar-footer">
     <!-- item-->
-    <a routerLink="setting" class="link" data-toggle="tooltip" title="Cài đặt">
+    <a href="" class="link" data-toggle="tooltip" title="Cài đặt">
       <i class="ti-settings"></i>
     </a>
     <!-- item-->

@@ -26,8 +26,6 @@ export * from './models/orderlist.model';
 export * from './models/quotation.model';
 export * from './models/searchQuotation';
 export * from './models/balance.model';
-export * from './models/generic-validator';
-export * from './models/compare-validator';
 // Export Service
 export * from './services/authen.service';
 export * from './services/config.service';

@@ -13,6 +13,8 @@ import {DataService} from './core/services/data.service';
 import {AuthenService} from './core/services/authen.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrConfig, ToastrModule } from "ngx-toastr";
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 // Load Config
 export function ConfigLoader(configService: ConfigService) {
   // Note: this factory need to return a function (that return a promise)
@@ -28,6 +30,7 @@ export function ConfigLoader(configService: ConfigService) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientInMemoryWebApiModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
