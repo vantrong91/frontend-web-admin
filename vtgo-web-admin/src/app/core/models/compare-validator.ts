@@ -1,5 +1,6 @@
-import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
+import { ValidatorFn, AbstractControl, ValidationErrors, NG_VALIDATORS, Validator } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { Directive, Input } from "@angular/core";
 
 export function compareValidator(controlName: string): ValidatorFn{
     return (c: AbstractControl): ValidationErrors | null => {
@@ -14,5 +15,17 @@ export function compareValidator(controlName: string): ValidatorFn{
             });
         }
         return controlToCompare && controlToCompare.value !==c.value ? {'compare' : true} : null;
+    }
+}
+
+@Directive({
+    selector: '[compare]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: CompareValidatorDirective, multi: true}]
+})
+
+export class CompareValidatorDirective implements Validator{
+    @Input('compare') controlName: string;
+    validate(c: AbstractControl): ValidationErrors | null{
+        return compareValidator(this.controlName)(c);
     }
 }
