@@ -20,7 +20,7 @@
           <a href="#" class="dropdown-item">
             <i class="ti-email"></i> Hộp thư</a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a routerLink="setting" class="dropdown-item">
             <i class="ti-settings"></i> Cài đặt</a>
           <div class="dropdown-divider"></div>
           <a href="login.html" class="dropdown-item">
@@ -67,9 +67,6 @@
             <li>
               <a routerLink="account-exchange" [routerLinkActive]="['router-link-active']">Thanh toán chuyển khoản</a>
             </li>
-            <li>
-              <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
-            </li>
           </ul>
         </li>
         <li [class.active]="showMenu === 'component3'">
@@ -98,6 +95,10 @@
             <span>Bộ phận & phân quyền</span>
           </a>
           <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component4'">
+
+            <li>
+              <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
+            </li>
             <li>
               <a routerLink="business" [routerLinkActive]="['router-link-active']">BP Kinh doanh</a>
             </li>
@@ -123,7 +124,7 @@
   <!-- Bottom points-->
   <div class="sidebar-footer">
     <!-- item-->
-    <a href="" class="link" data-toggle="tooltip" title="Cài đặt">
+    <a routerLink="setting" class="link" data-toggle="tooltip" title="Cài đặt">
       <i class="ti-settings"></i>
     </a>
     <!-- item-->

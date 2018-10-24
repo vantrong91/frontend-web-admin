@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: 'manage', loadChildren: './decentralization/manage/manage.module#ManageModule' },
       { path: 'support', loadChildren: './decentralization/support/support.module#SupportModule' },
       { path: 'technical', loadChildren: './decentralization/technical/technical.module#TechnicalModule' },
+      { path: 'setting', loadChildren: './setting/setting.module#SettingModule'}
     ]
   }
 ];

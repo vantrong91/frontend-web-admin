@@ -1,3 +1,69 @@
-<p>
-  hello
-</p>
+<form [formGroup]="addEditForm" novalidate>
+    <div class="form-group row my-3">
+        <label for="fullName" class="col-sm-2 col-form-label text-md-right">Họ và tên </label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="" formControlName="fullName"
+                tabindex="1" [ngClass]="{'is-invalid': displayMessage.fullName}" />
+            <span class="invalid-feedback">
+                {{displayMessage.fullName}}
+            </span>
+        </div>
+        <label for="email" class="col-sm-2 col-form-label text-md-right">Email (duy nhất) </label>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" id="email" formControlName="email" tabindex="2"
+                [ngClass]="{'is-invalid': displayMessage.email}" (focusout)="checkEmailPhone($event,'email')"/>
+            <span class="invalid-feedback">
+                {{displayMessage.email}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row my-3">
+        <label for="phoneNumber" class="col-sm-2 col-form-label text-md-right">Số điện thoại </label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber"
+                tabindex="3" [ngClass]="{'is-invalid': displayMessage.phoneNumber}" (focusout)="checkEmailPhone($event, 'phoneNumber')"/>
+            <span class="invalid-feedback">
+                {{displayMessage.phoneNumber}}
+            </span>
+        </div>
+        <label for="accountType" class="col-sm-2 col-form-label text-md-right">Loại tài khoản </label>
+        <div class="col-sm-4">
+            <select [ngClass]="{'is-invalid': displayMessage.accountType}" class="custom-select form-control" id="accountType" formControlName="accountType" tabindex="4">
+                <option value=null disabled selected>&#45;&#45; Admin &#45;&#45;</option>
+                <option value="1">Lái xe</option>
+                <option value="2">Chủ hàng</option>
+                <option value="3">Chủ xe</option>
+                <option value="5">Bộ phận kinh doanh</option>
+                <option value="6">Bộ phận hỗ trợ</option>
+                <option value="7">Bộ phận kế toán</option>
+                <option value="8">Bộ phận kỹ thuật</option>
+                <option value="9">Bộ phận quản lý</option>
+            </select>
+            <span class="invalid-feedback">
+                {{displayMessage.accountType}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row my-3">
+        <label for="password" class="col-sm-2 col-form-label text-md-right">Mật khẩu </label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" id="password" placeholder=""
+                formControlName="password" tabindex="5" [ngClass]="{'is-invalid': displayMessage.password}">
+                <span class="invalid-feedback">
+                    {{displayMessage.password}}
+                </span>
+        </div>
+        <label for="confirmPassword" class="col-sm-2 col-form-label text-md-right">Nhập lại mật khẩu </label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" id="confirmPassword" placeholder=""
+                formControlName="confirmPassword" tabindex="5" [ngClass]="{'is-invalid': displayMessage.confirmPassword}">
+                <span class="invalid-feedback">
+                    {{displayMessage.confirmPassword}}
+                </span>
+        </div>
+    </div>
+</form>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Save</button>
+    <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
+</div>

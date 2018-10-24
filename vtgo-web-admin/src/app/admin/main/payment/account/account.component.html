@@ -8,6 +8,7 @@
   <div class="col-md-5"></div>
   <div class="col-md-1">
     <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button>
+    <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
   </div>
 </div>
 
@@ -73,11 +74,11 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title" id="modal-basic-title">Account</h3>
-    <button type="button" class="close" aria-label="Close">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <app-account-info></app-account-info>
+    <app-account-info [accountViewModel]="_entity" (accountViewModelChange)="onSubmit($event)" (closeModalEvent)="c('close from Save')"></app-account-info>
   </div>
 </ng-template>
