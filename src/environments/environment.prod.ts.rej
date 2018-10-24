@@ -1,6 +1,0 @@
-diff a/Source/vtgo-web-admin/src/environments/environment.prod.ts b/Source/vtgo-web-admin/src/environments/environment.prod.ts	(rejected hunks)
-@@ -1,4 +0,0 @@
--export const environment = {
--  production: true,
--  configFile: 'assets/config/config.json'
--};
