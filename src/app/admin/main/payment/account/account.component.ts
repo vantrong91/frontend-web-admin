@@ -1,0 +1,53 @@
+import { Component, OnInit, Inject } from '@angular/core';
+import { AccountViewModel, IAccountServiceToken, IAccountService, IHelperServiceToken, IHelperService, SearchModel } from '../../../../core'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss']
+})
+export class AccountComponent implements OnInit {
+
+  listAccount: any;
+  searchObject: SearchModel;
+  searchParam: ' ';
+
+  constructor(private modalService: NgbModal,
+    @Inject(IAccountServiceToken) private accountService: IAccountService,
+    @Inject(IHelperServiceToken) private helperService: IHelperService) { }
+  open(content) {
+    this.modalService.open(content, { size: 'lg' });
+  }
+  view(accountId, content) {
+
+  }
+  ngOnInit() {
+    this.initData();
+  }
+
+  initData() {
+    let search = '{}';
+    this.search(search);
+  }
+
+  search(search) {
+    this.accountService.Get(search).subscribe(
+      (response: any) => {
+        if (response.status === 0) {
+          this.listAccount = response.data;
+        }
+      },
+      error => {
+
+      }
+    )
+  }
+  txtSearch(event) {
+    if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1) {
+      this.search('{}');
+    } else {
+      this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<form [formGroup]="addEditForm" novalidate>
+    <ngb-tabset>
+        <ngb-tab title="Thông tin cá nhân tài xế">
+            <ng-template ngbTabContent>
+                <input type="text" id="accountid" hidden formControlName="accountId">
+                <div class="form-group row my-3">
+                    <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" formControlName="fullName" tabindex="1"
+                        />
+                    </div>
+                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Quốc tịch" formControlName="nationality"
+                            tabindex="2" />
+                    </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'" name="dateOfBirth" formControlName="dateOfBirth">
+                    </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số CMT <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="identityNo" name="identityNo" placeholder="Số giấy tờ" formControlName="identityNo"
+                            tabindex="4" />
+                    </div>
+                    <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'yyyy-MM-dd'" name="issueDate" formControlName="issueDate">
+                    </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="issueby" name="issueby" placeholder="Nơi cấp" formControlName="issueBy" tabindex="6"
+                        />
+                    </div>
+                    <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="7">
+                            <option selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
+                            <option value="1">Nam</option>
+                            <option value="0">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại" formControlName="phoneNumber"
+                            tabindex="8" />
+                    </div>
+                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Địa chỉ <span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ " formControlName="address" tabindex="9"
+                        />
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="File đính kèm">
+            <ng-template ngbTabContent>
+                <div class="form-group row my-3">
+                    <label class="col-sm-6">Chứng minh nhân dân/Thẻ căn cước</label>
+                    <div class="col-sm-6" formGroupName="attachProperties">
+                        <input type="file" multiple class="form-control" id="inputGroupFile01" (change)="selectFile($event,'CMND')"/>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="(Save($event))">Save</button>
+    </div>
+</form>

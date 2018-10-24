@@ -1,0 +1,29 @@
+<div class="container" *ngIf="isShow">
+    <div class="row">
+        <div class="col-4">
+            Mã tài khoản:  {{_entityBalance[0]?.accountId}}
+        </div>
+        <div class="col-4">
+            Số tiền còn nợ:  {{_entityBalance[0]?.debt}} VNĐ
+        </div>
+        <div class="col-4">
+            Mã rút tiền:  {{_entityBalance[0]?.code == null?'Chưa rút tiền lần nào':_entityBalance[0]?.code}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12"><hr></div>  
+        <div class="col-12" *ngFor="let i of Arr">
+            <h3>Cân đối thu chi</h3>
+            <div class="row">                
+                <div class="col-4">Tổng: {{i.Gross}} VNĐ</div>
+                <div class="col-4">Đặt trước: {{i.Reserve}} VNĐ</div>
+                <div class="col-4">Số tiền rút: {{i.Consume}} VNĐ</div>
+                <div class="col-4">Loại cân đối: {{i.BalType == 1?'Rút tiền':'Chuyển tiền'}}</div>
+                <div class="col-4">Số tài khoản: {{i.AcctNumber}}</div>
+                <div class="col-4">Ngày hết hạn: {{i.ExpDate | date}} </div>
+                <div class="col-4"><h4>Số tiền còn lại: {{i.Gross - i.Consume - i.Reserve}} VNĐ</h4></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+{
+    "BASE_API": "http://103.90.220.148:8086/vtgo-admin/v1/",
+    "PAGE_CONFIG": {
+        "HeaderHeight": 50,
+        "ColumnWith": 50,
+        "RowHeight": 50,
+        "FooterHeight": 50,
+        "PageSize": 15
+    },
+    "LAGUAGE": {
+        "LanguageDefault": "en",
+        "LanguageSupports": [
+            "en",
+            "vn"
+        ],
+        "Languages": [
+            {
+                "Id": "en",
+                "TranslateKey": "Common.Language.LblEnglish",
+                "Image": "assets/images/flags/en.png"
+            },
+            {
+                "Id": "vn",
+                "TranslateKey": "Common.Language.LblVietNam",
+                "Image": "assets/images/flags/vn.png"
+            }
+        ]
+    }
+}

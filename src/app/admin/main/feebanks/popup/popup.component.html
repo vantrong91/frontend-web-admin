@@ -1,0 +1,46 @@
+<form [formGroup]="addEditForm" novalidate>
+    <ngb-tabset>
+        <ngb-tab title="Thông tin thông tin ngân hàng">
+            <ng-template ngbTabContent>
+                <input type="text" id="transferId" hidden formControlName="transferId">
+                <div class="form-group row my-3">
+                    <label for="bankCode" class="col-sm-2 col-form-label text-md-right">Mã ngân hàng</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="bankCode" name="bankCode" placeholder="Mã ngân hàng"
+                            formControlName="bankCode" tabindex="1" />
+                    </div>
+                    <label for="bankName" class="col-sm-2 col-form-label text-md-right">Tên ngân hàng</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Tên ngân hàng"
+                            formControlName="bankName" tabindex="2" />
+                    </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label for="fee" class="col-sm-2 col-form-label text-md-right">Phí chuyển khoản</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="fee" name="fee" placeholder="Phí chuyển khoản"
+                            formControlName="fee" tabindex="3" />
+                    </div>
+                    <label for="linkIB" class="col-sm-2 col-form-label text-md-right">Link website</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="linkIB" name="linkIB" placeholder="Link website"
+                            formControlName="linkIB" tabindex="4" />
+                    </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label for="connect" class="col-sm-2 col-form-label text-md-right">Trạng thái</label>
+                    <div class="col-sm-4">
+                        <!-- <input type="text" class="form-control" id="connect" name="connect" placeholder="Trạng thái" tabindex="4" /> -->
+                        <select class="form-control" id="connect" name="connect" formControlName="connect" tabindex="5">
+                            <option value="1">Đã liên kết</option>
+                            <option value="0">Chưa liên kết</option>
+                        </select>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="(Save($event))">Save</button>
+    </div>
+</form>

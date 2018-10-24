@@ -1,0 +1,32 @@
+.driver-view-title {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    padding: 8px 20px;
+    color: #000000a4;
+    background-color: #DDDDDD;
+}
+
+.imgView {
+    overflow: scroll;
+    height: 460px;
+    background-color: #a7a6a654 !important;
+    padding: 20px;
+}
+
+.imgView img {
+    max-width: 100%;
+    margin: 0px auto 10px;
+}
+
+.container .row {
+    padding-bottom: 10px;
+}
+.btn-close{
+    cursor: pointer;
+    transition: .1s;
+}
+.btn-close:hover{
+    font-size: 18px;
+    color: #000000c7;
+}

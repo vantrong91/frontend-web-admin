@@ -1,0 +1,426 @@
+<form [formGroup]="addEditForm" novalidate>
+  <ngb-tabset>
+    <ngb-tab title="Thông tin cá nhân chủ xe">
+      <ng-template ngbTabContent>
+        <input type="text" hidden id="AccountId">
+        <div class="form-group row my-3">
+          <label for="FullName" class="col-sm-2 col-form-label text-md-right">Họ và tên <span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="FullName"
+                   placeholder="Họ tên"
+                   name="FullName" formControlName="fullName" tabindex="1">
+          </div>
+          <label for="Nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Nationality"
+                   placeholder="Quốc tịch"
+                   formControlName="nationality" tabindex="2">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="LicenseNo" class="col-sm-2 col-form-label text-md-right">Số giấy tờ<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="LicenseNo"
+                   placeholder="Số giây tờ"
+                   formControlName="licenseNo" tabindex="3">
+          </div>
+          <label for="IssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                       ngbDatepicker #isdate="ngbDatepicker" formControlName="issueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="isdate.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="IssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="IssueBy"
+                   placeholder="Nơi cấp"
+                   formControlName="issueBy" tabindex="5">
+          </div>
+          <label for="Gender" class="col-sm-2 col-form-label text-md-right">Giới tính<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select" [ngClass]="{'mouse-hover': noneShow}" id="Gender" tabindex="6"
+                    [attr.disabled]="noneShow ? 'disabled' : null">
+              <option selected>&#45;&#45; Chọn giới tính &#45;&#45;</option>
+              <option value="1">Nam</option>
+              <option value="2">Nữ</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Ethnic"
+                   placeholder="Dân tộc"
+                   tabindex="7" formControlName="ethnic">
+          </div>
+          <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPhone"
+                   placeholder="Số điện thoại"
+                   formControlName="contactPhone" tabindex="8">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="Email" class="col-sm-2 col-form-label text-md-right">Email<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="Email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Email"
+                   placeholder="Email"
+                   formControlName="email" tabindex="9">
+          </div>
+          <label for="ContactPn" class="col-sm-2 col-form-label text-md-right">Họ và tên<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPn"
+                   placeholder="Họ tên người liên hệ"
+                   formControlName="contactPerson" tabindex="10">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}"
+                   placeholder="SĐT người liên hệ"
+                   formControlName="contactPersonPhone" tabindex="11">
+          </div>
+          <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Email<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}"
+                   placeholder="Email người liên hệ"
+                   formControlName="contactPersonEmail" tabindex="12">
+          </div>
+        </div>
+        <hr class="hr-border-color mb-1">
+        <div>Nơi cư trú</div>
+        <div [formGroup]="addEditForm.controls['address']">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
+                     formControlName="country" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
+                     formControlName="province" tabindex="12">
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
+                     formControlName="district" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Phường/Xã"
+                     formControlName="wards" tabindex="12">
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Sổ hộ khẩu</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Số sổ hộ khẩu"
+                     formControlName="householdNo" tabindex="11">
+            </div>
+          </div>
+        </div>
+        <hr class="hr-border-color mb-1">
+        <div>Chỗ ở hiện tại</div>
+        <div [formGroup]="addEditForm.controls['contactAddress']">
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
+                     formControlName="country" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}"
+                     placeholder="Tỉnh/Thành phố"
+                     formControlName="province" tabindex="12">
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
+                     formControlName="district" tabindex="11">
+            </div>
+            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPnEmail"
+                     placeholder="Phường/Xã" formControlName="wards" tabindex="12">
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-md-right">Số nhà/đường</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Số nhà/đường"
+                     formControlName="street" tabindex="11">
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Tài khoản ngân hàng">
+      <ng-template ngbTabContent>
+        <div class="" formArrayName="bankAccountLst"
+             *ngFor="let bank of addEditForm.controls['bankAccountLst']['controls']; index as i">
+          <div [formGroupName]="i">
+            <div class="row my-3 border-top" *ngIf="i>0">
+              <div class="col text-right mt-1">
+                <button class="btn btn-danger" (click)="onRemoveBankGroup($event,i)">
+                  <span class="fa fa-trash-o"></span>
+                </button>
+              </div>
+            </div>
+            <div class="form-group row my-3">
+              <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+              <div class="col-sm-4">
+                <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" formControlName="bankCode"
+                        name="bankCode"
+                        [attr.disabled]="noneShow ? 'disabled' : null">
+                  <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
+                </select>
+                <input type="hidden" formControlName="bankCode" name="bankCode"/>
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Số tài khoản" formControlName="accountNumber" name="accountNumber"
+                       [attr.disabled]="noneShow ? 'disabled' : null">
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-sm-2 col-form-label text-md-right">Người thụ hưởng</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}"
+                       [ngClass]="{'mouse-hover': noneShow}"
+                       placeholder="Người thụ hưởng" formControlName="ownerName"
+                       [attr.disabled]="noneShow ? 'disabled' : null">
+              </div>
+              <label class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
+              <div class="col-sm-4">
+                <select class="custom-select" [attr.disabled]="noneShow ? 'disabled' : null">
+                  <option selected>&#45;&#45; Chọn chi nhánh &#45;&#45;</option>
+                  <option value="1">Vietcombank</option>
+                  <option value="2">MBBank</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm tài khoản
+          </button>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Hồ sơ đính kèm">
+      <ng-template ngbTabContent>
+        <div class="mt-2" [ngClass]="{'d-none': !noneShow}">
+          <div class="form-group">
+            <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'SHK' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'SHK'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Chứng minh thu/Hộ chiếu/Thẻ căn cước công dân của chủ xe(chụp 2 mặt của giấy tờ)
+            </label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'CMND' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'CMND'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'GPKDVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPKDVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'GPDHVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPDHVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2" [ngClass]="{'d-none': noneShow}">
+          <div class="form-group">
+            <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" multiple
+                     (change)="fileRegistrationBook($event)">
+              <label class="custom-file-label mb-0" aria-describedby="inputGroupFileAddon02">{{fileChoseRegistrationBook}}</label>
+            </div>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'SHK' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'SHK'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Chứng minh thu/Hộ chiếu/Thẻ căn cước công dân của chủ xe(chụp 2 mặt của giấy tờ)
+            </label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile02" multiple
+                     (change)="filePassport($event)">
+              <label class="custom-file-label mb-0"
+                     aria-describedby="inputGroupFileAddon02">{{fileChosePassport}}</label>
+            </div>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'CMND' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'CMND'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile03" multiple
+                     (change)="fileTransportationBusiness($event)">
+              <label class="custom-file-label" aria-describedby="inputGroupFileAddon02">{{fileChoseTransportationBusiness}}</label>
+            </div>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'GPKDVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPKDVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép)</label>
+            <div class="custom-file col-sm-6">
+              <input type="file" class="custom-file-input" id="inputGroupFile04" multiple
+                     (change)="fileTransportOperator($event)">
+              <label class="custom-file-label"
+                     aria-describedby="inputGroupFileAddon02">{{fileChoseTransportOperator}}</label>
+            </div>
+            <div class="row ml-1">
+              <div class="col-3" *ngFor="let attach of addEditForm.controls['attachProperties'].value;"
+                   [ngClass]="attach.attachCode === 'GPDHVT' ? 'd-block' : 'd-none'">
+                <a *ngIf="attach.attachCode === 'GPDHVT'" href="{{attach.attachPath}}{{attach.attachName}}">{{attach.attachName}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Giấy tờ Khác">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label class="col-sm-2 col-form-label text-md-right">Loại giấy phép</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Loại giấy phép" tabindex="13">
+          </div>
+          <label class="col-sm-2 col-form-label text-md-right">Số giấy phép </label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số giấy phép " formControlName="businessLicense"
+                   tabindex="13">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                       ngbDatepicker #blid="ngbDatepicker" formControlName="businessLicenseIssueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="blid.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Nơi cấp" formControlName="businessLicenseIssueBy"
+                   tabindex="15">
+          </div>
+        </div>
+        <div class="form-group row mb-3 ">
+          <label class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Người điều hành vận tải" formControlName="moderator"
+                   tabindex="17">
+          </div>
+          <label class="col-sm-2 col-form-label text-md-right">Số giấy phép</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số giây phép điều hành vận tải"
+                   formControlName="moderatorLicense"
+                   tabindex="17">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                       ngbDatepicker #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="mlid.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-sm-2 col-form-label text-md-right">Nơi cấp</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Mod" placeholder="Nơi cấp"
+                   formControlName="moderatorLicenseExpDate"
+                   tabindex="16">
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+  <div class="modal-footer">
+    <div *ngIf="!noneShow">
+      <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="20">Save</button>
+    </div>
+  </div>
+</form>

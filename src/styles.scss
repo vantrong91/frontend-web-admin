@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+
+@media screen and (min-width: 768px) {
+  .modal-lg {
+    max-width: 75% !important;
+  }
+}
+
+.hr-border-color {
+  border: 0.5px solid #dde0e3;
+}
+
+.datatable-header-cell {
+  text-align: center !important;
+}
+
+.form-group {
+  margin-bottom: 15px !important;
+}
+
+.label-align-right {
+  text-align: right;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+datatable-header-cell.datatable-header-cell {
+  border: 1px solid #e3e3e3;
+}
+
+datatable-body-cell.datatable-body-cell {
+  border: 1px solid #e3e3e3;
+}
+
+.tbl-header {
+  font-size: 14px;
+  color: #000000c7;
+}

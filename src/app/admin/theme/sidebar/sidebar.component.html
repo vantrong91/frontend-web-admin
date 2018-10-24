@@ -1,0 +1,159 @@
+<aside class="left-sidebar">
+  <!-- Sidebar scroll-->
+  <div class="scroll-sidebar">
+    <!-- User profile -->
+    <div class="user-profile">
+      <!-- User profile image -->
+      <div class="profile-img">
+        <img src="assets/admin/images/users/1.jpg" alt="user" /></div>
+      <!-- User profile text-->
+      <div class="profile-text">
+        <span href="#" class="dropdown-toggle link u-dropdown text-open-profile" data-toggle="dropdown" role="button"
+          aria-haspopup="true" aria-expanded="true">Markarn Doe
+          <span class="caret"></span>
+        </span>
+        <div class="dropdown-menu animated flipInY">
+          <a href="#" class="dropdown-item">
+            <i class="ti-user"></i> Thông tin cá nhân</a>
+          <a href="#" class="dropdown-item">
+            <i class="ti-wallet"></i> Số dư tài khoản</a>
+          <a href="#" class="dropdown-item">
+            <i class="ti-email"></i> Hộp thư</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="ti-settings"></i> Cài đặt</a>
+          <div class="dropdown-divider"></div>
+          <a href="login.html" class="dropdown-item">
+            <i class="fa fa-power-off"></i> Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+    <!-- End User profile text-->
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav">
+      <ul id="sidebarnav">
+        <li [class.active]="showMenu === 'component'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component')" aria-expanded="false">
+            <i class="mdi mdi-bullseye"></i>
+            <span class="hide-menu">Thông tin người dùng</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component'">
+            <li>
+              <a routerLink="vehicleowner" [routerLinkActive]="['router-link-active']">Chủ phương tiện</a>
+            </li>
+            <li>
+              <a routerLink="driver" [routerLinkActive]="['router-link-active']">Tài xế</a>
+            </li>
+            <li>
+              <a routerLink="goodsowner" [routerLinkActive]="['router-link-active']">Chủ hàng</a>
+            </li>
+            <li>
+              <a routerLink="vehicle" [routerLinkActive]="['router-link-active']">Phương tiện</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component2'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component2')" aria-expanded="false">
+            <i class="mdi mdi-credit-card-multiple"></i>
+            <span class="hide-menu">Thanh toán</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component2'">
+            <!-- <li>
+              <a routerLink="balancehis" [routerLinkActive]="['router-link-active']">Lịch sử giao dịch</a>
+            </li>
+            <li>
+              <a routerLink="balance" [routerLinkActive]="['router-link-active']">Bảng cân đối</a>
+            </li>  -->
+            <li>
+              <a routerLink="account-exchange" [routerLinkActive]="['router-link-active']">Thanh toán chuyển khoản</a>
+            </li>
+            <li>
+              <a routerLink="account" [routerLinkActive]="['router-link-active']">Tài khoản</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component3'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component3')" aria-expanded="false">
+            <i class="mdi mdi-reorder-horizontal"></i>
+            <span>Đơn hàng</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component3'">
+            <li>
+              <a routerLink="rpq" [routerLinkActive]="['router-link-active']">Yêu cầu báo giá</a>
+            </li>
+            <li>
+              <a routerLink="quotation" [routerLinkActive]="['router-link-active']">Báo giá</a>
+            </li>
+            <li>
+              <a routerLink="orderlist" [routerLinkActive]="['router-link-active']">Đơn hàng</a>
+            </li>
+            <li>
+              <a routerLink="insuranceorder" [routerLinkActive]="['router-link-active']">Đơn hàng bảo hiểm hàng hóa</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component4'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component4')" aria-expanded="false">
+            <i class="mdi mdi-account-circle"></i>
+            <span>Bộ phận & phân quyền</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component4'">
+            <li>
+              <a routerLink="business" [routerLinkActive]="['router-link-active']">BP Kinh doanh</a>
+            </li>
+            <li>
+              <a routerLink="support" [routerLinkActive]="['router-link-active']">BP Hỗ trợ</a>
+            </li>
+            <li>
+              <a routerLink="accountant" [routerLinkActive]="['router-link-active']">BP Kế toán</a>
+            </li>
+            <li>
+              <a routerLink="technical" [routerLinkActive]="['router-link-active']">BP Kĩ thuật</a>
+            </li>
+            <li>
+              <a routerLink="manage" [routerLinkActive]="['router-link-active']">BP Quản lý</a>
+            </li>
+          </ul>
+        </li>
+        <li [class.active]="showMenu === 'component5'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component5')" aria-expanded="false">
+            <i class="mdi mdi-settings"></i>
+            <span>Cài đặt</span>
+          </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component5'">
+            <li>
+              <a routerLink="userinfo" [routerLinkActive]="['router-link-active']">Thông tin cá nhân</a>
+            </li> 
+            <li>
+              <a routerLink="changepw" [routerLinkActive]="['router-link-active']">Đổi mật khẩu</a>
+            </li> 
+            <li>
+                <a routerLink="feebanks" [routerLinkActive]="['router-link-active']">Phí chuyển khoản</a>
+              </li>   
+            <li>
+              <a routerLink="orther" [routerLinkActive]="['router-link-active']">Khác</a>
+            </li>      
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+  <!-- End Sidebar scroll-->
+  <!-- Bottom points-->
+  <div class="sidebar-footer">
+    <!-- item-->
+    <a href="" class="link" data-toggle="tooltip" title="Cài đặt">
+      <i class="ti-settings"></i>
+    </a>
+    <!-- item-->
+    <a href="" class="link" data-toggle="tooltip" title="Email">
+      <i class="mdi mdi-gmail"></i>
+    </a>
+    <!-- item-->
+    <a href="" class="link" data-toggle="tooltip" title="Đăng xuất">
+      <i class="mdi mdi-power"></i>
+    </a>
+  </div>
+  <!-- End Bottom points-->
+</aside>

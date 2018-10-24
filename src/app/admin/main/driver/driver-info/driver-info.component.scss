@@ -1,0 +1,17 @@
+:host ::ng-deep {
+    .tab-content {
+        max-height: calc(70vh - 70px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+.uploadList{
+    margin: 10px;
+}
+.progress{
+    margin-top:15px;
+}
+.lbl-input{
+    margin: auto 15px;
+}

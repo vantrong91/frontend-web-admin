@@ -1,0 +1,254 @@
+<div class="row">
+  <!--<div class="col-md-4"></div>-->
+  <div class="col-md-3 my-auto">
+    <select class="custom-select" [ngModel]="searchObject.ownerType" name="ownerType" (change)="selectType($event.target)">
+      <option [value]="0">Khách hàng doanh nghiệp</option>
+      <option [value]="1">Khách hàng cá nhân</option>
+    </select>
+    <input class="form-control" [ngModel]="searchObject.ownerType" name="ownerType" type="hidden">
+  </div>
+  <div class="col-md-4">
+    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm">
+  </div>
+  <div class="col-md-1 pl-md-0">
+    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button>
+  </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-11"></div>
+  <div class="col-md-1 text-align-right">
+    <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button>
+  </div>
+</div>
+<!-- Company default-->
+<div class="row mt-2" [ngClass]="tabCompany ? 'd-block' : 'd-none'">
+  <div class="col">
+    <div class="owner-view-title">Khách hàng doanh nghiệp</div>
+    <ngx-datatable class='material selection-cell datatable' [rows]='listOwnerCompany' [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50'
+      [rowHeight]='"auto"' [limit]="5" #companyTable>
+      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="default align-center tbl-header">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+          <span data-toggle="tooltip" title="{{rowIndex + 1}}">
+            {{rowIndex + 1}}
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fullName" [width]="120" prop="fullName">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Tên công ty</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="120" name="contactPhone" prop="contactPhone">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số điện thoại</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="taxCode" [width]="120" prop="taxCode">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Mã số thuế</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="businessLicense" [resizeable]="false" prop="businessLicense">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số giấy phép kinh doanh</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="moderator" [resizeable]="false" prop="moderator">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Người điều hành vận tải</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender" [minWidth]="150" [maxWidth]="150" [resizeable]="false">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.accountId,content)">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.accountId,content)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">
+            <i class="fa  fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+<!-- Personal  -->
+<div class="row mt-2" [ngClass]="tabCompany ? 'd-none' : 'd-block'">
+  <div class="col">
+    <div class="owner-view-title">Khách hàng cá nhân</div>
+    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listOwnerPersonal' [columnMode]='"force"' [headerHeight]='50'
+      [footerHeight]='50' [rowHeight]='"auto"' [limit]="10" #personTable>
+      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+          <span data-toggle="tooltip" title="{{rowIndex + 1}}">
+            {{rowIndex + 1}}
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fullName" [width]="120" prop="fullName">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Họ tên</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="120" name="contactPhone" prop="contactPhone">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số điện thoại</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="licenseNo" [width]="120" prop="licenseNo">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số giây tờ</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="businessLicense" [width]="120" prop="businessLicense">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số giấy phép </strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="moderator" [width]="120" prop="moderator">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>Ngày cấp</strong>
+            </span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-row="row " prop="moderator">
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+      <ngx-datatable-column name="issueDate" [width]="120" prop="issueDate">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Ngày cấp</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row " prop="issueDate">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="issueBy" [width]="120" prop="issueBy">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Nơi cấp</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row " prop="issueBy">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [minWidth]="150" [maxWidth]="150">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.accountId,content)">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.accountId,content)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">
+            <i class="fa  fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<!-- Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-basic-title">{{tabCompany ? 'Khách hàng doanh nghiệp' : 'Khách hàng cá nhân'}}</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-personal *ngIf="!tabCompany" [noneShow]="noneShow" [personViewModel]="entityPersonal" (personViewModelChange)="onSubmitPerson($event)"></app-personal>
+    <app-company *ngIf="tabCompany" [noneShow]="noneShow" [companyViewModel]="entityCompany"></app-company>
+  </div>
+</ng-template>
+
+<pre>{{closeResult}}</pre>
+
+<ng-template #del let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Xóa</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Bạn có muốn xóa chủ xe ... không?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="c('Close click')">Không</button>
+    <button type="button" class="btn btn-danger">Có</button>
+    <!-- <button type="button" class="btn btn-light" (click)="c('Close click')">Có</button> -->
+  </div>
+</ng-template>
