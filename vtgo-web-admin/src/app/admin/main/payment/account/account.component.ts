@@ -12,11 +12,15 @@ export class AccountComponent implements OnInit {
   listAccount: any;
   searchObject: SearchModel;
   searchParam: ' ';
+  _entity: AccountViewModel;
+  isShow = false;
+  txtNoti = '';
 
   constructor(private modalService: NgbModal,
     @Inject(IAccountServiceToken) private accountService: IAccountService,
     @Inject(IHelperServiceToken) private helperService: IHelperService) { }
   open(content) {
+    this._entity = new AccountViewModel;
     this.modalService.open(content, { size: 'lg' });
   }
   view(accountId, content) {
@@ -49,5 +53,20 @@ export class AccountComponent implements OnInit {
     } else {
       this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
     }
+  }
+  onSubmit(event){
+    this._entity = event;
+    this.accountService.Create(this._entity).subscribe((response:any) => {
+      if(response.status === 0){
+        this.initData();
+        this.isShow = true;
+        setTimeout(() => {
+          this.isShow = false;
+        }, 2500);
+        this.txtNoti = 'Thêm thành công tài khoản ' + this._entity.fullName;
+      } else{
+        this.txtNoti = 'Xảy ra lỗi. Xin vui lòng thử lại';
+      }
+    })
   }
 }

@@ -1,7 +1,7 @@
 export class AccountViewModel {
 
     constructor() {
-
+        this.accountId = 0;
     }
     accountId: number;
     password: string;
@@ -13,4 +13,5 @@ export class AccountViewModel {
     osType: any;
     deviceToken: any;
     salt: string;
+    accountCode: string;
 }

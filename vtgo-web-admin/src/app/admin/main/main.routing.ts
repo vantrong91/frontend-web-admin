@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: 'manage', loadChildren: './decentralization/manage/manage.module#ManageModule' },
       { path: 'support', loadChildren: './decentralization/support/support.module#SupportModule' },
       { path: 'technical', loadChildren: './decentralization/technical/technical.module#TechnicalModule' },
+      { path: 'setting', loadChildren: './setting/setting.module#SettingModule'},
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule'},
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule'},
       { path: 'feebanks', loadChildren: './feebanks/feebanks.module#FeeBanksModule'},
