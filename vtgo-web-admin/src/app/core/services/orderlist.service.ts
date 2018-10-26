@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IDataServiceToken } from '../tokens/data.service.token';
 import { IDataService } from '../interfaces/idata.service';
 import { OrderListViewModel } from '../models/orderlist.model';
+import { OrderCompleteModel } from '../models/ordercomplete.mode';
 
 @Injectable()
 export class OrderListService {
@@ -15,4 +16,12 @@ export class OrderListService {
     Get(entity: SearchModel): Observable<any> {
         return this.dataService.Post(`${this.URL_API_ORDER_LIST}/search`, entity);
     }    
+
+    Complete(entity: OrderCompleteModel): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_ORDER_LIST}/complete`, entity);
+    } 
+
+    GetComplete(entity: OrderCompleteModel): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_ORDER_LIST}/getComplete`, entity);
+    } 
 }

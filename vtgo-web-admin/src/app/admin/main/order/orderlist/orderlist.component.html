@@ -1,12 +1,36 @@
 <div class="row">
+
   <div class="col-sm-4 my-auto">
     <input type="text" class="form-control text-input" placeholder="Tìm kiếm" (keyup)='txtSearch($event)' />
   </div>
-  <div class="col-sm-1">
+  <div class="col-sm-3 offset-sm-1 my-auto">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block btn-block">
+        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+          <span [ngSwitch]="orderState">
+            <span *ngSwitchCase="1">
+              Đơn hàng đã thanh toán
+            </span>
+            <span *ngSwitchCase="2">
+              Đơn hàng chưa thanh toán
+            </span>
+            <span *ngSwitchDefault>
+              Tất cả đơn hàng
+            </span>
+          </span></button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button class="dropdown-item" (click)="changeState(0)">Tất cả đơn hàng</button>
+          <button class="dropdown-item" (click)="changeState(1)">Đơn hàng đã thanh toán</button>
+          <!-- <button class="dropdown-item" (click)="changeState(2)">Đơn hàng chưa thanh toán</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2 ofsfet-sm-1">
     <!-- <button class="btn btn-success">Tìm kiếm</button> -->
     <div class="col text-right">
-      <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+      <div ngbDropdown class="d-inline-block btn-block">
+        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
           {{toShow==undefined?'Tất cả':toShow}}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>
@@ -197,7 +221,7 @@
                   <tr>
                     <td>
                       <div class="container">
-                        <div class="row">x. Hoàn thiện: </div>
+                        <div class="row">5. Hoàn thiện: </div>
                         <div class="row">
                           <div class="col-2 offset-1">
                             - Mã hoàn thiện
@@ -241,7 +265,7 @@
                   <tr>
                     <td>
                       <div class="container">
-                        <div class="row">5. Ghi chú: </div>
+                        <div class="row">6. Ghi chú: </div>
                         <div class="row">
                           <div class="col-2 offset-1">
                             - QuotationId
@@ -264,7 +288,7 @@
                   <tr>
                     <td>
                       <div class="container">
-                        <div class="row">6. Hình ảnh: </div>
+                        <div class="row">7. Hình ảnh: </div>
                         <div class="row imgArea">
                           <ng-container *ngFor="let el of row.productImgLst">
                             <div class="col-3 imgView">
@@ -276,6 +300,18 @@
                             </div>
                           </ng-container>
                         </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <br>
+                      <p>Trạng thái:<strong> {{getState(row.state)}} </strong></p>
+                      <div>
+                        <button *ngIf="row.state!=8" class="btn btn-outline-success" (click)="openSm(confirm,row.orderId)">
+                          Xác nhận thanh toán
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-secondary" (click)="toggleExpandRow(row)">Đóng</button>
                       </div>
                     </td>
                   </tr>
@@ -339,7 +375,7 @@
       </ngx-datatable-column> -->
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
-          <span  class="tbl-header">
+          <span class="tbl-header">
             <strong>Nơi nhận</strong>
           </span>
         </ng-template>
@@ -349,7 +385,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
-          <span  class="tbl-header">
+          <span class="tbl-header">
             <strong>Nơi giao</strong>
           </span>
         </ng-template>
@@ -359,7 +395,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [width]="60">
         <ng-template ngx-datatable-header-template>
-          <span  class="tbl-header">
+          <span class="tbl-header">
             <strong>Trạng thái</strong>
           </span>
         </ng-template>
@@ -378,8 +414,37 @@
           <button type="button" class="btn btn-success button-custom-admin" (click)="toggleExpandRow(row)">
             <i class=" fa fa-eye "></i>
           </button>
+
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
+
+<!--Modal--->
+<ng-template #confirm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Nội dung thông báo:</p>
+    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message"></textarea>
+    <div class="input-group mb-3">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2">Số tiền (VNĐ):</span>
+      </div>
+      <input type="number" class="form-control" [(ngModel)]="paid" placeholder="" aria-describedby="basic-addon2"
+      title="Số tiền">
+    </div>
+    <div class="input-group mb-3">
+      <small class="text-danger">- {{numToVND().doc(paid)}}</small>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy</button>
+    <button type="button" class="btn btn-outline-success" (click)="c('Ok click')">Thanh toán</button>
+  </div>
+</ng-template>

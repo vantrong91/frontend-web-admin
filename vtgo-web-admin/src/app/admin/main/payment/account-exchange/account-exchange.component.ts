@@ -5,8 +5,8 @@ import { AccountManViewModel } from 'src/app/core/models/accountMan.model';
 
 @Component({
   selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  templateUrl: './account-exchange.component.html',
+  styleUrls: ['./account-exchange.component.scss']
 })
 export class AccountComponent implements OnInit {
 
@@ -51,12 +51,12 @@ export class AccountComponent implements OnInit {
 
   getAccountManById(event) {
     this.accountById.accountId = event;
-    console.log(event);
+ 
   }
 
   getBalanceById(event) {
     this.balanceById.accountId = event;
-    console.log(event);
+
   }
 
   open(ele) {

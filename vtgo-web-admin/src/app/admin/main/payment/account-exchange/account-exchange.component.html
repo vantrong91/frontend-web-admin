@@ -14,10 +14,10 @@
 
 <div class="row mt-2">
   <div class="col">
-    <div class="owner-view-title">Tài khoản</div>
+    <div class="view-title">Tài khoản</div>
     <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts' [columnMode]='"force"'
-      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="5" #accountTable>
-      <ngx-datatable-column name="accountId" [width]="100" prop="accountId">
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="5" [sorts]="[{prop: 'accountId', dir: 'asc'}]" #accountTable>
+      <ngx-datatable-column name="accountId" [width]="50" prop="accountId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Account Id</strong>
@@ -27,7 +27,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="password" [width]="100" prop="password">
+      <!-- <ngx-datatable-column name="password" [width]="100" prop="password">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Password</strong>
@@ -36,7 +36,7 @@
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           {{value}}
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
       <ngx-datatable-column name="email" [width]="150" prop="email">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
@@ -67,7 +67,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [width]="100">
+      <ngx-datatable-column [width]="80">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Số tiền nợ</strong>
@@ -81,7 +81,7 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="action" [width]="130" [maxWidth]="130">
+      <ngx-datatable-column name="action" [width]="150" [maxWidth]="150">
         <ng-template let-column="colmun" ngx-datatable-header-template>
           <span>
             <strong>Thao tác</strong>
@@ -91,10 +91,10 @@
           <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalanceHis);getAccountManById(row.accountId);">
             <i class=" fa fa-eye "></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalance);getBalanceById(row.accountId);">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentBalance);getBalanceById(row.accountId);">
             <i class=" fa fa-balance-scale " style="color:blue;"></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);">
             <i class=" fa fa-exchange " style="color:red;"></i>
           </button>
         </ng-template>
@@ -113,7 +113,7 @@
     </button>
   </div>
   <div class="modal-body ">
-    <app-balance-his [accountManModel]="accountById"></app-balance-his>
+    <app-balance-his [accountManModel]="accountById" (closeForm)="c('')"></app-balance-his>
   </div>
 </ng-template>
 

@@ -48,9 +48,7 @@ export class BalanceComponent implements OnInit {
             this.isShow = false;
           } else {
             this._entityBalance = response.data;
-            console.log(this._entityBalance);
             this.Arr = Object.values(this._entityBalance[0].balance);
-            console.log(this.Arr);
           }
         }
       }
@@ -60,10 +58,8 @@ export class BalanceComponent implements OnInit {
   getBalance(search) {
     this.dataService.Post('balance/search', search).subscribe(
       response => {
-        console.log(response);
         if (response.status === 0) {
           this.balance = response.data;
-          console.log(this.balance);
         }
       }
     );
