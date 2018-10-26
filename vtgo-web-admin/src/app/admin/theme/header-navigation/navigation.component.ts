@@ -1,11 +1,20 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AccountManViewModel, SystemConfig } from 'src/app/core';
 
 @Component({
     selector: 'app-navigation',
     templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements AfterViewInit {
+export class NavigationComponent implements AfterViewInit,OnInit {
+
+    currentUser: AccountManViewModel;
+
+    ngOnInit(): void {
+        this.currentUser = new AccountManViewModel();
+        let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
+            this.currentUser = item.data;
+    }
     name: string;
 
     constructor() { }

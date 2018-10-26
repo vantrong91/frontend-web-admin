@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 export interface IAuthenService {
     Login(user: LoginViewModel): Observable<any>;
-    Logout(): Observable<any>;
+    Logout(accountId: number): Observable<any>;
     GetCurrentUser(): LoggedInUser;
     IsUserAuthenticated(): boolean;
 }

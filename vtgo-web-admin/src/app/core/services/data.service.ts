@@ -21,8 +21,8 @@ export class DataService {
 
   Get(url: string): Observable<any> {
     this.header = this.header.delete('Authorization');
-    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().AuthenToken) {
-      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
+    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {
+      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().accountToken);
     }
     const urlGet = this.configuration.getConfiguration().BASE_API + url;
     return this.http.get(urlGet, { headers: this.header });
@@ -30,8 +30,8 @@ export class DataService {
 
   Post(url: string, model?: any): Observable<any> {
     this.header = this.header.delete('Authorization');
-    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().AuthenToken) {
-      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
+    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {
+      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().accountToken);
     }
     const urlPost = this.configuration.getConfiguration().BASE_API + url;
     return this.http.post(urlPost, model, { headers: this.header });
@@ -40,8 +40,8 @@ export class DataService {
 
   Put(url: string, model?: any): Observable<any> {
     this.header = this.header.delete('Authorization');
-    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().AuthenToken) {
-      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
+    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {
+      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().accountToken);
     }
     const urlPut = this.configuration.getConfiguration().BASE_API + url;
     return this.http.put(urlPut, model, { headers: this.header });
@@ -49,8 +49,8 @@ export class DataService {
 
   Delete(url: string): Observable<any> {
     this.header = this.header.delete('Authorization');
-    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().AuthenToken) {
-      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().AuthenToken);
+    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {
+      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().accountToken);
     }
     const urlDelete = this.configuration.getConfiguration().BASE_API + url;
     return this.http.delete(urlDelete, { headers: this.header });

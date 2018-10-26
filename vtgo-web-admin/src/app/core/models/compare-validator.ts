@@ -17,15 +17,3 @@ export function compareValidator(controlName: string): ValidatorFn{
         return controlToCompare && controlToCompare.value !==c.value ? {'compare' : true} : null;
     }
 }
-
-@Directive({
-    selector: '[compare]',
-    providers: [{ provide: NG_VALIDATORS, useExisting: CompareValidatorDirective, multi: true}]
-})
-
-export class CompareValidatorDirective implements Validator{
-    @Input('compare') controlName: string;
-    validate(c: AbstractControl): ValidationErrors | null{
-        return compareValidator(this.controlName)(c);
-    }
-}
