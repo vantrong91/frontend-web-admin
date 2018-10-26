@@ -7,7 +7,7 @@ export class BalanceHisModel {
   accountId: number;
   hisType: string;
   hisContent: string;
-  ip: string;
+  iP: string;
   balanceBefor: number;
   balanceAfter: number;
   amount: number;
