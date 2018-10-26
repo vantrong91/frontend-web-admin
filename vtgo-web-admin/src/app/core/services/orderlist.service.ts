@@ -20,4 +20,8 @@ export class OrderListService {
     Complete(entity: OrderCompleteModel): Observable<any> {
         return this.dataService.Post(`${this.URL_API_ORDER_LIST}/complete`, entity);
     } 
+
+    GetComplete(entity: OrderCompleteModel): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_ORDER_LIST}/getComplete`, entity);
+    } 
 }

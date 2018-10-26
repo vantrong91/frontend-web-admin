@@ -3,10 +3,10 @@
   <div class="col-sm-4 my-auto">
     <input type="text" class="form-control text-input" placeholder="Tìm kiếm" (keyup)='txtSearch($event)' />
   </div>
-  <div class="col-sm-4 my-auto">
-    <div class="col text-right">
-      <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success form-control" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+  <div class="col-sm-3 offset-sm-1 my-auto">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block btn-block">
+        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
           <span [ngSwitch]="orderState">
             <span *ngSwitchCase="1">
               Đơn hàng đã thanh toán
@@ -21,16 +21,16 @@
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button class="dropdown-item" (click)="changeState(0)">Tất cả đơn hàng</button>
           <button class="dropdown-item" (click)="changeState(1)">Đơn hàng đã thanh toán</button>
-          <button class="dropdown-item" (click)="changeState(2)">Đơn hàng chưa thanh toán</button>
+          <!-- <button class="dropdown-item" (click)="changeState(2)">Đơn hàng chưa thanh toán</button> -->
         </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-1">
+  <div class="col-sm-2 ofsfet-sm-1">
     <!-- <button class="btn btn-success">Tìm kiếm</button> -->
     <div class="col text-right">
-      <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+      <div ngbDropdown class="d-inline-block btn-block">
+        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
           {{toShow==undefined?'Tất cả':toShow}}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>

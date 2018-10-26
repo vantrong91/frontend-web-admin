@@ -5,5 +5,6 @@ export class OrderCompleteModel {
     orderId:string;
     message: string;
     paid: number;
+    state:number;
   }
   

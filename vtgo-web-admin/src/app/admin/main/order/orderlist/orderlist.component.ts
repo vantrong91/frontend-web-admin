@@ -64,7 +64,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
         this.orderComplete.message = this.message;
         this.orderComplete.orderId = id;
         this.orderComplete.paid = this.paid;
-        // console.log(this.orderComplete);
+
         this.orderListService.Complete(this.orderComplete).subscribe(
           response => {
             console.log(response);
@@ -98,7 +98,8 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   }
 
   changeState(state) {
-    this.orderState = state
+    this.orderState = state;
+    this.getComplete(this.orderState);
   }
 
   search(searchModel: SearchModel) {
@@ -111,7 +112,21 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
     );
   }
 
+  getComplete(state: number) {
+    // 1 đã hoành thành; !1 => tất cả;
+    this.orderComplete= new OrderCompleteModel();
+    this.orderComplete.state = state;
+    this.orderListService.GetComplete(this.orderComplete).subscribe(
+      (response: any) => {
+        this.listOrder = response.data;
+        console.log(this.listOrder);
+      },
+      error => console.log(error)
+    );
+  }
+
   txtSearch(event) {
+    this.orderState = 0;
     let searchVal = event.target.value;
     if (searchVal != null && searchVal.length > 0) {
       console.log(searchVal);
@@ -139,6 +154,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
       case 11: return 'Đơn đã ký kết bị tài xế hủy';
       case 12: return 'Đơn khách hàng từ chối báo giá';
       case 13: return 'Đơn đã ký kết bị khách hàng hủy';
+      case 16: return 'Đơn hàng đã chuyển chưa thanh toán';
       default:
         return 'Error!';
     }
