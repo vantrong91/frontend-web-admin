@@ -28,6 +28,10 @@ export class DataService {
     return this.http.get(urlGet, { headers: this.header });
   }
 
+  GetBaseUrlImg(folder:string): string {
+    return this.configuration.getConfiguration().BASE_URL_IMG+folder;
+  }
+
   Post(url: string, model?: any): Observable<any> {
     this.header = this.header.delete('Authorization');
     if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {

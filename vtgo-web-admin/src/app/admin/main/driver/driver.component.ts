@@ -21,6 +21,7 @@ export class DriverComponent implements OnInit {
     closeResult: string;
     searchParam: ' ';
     _entityDriver: DriverViewModel;
+    imgUrl = '';
 
     keyArr = [];
     toggleExpandRow(row) {
@@ -51,6 +52,7 @@ export class DriverComponent implements OnInit {
     }
 
     search(search) {
+
         this.dataService.Post('driver/search', search).subscribe(
             response => {
                 console.log(response);
@@ -60,6 +62,12 @@ export class DriverComponent implements OnInit {
             }
         );
     }
+
+    getUrlImg(folder: string) {
+        this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+        return this.imgUrl;
+    }
+
 
     txtSearch(event) {
         // if (event.keyCode === 13) {

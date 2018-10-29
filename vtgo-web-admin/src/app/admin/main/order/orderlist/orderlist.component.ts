@@ -2,9 +2,8 @@ import { Component, OnInit, AfterViewChecked, Inject, ViewChild } from '@angular
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import {
-  OrderListViewModel,
+  DataService,
   SearchModel,
-
   IOrderListService,
   IOrderListServiceToken,
 
@@ -20,7 +19,7 @@ import { OrderCompleteModel } from 'src/app/core/models/ordercomplete.mode';
   styleUrls: ['./orderlist.component.scss']
 })
 export class OrderListComponent implements OnInit, AfterViewChecked {
-  BASE_URL_IMG ='http://vtgo.babelott.com:5000';
+  imgUrl = '';
   orderState = 0;
   toShow = 5;
   searchObject: SearchModel;
@@ -30,7 +29,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   @ViewChild('orderTable') _orderTable: DatatableComponent;
   toggleExpandRow(row) {
     // this._orderTable.rowDetail.collapseAllRows();
-    // this._orderTable.rowDetail.toggleExpandRow(row);
+    this._orderTable.rowDetail.toggleExpandRow(row);
   }
   onDetailToggle(event) {
     // console.log('Detail Toggled', event);
@@ -38,6 +37,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private dataService: DataService,
     @Inject(IOrderListServiceToken) private orderListService: IOrderListService,
     @Inject(IHelperServiceToken) private helperService: IHelperService
   ) { }
@@ -54,8 +54,11 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     this._orderTable.recalculate();
   }
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+  }
 
-  
   changeShow(el) {
     if (el != 0)
       this.toShow = el;
@@ -79,7 +82,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
 
   getComplete(state: number) {
     // 1 đã hoành thành; !1 => tất cả;
-    this.orderComplete= new OrderCompleteModel();
+    this.orderComplete = new OrderCompleteModel();
     this.orderComplete.state = state;
     this.orderListService.GetComplete(this.orderComplete).subscribe(
       (response: any) => {
