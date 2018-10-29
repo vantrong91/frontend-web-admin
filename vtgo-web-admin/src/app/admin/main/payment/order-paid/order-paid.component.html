@@ -134,13 +134,14 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button *ngIf="row.state!=8"  class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId)" title="Thanh toán">
+          <button *ngIf="row.state!=8" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId)"
+            title="Thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
           <button *ngIf="row.state==8" class="btn btn-info button-custom-admin ml-2" disabled title="Đã thanh toán">
-              <i class="fa fa-money" aria-hidden="true"></i>
-            </button>
+            <i class="fa fa-money" aria-hidden="true"></i>
+          </button>
 
         </ng-template>
       </ngx-datatable-column>
@@ -151,7 +152,7 @@
 <!--Modal--->
 <ng-template #confirm let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán đơn hàng</h4>
+    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán đơn hàng: <strong style="color: #3d66fb;">{{orderId}}</strong></h4>
     <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -163,15 +164,15 @@
       <div class="input-group-append">
         <span class="input-group-text" id="basic-addon2">Số tiền (VNĐ):</span>
       </div>
-      <input type="text" class="form-control" (keypress)="checkTypeNum($event)" (keyup)="checkNum($event)" [(ngModel)]="paid" placeholder="tối đa 100 tỷ"
-        aria-describedby="basic-addon2" title="Số tiền">
+      <input type="text" class="form-control" (keypress)="checkTypeNum($event)" (keyup)="checkNum($event)" [(ngModel)]="paid"
+        placeholder="tối đa 100 tỷ" aria-describedby="basic-addon2" title="Số tiền">
     </div>
     <div class="input-group mb-3">
       <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ'}}</small>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy</button>
     <button type="button" class="btn btn-outline-success" (click)="c('Ok click')" [disabled]="!paidValid  ">Thanh toán</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy bỏ</button>
   </div>
 </ng-template>

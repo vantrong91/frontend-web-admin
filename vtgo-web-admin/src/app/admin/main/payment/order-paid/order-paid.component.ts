@@ -23,7 +23,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   paid:number;
   message = "Thanh toán đơn hàng";
   paidValid = true;
-
+  orderId = 0;
   toShow = 5;
   searchObject: SearchModel;
   orderComplete: OrderCompleteModel;
@@ -52,6 +52,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   }
 
   openSm(del, id) {
+    this.orderId = id;
     this.modalService.open(del).result
       .then(result => {
         this.orderComplete = new OrderCompleteModel();
