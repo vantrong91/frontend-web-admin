@@ -14,65 +14,6 @@
         <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a> -->
     </small>
   </div>
-<<<<<<< HEAD
-  
-  <!-- ======================================= tblDriver ========================================== -->
-  
-  <div class="row mt-2" [ngClass]="'d-block'">
-    <div class="col">
-      <div class="driver-view-title">Lái xe cá nhân</div>
-      <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-        [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="20">
-        <!-- Row Detail Template -->
-        <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <div style="padding-left:35px;">
-              <div class="container">
-                <div class="row">
-                  <u class="col-6"><i>Thông tin chi tiết:</i></u>
-                  <div class="col-6 text-right"><i class="fa fa-times btn-close" title="Thu gọn" aria-hidden="true"
-                      (click)="table.rowDetail.collapseAllRows()"></i>&nbsp;&nbsp;&nbsp;</div>
-                </div>
-                <div class="row">
-                  <strong class="col-2 text-right">- Quốc gia:</strong>
-                  <div class="col-3">{{row.nationality}} </div>
-                  <strong class="col-3 text-right">- Dân tộc: </strong>
-                  <div class="col-3">{{row.ethnic}}</div>
-                </div>
-                <div class="row">
-                  <strong class="col-2 text-right">- Ngày sinh:</strong>
-                  <div class="col-3">{{row.birthday|date:'dd/MM/yyyy'}}</div>
-                  <strong class="col-3 text-right">- Email:</strong>
-                  <div class="col-3">{{row.email}}</div>
-                </div>
-                <div class="row">
-                  <strong class="col-2 text-right">- VehicleId:</strong>
-                  <div class="col-3">{{row.vehicleId}}</div>
-                  <strong class="col-3 text-right">- Trạng thái:</strong>
-                  <div class="col-3">
-                    <span [ngSwitch]="row.state">
-                      <span *ngSwitchCase="0">
-                        Chưa đăng ký xe rỗng
-                      </span>
-                      <span *ngSwitchCase="1">
-                        Đơn hàng chờ xác nhận
-                      </span>
-                      <span *ngSwitchCase="2">
-                        Có yêu cầu chưa báo giá
-                      </span>
-                      <span *ngSwitchCase="3">
-                        Báo giá cao, cần xem lại báo giá
-                      </span>
-                      <span *ngSwitchCase="4">
-                        Đang chờ vận chuyển
-                      </span>
-                      <span *ngSwitchCase="5">
-                        Đang chở hàng
-                      </span>
-                      <span *ngSwitchDefault>
-                        Null
-                      </span>
-=======
   <div class="col-md-1">
     <button type="button" class="btn btn-success w-100" (click)="table.rowDetail.collapseAllRows();isAdd = true; open(content);">Add</button>
   </div>
@@ -115,7 +56,6 @@
                   <span [ngSwitch]="row.state">
                     <span *ngSwitchCase="0">
                       Chưa đăng ký xe rỗng
->>>>>>> ff2e2c78555e9fbfb039b0e92e5da059f32cc304
                     </span>
                     <span *ngSwitchCase="1">
                       Đơn hàng chờ xác nhận
