@@ -292,9 +292,9 @@
                         <div class="row imgArea">
                           <ng-container *ngFor="let el of row.productImgLst">
                             <div class="col-3 imgView">
-                              <!-- <img [src]="row.uRLFolderProductImg + el" alt=""> -->
-                              <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/26169267_1968609916798383_1011146939329326175_n.jpg?_nc_cat=108&oh=9d3b00579cb8ce90f698595232b01acc&oe=5C554EED"
-                                alt="">
+                              <!-- <img [src]="'http://vtgo.babelott.com:5000/home/haivinh/IMAGE/IMAGE-ORDER/' + el" alt=""> -->
+                              <img [src]="BASE_URL_IMG +row.uRLFolderProductImg+ el" alt="">
+                              <!-- <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/26169267_1968609916798383_1011146939329326175_n.jpg?_nc_cat=108&oh=9d3b00579cb8ce90f698595232b01acc&oe=5C554EED"> -->
                               <br>
                               {{el}}
                             </div>
@@ -308,9 +308,7 @@
                       <br>
                       <p>Trạng thái:<strong> {{getState(row.state)}} </strong></p>
                       <div>
-                        <button *ngIf="row.state!=8" class="btn btn-outline-success" (click)="openSm(confirm,row.orderId)">
-                          Xác nhận thanh toán
-                        </button>
+
                         &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-secondary" (click)="toggleExpandRow(row)">Đóng</button>
                       </div>
                     </td>
@@ -420,31 +418,3 @@
     </ngx-datatable>
   </div>
 </div>
-
-<!--Modal--->
-<ng-template #confirm let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán</h4>
-    <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Nội dung thông báo:</p>
-    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message"></textarea>
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-        <span class="input-group-text" id="basic-addon2">Số tiền (VNĐ):</span>
-      </div>
-      <input type="number" class="form-control" [(ngModel)]="paid" placeholder="" aria-describedby="basic-addon2"
-      title="Số tiền">
-    </div>
-    <div class="input-group mb-3">
-      <small class="text-danger">- {{numToVND().doc(paid)}}</small>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy</button>
-    <button type="button" class="btn btn-outline-success" (click)="c('Ok click')">Thanh toán</button>
-  </div>
-</ng-template>

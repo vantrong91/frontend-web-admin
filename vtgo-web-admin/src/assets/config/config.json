@@ -1,5 +1,5 @@
 {
-    "BASE_API": "http://localhost:8086/vtgo-admin/v1/",
+    "BASE_API": "http://103.90.220.148:8086/vtgo-admin/v1/",
     "PAGE_CONFIG": {
         "HeaderHeight": 50,
         "ColumnWith": 50,

@@ -30,6 +30,7 @@ const routes: Routes = [
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule'},
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule'},
       { path: 'feebanks', loadChildren: './feebanks/feebanks.module#FeeBanksModule'},
+      { path: 'orderpaid', loadChildren: './payment/order-paid/order-paid.module#OrderPaidModule'}
     ]
   }
 ];
