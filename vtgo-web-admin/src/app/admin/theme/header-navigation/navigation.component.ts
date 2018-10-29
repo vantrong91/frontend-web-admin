@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AccountManViewModel, SystemConfig } from 'src/app/core';
+import { Component, AfterViewInit, OnInit, Inject } from '@angular/core';
+import { NgbModule, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AccountManViewModel, SystemConfig, IAccountServiceToken, IAccountService } from 'src/app/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-navigation',
@@ -9,15 +10,19 @@ import { AccountManViewModel, SystemConfig } from 'src/app/core';
 export class NavigationComponent implements AfterViewInit,OnInit {
 
     currentUser: AccountManViewModel;
+    closeResult: string;
+    name: string;
 
     ngOnInit(): void {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
             this.currentUser = item.data;
     }
-    name: string;
+    
 
-    constructor() { }
+    constructor(private modalService: NgbModal,
+        private router: Router,
+        @Inject(IAccountServiceToken) private logoutService: IAccountService) { }
 
     // This is for Notifications
     notifications: Object[] = [{
@@ -72,7 +77,29 @@ export class NavigationComponent implements AfterViewInit,OnInit {
         subject: 'Just see the my admin!',
         time: '9:00 AM'
     }];
+    logout(del) {
+        this.modalService.open(del).result.then(result => {
+            let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
+            this.logoutService.Logout(this.currentUser[0].accountId).subscribe((response: any) => {
+                if (response) {
+                    localStorage.removeItem(SystemConfig.CURRENT_USER);
+                }
+            })
+            //this.authService.Logout(item.data[0].accountId);
+            this.router.navigateByUrl('/admin/login');
+        },reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),);
 
+    }
+    private getDismissReason(reason: any) {
+        switch (reason) {
+            case ModalDismissReasons.ESC:
+                return 'by pressing ESC';
+            case ModalDismissReasons.BACKDROP_CLICK:
+                return 'by clicking on a backdrop';
+            default:
+                return `with ${reason}`;
+        }
+    }
     ngAfterViewInit() {
 
         $(function () {

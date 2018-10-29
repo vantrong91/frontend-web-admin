@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnInit, Inject } from '@angular/core';
-import { SystemConfig, AccountManViewModel, IAuthenServiceToken, IAuthenService, ILogoutServiceToken, ITestLogoutService } from 'src/app/core';
+import { SystemConfig, AccountManViewModel, IAccountServiceToken, IAccountService } from 'src/app/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-sidebar',
@@ -14,10 +14,11 @@ export class SidebarComponent implements AfterViewInit, OnInit {
     isActive = true;
     showMenu = '';
     showSubMenu = '';
+    closeResult: string;
     currentUser: AccountManViewModel;
     constructor(private modalService: NgbModal,
         private router: Router,
-        @Inject(ILogoutServiceToken) private logoutService: ITestLogoutService) { }
+        @Inject(IAccountServiceToken) private logoutService: IAccountService) { }
 
     addExpandClass(element: any) {
 
@@ -43,27 +44,31 @@ export class SidebarComponent implements AfterViewInit, OnInit {
     logout(del) {
         this.modalService.open(del).result.then(result => {
             let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
-            console.log(item.data[0].accountId);
             this.logoutService.Logout(this.currentUser[0].accountId).subscribe((response: any) => {
                 if (response) {
-                    console.log("success");
-                    console.log(this.currentUser[0].accountId);
-                    //localStorage.removeItem(SystemConfig.CURRENT_USER);
+                    localStorage.removeItem(SystemConfig.CURRENT_USER);
                 }
             })
             //this.authService.Logout(item.data[0].accountId);
             this.router.navigateByUrl('/admin/login');
-            console.log(this.currentUser[0].fullName);
-        })
+        },reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),);
 
+    }
+    private getDismissReason(reason: any) {
+        switch (reason) {
+            case ModalDismissReasons.ESC:
+                return 'by pressing ESC';
+            case ModalDismissReasons.BACKDROP_CLICK:
+                return 'by clicking on a backdrop';
+            default:
+                return `with ${reason}`;
+        }
     }
 
     ngOnInit(): void {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
         this.currentUser = item.data;
-        console.log(this.currentUser[0].fullName);
-
     }
     // End open close
     ngAfterViewInit() {

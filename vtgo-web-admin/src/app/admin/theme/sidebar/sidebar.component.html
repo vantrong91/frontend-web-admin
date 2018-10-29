@@ -1,34 +1,6 @@
 <aside class="left-sidebar">
   <!-- Sidebar scroll-->
   <div class="scroll-sidebar">
-    <!-- User profile -->
-    <div class="user-profile">
-      <!-- User profile image -->
-      <div class="profile-img">
-        <img src="assets/admin/images/users/1.jpg" alt="user" /></div>
-      <!-- User profile text-->
-      <div class="profile-text">
-        <span href="#" class="dropdown-toggle link u-dropdown text-open-profile" data-toggle="dropdown" role="button"
-          aria-haspopup="true" aria-expanded="true">{{currentUser[0].fullName}}
-          <span class="caret"></span>
-        </span>
-        <div class="dropdown-menu animated flipInY">
-          <a href="#" class="dropdown-item">
-            <i class="ti-user"></i> Thông tin cá nhân</a>
-          <a href="#" class="dropdown-item">
-            <i class="ti-wallet"></i> Số dư tài khoản</a>
-          <a href="#" class="dropdown-item">
-            <i class="ti-email"></i> Hộp thư</a>
-          <div class="dropdown-divider"></div>
-          <a routerLink="setting" class="dropdown-item">
-            <i class="ti-settings"></i> Cài đặt</a>
-          <div class="dropdown-divider"></div>
-          <a (click)="logout(del)" class="dropdown-item">
-            <i class="fa fa-power-off"></i> Đăng xuất</a>
-        </div>
-      </div>
-    </div>
-    <!-- End User profile text-->
     <!-- Sidebar navigation-->
     <nav class="sidebar-nav">
       <ul id="sidebarnav">
@@ -156,7 +128,7 @@
       <i class="mdi mdi-gmail"></i>
     </a>
     <!-- item-->
-    <a href="" class="link" data-toggle="tooltip" title="Đăng xuất">
+    <a (click)="logout(del)" class="link" data-toggle="tooltip" title="Đăng xuất">
       <i class="mdi mdi-power"></i>
     </a>
   </div>
@@ -165,7 +137,7 @@
 <ng-template #del let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title">Đăng xuất</h3>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -173,7 +145,7 @@
     <p>Bạn có muốn kết thúc phiên làm việc không??</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="d('')">Không</button>
-    <button type="button" class="btn btn-danger" (click)="c('')">Có</button>
+    <button class="btn btn-primary" (click)="d( 'No-delete')">Không</button>
+    <button class="btn btn-danger" (click)="c( 'Yes-Delete')">Có</button>
   </div>
 </ng-template>

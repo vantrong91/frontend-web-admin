@@ -3,7 +3,7 @@
     <div class="owner-view-title">Đơn hàng bảo hiểm hàng hóa</div>
     <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listInsuranceOrder' [columnMode]='"force"'
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'sumInsuPrice', dir: 'desc'}]"
-      [limit]="5">
+      [limit]="20">
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">

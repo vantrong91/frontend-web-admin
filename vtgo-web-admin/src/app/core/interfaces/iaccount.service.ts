@@ -6,4 +6,6 @@ export interface IAccountService{
     Get(entity: SearchModel): Observable<any>;
     getAccountById(accountId: number): Observable<any>;
     Create(entity: AccountViewModel): Observable<any>;
+    Logout(accountId: number): Observable<any>;
+    
 }

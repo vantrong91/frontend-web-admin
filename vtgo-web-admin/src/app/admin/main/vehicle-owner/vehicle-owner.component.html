@@ -25,7 +25,7 @@
   <div class="col">
     <div class="owner-view-title">Khách hàng doanh nghiệp</div>
     <ngx-datatable class='material selection-cell datatable' [rows]='listOwnerCompany' [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50'
-      [rowHeight]='"auto"' [limit]="5" #companyTable>
+      [rowHeight]='"auto"' [limit]="20" #companyTable>
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="default align-center tbl-header">

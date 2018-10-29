@@ -5,12 +5,20 @@ import { LoginViewModel, LoggedInUser } from '../models/user.model';
 import { SystemConfig } from '../enums/system.enum';
 import { ConfigService } from '../services/config.service';
 import { map } from 'rxjs/operators';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 @Injectable()
-export class AuthenService {
-    constructor(private http: HttpClient, private configService: ConfigService) {
+export class AuthenService implements CanActivate {
+    constructor(private router: Router,private http: HttpClient, private configService: ConfigService) {
     }
-
     
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
+        if(this.IsUserAuthenticated()){
+            return true;
+        }else{
+            this.router.navigate(['/admin/login']);
+            return false;
+        }
+    }
     Login(user: LoginViewModel): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         const url = this.configService.getConfiguration().BASE_API + 'account-man/check-login';
@@ -27,16 +35,16 @@ export class AuthenService {
         localStorage.removeItem(SystemConfig.CURRENT_USER);
         const url2 = this.configService.getConfiguration().BASE_API + 'account-man/logout';
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        console.log("onLogout" + accountId + url2) ;
-        return this.http.post(url2, {"accountId": accountId} , { headers: headers });
+        return this.http.post(url2, { "accountId": accountId }, { headers: headers });
     }
 
     IsUserAuthenticated(): boolean {
-        const user = localStorage.getItem(SystemConfig.CURRENT_USER);
-        if (user != null) {
+        const user = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
+        if (user) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
     GetCurrentUser(): LoggedInUser {
         let user: LoggedInUser;

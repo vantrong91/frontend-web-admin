@@ -20,7 +20,7 @@
     <div class="col">
       <div class="goodsowner-view-title">Danh sách chủ hàng</div>
       <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-        [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
+        [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="20">
   
         <ngx-datatable-column name="Index" [maxWidth]="60">
           <ng-template let-column="column" ngx-datatable-header-template>

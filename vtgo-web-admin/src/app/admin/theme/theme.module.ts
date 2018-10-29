@@ -6,7 +6,7 @@ import { NavigationComponent } from './header-navigation/navigation.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { MobileSidebarToggleDirective, RightSidebarToggleDirective } from './sidebar.directive';
 import { RouterModule } from '@angular/router';
-import { IAuthenServiceToken, AuthenService, ILogoutServiceToken, TestLogoutService } from 'src/app/core';
+import { AccountService, IAccountServiceToken } from 'src/app/core';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { IAuthenServiceToken, AuthenService, ILogoutServiceToken, TestLogoutServ
     RightSidebarToggleDirective,
   ],
   
-  providers: [{provide: ILogoutServiceToken, useClass: TestLogoutService}],
+  providers: [{provide: IAccountServiceToken, useClass: AccountService}],
   exports: [
     SidebarComponent,
     RightSidebarComponent,

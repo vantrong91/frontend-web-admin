@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login.routing';
 import { FormsModule } from '@angular/forms';
-import { AuthenService, AuthGuard, IAccountServiceToken, AccountService, IAuthenServiceToken, IAuthenService } from 'src/app/core';
+import { AuthenService, IAuthenServiceToken } from 'src/app/core';
 
 @NgModule({
   imports: [
@@ -12,6 +12,6 @@ import { AuthenService, AuthGuard, IAccountServiceToken, AccountService, IAuthen
     LoginRoutingModule
   ],
   declarations: [LoginComponent],
-  providers: [{provide: IAuthenServiceToken, useClass: AuthenService}]
+  providers: [ {provide: IAuthenServiceToken, useClass: AuthenService}]
 })
 export class LoginModule { }

@@ -16,7 +16,7 @@
   <div class="col">
     <div class="view-title">Tài khoản</div>
     <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts' [columnMode]='"force"'
-      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="5" [sorts]="[{prop: 'accountId', dir: 'asc'}]" #accountTable>
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="20" [sorts]="[{prop: 'accountId', dir: 'asc'}]" #accountTable>
       <ngx-datatable-column name="accountId" [width]="50" prop="accountId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>

@@ -11,7 +11,7 @@ export class AccountService{
     constructor(@Inject(IDataServiceToken) private dataService: IDataService){}
 
     URL_API_ACCOUNT = 'account-man';
-
+    
     Get(entity: SearchModel): Observable<any>{
         return this.dataService.Post(`${this.URL_API_ACCOUNT}/search`, entity);
     }
@@ -20,5 +20,8 @@ export class AccountService{
     }
     Create(entity: AccountViewModel): Observable<any>{
         return this.dataService.Post(`${this.URL_API_ACCOUNT}/create`, entity);
+    }
+    Logout(accountId: number): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_ACCOUNT}/logout`, { accountId: accountId });
     }
 }

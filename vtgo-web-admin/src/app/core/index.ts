@@ -12,7 +12,6 @@ export * from './interfaces/iorderlist.service';
 export * from './interfaces/iquotation.service';
 export * from './interfaces/ibalance.service';
 export * from './interfaces/iaccount.service';
-export * from './interfaces/itestlogout.service';
 // Export Model
 export * from './models/config.model';
 export * from './models/user.model';
@@ -42,8 +41,6 @@ export * from './services/orderlist.service';
 export * from './services/quotation.service';
 export * from './services/balance.service';
 export * from './services/account.service';
-export * from './services/auth-guard.service';
-export * from './services/testlogout.service';
 // Export Token
 export * from './tokens/authen.service.token';
 export * from './tokens/data.service.token';
@@ -55,4 +52,3 @@ export * from './tokens/orderlist.service.token';
 export * from './tokens/quotation.token';
 export * from './tokens/balance.token';
 export * from './tokens/account.service.token';
-export * from './tokens/testlogout.service.token';

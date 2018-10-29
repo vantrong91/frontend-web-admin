@@ -54,7 +54,7 @@
                             <li role="separator" class="divider"></li>
                             <li><a routerLink="setting"><i class="ti-settings"></i> Cài đặt</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Đăng xuất</a></li>
+                            <li><a (click)="logout(del)"><i class="fa fa-power-off"></i> Đăng xuất</a></li>
                         </ul>
                     </div>
                 </li>
@@ -62,3 +62,18 @@
         </div>
     </nav>
 </header>
+<ng-template #del let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title">Đăng xuất</h3>
+      <button type="button" class="close" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Bạn có muốn kết thúc phiên làm việc không??</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="d( 'No-delete')">Không</button>
+      <button class="btn btn-danger" (click)="c( 'Yes-Delete')">Có</button>
+    </div>
+  </ng-template>
