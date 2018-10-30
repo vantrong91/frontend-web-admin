@@ -112,6 +112,17 @@
             </li>
           </ul>
         </li>
+        <li [class.active]="showMenu === 'component6'">
+          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component6')" aria-expanded="false">
+            <i class="mdi mdi-library-books"></i>
+            <span>Quản lý danh mục</span>
+            <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component6'">
+              <li>
+                <a routerLink="setting" [routerLinkActive]="['router-link-active']">Thông tin cá nhân</a>
+              </li>
+            </ul>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- End Sidebar navigation -->

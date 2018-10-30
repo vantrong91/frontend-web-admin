@@ -27,14 +27,13 @@ export class LoginComponent implements OnInit {
     this.authService.Login(this.user).subscribe((item: any) => {
       item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
       if (item.status === 0) {
-        this.isError = false;
         this.router.navigate(['/admin/main']);
       } if (item.status === 104) {
         this.isError = true;
         this.noti = 'Bạn không có quyền truy cập'
         
       }
-      else {
+      if(item.data === null){
         this.isError = true;
         this.noti = 'Sai tên đăng nhập hoặc mật khẩu';
       }

@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
   }
 
   search2(search) {
-    this.dataService.Post('balance/search', search).subscribe(
+    this.dataService.Post('balance/account-bal', search).subscribe(
       response => {
         if (response.status === 0) {
           this.balance = response.data;  

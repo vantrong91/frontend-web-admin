@@ -244,44 +244,48 @@
     <ngb-tab title="Đính kèm" *ngIf="isAdd || noneShow">
       <ng-template ngbTabContent>
         <div class="mt-2" [ngClass]="{'d-none': !noneShow}">
-          <div class="col-2 offset-2" *ngIf="lstImg.length===0">Chưa có ảnh</div>
           <div class="form-group my-3 mr-2 ml-3">
             <label class="col-sm-6">Đăng ký xe (ảnh chụp trang bìa và các trang liên quan)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of lstImg">
-                <a *ngIf="_entity.attachProperties[el].attachCode ==='DKYXE'" href="#">{{_entity.attachProperties[el].attachName}}</a>
+              <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKYXE">
+                <a [href]="getUrlImg('DKYXE') +el">{{el}}</a>
+                <img [src]="getUrlImg('DKYXE') +el" alt="" />
               </div>
             </div>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
             <label class="col-sm-6">Đăng kiểm xe (chụp 2 mặt của giấy tờ)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of lstImg">
-                <a *ngIf="_entity.attachProperties[el].attachCode ==='DKIEMXE'" href="">{{_entity.attachProperties[el].attachName}}</a>
+              <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKIEMXE">
+                <a [href]="getUrlImg('DKIEMXE') +el">{{el}}</a>
+                <img [src]="getUrlImg('DKIEMXE') +el" alt="" />
               </div>
             </div>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
             <label class="col-sm-6">Bảo hiểm dân sự xe (chụp 2 mặt của giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of lstImg">
-                <a *ngIf="_entity.attachProperties[el].attachCode ==='BHDSXE'" href="">{{_entity.attachProperties[el].attachName}}</a>
+              <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHDSXE">
+                <a [href]="getUrlImg('BHDSXE') +el">{{el}}</a>
+                <img [src]="getUrlImg('BHDSXE') +el" alt="" />
               </div>
             </div>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
             <label class="col-sm-6">Bảo hiểm hàng hóa xe (chụp 2 mặt của giấy phép)</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of lstImg">
-                <a *ngIf="_entity.attachProperties[el].attachCode ==='BHHHXE'" href="">{{_entity.attachProperties[el].attachName}}</a>
+              <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHHHXE">
+                <a [href]="getUrlImg('BHHHXE') +el">{{el}}</a>
+                <img [src]="getUrlImg('BHHHXE') +el" alt="" />
               </div>
             </div>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
             <label class="col-sm-6">Giấy xác nhận xe đã được gắn GS hành trình</label>
             <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of lstImg">
-                <a *ngIf="_entity.attachProperties[el].attachCode ==='GXNTBGS'" href="">{{_entity.attachProperties[el].attachName}}</a>
+              <div class="col-3" *ngFor="let el of _entity.attachProperties?.GXNTBGS">
+                <a [href]="getUrlImg('GXNTBGS') +el">{{el}}</a>
+                <img [src]="getUrlImg('GXNTBGS') +el" alt="" />
               </div>
             </div>
           </div>
@@ -342,12 +346,12 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                  multiple class="custom-file-input form-control" id="inputGroupFile03" (change)="selectFile('BHDS')"
-                  ng2FileSelect [uploader]="uploaderBHDS" tabindex="28" />
+                  multiple class="custom-file-input form-control" id="inputGroupFile03" (change)="selectFile('BHDSXE')"
+                  ng2FileSelect [uploader]="uploaderBHDSXE" tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile03"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderBHDS.queue">
+              <div class="row uploadList" *ngFor="let item of uploaderBHDSXE.queue">
                 <div class="col-sm-6">{{item.file.name}}</div>
                 <div class="col-sm-4">
                   <div class="progress">
@@ -367,12 +371,12 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                  multiple class="custom-file-input form-control" id="inputGroupFile04" (change)="selectFile('BHHH')"
-                  ng2FileSelect [uploader]="uploaderBHHH" tabindex="28" />
+                  multiple class="custom-file-input form-control" id="inputGroupFile04" (change)="selectFile('BHHHXE')"
+                  ng2FileSelect [uploader]="uploaderBHHHXE" tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderBHHH.queue">
+              <div class="row uploadList" *ngFor="let item of uploaderBHHHXE.queue">
                 <div class="col-sm-6">{{item.file.name}}</div>
                 <div class="col-sm-4">
                   <div class="progress">
@@ -392,12 +396,12 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                  multiple class="custom-file-input form-control" id="inputGroupFile05" (change)="selectFile('GSHT')"
-                  ng2FileSelect [uploader]="uploaderGSHT" tabindex="28" />
+                  multiple class="custom-file-input form-control" id="inputGroupFile05" (change)="selectFile('GXNTBGS')"
+                  ng2FileSelect [uploader]="uploaderGXNTBGS" tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile05"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGSHT.queue">
+              <div class="row uploadList" *ngFor="let item of uploaderGXNTBGS.queue">
                 <div class="col-sm-6">{{item.file.name}}</div>
                 <div class="col-sm-4">
                   <div class="progress">
