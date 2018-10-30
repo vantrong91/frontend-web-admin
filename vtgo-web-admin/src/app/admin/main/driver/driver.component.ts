@@ -23,13 +23,10 @@ export class DriverComponent implements OnInit {
     _entityDriver: DriverViewModel;
     imgUrl = '';
 
-    keyArr = [];
     toggleExpandRow(row) {
-        // console.log('Toggled Expand Row!', row);
-        // this.keyArr.length = 0;
-        this.table.rowDetail.collapseAllRows();
+        console.log('Toggled Expand Row!', row);
+        // this.table.rowDetail.collapseAllRows();
         this.table.rowDetail.toggleExpandRow(row);
-        this.keyArr = Object.keys(row.attachProperties);
     }
     onDetailToggle(event) {
         // console.log('Detail Toggled', event);
@@ -70,10 +67,6 @@ export class DriverComponent implements OnInit {
 
 
     txtSearch(event) {
-        // if (event.keyCode === 13) {
-        //     this.search(this.searchParam);
-        //     event.target.select();
-        // }
         console.log(this.searchParam);
         if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
             this.search('{}');

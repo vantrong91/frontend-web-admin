@@ -1,6 +1,6 @@
 {
     "BASE_API": "http://103.90.220.148:8086/vtgo-admin/v1/",
-    "BASE_URL_IMG":"http://vtgo.babelott.com:5000/home/haivinh/IMAGE/",
+    "BASE_URL_IMG":"http://api.vtgo.vn:5000/home/haivinh/IMAGE/",
     "PAGE_CONFIG": {
         "HeaderHeight": 50,
         "ColumnWith": 50,

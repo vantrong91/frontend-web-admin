@@ -114,49 +114,48 @@
                 <div class="container imgView">
                   <div class="row">
                     <p class="col-sm-12"> + CMND:</p>
-                    <div class="col-2 offset-2" *ngIf="keyArr.length===0">Chưa có ảnh</div>
-                    <ng-container *ngFor="let el of keyArr">
-                      <div class="col-sm-2" *ngIf="row.attachProperties[el].attachCode==='CMND'">
-                        <a [href]="getUrlImg('CMND') +row.attachProperties[el].attachName" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('CMND') +row.attachProperties[el].attachName" alt="" />
+                    <ng-container *ngFor="let el of row.attachProperties?.CMND">
+                      <div class="col-sm-2">
+                        <a [href]="getUrlImg('CMND') +el" target="_blank" rel="noopener noreferrer">
+                          <img [src]="getUrlImg('CMND') +el" alt="" />
                           <br>
-                          <div class="text-center">{{row.attachProperties[el].attachName}}</div>
+                          <div class="text-center">{{el}}</div>
                         </a>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
                     <p class="col-sm-12"> + ACD:</p>
-                    <ng-container *ngFor="let el of keyArr">
-                      <div class="col-sm-2" *ngIf="row.attachProperties[el].attachCode==='ACD'">
-                        <a [href]="getUrlImg('ACD') +row.attachProperties[el].attachName" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('ACD') +row.attachProperties[el].attachName" alt="" />
+                    <ng-container *ngFor="let el of row.attachProperties?.ACD">
+                      <div class="col-sm-2">
+                        <a [href]="getUrlImg('ACD') +el" target="_blank" rel="noopener noreferrer">
+                          <img [src]="getUrlImg('ACD') +el" alt="" />
                           <br>
-                          <div class="text-center">{{row.attachProperties[el].attachName}}</div>
+                          <div class="text-center">{{el}}</div>
                         </a>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
                     <p class="col-sm-12"> + GPLX:</p>
-                    <ng-container *ngFor="let el of keyArr">
-                      <div class="col-sm-2" *ngIf="row.attachProperties[el].attachCode==='GPLX'">
-                        <a [href]="getUrlImg('GPLX') +row.attachProperties[el].attachName" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('GPLX') +row.attachProperties[el].attachName" alt="" />
+                    <ng-container *ngFor="let el of row.attachProperties?.GPLX">
+                      <div class="col-sm-2">
+                        <a [href]="getUrlImg('GPLX') +el" target="_blank" rel="noopener noreferrer">
+                          <img [src]="getUrlImg('GPLX') +el" alt="" />
                           <br>
-                          <div class="text-center">{{row.attachProperties[el].attachName}}</div>
+                          <div class="text-center">{{el}}</div>
                         </a>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
                     <p class="col-sm-12"> + SHK:</p>
-                    <ng-container *ngFor="let el of keyArr">
-                      <div class="col-sm-2" *ngIf="row.attachProperties[el].attachCode==='SHK'">
-                        <a [href]="getUrlImg('SHK') +row.attachProperties[el].attachName" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('SHK') +row.attachProperties[el].attachName" alt="" />
+                    <ng-container *ngFor="let el of row.attachProperties?.SHK">
+                      <div class="col-sm-2">
+                        <a [href]="getUrlImg('SHK') +el" target="_blank" rel="noopener noreferrer">
+                          <img [src]="getUrlImg('SHK') +el" alt="" />
                           <br>
-                          <div class="text-center">{{row.attachProperties[el].attachName}}</div>
+                          <div class="text-center">{{el}}</div>
                         </a>
                       </div>
                     </ng-container>

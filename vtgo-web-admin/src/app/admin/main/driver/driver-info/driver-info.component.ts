@@ -87,7 +87,12 @@ export class DriverInfoComponent implements OnInit {
             extLicenseNo: new FormControl('', Validators.required),
             extIssueDate: new FormControl('', Validators.required),
             extIssueBy: new FormControl('', Validators.required),
-            attachProperties: new FormData(),
+            attachProperties: this.formBuilder.group({
+                CMND: new FormArray([]),
+                ACD: new FormArray([]),
+                SHK: new FormArray([]),
+                GPLX: new FormArray([])
+            }),
             properties: new FormControl(''),
             vehicleId: new FormControl(''),
             state: new FormControl('', Validators.required),
@@ -128,25 +133,27 @@ export class DriverInfoComponent implements OnInit {
         }
         // console.log(this.uploader.queue);
         this.groupImg();
-
-
     }
 
     groupImg() {
         this.uploader.queue.length = 0;
-        this.uploaderCMND.queue.forEach(el => this.uploader.queue.push(el));
-        this.uploaderACD.queue.forEach(el => this.uploader.queue.push(el));
-        this.uploaderGPLX.queue.forEach(el => this.uploader.queue.push(el));
-        this.uploaderSHK.queue.forEach(el => this.uploader.queue.push(el));
+        this.addEditForm.controls.attachProperties.value.CMND.length = 0;
+        this.addEditForm.controls.attachProperties.value.ACD.length = 0;
+        this.addEditForm.controls.attachProperties.value.GPLX.length = 0;
+        this.addEditForm.controls.attachProperties.value.SHK.length = 0;
+        this.uploaderCMND.queue.forEach(el => this.addEditForm.controls.attachProperties.value.CMND.push(el.file.name));
+        this.uploaderACD.queue.forEach(el => this.addEditForm.controls.attachProperties.value.ACD.push(el.file.name));
+        this.uploaderGPLX.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPLX.push(el.file.name));
+        this.uploaderSHK.queue.forEach(el => this.addEditForm.controls.attachProperties.value.SHK.push(el.file.name));
     }
-    setAttachProp() {
-        let data = {};
-        for (let index = 0; index < this.uploader.queue.length; index++) {
-            const element = this.uploader.queue[index];
-            data[index] = { attachCode: element.url, attachName: element.file.name, attachPath: '../IMAGE/' + element.url + '/' }
-        }
-        this.addEditForm.get('attachProperties').setValue(data);
-    }
+    // setAttachProp() {
+    //     let data = {};
+    //     for (let index = 0; index < this.uploader.queue.length; index++) {
+    //         const element = this.uploader.queue[index];
+    //         data[index] = { attachCode: element.url, attachName: element.file.name, attachPath: '../IMAGE/' + element.url + '/' }
+    //     }
+    //     this.addEditForm.get('attachProperties').setValue(data);
+    // }
 
     checkEmailPhone(event, type) {
         let searchParam = `{"searchParam": "` + event.target.value.toLowerCase() + `"}`;
@@ -223,11 +230,13 @@ export class DriverInfoComponent implements OnInit {
     }
 
     Save(event) {
-        // event.preventDefault();
-        if(this.isAdd)
-            this.setAttachProp();
+        if (this.isAdd)
+            console.log('add new img');
+
+        // this.setAttachProp();
         this._entity = this.addEditForm.value;
-        if(!this.isAdd)
+
+        if (!this.isAdd)
             this._entity.attachProperties = this.oldAttachPro;
         this.convert();
 
@@ -235,6 +244,7 @@ export class DriverInfoComponent implements OnInit {
         //console.log("Img uploading...")
         // uploader.uploadAll();
         console.log(this._entity);
+        console.log(this.uploaderCMND);
 
         this.driverViewModelChange.emit(this._entity);
         this.closeModalEvent.emit();
