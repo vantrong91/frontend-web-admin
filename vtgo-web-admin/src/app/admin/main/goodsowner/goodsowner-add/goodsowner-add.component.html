@@ -43,7 +43,7 @@
                   <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger" *ngIf="addEditForm.get('gender').invalid && addEditForm.get('gender').touched">*</span></label>
                   <div class="col-sm-4">
                       <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="7">
-                          <option selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
+                          <option value="null" disabled selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
                           <option value="1">Nam</option>
                           <option value="0">Nữ</option>
                       </select>

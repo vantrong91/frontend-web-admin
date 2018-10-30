@@ -51,6 +51,7 @@ export class GoodsownerAddComponent implements OnInit {
   Save(event) {
     // event.preventDefault();
     this._entity = this.addEditForm.value;
+    console.log(this._entity);
     this.convert();
     this.ownerViewModelChange.emit(this._entity);
     this.closeForm.emit();
@@ -70,11 +71,9 @@ export class GoodsownerAddComponent implements OnInit {
         this.addEditForm.controls.attachProperties.value.CMND.length = 0;
         for (let item of this.propCMND) {
           let attachName = item.name;
-          let filePath = "../IMAGE/CMND/";
-          let attachCode = "CMND";
-          this.addEditForm.controls.attachProperties.value.CMND.push(filePath);
+          // let filePath = "../IMAGE/CMND/";
+          // let attachCode = "CMND";
           this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
-          this.addEditForm.controls.attachProperties.value.CMND.push(attachCode);
         }
         break;
       default:

@@ -6,37 +6,39 @@
                 <div class="form-group row my-3">
                     <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên" formControlName="fullName" tabindex="1"
-                        />
+                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên"
+                            formControlName="fullName" tabindex="1" />
                     </div>
                     <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Quốc tịch" formControlName="nationality"
-                            tabindex="2" />
+                        <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Quốc tịch"
+                            formControlName="nationality" tabindex="2" />
                     </div>
                 </div>
                 <div class="form-group row my-3">
                     <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'" name="dateOfBirth" formControlName="dateOfBirth">
+                        <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'"
+                            name="dateOfBirth" formControlName="dateOfBirth">
                     </div>
                 </div>
                 <div class="form-group row my-3">
                     <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số CMT <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="identityNo" name="identityNo" placeholder="Số giấy tờ" formControlName="identityNo"
-                            tabindex="4" />
+                        <input type="text" class="form-control" id="identityNo" name="identityNo" placeholder="Số giấy tờ"
+                            formControlName="identityNo" tabindex="4" />
                     </div>
                     <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'yyyy-MM-dd'" name="issueDate" formControlName="issueDate">
+                        <input type="date" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'yyyy-MM-dd'"
+                            name="issueDate" formControlName="issueDate">
                     </div>
                 </div>
                 <div class="form-group row my-3">
                     <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="issueby" name="issueby" placeholder="Nơi cấp" formControlName="issueBy" tabindex="6"
-                        />
+                        <input type="text" class="form-control" id="issueby" name="issueby" placeholder="Nơi cấp"
+                            formControlName="issueBy" tabindex="6" />
                     </div>
                     <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
@@ -51,24 +53,38 @@
                 <div class="form-group row mb-3">
                     <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại" formControlName="phoneNumber"
-                            tabindex="8" />
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại"
+                            formControlName="phoneNumber" tabindex="8" />
                     </div>
                     <label for="nationality" class="col-sm-2 col-form-label text-md-right">Địa chỉ <span class="text-danger">*</span></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ " formControlName="address" tabindex="9"
-                        />
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ "
+                            formControlName="address" tabindex="9" />
                     </div>
                 </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab title="File đính kèm">
+        <ngb-tab title="File hình ảnh đính kèm">
             <ng-template ngbTabContent>
                 <div class="form-group row my-3">
-                    <label class="col-sm-6">Chứng minh nhân dân/Thẻ căn cước</label>
+                    <label class="col-sm-6">Chọn chứng minh nhân dân/Thẻ căn cước mới</label>
                     <div class="col-sm-6" formGroupName="attachProperties">
-                        <input type="file" multiple class="form-control" id="inputGroupFile01" (change)="selectFile($event,'CMND')"/>
+                        <input type="file" multiple class="form-control" id="inputGroupFile01" (change)="selectFile($event,'CMND')" />
                     </div>
+                </div>
+                <div class="form-group row my-3">
+                    <label class="col-sm-12">Chứng minh nhân dân đã thêm trước đó</label>
+                    <div class="col-2 offset-2" *ngIf="keyArr.length===0">Chưa có ảnh</div>
+                    <ng-container *ngFor="let el of keyArr[0]">
+                        <div class="col-sm-4">
+                            <a [href]="getUrlImg('CMND') + el" target="_blank" rel="noopener noreferrer">
+                                <img class="img-show" [src]="getUrlImg('CMND') + el" alt="" />
+                                <br>
+                                <div class="text-center">{{el}}</div>
+                            </a>
+
+                        </div>
+                    </ng-container>
                 </div>
             </ng-template>
         </ngb-tab>

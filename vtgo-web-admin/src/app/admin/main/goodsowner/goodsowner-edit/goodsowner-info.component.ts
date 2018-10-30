@@ -2,6 +2,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
 import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/core';
 
 // import * as $ from 'jquery';
 @Component({
@@ -12,11 +13,15 @@ import { ToastrService } from 'ngx-toastr';
 export class GoodsownerInfoComponent implements OnInit {
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
+  imgUrl = '';
+  keyArr :any;
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
+      this.keyArr = Object.values(this._entity.attachProperties);
+      console.log(this.keyArr);
       this.addEditForm.reset(owner);
     } else
       this.addEditForm.reset();
@@ -24,7 +29,7 @@ export class GoodsownerInfoComponent implements OnInit {
   @Output() ownerViewModelChange = new EventEmitter<OwnerViewModel>();
   @Output() closeForm = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder, private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder,private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl(''),
@@ -72,11 +77,11 @@ export class GoodsownerInfoComponent implements OnInit {
         this.addEditForm.controls.attachProperties.value.CMND.length = 0;
         for (let item of this.propCMND) {
           let attachName = item.name;
-          let filePath = "../IMAGE/CMND/";
-          let attachCode = "CMND";
-          this.addEditForm.controls.attachProperties.value.CMND.push(filePath);
+          // let filePath = "../IMAGE/CMND/";
+          // let attachCode = "CMND";
+          // this.addEditForm.controls.attachProperties.value.CMND.push(filePath);
           this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
-          this.addEditForm.controls.attachProperties.value.CMND.push(attachCode);
+          // this.addEditForm.controls.attachProperties.value.CMND.push(attachCode);
         }
         break;
       default:
@@ -84,6 +89,10 @@ export class GoodsownerInfoComponent implements OnInit {
     }
   }
 
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+  }
 
 
 }

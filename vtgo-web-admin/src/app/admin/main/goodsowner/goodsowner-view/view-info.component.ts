@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { OwnerViewModel } from '../model/owner.model';
+import { DataService } from 'src/app/core';
 
 @Component({
   selector: 'app-view-info',
@@ -11,16 +12,21 @@ export class ViewInfoComponent implements OnInit {
 
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
+  imgUrl = '';
+  keyArr :any;
+
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
+      this.keyArr = Object.values(this._entity.attachProperties);
+      console.log(this.keyArr);
       this.addEditForm.reset(owner);
     } else
       this.addEditForm.reset();
   };
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private dataService: DataService, private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl(''),
@@ -40,6 +46,14 @@ export class ViewInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
   }
+
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+  }
+
 
 }
