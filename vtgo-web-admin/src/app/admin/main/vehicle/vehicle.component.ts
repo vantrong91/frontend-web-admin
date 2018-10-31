@@ -6,9 +6,7 @@ import {
   SearchModel,
   IVehicleServiceToken,
   IVehicleService,
-  VehicleViewModel,
-  IHelperService,
-  IHelperServiceToken
+  VehicleViewModel
 } from '../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -29,8 +27,7 @@ export class VehicleComponent implements OnInit {
   noneShow: boolean;
 
   constructor(private modalService: NgbModal,
-    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService,
-    @Inject(IHelperServiceToken) private helperService: IHelperService) {
+    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
   }
   @ViewChild('vehicleTable') _vehicleTable: DatatableComponent;
   ngOnInit() {

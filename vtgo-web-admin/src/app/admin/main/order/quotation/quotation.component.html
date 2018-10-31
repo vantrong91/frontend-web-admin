@@ -22,7 +22,7 @@
   <div class="col">
     <div class="quotation">Quotation</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="20">
+      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="50">
       <!-- Row Detail Template -->
       <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>

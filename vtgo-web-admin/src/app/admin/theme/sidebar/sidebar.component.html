@@ -41,8 +41,8 @@
             </li>
 
             <li>
-                <a routerLink="orderpaid" [routerLinkActive]="['router-link-active']">Thanh toán đơn hàng</a>
-              </li>
+              <a routerLink="orderpaid" [routerLinkActive]="['router-link-active']">Thanh toán đơn hàng</a>
+            </li>
 
           </ul>
         </li>
@@ -104,9 +104,7 @@
             <li>
               <a routerLink="changepw" [routerLinkActive]="['router-link-active']">Đổi mật khẩu</a>
             </li>
-            <li>
-              <a routerLink="feebanks" [routerLinkActive]="['router-link-active']">Phí chuyển khoản</a>
-            </li>
+
             <li>
               <a routerLink="orther" [routerLinkActive]="['router-link-active']">Khác</a>
             </li>
@@ -116,12 +114,21 @@
           <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component6')" aria-expanded="false">
             <i class="mdi mdi-library-books"></i>
             <span>Quản lý danh mục</span>
-            <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component6'">
-              <li>
-                <a routerLink="setting" [routerLinkActive]="['router-link-active']">Thông tin cá nhân</a>
-              </li>
-            </ul>
           </a>
+          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component6'">
+            <li>
+              <a routerLink="vehiclefines" [routerLinkActive]="['router-link-active']">Cấu hình tiền phạt xe</a>
+            </li>
+            <li>
+              <a routerLink="pocily" [routerLinkActive]="['router-link-active']">Cấu hình chính sách</a>
+            </li>
+            <li>
+              <a routerLink="category" [routerLinkActive]="['router-link-active']">Cấu hình loại danh mục</a>
+            </li>
+            <li>
+              <a routerLink="feebanks" [routerLinkActive]="['router-link-active']">Phí chuyển khoản</a>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>

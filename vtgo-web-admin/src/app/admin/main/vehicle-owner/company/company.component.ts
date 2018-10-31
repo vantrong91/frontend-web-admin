@@ -25,6 +25,7 @@ export class CompanyComponent implements OnInit {
     if (company !== null) {
       this._entity = new CompanyViewModel();
       this._entity = company;
+      console.log(this._entity);
       if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
         const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
           return this.formBuilder.group(bankAccount);
