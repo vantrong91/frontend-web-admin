@@ -107,21 +107,19 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
 
   getState(state: number) {
     switch (state) {
-      case 0: return 'Đơn hàng chưa ký kết, chưa báo giá';
-      case 1: return 'Đơn chưa ký kết có báo giá';
-      case 2: return 'Đơn bị tài xế hủy báo giá';
-      case 3: return 'Đơn chờ vận chuyển chưa bốc hàng còn x ngày hoặc đã ký kết';
-      case 4: return 'Đơn chờ vận chuyển đã bốc hàng xong';
-      case 5: return 'Đơn chờ vận chuyển bị hết hạn';
+      case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
+      case 3: return 'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được tài xế xác nhận chuyến, đc ký kết)';
+      case 4: return 'Đơn chờ vận chuyển đã bốc hàng';
       case 6: return 'Đơn đang chuyển chưa thanh toán';
-      case 7: return 'Đơn hàng đang chuyển bị sự cố do lái xe';
-      case 8: return 'Đơn hàng đã thanh toán';
-      case 9: return 'Đơn hàng trạng thái hủy';
-      case 10: return 'Đơn hàng đang bị sự cố';
-      case 11: return 'Đơn đã ký kết bị tài xế hủy';
-      case 12: return 'Đơn khách hàng từ chối báo giá';
-      case 13: return 'Đơn đã ký kết bị khách hàng hủy';
-      case 16: return 'Đơn hàng đã chuyển chưa thanh toán';
+      case 7: return 'Đơn hàng đã chuyển chưa thanh toán';
+      case 8: return 'Đơn hàng đã thanh toán do ví vtgopay đang giữ';
+      case 810: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho chủ hàng';
+      case 801: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe';
+      case 811: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe và chủ hàng';
+      case 9: return 'Đơn hàng trạng thái hủy (chủ hàng hủy, lái xe hoặc chủ xe hủy,do hệ thống)';
+      case 10: return 'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)';
+      case 11: return 'Đơn hàng bị sự cố (sự cố do lái xe, đang chuyển bị sự cố, quản lý thị trường, hải quan giữ lại …)';
+
       default:
         return 'Error!';
     }

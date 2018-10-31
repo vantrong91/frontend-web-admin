@@ -7,8 +7,11 @@ import { Router } from '@angular/router';
     selector: 'app-navigation',
     templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements AfterViewInit,OnInit {
-
+export class NavigationComponent implements AfterViewInit, OnInit {
+    isActive = true;
+    showMenu = '';
+    showSubMenu = '';
+    
     currentUser: AccountManViewModel;
     closeResult: string;
     name: string;
@@ -16,9 +19,9 @@ export class NavigationComponent implements AfterViewInit,OnInit {
     ngOnInit(): void {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
-            this.currentUser = item.data;
+        this.currentUser = item.data;
     }
-    
+
 
     constructor(private modalService: NgbModal,
         private router: Router,
@@ -77,6 +80,22 @@ export class NavigationComponent implements AfterViewInit,OnInit {
         subject: 'Just see the my admin!',
         time: '9:00 AM'
     }];
+    addExpandClass(element: any) {
+
+
+        if (element === this.showMenu) {
+            this.showMenu = '0';
+        } else {
+            this.showMenu = element;
+        }
+    }
+    addActiveClass(element: any) {
+        if (element === this.showSubMenu) {
+            this.showSubMenu = '0';
+        } else {
+            this.showSubMenu = element;
+        }
+    }
     logout(del) {
         this.modalService.open(del).result.then(result => {
             let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
@@ -87,7 +106,7 @@ export class NavigationComponent implements AfterViewInit,OnInit {
             })
             //this.authService.Logout(item.data[0].accountId);
             this.router.navigateByUrl('/admin/login');
-        },reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),);
+        }, reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`));
 
     }
     private getDismissReason(reason: any) {
