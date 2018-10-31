@@ -1,8 +1,4 @@
 <form [formGroup]="addEditForm">
-  <!-- <ngb-tabset> -->
-  <!-- <ngb-tab title="Thông tin cá nhân tài xế">
-      <ng-template ngbTabContent> -->
-
   <input type="text" id="accountid" hidden formControlName="accountId">
   <div class="form-group row my-3">
     <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">{{addEditForm.get('fullName').invalid&&addEditForm.get('fullName').touched?'*':'&nbsp;'}}</span></label>
@@ -130,10 +126,7 @@
     </div>
   </div>
   <hr class="hr-border-color mb-1">
-  <!-- </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Giấy phép">
-      <ng-template ngbTabContent> -->
+
   <div>Thông tin giấy phép</div>
   <div class="form-group row my-3">
     <label for="typelicenseno" class="col-sm-2 col-form-label text-md-right">Loại giấy phép <span class="text-danger">{{addEditForm.get('typeLicenseno').invalid&&addEditForm.get('typeLicenseno').touched?'*':'&nbsp;'}}</span></label>
@@ -192,10 +185,7 @@
     </div>
   </div>
   <hr class="hr-border-color mb-1">
-  <!-- </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Hồ sơ đính kèm">
-      <ng-template ngbTabContent> -->
+
   <div *ngIf="isAdd">Hồ sơ đính kèm
     <div class="form-group row my-3">
       <label class="col-sm-6">Chứng minh nhân dân/ Hộ chiếu/ Thẻ căn cước</label>
@@ -286,12 +276,8 @@
       </div>
     </div>
   </div>
-  <!-- </ng-template>
-    </ngb-tab> -->
-  <!-- </ngb-tabset> -->
   <div class="modal-footer">
-    <!-- <button class="btn btn-success" (click)="Save($event)" [disabled]="_entity.accountId===0?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
-            tabindex="32">Save</button> -->
-    <button class="btn btn-success" (click)="Save($event)" tabindex="32">Save</button>
+    <button class="btn btn-success" (click)="Save($event)" [disabled]="_entity.accountId===0?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
+      tabindex="32">Save</button>
   </div>
 </form>

@@ -34,8 +34,8 @@ export function ConfigLoader(configService: ConfigService) {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      preventDuplicates: true
-      // maxOpened: 2
+      preventDuplicates: true,
+      maxOpened: 0
     })
   ],
   providers: [
