@@ -78,10 +78,11 @@ export class DataService {
   }
 
   postFile(uri: string, data?: any) {
-    let newHeader = new HttpHeaders();
-    newHeader = newHeader.set('Content-Type', 'multipart/form-data');
-    return this.http.post(this.configuration.getConfiguration().BASE_API + uri, data, {
-      headers: newHeader
-    });
+    // let newHeader = new HttpHeaders();
+    // newHeader = newHeader.set('Content-Type', 'multipart/form-data');
+    // return this.http.post(this.configuration.getConfiguration().BASE_API + uri, data, {
+    //   headers: newHeader
+    // });
+    return this.http.post(this.configuration.getConfiguration().BASE_API + uri, data);
   }
 }

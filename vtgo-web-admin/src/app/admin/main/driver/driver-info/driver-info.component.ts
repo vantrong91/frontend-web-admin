@@ -20,9 +20,7 @@ export class DriverInfoComponent implements OnInit {
     oldAttachPro: any;
     mailValid = false;
     phoneValid = false;
-    uri = 'http://ngx-uploader.com/upload';
-    uploader: FileUploader = new FileUploader({ url: this.uri });
-    attachmentList: any = [];
+
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
     attachmentListCMND: any = [];
@@ -98,9 +96,7 @@ export class DriverInfoComponent implements OnInit {
             state: new FormControl('', Validators.required),
             birthday: new FormControl('')
         });
-        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            // this.attachmentList.push(JSON.parse(response));
-        };
+
         this.uploaderCMND.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
             // this.attachmentListCMND.push(JSON.parse(response));
         };
@@ -136,7 +132,6 @@ export class DriverInfoComponent implements OnInit {
     }
 
     groupImg() {
-        this.uploader.queue.length = 0;
         this.addEditForm.controls.attachProperties.value.CMND.length = 0;
         this.addEditForm.controls.attachProperties.value.ACD.length = 0;
         this.addEditForm.controls.attachProperties.value.GPLX.length = 0;
@@ -146,14 +141,6 @@ export class DriverInfoComponent implements OnInit {
         this.uploaderGPLX.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPLX.push(el.file.name));
         this.uploaderSHK.queue.forEach(el => this.addEditForm.controls.attachProperties.value.SHK.push(el.file.name));
     }
-    // setAttachProp() {
-    //     let data = {};
-    //     for (let index = 0; index < this.uploader.queue.length; index++) {
-    //         const element = this.uploader.queue[index];
-    //         data[index] = { attachCode: element.url, attachName: element.file.name, attachPath: '../IMAGE/' + element.url + '/' }
-    //     }
-    //     this.addEditForm.get('attachProperties').setValue(data);
-    // }
 
     checkEmailPhone(event, type) {
         let searchParam = `{"searchParam": "` + event.target.value.toLowerCase() + `"}`;
@@ -230,27 +217,39 @@ export class DriverInfoComponent implements OnInit {
     }
 
     Save(event) {
-        if (this.isAdd)
+        if (this.isAdd) {
             console.log('add new img');
+            this.uploadFileToServer(this.uploaderACD.queue, 'acd');
+            this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
+            this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
+            this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+        }
 
-        // this.setAttachProp();
         this._entity = this.addEditForm.value;
 
         if (!this.isAdd)
             this._entity.attachProperties = this.oldAttachPro;
+
         this.convert();
-
-        // console.log(this.uploader);
-        //console.log("Img uploading...")
-        // uploader.uploadAll();
-        console.log(this._entity);
-        console.log(this.uploaderCMND);
-
         this.driverViewModelChange.emit(this._entity);
         this.closeModalEvent.emit();
     }
 
+    uploadFileToServer(data: Array<any>, type: string) {
 
+        var frmImg = new FormData();
+        for (let i = 0; i < data.length; i++)
+            frmImg.append('files', data[i]._file);
+        this.dataService.postFile('upload/' + type, frmImg).subscribe(
+            response => {
+                console.log(response);
+                // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
+                //     closeButton: true,
+                //     tapToDismiss: true,
+                // })
+            }
+        );
+    }
     convert() {
         this._entity.issueDate = new Date(this._entity.issueDate).getTime();
         this._entity.extIssueDate = new Date(this._entity.extIssueDate).getTime();
