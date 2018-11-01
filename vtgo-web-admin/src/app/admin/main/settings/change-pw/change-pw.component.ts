@@ -19,21 +19,22 @@ export class ChangePwComponent implements OnInit {
   account: AccountManViewModel;
   isError = false
   noti = '';
-  isNoti : boolean;
+  isNoti: boolean;
   noti1 = '';
-  isNoti1 : boolean;
+  isNoti1: boolean;
   noti2 = '';
-  isNoti2 : boolean;
+  isNoti2: boolean;
   user: LoginViewModel;
   isDisabled: boolean;
   type = 'password';
   type1 = 'password';
 
-  
+  captcha = '';
+  captchaValid =false;
 
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router,private toastr: ToastrService,
+  constructor(private formBuilder: FormBuilder, private router: Router, private toastr: ToastrService,
     @Inject(IAuthenServiceToken) private authService: IAuthenService, private dataService: DataService) {
 
   }
@@ -44,6 +45,17 @@ export class ChangePwComponent implements OnInit {
     let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
     this.currentUser = item.data;
     this.isDisabled = true;
+    this.initRandomStr();
+  }
+
+  initRandomStr() {
+    // return Math.random().toString(36).substr(2, 5);
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789";
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    this.captcha = text;
+    return text;
   }
 
   checkPassword() {
@@ -57,6 +69,7 @@ export class ChangePwComponent implements OnInit {
           setTimeout(() => {
             this.noti = "";
           }, 2000);
+          this.isNoti = false;
         }
 
         if (response.status === 0) {
@@ -84,8 +97,10 @@ export class ChangePwComponent implements OnInit {
     this.dataService.Post('account-man/update', this.account).subscribe(
       response => {
         if (response.status === 0) {
-          this.toastr.info('Đã đổi mật khẩu thành công!');
+          this.toastr.info('Đã đổi mật khẩu thành công!','Thông báo');
         }
+        else
+        this.toastr.error('Đã xảy ra lỗi...','Thông báo');
       }
     );
   }
@@ -96,6 +111,7 @@ export class ChangePwComponent implements OnInit {
       setTimeout(() => {
         this.noti1 = "";
       }, 2000);
+      this.isNoti1 =false;
     }
     else {
       if (this.newPassword.length < 6) {
@@ -103,6 +119,7 @@ export class ChangePwComponent implements OnInit {
         setTimeout(() => {
           this.noti1 = "";
         }, 2000);
+        this.isNoti1 =false;
       }
       else {
         this.noti1 = "Mật khẩu hợp lệ";
@@ -120,6 +137,7 @@ export class ChangePwComponent implements OnInit {
       setTimeout(() => {
         this.noti2 = "";
       }, 2000);
+      this.isNoti2 =false;
     }
     else {
       if (this.newPassword != this.reconfirmPassword) {
@@ -127,6 +145,7 @@ export class ChangePwComponent implements OnInit {
         setTimeout(() => {
           this.noti2 = "";
         }, 2000);
+        this.isNoti2 =false;
       }
       else {
         this.noti2 = "Mật khẩu trùng khớp";
@@ -138,61 +157,63 @@ export class ChangePwComponent implements OnInit {
     }
   }
 
-  checkDisabled(){
-    if(this.isNoti == true && this.isNoti1 == true && this.isNoti2 == true && this.code != ""){
+  checkDisabled() {
+    if (this.isNoti == true && this.isNoti1 == true && this.isNoti2 == true && this.captchaValid) {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }
-
-  save() {
-    if(this.code == "AC52Bks1"){
-      this.changePassword();
-      this.router.navigate(['/admin/main']);
-    }
-    else{
-      this.toastr.error('Mã xác nhận không đúng', 'Cảnh báo');  
-      this.code = "";
-      this.oldPassword = "";
-      this.newPassword = "";
-      this.reconfirmPassword=""; 
-    }
-
+  checkCaptcha(event){
+    let str= event.target.value;
+    if(str===this.captcha)
+      this.captchaValid=true;
+    else
+    this.captchaValid=false;
+    console.log(this.captchaValid);
   }
-
-  changeType(){
-    if(this.type == 'password'){
+  save() {
+      this.changePassword();
+      this.reset();
+     
+  }
+home(){
+  this.router.navigate(['/admin/main']);
+}
+  changeType() {
+    if (this.type == 'password') {
       this.type = 'text';
       setTimeout(() => {
         this.type = "password";
       }, 1500);
     }
-    else{
-      this.type= 'password';
+    else {
+      this.type = 'password';
     }
   }
 
-  changeType1(){
-    if(this.type1 == 'password'){
+  changeType1() {
+    if (this.type1 == 'password') {
       this.type1 = 'text';
       setTimeout(() => {
         this.type1 = "password";
       }, 1500);
     }
-    else{
-      this.type1= 'password';
+    else {
+      this.type1 = 'password';
     }
   }
 
-
-  reset(){
-    this.oldPassword ="";
+  reset() {
+    this.oldPassword = "";
     this.newPassword = "";
     this.reconfirmPassword = "";
-    this.code="";
+    this.code = "";
+    this.captchaValid=false;
+    this.initRandomStr();
+    this.isNoti=false;
+    this.isNoti1=false;
+    this.isNoti2=false;
   }
-
-
 }

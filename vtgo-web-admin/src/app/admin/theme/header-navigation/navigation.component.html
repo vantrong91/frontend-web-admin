@@ -41,21 +41,18 @@
           <div class="dropdown-menu dropdown-menu-right animated flipInY">
             <ul class="dropdown-user">
               <li>
-                <div class="dw-user-box">
+                <div class="dw-user-box row">
                   <div class="u-img"><img [src]="getUrlImg('AVATA')" alt="user"></div>
                   <div class="u-text">
                     <h4>{{this.currentUser[0].fullName}}</h4>
-                    <p class="text-muted">{{this.currentUser[0].email}}</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Xem
-                      thông tin</a>
+                    <p class="text-muted">{{this.currentUser[0].email}}</p>
+                    <a routerLink="userinfo" class="btn btn-rounded btn-danger btn-sm"><i class="ti-user"></i> Thông tin cá nhân</a>
                   </div>
                 </div>
               </li>
               <li role="separator" class="divider"></li>
-              <li><a routerLink="userinfo">
-                  <i class="ti-user"></i> Thông tin cá nhân</a>
-              </li>
-              <li><a href="#"><i class="ti-wallet"></i> Số dư tài khoản</a></li>
-              <li><a href="#"><i class="ti-email"></i> Hộp thư</a></li>
+              <li><a routerLink="wallet"><i class="ti-wallet"></i> Số dư tài khoản</a></li>
+              <li><a routerLink="inbox"><i class="ti-email"></i> Hộp thư</a></li>
               <li role="separator" class="divider"></li>
               <li> <a routerLink="changepw">
                   <i class="fa fa-key"></i> Đổi mật khẩu</a> </li>

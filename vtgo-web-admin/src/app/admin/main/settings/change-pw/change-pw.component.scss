@@ -1,6 +1,46 @@
-i{
-    position: absolute;
-    right: -10px;
-    top: 10px;
-    z-index: 10;
+i {
+  position: absolute;
+  right: -10px;
+  top: 10px;
+  z-index: 10;
+}
+
+.captcha-str {
+  background-image: url('./../../../../../assets/admin/images/background/captcha-bg.jpg');
+  letter-spacing: 15px;
+  line-height: 40px;
+  color: #000000a8;
+  font-weight: 600;
+  font-size: 30px;
+  font-family: cursive;
+
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+.captcha-ref {
+  position: unset;
+  padding-top: 10px;
+  font-size: 20px;
+}
+
+.captcha-str:hover {
+  cursor: default;
+}
+
+.captcha-ref:hover {
+  color: rgb(46, 49, 252);
+  cursor: pointer;
 }

@@ -2,7 +2,8 @@
   <div class="col-sm-2"></div>
   <label for="oldPassword" class="col-sm-2 col-form-label text-md-right">Mật khẩu cũ</label>
   <div class="col-sm-6">
-    <input type="password" class="form-control" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" placeholder="Mật khẩu cũ" (focusout)="checkPassword()" tabindex="1"/>
+    <input type="password" class="form-control" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword"
+      placeholder="Mật khẩu cũ" (focusout)="checkPassword()" tabindex="1" />
     <label for="noti" class="col-form-label text-md-right">{{noti}}</label>
   </div>
   <div class="col-sm-2"></div>
@@ -11,7 +12,8 @@
   <div class="col-sm-2"></div>
   <label for="newPassword" class="col-sm-2 col-form-label text-md-right">Mật khẩu mới</label>
   <div class="col-sm-6">
-    <input type="{{type}}" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword" placeholder="Mật khẩu mới" (focusout)="checkLength()"  tabindex="2"/> <i (click)="changeType()" class="fa fa-eye"></i>
+    <input type="{{type}}" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword"
+      placeholder="Mật khẩu mới" (keyup)="checkLength()" tabindex="2" /> <i (click)="changeType()" class="fa fa-eye"></i>
     <label for="noti1" class="col-form-label text-md-right">{{noti1}}</label>
   </div>
   <div class="col-sm-2"></div>
@@ -20,27 +22,31 @@
   <div class="col-sm-2"></div>
   <label for="reconfirmPassword" class="col-sm-2 col-form-label text-md-right">Xác nhận mật khẩu</label>
   <div class="col-sm-6">
-    <input type="{{type1}}" class="form-control" id="reconfirmPassword" name="reconfirmPassword" [(ngModel)]="reconfirmPassword" placeholder="Xác nhận lại mật khẩu" (focusout)="checkRefPass()"
-      tabindex="3"/> <i (click)="changeType1()" class="fa fa-eye"></i>
-      <label for="noti2" class="col-form-label text-md-right">{{noti2}}</label>
+    <input type="{{type1}}" class="form-control" id="reconfirmPassword" name="reconfirmPassword" [(ngModel)]="reconfirmPassword"
+      placeholder="Xác nhận lại mật khẩu" (keyup)="checkRefPass()" tabindex="3" /> <i (click)="changeType1()" class="fa fa-eye"></i>
+    <label for="noti2" class="col-form-label text-md-right">{{noti2}}</label>
   </div>
   <div class="col-sm-2"></div>
 </div>
 <div class="form-group row my-3">
   <div class="col-sm-4"></div>
   <div class="col-sm-2">
-    <input type="text" class="form-control" id="code" name="code" [(ngModel)]="code" ngModel placeholder="Mã xác thực" tabindex="4"/>
+    <input type="text" class="form-control" id="code" name="code" (keyup)="checkCaptcha($event)" [(ngModel)]="code" placeholder="Mã xác thực"
+      tabindex="4" />
   </div>
   <div class="col-sm-1"></div>
-  <div class="col-sm-3" [ngStyle]="{'font-size': '20px','letter-spacing': '5px','line-height': '40px'}">AC52Bks1</div>
-  <div class="col-sm-2"></div>
+  <div class="col-sm-2 text-right captcha-str"   (oncopy)="false" (oncut)="false" (onpaste)="false" >{{captcha}}&nbsp;&nbsp;
+
+  </div>
+  <div class="col-sm-1 text-left"> <i class="fa fa-refresh captcha-ref" (click)="initRandomStr()"
+      aria-hidden="true"></i></div>
 </div>
 <div class="form-group row my-3">
   <div class="col-sm-4"></div>
   <div class="col-sm-2">
     <button class="btn btn-success" [disabled]="checkDisabled()" (click)="save()">Lưu</button>&nbsp;
-    <button class="btn btn-danger" (click)="reset()">Hủy</button>
+    <button class="btn btn-danger" (click)="home()">Hủy</button>
   </div>
   <div class="col-sm-2"></div>
-      
+
 </div>
