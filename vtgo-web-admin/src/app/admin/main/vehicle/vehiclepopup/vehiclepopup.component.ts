@@ -37,9 +37,9 @@ export class VehiclepopupComponent implements OnInit {
 
   public addEditForm: FormGroup;
 
-  get route(): FormArray {
-    return <FormArray>this.addEditForm.get('route');
-  }
+  // get route(): FormArray {
+  //   return <FormArray>this.addEditForm.get('route');
+  // }
 
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
@@ -48,7 +48,7 @@ export class VehiclepopupComponent implements OnInit {
       this.isAdd = false;
       this._entity = new VehicleViewModel();
       this._entity = vehiclepopup;
-      this.addEditForm.setControl('route', this.formBuilder.array(vehiclepopup.route || []));
+      // this.addEditForm.setControl('route', this.formBuilder.array(vehiclepopup.route || []));
       this.addEditForm.reset(vehiclepopup);
       this.oldAttachPro = this._entity.attachProperties;
       this.oldvehicleCode = this._entity.vehicleCode;
@@ -65,7 +65,7 @@ export class VehiclepopupComponent implements OnInit {
       this.isAdd = true;
       this._entity = new VehicleViewModel();
       this.addEditForm.reset();
-      this.addRoute();
+      // this.addRoute();
     }
   };
   @Input() noneShow: boolean;
@@ -78,7 +78,8 @@ export class VehiclepopupComponent implements OnInit {
       vehicleId: '',
       ownerId: '',
       vehicleCode: ['', [Validators.required]],
-      route: this.formBuilder.array([]),
+      route: ['', Validators.required],
+      // route: this.formBuilder.array([]),
       vehicleType: ['', Validators.required],
       licencePlate: ['', [Validators.required]],
       weight: [, [Validators.required]],
@@ -187,12 +188,12 @@ export class VehiclepopupComponent implements OnInit {
 
   }
 
-  addRoute() {
-    this.route.push(new FormControl());
-  }
-  subRoute(i) {
-    this.route.removeAt(i);
-  }
+  // addRoute() {
+  //   this.route.push(new FormControl());
+  // }
+  // subRoute(i) {
+  //   this.route.removeAt(i);
+  // }
 
   convert() {
     this._entity.licenceIssueDate = new Date(this._entity.licenceIssueDate).getTime();

@@ -7,6 +7,7 @@ export class AccountManViewModel {
     password: string;
     fullName: string;
     email: string;
+    fileAvata: Map<string, object>;
     phoneNumber: string;
     accountType: number;
     accountToken: any;

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { NgbModule, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AccountManViewModel, SystemConfig, IAccountServiceToken, IAccountService } from 'src/app/core';
+import { AccountManViewModel, SystemConfig, IAccountServiceToken, IAccountService, DataService } from 'src/app/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     isActive = true;
     showMenu = '';
     showSubMenu = '';
-    
+    imgUrl = '';
+
     currentUser: AccountManViewModel;
     closeResult: string;
     name: string;
@@ -20,13 +21,23 @@ export class NavigationComponent implements AfterViewInit, OnInit {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
         this.currentUser = item.data;
+        console.log(this.currentUser[0]);
     }
 
 
-    constructor(private modalService: NgbModal,
+    constructor(private dataService: DataService,
+        private modalService: NgbModal,
         private router: Router,
         @Inject(IAccountServiceToken) private logoutService: IAccountService) { }
-
+    getUrlImg(folder: string) {
+        this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+        if(this.currentUser[0].fileAvata !== null){
+            return this.imgUrl + this.currentUser[0].fileAvata.AVATA[0];
+        }else{
+            return `http://placehold.it/50x50`;
+        }
+        
+    }
     // This is for Notifications
     notifications: Object[] = [{
         round: 'round-danger',

@@ -60,8 +60,31 @@
       </span>
     </div>
   </div>
+  <div class="form-group row my-3">
+    <label for="" class="col-sm-6">Ảnh đại diện</label>
+    <div class="col-sm-6" formGroupName="fileAvata">
+      <div class="row">
+        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="selectFile('AVATA')" ng2FileSelect [uploader]="uploaderAVATA">
+        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
+      </div>
+      <div class="row uploadList" *ngFor="let item of uploaderAVATA.queue">
+        <div class="col-sm-6">{{item.file.name}}</div>
+        <div class="col-sm-4">
+          <div class="progress">
+            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+              aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
 <div class="modal-footer">
   <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Save</button>
   <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
 </div>
+
+<br> {{ addEditForm.value | json}}

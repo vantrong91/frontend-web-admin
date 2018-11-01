@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChildren, ElementRef, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControlName } from '@angular/forms';
-import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken } from 'src/app/core';
+import { FormBuilder, FormGroup, Validators, FormControlName, FormArray } from '@angular/forms';
+import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService } from 'src/app/core';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-account-info',
@@ -21,6 +22,9 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
+  uploaderAVATA: FileUploader = new FileUploader({ url: 'AVATA' });
+
+
   @Input() set accountViewModel(account: AccountViewModel) {
     if (account.accountId !== 0) {
       this._entity = new AccountViewModel();
@@ -32,7 +36,8 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   }
   @Output() accountViewModelChange = new EventEmitter<AccountViewModel>();
   @Output() closeModalEvent = new EventEmitter<any>();
-  constructor(private fb: FormBuilder,
+  constructor(private dataService: DataService,
+    private fb: FormBuilder,
     @Inject(IAccountServiceToken) private accountService: IAccountService) {
     this.addEditForm = this.fb.group({
       fullName: ['', [Validators.required]],
@@ -41,9 +46,15 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       password: ['', [Validators.required,
       Validators.minLength(3),
       Validators.maxLength(50)]],
+      fileAvata: this.fb.group({
+        AVATA: new FormArray([])
+      }),
       confirmPassword: ['', [Validators.required, compareValidator('password')]],
       accountType: ['', [Validators.required]],
     });
+    this.uploaderAVATA.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+
+    };
     this.validationMessages = {
       email: {
         required: 'Hãy nhập email của bạn',
@@ -82,12 +93,42 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
   }
+
+  selectFile(code: string) {
+    switch (code) {
+      case 'AVATA':
+        break;
+      default:
+        console.log("Error");
+    }
+    this.groupImg();
+  }
+
+  groupImg(){
+    this.addEditForm.controls.fileAvata.value.AVATA.length = 0;
+    this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.value.AVATA.push(e.file.name));
+  }
+
   onSave(event) {
+    this.uploadFileToServer(this.uploaderAVATA.queue, 'avatar');
     this._entity = this.addEditForm.value;
     console.log(this._entity);
     this.accountViewModelChange.emit(this._entity);
     this.closeModalEvent.emit();
   }
+
+  uploadFileToServer(data: Array<any>, type: string){
+    var frmImg = new FormData();
+    for(let i = 0; i< data.length; i++){
+      frmImg.append('files', data[i]._file);
+      this.dataService.postFile('upload/' + type, frmImg).subscribe(
+        response => {
+          console.log(response);
+        }
+      )
+    }
+  }
+
   checkEmailPhone(event, type) {
     let searchParam = `{"searchParam": "` + event.target.value.toLowerCase() + `"}`;
     this.search(searchParam, type);

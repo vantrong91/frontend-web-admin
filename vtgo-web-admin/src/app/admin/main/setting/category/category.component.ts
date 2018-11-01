@@ -11,7 +11,6 @@ export class CategoryComponent implements OnInit {
 
   lstCategory: any;
   searchObject: SearchModel;
-  isAdd: false
   _entity: CategoryViewModel;
   closeResult: string;
   isShow = false;

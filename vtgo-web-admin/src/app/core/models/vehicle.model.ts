@@ -7,7 +7,7 @@ export class VehicleViewModel {
     vehicleId: number;
     ownerId: number;
     vehicleCode: string;
-    route?: string[];
+    route?: number;
     vehicleType: any;
     licencePlate: string;
     weight: number;

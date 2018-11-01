@@ -56,7 +56,8 @@ export class AuthenService implements CanActivate {
                 userData.data[0].fullName,
                 userData.data[0].accountType,
                 userData.data[0].email,
-                userData.data[0].phoneNumber);
+                userData.data[0].phoneNumber,
+                userData.data[0].fileAvata);
         } else {
             user = null;
         }
