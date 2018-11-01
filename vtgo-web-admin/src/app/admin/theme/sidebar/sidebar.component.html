@@ -92,24 +92,7 @@
             </li>
           </ul>
         </li>
-        <li [class.active]="showMenu === 'component5'">
-          <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component5')" aria-expanded="false">
-            <i class="mdi mdi-settings"></i>
-            <span>Cài đặt</span>
-          </a>
-          <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component5'">
-            <li>
-              <a routerLink="userinfo" [routerLinkActive]="['router-link-active']">Thông tin cá nhân</a>
-            </li>
-            <li>
-              <a routerLink="changepw" [routerLinkActive]="['router-link-active']">Đổi mật khẩu</a>
-            </li>
-
-            <li>
-              <a routerLink="orther" [routerLinkActive]="['router-link-active']">Khác</a>
-            </li>
-          </ul>
-        </li>
+       
         <li [class.active]="showMenu === 'component6'">
           <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component6')" aria-expanded="false">
             <i class="mdi mdi-library-books"></i>

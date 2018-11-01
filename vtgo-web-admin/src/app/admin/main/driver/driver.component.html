@@ -10,8 +10,8 @@
 <div class="row mt-2">
   <div class="col-md-11">
     <small>
-      <!-- <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
-        <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a> -->
+      <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
+      <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
     </small>
   </div>
   <div class="col-md-1">
@@ -113,50 +113,43 @@
                 <strong class="col-2 text-right">- Hình ảnh:</strong>
                 <div class="container imgView">
                   <div class="row">
-                    <p class="col-sm-12"> + CMND:</p>
+                    <p class="col-sm-12"> + Chứng minh nhân dân/ Căn cước:
+                      {{row.attachProperties.CMND===undefined?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.CMND">
-                      <div class="col-sm-2">
-                        <a [href]="getUrlImg('CMND') +el" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('CMND') +el" alt="" />
-                          <br>
-                          <div class="text-center">{{el}}</div>
-                        </a>
+                      <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND'),el)">
+                        <img [src]="getUrlImg('CMND') +el" alt="" />
+                        <br>
+                        <div class="text-center img-name">{{el}}</div>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + ACD:</p>
+                    <p class="col-sm-12"> + Ảnh chân dung: {{row.attachProperties.ACD===undefined?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.ACD">
-                      <div class="col-sm-2">
-                        <a [href]="getUrlImg('ACD') +el" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('ACD') +el" alt="" />
-                          <br>
-                          <div class="text-center">{{el}}</div>
-                        </a>
+                      <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('ACD'),el)">
+                        <img [src]="getUrlImg('ACD') +el" alt="" />
+                        <br>
+                        <div class="text-center img-name">{{el}}</div>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + GPLX:</p>
+                    <p class="col-sm-12"> + Giấy phép lái xe: {{row.attachProperties.GPLX===undefined?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.GPLX">
-                      <div class="col-sm-2">
-                        <a [href]="getUrlImg('GPLX') +el" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('GPLX') +el" alt="" />
-                          <br>
-                          <div class="text-center">{{el}}</div>
-                        </a>
+                      <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GPLX'),el)">
+                        <img [src]="getUrlImg('GPLX') +el" alt="" />
+                        <br>
+                        <div class="text-center img-name">{{el}}</div>
                       </div>
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + SHK:</p>
+                    <p class="col-sm-12"> + Sổ hộ khẩu: {{row.attachProperties.SHK===undefined?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.SHK">
-                      <div class="col-sm-2">
-                        <a [href]="getUrlImg('SHK') +el" target="_blank" rel="noopener noreferrer">
-                          <img [src]="getUrlImg('SHK') +el" alt="" />
-                          <br>
-                          <div class="text-center">{{el}}</div>
-                        </a>
+                      <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('SHK'),el)">
+                        <img [src]="getUrlImg('SHK') +el" alt="" />
+                        <br>
+                        <div class="text-center img-name">{{el}}</div>
                       </div>
                     </ng-container>
                   </div>
@@ -274,5 +267,20 @@
   <div class="modal-footer">
     <button class="btn btn-primary" (click)="d( 'No-delete')">Không</button>
     <button class="btn btn-danger" (click)="c( 'Yes-Delete')">Có</button>
+  </div>
+</ng-template>
+
+<ng-template #imgView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
   </div>
 </ng-template>

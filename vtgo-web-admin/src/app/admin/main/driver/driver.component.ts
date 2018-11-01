@@ -21,10 +21,14 @@ export class DriverComponent implements OnInit {
     closeResult: string;
     searchParam: ' ';
     _entityDriver: DriverViewModel;
+
     imgUrl = '';
+    ulrImgFull = '';
+    imgName = '';
+
 
     toggleExpandRow(row) {
-        console.log('Toggled Expand Row!', row);
+        // console.log('Toggled Expand Row!', row);
         // this.table.rowDetail.collapseAllRows();
         this.table.rowDetail.toggleExpandRow(row);
     }
@@ -87,6 +91,13 @@ export class DriverComponent implements OnInit {
                 }
             );
     }
+    openImg(ele, imgUrl, fileName) {
+        this.ulrImgFull = imgUrl + fileName;
+        this.imgName = fileName;
+        this.modalServices
+            .open(ele, { windowClass: 'dark-modal', size: 'lg' });
+    }
+
     private getDismissReason(reason: any) {
         switch (reason) {
             case ModalDismissReasons.ESC:
