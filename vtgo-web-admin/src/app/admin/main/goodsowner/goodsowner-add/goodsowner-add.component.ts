@@ -2,6 +2,8 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
 import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/core';
+import { FileUploader } from 'ng2-file-upload';
 @Component({
   selector: 'app-goodsowner-add',
   templateUrl: './goodsowner-add.component.html',
@@ -11,6 +13,7 @@ export class GoodsownerAddComponent implements OnInit {
 
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
+  uploaderCMND: FileList;
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
@@ -25,7 +28,7 @@ export class GoodsownerAddComponent implements OnInit {
   @Output() closeForm = new EventEmitter<any>();
 
 
-  constructor(private formBuilder: FormBuilder, private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
       accountId: ['', Validators.required],
       fullName: ['', Validators.required],
@@ -50,6 +53,7 @@ export class GoodsownerAddComponent implements OnInit {
 
   Save(event) {
     // event.preventDefault();
+    this.uploadFileToServer(this.uploaderCMND, 'cmnd');
     this._entity = this.addEditForm.value;
     console.log(this._entity);
     this.convert();
@@ -65,20 +69,50 @@ export class GoodsownerAddComponent implements OnInit {
 
   propCMND: any;
   selectFile(ev, type: string) {
-    switch (type) {
-      case 'CMND':
-        this.propCMND = ev.target.files;
-        this.addEditForm.controls.attachProperties.value.CMND.length = 0;
-        for (let item of this.propCMND) {
-          let attachName = item.name;
-          // let filePath = "../IMAGE/CMND/";
-          // let attachCode = "CMND";
-          this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
-        }
-        break;
-      default:
-        this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
+    this.uploaderCMND = ev.target.files;
+    console.log(this.uploaderCMND);
+    const fileListAsArray = Array.from(this.uploaderCMND);
+    for (let item of fileListAsArray) {
+      this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
+    // switch (type) {
+    //   case 'CMND':
+    //     this.propCMND = ev.target.files;
+    //     this.addEditForm.controls.attachProperties.value.CMND.length = 0;
+    //     for (let item of this.propCMND) {
+    //       console.log(item);
+
+    //       let attachName = item.name;
+    //       // let filePath = "../IMAGE/CMND/";
+    //       // let attachCode = "CMND";
+    //       this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
+    //     }
+    //     break;
+    //   default:
+    //     this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
+    // }
+  }
+
+  uploadFileToServer(data: FileList, type: string) {
+
+    var frmImg = new FormData();
+    const fileListAsArray = Array.from(data);
+    for (let item of fileListAsArray) {
+      frmImg.append('files', item);
+    }
+    // for (let i = 0; i < data.length; i++)
+    //     frmImg.append('files', data[i]._file);
+    console.log(data);
+
+    this.dataService.postFile('upload/' + type, frmImg).subscribe(
+      response => {
+        console.log(response);
+        // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
+        //     closeButton: true,
+        //     tapToDismiss: true,
+        // })
+      }
+    );
   }
 
 

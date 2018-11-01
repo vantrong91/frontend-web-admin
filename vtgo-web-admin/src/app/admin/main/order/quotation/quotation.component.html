@@ -20,9 +20,9 @@
 
 <div class="row mt-2" [ngClass]="'d-block'">
   <div class="col">
-    <div class="quotation">Quotation</div>
+    <div class="quotation">Danh sách báo giá</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="50">
+      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="5">
       <!-- Row Detail Template -->
       <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -118,7 +118,7 @@
           <span class="">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="price" [width]="150">
+      <ngx-datatable-column name="price" [width]="100">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Giá vận chuyển</strong>
         </ng-template>
@@ -126,15 +126,15 @@
           <span class="">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="state" [width]="100">
+      <ngx-datatable-column name="state" [width]="200">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Trạng thái</strong>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span class="">{{value ==0?'Báo giá mới tạo':(value==1?'Báo cáo được khách hàng chấp nhận':(value==2?'Báo cáo bị khách hàng từ chối':(value==3?'Báo cáo được xác nhận chuyến':(value==4?'Báo cáo chờ vận chuyển':(value==5?'Báo giá chủ hàng có thay đổi':(value==6?'Báo giá bị tài xế hủy':(value==7?'Báo giá đang vận chuyển':'Hủy do hệ thống')))))))}}</span>
+          <span class="">{{value ==0?'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)':(value==3?'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được tài xế xác nhận chuyến, đc ký kết)':(value==4?'Đơn chờ vận chuyển đã bốc hàng':(value==6?'Đơn đang chuyển chưa thanh toán':(value==7?'Đơn hàng đã chuyển chưa thanh toán':(value==8?'Đơn hàng đã thanh toán do ví vtgopay đang giữ':(value==810?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho chủ hàng':(value==801?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe':(value==811?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe và chủ hàng':(value==9?'Đơn hàng trạng thái hủy (chủ hàng hủy, lái xe hoặc chủ xe hủy,do hệ thống)':(value==10?'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)':(value==11?'Đơn hàng bị sự cố (sự cố do lái xe, đang chuyển bị sự cố, quản lý thị trường, hải quan giữ lại …)':'')))))))))))}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="numQuotation" [width]="150">
+      <ngx-datatable-column name="numQuotation" [width]="50">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Số lần báo giá</strong>
         </ng-template>
