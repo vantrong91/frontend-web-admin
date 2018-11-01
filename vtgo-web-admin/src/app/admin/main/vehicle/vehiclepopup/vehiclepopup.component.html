@@ -8,6 +8,12 @@
           <div class="col-sm-4">
             <input type="text" class="form-control" id="VehicleId" formControlName="vehicleId">
           </div>
+          <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}"
+              type="text" class="form-control" id="vehicleCode" placeholder="Mã xe" formControlName="vehicleCode"
+              tabindex="2">
+          </div>
         </div>
 
         <div class="form-group row my-3">
@@ -16,11 +22,14 @@
             <input type="text" placeholder="AccountId của chủ xe" class="form-control" id="ownerId" formControlName="ownerId"
               tabindex="1">
           </div>
-          <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger" *ngIf="addEditForm.get('vehicleCode').invalid">*</span></label>
+          <label for="route" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
           <div class="col-sm-4">
-            <input [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('vehicleCode').touched || addEditForm.get('vehicleCode').dirty) && !addEditForm.get('vehicleCode').valid}"
-              type="text" class="form-control" id="vehicleCode" placeholder="Mã xe" formControlName="vehicleCode"
-              tabindex="2">
+            <select class="custom-select form-control" id="route" formControlName="route" tabindex="2"
+              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
+              <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
+              <option value="71">Xe chạy nội thành</option>
+              <option value="72">Xe liên tỉnh</option>
+            </select>
           </div>
         </div>
         <!-- <div formArrayName="route">
@@ -47,28 +56,17 @@
           </div>
         </div> -->
         <div class="form-group row mb-3">
-          <label for="route" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
-          <div class="col-sm-4">
-            <select class="custom-select form-control" id="route" formControlName="route" tabindex="3"
-              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
-              <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
-              <option value="71">Xe chạy nội thành</option>
-              <option value="72">Xe liên tỉnh</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row mb-3">
           <label for="LicencePlate" class="col-sm-2 col-form-label text-md-right">Biển số <span class="text-danger"
               *ngIf="addEditForm.get('licencePlate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="text" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licencePlate').touched || addEditForm.get('licencePlate').dirty) && !addEditForm.get('licencePlate').valid}"
-              class="form-control" id="LicencePlate" placeholder="Nhập biển số" formControlName="licencePlate" tabindex="4">
+              class="form-control" id="LicencePlate" placeholder="Nhập biển số" formControlName="licencePlate" tabindex="3">
           </div>
           <label for="Weight" class="col-sm-2 col-form-label text-md-right">Tải trọng <span class="text-danger" *ngIf="addEditForm.get('weight').errors">*</span></label>
           <div class="col-sm-4">
             <input type="number" class="form-control" id="Weight" placeholder="Tải trọng" formControlName="weight"
               [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('weight').touched || addEditForm.get('weight').dirty) && !addEditForm.get('weight').valid}"
-              tabindex="5">
+              tabindex="4">
           </div>
         </div>
         <!-- ========================================================================= -->
@@ -80,11 +78,11 @@
               *ngIf="addEditForm.get('licence').errors">*</span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="Licence" placeholder="Số đăng ký xe" formControlName="licence"
-              tabindex="6" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}">
+              tabindex="5" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}">
           </div>
           <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
           <div class="col-sm-4">
-            <select class="custom-select form-control" id="VehicleType" formControlName="vehicleType" tabindex="7"
+            <select class="custom-select form-control" id="VehicleType" formControlName="vehicleType" tabindex="6"
               [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('vehicleType').touched || addEditForm.get('vehicleType').dirty) && !addEditForm.get('vehicleType').valid}">
               <option value=null disabled selected>&#45;&#45; Xe Công &#45;&#45;</option>
               <option value="1">Xe Bán Tải</option>
@@ -99,12 +97,12 @@
               *ngIf="addEditForm.get('licenceIssueDate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="date" [value]="addEditForm.get('licenceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-              id="LicenceIssueDate" formControlName="licenceIssueDate" tabindex="8" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueDate').touched || addEditForm.get('licenceIssueDate').dirty) && !addEditForm.get('licenceIssueDate').valid}">
+              id="LicenceIssueDate" formControlName="licenceIssueDate" tabindex="7" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueDate').touched || addEditForm.get('licenceIssueDate').dirty) && !addEditForm.get('licenceIssueDate').valid}">
           </div>
           <label for="LicenceIssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger"
               *ngIf="addEditForm.get('licenceIssueBy').errors">*</span></label>
           <div class="col-sm-4">
-            <select class="custom-select form-control" id="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="9"
+            <select class="custom-select form-control" id="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="8"
               [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueBy').touched || addEditForm.get('licenceIssueBy').dirty) && !addEditForm.get('licenceIssueBy').valid}">
               <option value=null disabled selected>&#45;&#45; CA Thành Phố Hà Nội &#45;&#45;</option>
               <option value="1">CA TP Hà Nội</option>
@@ -119,7 +117,7 @@
               *ngIf="addEditForm.get('registrationNo').errors">*</span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="RegistrationNo" placeholder="Số đăng kiểm xe" name="RegistrationNo"
-              formControlName="registrationNo" tabindex="10" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationNo').touched || addEditForm.get('registrationNo').dirty) && !addEditForm.get('registrationNo').valid}">
+              formControlName="registrationNo" tabindex="9" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationNo').touched || addEditForm.get('registrationNo').dirty) && !addEditForm.get('registrationNo').valid}">
           </div>
           <div class="col-sm-6">
           </div>
@@ -130,13 +128,13 @@
               *ngIf="addEditForm.get('registrationIssueDate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="date" [value]="addEditForm.get('registrationIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-              id="RegistrationIssueDate" formControlName="registrationIssueDate" tabindex="11" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationIssueDate').touched || addEditForm.get('registrationIssueDate').dirty) && !addEditForm.get('registrationIssueDate').valid}" />
+              id="RegistrationIssueDate" formControlName="registrationIssueDate" tabindex="10" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationIssueDate').touched || addEditForm.get('registrationIssueDate').dirty) && !addEditForm.get('registrationIssueDate').valid}" />
           </div>
           <label for="RegistrationExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
               *ngIf="addEditForm.get('registrationExpDate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="date" [value]="addEditForm.get('registrationExpDate').value | date:'yyyy-MM-dd'" class="form-control"
-              id="RegistrationExpDate" formControlName="registrationExpDate" tabindex="12" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationExpDate').touched || addEditForm.get('registrationExpDate').dirty) && !addEditForm.get('registrationExpDate').valid}" />
+              id="RegistrationExpDate" formControlName="registrationExpDate" tabindex="11" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationExpDate').touched || addEditForm.get('registrationExpDate').dirty) && !addEditForm.get('registrationExpDate').valid}" />
           </div>
         </div>
         <!-- ========================================================================= -->
@@ -145,7 +143,7 @@
               *ngIf="addEditForm.get('civilInsurance').errors">*</span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="CivInsurance" placeholder="Bảo hiểm dân sự" name="CivInsurance"
-              formControlName="civilInsurance" tabindex="13" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsurance').touched || addEditForm.get('civilInsurance').dirty) && !addEditForm.get('civilInsurance').valid}">
+              formControlName="civilInsurance" tabindex="12" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsurance').touched || addEditForm.get('civilInsurance').dirty) && !addEditForm.get('civilInsurance').valid}">
           </div>
           <div class="col-sm-6">
           </div>
@@ -156,13 +154,13 @@
               *ngIf="addEditForm.get('civilInsuranceIssueDate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="date" [value]="addEditForm.get('civilInsuranceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-              id="CivilInsuranceIssueDate" formControlName="civilInsuranceIssueDate" tabindex="14" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceIssueDate').touched || addEditForm.get('civilInsuranceIssueDate').dirty) && !addEditForm.get('civilInsuranceIssueDate').valid}" />
+              id="CivilInsuranceIssueDate" formControlName="civilInsuranceIssueDate" tabindex="13" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceIssueDate').touched || addEditForm.get('civilInsuranceIssueDate').dirty) && !addEditForm.get('civilInsuranceIssueDate').valid}" />
           </div>
           <label for="CivilInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
               *ngIf="addEditForm.get('civilInsuranceExpDate').errors">*</span></label>
           <div class="col-sm-4">
             <input type="date" [value]="addEditForm.get('civilInsuranceExpDate').value | date:'yyyy-MM-dd'" class="form-control"
-              id="CivilInsuranceExpDate" formControlName="civilInsuranceExpDate" tabindex="15" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceExpDate').touched || addEditForm.get('civilInsuranceExpDate').dirty) && !addEditForm.get('civilInsuranceExpDate').valid}" />
+              id="CivilInsuranceExpDate" formControlName="civilInsuranceExpDate" tabindex="14" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceExpDate').touched || addEditForm.get('civilInsuranceExpDate').dirty) && !addEditForm.get('civilInsuranceExpDate').valid}" />
           </div>
         </div>
         <!-- ========================================================================= -->
@@ -171,7 +169,7 @@
               hidden>*</span></label>
           <div class="col-sm-4">
             <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="CargoInsurance"
-              placeholder="Bảo hiểm hàng hóa" name="CargoInsurance" formControlName="cargoInsurance" tabindex="16">
+              placeholder="Bảo hiểm hàng hóa" name="CargoInsurance" formControlName="cargoInsurance" tabindex="15">
           </div>
           <div class="col-sm-6">
           </div>
@@ -182,13 +180,13 @@
               hidden>*</span></label>
           <div class="col-sm-4">
             <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('cargoInsuranceIssueDate').value | date:'yyyy-MM-dd'"
-              class="form-control" id="CargoInsuranceIssueDate" formControlName="cargoInsuranceIssueDate" tabindex="17" />
+              class="form-control" id="CargoInsuranceIssueDate" formControlName="cargoInsuranceIssueDate" tabindex="16" />
           </div>
           <label for="CargoInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
               hidden>*</span></label>
           <div class="col-sm-4">
             <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('cargoInsuranceExpDate').value | date:'yyyy-MM-dd'"
-              class="form-control" id="CargoInsuranceExpDate" formControlName="cargoInsuranceExpDate" tabindex="18" />
+              class="form-control" id="CargoInsuranceExpDate" formControlName="cargoInsuranceExpDate" tabindex="17" />
           </div>
         </div>
         <!-- ========================================================================= -->
@@ -197,7 +195,7 @@
               hidden>*</span></label>
           <div class="col-sm-4">
             <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="ItineraryMonitoring"
-              placeholder="Giấy xác nhận đã gắn thiết bị GS hành trình" formControlName="itineraryMonitoring" tabindex="19">
+              placeholder="Giấy xác nhận đã gắn thiết bị GS hành trình" formControlName="itineraryMonitoring" tabindex="18">
           </div>
           <div class="col-sm-6">
           </div>
@@ -209,14 +207,14 @@
           <div class="col-sm-4">
             <input [ngClass]="{'mouse-hover': noneShow}" type="date" [value]="addEditForm.get('itineraryMonitoringIssueDate').value | date:'yyyy-MM-dd'"
               class="form-control" id="ItineraryMonitoringIssueDate" formControlName="itineraryMonitoringIssueDate"
-              tabindex="20" />
+              tabindex="19" />
           </div>
           <label for="ItineraryMonitoringExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span
               class="text-danger" hidden>*</span></label>
           <div class="col-sm-4">
             <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('itineraryMonitoringExpDate').value | date:'yyyy-MM-dd'"
               class="form-control" id="ItineraryMonitoringExpDate" formControlName="itineraryMonitoringExpDate"
-              tabindex="21" />
+              tabindex="20" />
           </div>
         </div>
         <!-- ========================================================================= -->
@@ -224,7 +222,7 @@
         <div class="form-group row mb-3 mt-3">
           <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái <span class="text-danger" hidden>*</span></label>
           <div class="col-sm-4">
-            <select [ngClass]="{'mouse-hover': noneShow}" class="custom-select form-control" id="state" tabindex="22"
+            <select [ngClass]="{'mouse-hover': noneShow}" class="custom-select form-control" id="state" tabindex="21"
               formControlName="state">
               <option value=null>&#45;&#45; Trạng thái &#45;&#45;</option>
               <option value="0">Chưa đăng ký xe</option>
@@ -239,7 +237,7 @@
               hidden>*</span></label>
           <div class="col-sm-4">
             <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="DriverId" placeholder="AccountId tai xe"
-              formControlName="driverId" tabindex="23">
+              formControlName="driverId" tabindex="22">
           </div>
         </div>
         <div class="form-group row mb-3">
@@ -247,7 +245,7 @@
               hidden>*</span></label>
           <div class="col-sm-4">
             <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="DriverName" placeholder="Tên tài xế"
-              formControlName="driverName" tabindex="24">
+              formControlName="driverName" tabindex="23">
           </div>
         </div>
       </ng-template>
@@ -260,7 +258,7 @@
             <div class="row ml-1">
               <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKYXE">
                 <a [href]="getUrlImg('DKYXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('DKYXE') +el" alt="" />
+                <img [src]="getUrlImg('DKYXE') +el" alt="" class="img-show"/>
               </div>
             </div>
           </div>
@@ -269,7 +267,7 @@
             <div class="row ml-1">
               <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKIEMXE">
                 <a [href]="getUrlImg('DKIEMXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('DKIEMXE') +el" alt="" />
+                <img [src]="getUrlImg('DKIEMXE') +el" alt="" class="img-show"/>
               </div>
             </div>
           </div>
@@ -278,7 +276,7 @@
             <div class="row ml-1">
               <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHDSXE">
                 <a [href]="getUrlImg('BHDSXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('BHDSXE') +el" alt="" />
+                <img [src]="getUrlImg('BHDSXE') +el" alt="" class="img-show"/>
               </div>
             </div>
           </div>
@@ -287,7 +285,7 @@
             <div class="row ml-1">
               <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHHHXE">
                 <a [href]="getUrlImg('BHHHXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('BHHHXE') +el" alt="" />
+                <img [src]="getUrlImg('BHHHXE') +el" alt="" class="img-show"/>
               </div>
             </div>
           </div>
@@ -296,7 +294,7 @@
             <div class="row ml-1">
               <div class="col-3" *ngFor="let el of _entity.attachProperties?.GXNTBGS">
                 <a [href]="getUrlImg('GXNTBGS') +el">{{el}}</a>
-                <img [src]="getUrlImg('GXNTBGS') +el" alt="" />
+                <img [src]="getUrlImg('GXNTBGS') +el" alt="" class="img-show"/>
               </div>
             </div>
           </div>

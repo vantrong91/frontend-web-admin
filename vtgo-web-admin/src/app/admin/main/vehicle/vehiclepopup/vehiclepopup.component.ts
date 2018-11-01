@@ -22,8 +22,6 @@ export class VehiclepopupComponent implements OnInit {
   uri = 'http://ngx-uploader.com/upload';
   imgUrl = '';
 
-  uploader: FileUploader = new FileUploader({ url: this.uri });
-  attachmentList: any = [];
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
   attachmentDKYXE: any = [];
   uploaderDKIEMXE: FileUploader = new FileUploader({ url: 'DKIEMXE' });
@@ -77,7 +75,7 @@ export class VehiclepopupComponent implements OnInit {
     this.addEditForm = this.formBuilder.group({
       vehicleId: '',
       ownerId: '',
-      vehicleCode: ['', [Validators.required]],
+      vehicleCode: '',
       route: ['', Validators.required],
       // route: this.formBuilder.array([]),
       vehicleType: ['', Validators.required],
@@ -109,9 +107,6 @@ export class VehiclepopupComponent implements OnInit {
       driverId: '',
       driverName: '',
     });
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentList.push(JSON.parse(response));
-    };
     this.uploaderDKYXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       //this.attachmentDKYXE.push(JSON.parse(response));
     };
@@ -150,12 +145,11 @@ export class VehiclepopupComponent implements OnInit {
       case 'GXNTBGS':
         break;
       default:
-        alert("Error! Please try again late");
+        console.log("Error selectFile");
     }
     this.groupImg();
   }
   groupImg(): any {
-    this.uploader.queue.length = 0;
     this, this.addEditForm.controls.attachProperties.value.DKYXE.length = 0;
     this, this.addEditForm.controls.attachProperties.value.DKIEMXE.length = 0;
     this, this.addEditForm.controls.attachProperties.value.BHHHXE.length = 0;
@@ -174,7 +168,11 @@ export class VehiclepopupComponent implements OnInit {
   }
   onSave(event) {
     if (this.isAdd) {
-      //this.setAttachProp();
+      this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
+      this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
+      this.uploadFileToServer(this.uploaderBHHHXE.queue,'bhhhxe');
+      this.uploadFileToServer(this.uploaderBHDSXE.queue, 'bhdsxe');
+      this.uploadFileToServer(this.uploaderGXNTBGS.queue,'gxntbgs')
     }
     this._entity = this.addEditForm.value;
     if (!this.isAdd) {
@@ -186,6 +184,18 @@ export class VehiclepopupComponent implements OnInit {
     this.vehicleViewModelChange.emit(this._entity);
     this.closeModalEvent.emit();
 
+  }
+
+  uploadFileToServer(data: Array<any>, type: string){
+    var frmImg = new FormData();
+    for(let i = 0; i < data.length; i++){
+      frmImg.append('files', data[i]._file);
+      this.dataService.postFile('upload/' + type, frmImg).subscribe(
+        response => {
+          console.log(response);
+        }
+      )
+    }
   }
 
   // addRoute() {

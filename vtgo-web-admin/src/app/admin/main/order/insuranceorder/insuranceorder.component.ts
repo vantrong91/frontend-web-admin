@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { IInsuranceOrderServiceToken, IInsuranceOrderService, IHelperServiceToken, IHelperService, SearchModel } from '../../../../core';
+import { IInsuranceOrderServiceToken, IInsuranceOrderService, IHelperServiceToken, IHelperService, SearchModel, InsuOrderViewModel } from '../../../../core';
 
 @Component({
   selector: 'app-insuranceorder',
@@ -11,6 +11,7 @@ export class InsuranceorderComponent implements OnInit {
 
   listInsuranceOrder: any;
   searchObject: SearchModel;
+  _entity: InsuOrderViewModel;
 
   constructor(private modalService: NgbModal,
     @Inject(IInsuranceOrderServiceToken) private insuOrderService: IInsuranceOrderService,
@@ -36,6 +37,22 @@ export class InsuranceorderComponent implements OnInit {
 
       }
     );
+  }
+
+  edit(row, content){
+    this._entity = new InsuOrderViewModel();
+    this._entity = row;
+    this.modalService.open(content, { size: 'lg'});
+  }
+
+  onEditInsuOrder(event){
+    console.log(event);
+    this.insuOrderService.Put(this._entity).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.initData();
+      }
+    )
   }
 
 }
