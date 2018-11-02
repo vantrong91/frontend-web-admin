@@ -3,3 +3,32 @@
     cursor: pointer;
     padding-top: 5px;
 }
+
+.col-sm-3{
+    padding: 0px;
+    margin: 0px;
+}
+
+.image{
+    width: 100%;
+    height: auto;
+    background-color: #e8cfcfb8;
+}
+
+.image img{
+    width: 100%;
+    height: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.changeAvatar{
+    display: block;
+    margin: auto;
+}
+
+.fa-pencil{
+    margin-left: 20px;
+}

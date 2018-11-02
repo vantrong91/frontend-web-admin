@@ -6,6 +6,7 @@ import { UserInfoRoutingModule } from './user-info-routing.module';
 import { UserInfoComponent } from './user-info.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
 
 
 
@@ -21,7 +22,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
-    UserInfoComponent
+    UserInfoComponent,
+    ChangeAvatarComponent
   ]
 })
 export class UserInfoModule { }
