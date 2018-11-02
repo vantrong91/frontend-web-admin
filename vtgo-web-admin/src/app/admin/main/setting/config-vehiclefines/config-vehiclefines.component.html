@@ -1,3 +1,91 @@
-<p>
-  Cấu hình tiền phạt xe
-</p>
+<div class="row mt-2">
+  <div class="col-md-4 my-auto">
+    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm">
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button>
+  </div>
+  <div class="col-md-5"></div>
+  <div class="col-md-1">
+    <!-- <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button> -->
+    <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
+  </div>
+</div>
+
+
+
+<div class="row mt-2">
+  <div class="col">
+    <div class="owner-view-title">Loại danh mục</div>
+    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='lstCategory' [columnMode]='"force"' [headerHeight]='50'
+      [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'pk', dir: 'asc'}]" [limit]="50">
+      <ngx-datatable-column name="pk" [minWidth]="80" [maxWidth]="80" [resizeable]="false" hidden prop="pk">
+        <ng-template let-column="column" ngx-datatable-header-template >
+          <span class="tbl-header">
+            <strong>PK</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <strong>{{value}}</strong>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="item" [width]="100" prop="item">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Loại xe</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="feeCharge" [width]="150" prop="feeCharge">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Lệ phí</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="latefine" [width]="170" prop="latefine">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Tiền phạt trễ</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [minWidth]="140" [maxWidth]="140">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.pk, content)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title">Lệ phí xe</h3>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-vehiclefinespopup [vehicleFineViewModel]="_entity" (closeModalEvent)="c('close from Save')" (configvefiViewModelChange)="onEditCategory($event)"></app-vehiclefinespopup>
+    </div>
+</ng-template>

@@ -12,6 +12,8 @@ export class InsuranceorderComponent implements OnInit {
   listInsuranceOrder: any;
   searchObject: SearchModel;
   _entity: InsuOrderViewModel;
+  isShow = false;
+  txtNoti = '';
 
   constructor(private modalService: NgbModal,
     @Inject(IInsuranceOrderServiceToken) private insuOrderService: IInsuranceOrderService,
@@ -46,11 +48,24 @@ export class InsuranceorderComponent implements OnInit {
   }
 
   onEditInsuOrder(event){
-    console.log(event);
+    this._entity = event
     this.insuOrderService.Put(this._entity).subscribe(
       (response: any) => {
-        console.log(response);
+        if(response.status === 0){
         this.initData();
+        this.isShow = true;
+        setTimeout(() => {
+          this.isShow = false;
+        }, 3000);
+        this.txtNoti = 'Sửa thành công đơn hàng có mã: ' + response.data[0].orderId;
+        }else{
+          this.isShow = true;
+          setTimeout(() => {
+            this.isShow = false;
+          }, 2000);
+          this.txtNoti = 'Có lỗi xảy ra! Xin thử lại';
+        }
+        
       }
     )
   }

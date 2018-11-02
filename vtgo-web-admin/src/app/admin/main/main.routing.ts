@@ -31,7 +31,7 @@ const routes: Routes = [
       { path: 'feebanks', loadChildren: './feebanks/feebanks.module#FeeBanksModule'},
       { path: 'orderpaid', loadChildren: './payment/order-paid/order-paid.module#OrderPaidModule'},
       { path: 'vehiclefines', loadChildren: './setting/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule'},
-      { path: 'pocily', loadChildren: './setting/configpocily/configpocily.module#ConfigPocilyModule'},
+      { path: 'policy', loadChildren: './setting/configpolicy/configpolicy.module#ConfigPolicyModule'},
       { path: 'category', loadChildren: './setting/category/category.module#CategoryModule'}
     ]
   }

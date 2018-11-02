@@ -1,5 +1,6 @@
 <div class="row mt-2" [ngClass]="'d-block'">
   <div class="col">
+
     <div class="owner-view-title">Đơn hàng bảo hiểm hàng hóa</div>
     <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listInsuranceOrder' [columnMode]='"force"'
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'sumInsuPrice', dir: 'desc'}]"
@@ -16,7 +17,7 @@
           </span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="orderId" [width]="120" prop="orderId">
+      <ngx-datatable-column name="orderId" [width]="160" prop="orderId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Mã đơn hàng</strong>
@@ -26,19 +27,9 @@
           <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [width]="120" name="sumInsuPrice" prop="sumInsuPrice">
+      <ngx-datatable-column name="contractNo" [width]="160" prop="contractNo">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Tổng tiền</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
-          <span>{{value|currency:'':'':'0.0'}}</span>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="contractNo" [width]="120" prop="contractNo">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span  class="tbl-header">
             <strong>Số hợp đồng</strong>
           </span>
         </ng-template>
@@ -46,7 +37,17 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="insuranPrice" [width]="120" prop="insuranPrice">
+      <ngx-datatable-column name="insuranSpend" [width]="160" prop="insuranSpend">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Chi phí bảo hiểm</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <span>{{value|currency:'':'':'0.0'}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="insuranPrice" [width]="250" prop="insuranPrice">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Giá trị bảo hiểm hàng hóa </strong>
@@ -56,10 +57,10 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="insuranSpend" [width]="120" prop="insuranSpend">
+      <ngx-datatable-column [width]="160" name="sumInsuPrice" prop="sumInsuPrice">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Chi phí bảo hiểm</strong>
+            <strong>Tổng tiền</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
@@ -84,10 +85,11 @@
           </button> -->
         </ng-template>
       </ngx-datatable-column>
+
     </ngx-datatable>
   </div>
 </div>
-
+<div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title" id="modal-basic-title">Đơn hàng bảo hiểm hàng hóa</h3>
@@ -96,6 +98,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-insuran-info [insuOrderViewModel]="_entity" (closeModalEvent)="c('close from Save')" (insuOrderViewModelChange)="onEditInsuOrder($event)"></app-insuran-info>
+    <app-insuran-info [insuOrderViewModel]="_entity" (closeModalEvent)="c('close from Save')"
+      (insuOrderViewModelChange)="onEditInsuOrder($event)"></app-insuran-info>
   </div>
 </ng-template>
