@@ -30,7 +30,7 @@ export class ExchangeComponent implements OnInit {
   balanceHis: BalanceHisModel;
   transaction: any;
   listBank: any;
-  fee: any;
+  fee = '0';
   isShow = false;
   isWithdrawal = true;
   ip: any = {};
@@ -45,9 +45,7 @@ export class ExchangeComponent implements OnInit {
     });
   }
 
-  sss() {
-    console.log(this.reconfirmForm);
-  }
+
   @Input() set balanceModel(balance: BalanceModel) {
     this._entityBalance = balance;
   }
@@ -119,34 +117,8 @@ export class ExchangeComponent implements OnInit {
   }
 
 
-  showName() {
-    this.exchangeForm.setValue({ acctNumberSend: 'VTGO11111111', fullNameSend: 'Nguyễn Văn A', acctNumberReceive: '', fullNameReceive: 'Lê Văn B', amountOfMoney: '', code: 'Abc01C' });
-  }
-
-  open(ele) {
-    this.modalServices
-      .open(ele, { size: 'lg' })
-      .result.then(
-        result => {
-          this.closeResult = `Close with: ${result}`;
-        },
-        reason =>
-          (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
-      );
-    this.closeForm.emit();
-  }
 
 
-  private getDismissReason(reason: any) {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with ${reason}`;
-    }
-  }
 
   bankChanged(event) {
     this.Arrbank = Object.values(this.listBank);
@@ -171,9 +143,25 @@ export class ExchangeComponent implements OnInit {
         if (response.status === 0) {
           this.toastr.success('Đã chuyển tiền thành công', 'Thông báo');
           this.addBalanceHis();
+          //Cộng tiền vào Admin
+          let admin = new TransactionModel();
+          admin.accountId = 1;
+          admin.balType = 1;
+          admin.change = -this.transaction.change;
+          this.dataService.Post('balance/transaction', admin).subscribe(
+            response => {
+              if (response.status === 0) {
+                // console.log("Cộng tiền thành công:");
+              } else {
+                this.toastr.error('Cộng tiền vào VTGO lỗi', 'Thông báo',{
+                  disableTimeOut:true
+                });
+              }
+            }
+          );
         }
         else {
-          this.toastr.error('Đã có lỗi xảy ra!', 'Cảnh báo');
+          this.toastr.error('Chuyển tiền lỗi!', 'Cảnh báo');
         }
       }
     );
@@ -189,13 +177,14 @@ export class ExchangeComponent implements OnInit {
     this.transaction.balType = 1;
     this.transaction.change = (num1 - num2);
     this.dataService.Post('balance/transaction', this.transaction).subscribe(
+
       response => {
         if (response.status === 0) {
-          this.toastr.success('Đã chuyển tiền thành công', 'Thông báo');
+          this.toastr.success('Đã cộng tiền thành công', 'Thông báo');
           this.addBalanceHisPayment();
         }
         else {
-          this.toastr.error('Đã có lỗi xảy ra!', 'Cảnh báo');
+          this.toastr.error('Lỗi cộng tiền!', 'Cảnh báo');
         }
       }
     );
@@ -206,10 +195,7 @@ export class ExchangeComponent implements OnInit {
     this.isShow = true;
   }
 
-
-
   addBalanceHis() {
-    // this.ipservice.getIp().then(temp => console.log(temp)).catch(err => console.log(err));
     const temp = new Date();
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = this.Arr[0].accountId;
@@ -217,24 +203,22 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.hisContent = "Rút tiền tại VTGO";
     this.balanceHis.iP = this.ip.ip;
     this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
-    this.balanceHis.balanceBefor = (this.balanceHis.balanceAfter - this.reconfirmForm.value.transferAmount - this.fee);
+    this.balanceHis.balanceBefor = (this.balanceHis.balanceAfter - this.reconfirmForm.value.transferAmount - parseInt(this.fee));
     this.balanceHis.amount = -(this.transaction.change);
     this.balanceHis.time = temp.getTime();
-    console.log(this.balanceHis);
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
         if (response.status === 0) {
           // this.toastr.success('Đã thêm lịch sử thành công', 'Thông báo');
         }
         else {
-          this.toastr.error('Đã có lỗi xảy ra!', 'Cảnh báo');
+          this.toastr.error('Lịch sử rút xảy ra lỗi!', 'Cảnh báo');
         }
       }
     );
   }
 
   addBalanceHisPayment() {
-    // this.ipservice.getIp().then(temp => console.log(temp)).catch(err => console.log(err));
     const temp = new Date();
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = this.Arr[0].accountId;
@@ -242,17 +226,16 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.hisContent = "Nạp tiền tại VTGO";
     this.balanceHis.iP = this.ip.ip;
     this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);
-    this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve );
+    this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
-    console.log(this.balanceHis);
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
         if (response.status === 0) {
           // this.toastr.success('Đã thêm lịch sử thành công', 'Thông báo');
         }
         else {
-          this.toastr.error('Đã có lỗi xảy ra!', 'Cảnh báo');
+          this.toastr.error('Lịch sử nạp xảy ra lỗi!', 'Cảnh báo');
         }
       }
     );

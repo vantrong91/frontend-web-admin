@@ -1,7 +1,7 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm"
-    (keyup)="txtSearch($event)">
+    <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin"
+      placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
   </div>
   <div class="col-md-2">
     <button class="btn btn-success w-150">Tìm kiếm</button>
@@ -16,8 +16,9 @@
   <div class="col">
     <div class="view-title">Tài khoản</div>
     <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='accounts' [columnMode]='"force"'
-      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" [sorts]="[{prop: 'accountId', dir: 'asc'}]" #accountTable>
-      <ngx-datatable-column name="accountId" [width]="50" prop="accountId">
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" [sorts]="[{prop: 'accountId', dir: 'asc'}]"
+      #accountTable>
+      <ngx-datatable-column name="accountId" [maxWidth]="100" prop="accountId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Account Id</strong>
@@ -47,27 +48,36 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="phoneNumber" [width]="100" prop="phoneNumber">
+      <ngx-datatable-column name="phoneNumber" [maxWidth]="150" prop="phoneNumber">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Phone Number</strong>
+            <strong>Số điện thoại</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="fullName" [width]="100" prop="fullName">
+      <ngx-datatable-column name="fullName" [minWidth]="200" prop="fullName">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Tên người dùng</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
+          <div class="row">
+            <div class="col-sm-4">
+              {{row.accountType==1?'[Lái Xe]':''}}
+              {{row.accountType==2?'[Chủ Hàng]':''}}
+              {{row.accountType==3?'[Chủ P.Tiện]':''}}
+            </div>
+            <div class="col-sm-8">
+              {{value}}
+            </div>
+          </div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [width]="80">
+      <!-- <ngx-datatable-column [width]="80">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
             <strong>Số tiền nợ</strong>
@@ -80,8 +90,8 @@
             </div>
           </div>
         </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="action" [width]="150" [maxWidth]="150">
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="action" [minWidth]="150" [maxWidth]="150">
         <ng-template let-column="colmun" ngx-datatable-header-template>
           <span>
             <strong>Thao tác</strong>

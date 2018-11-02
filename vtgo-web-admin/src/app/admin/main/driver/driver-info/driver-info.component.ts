@@ -38,7 +38,6 @@ export class DriverInfoComponent implements OnInit {
             this._entity = driver;
             this.addEditForm.reset(driver);
             this.oldAttachPro = this._entity.attachProperties;
-            console.log(this.oldAttachPro);
         } else {
             this.isAdd = true;
             this._entity = new DriverViewModel();

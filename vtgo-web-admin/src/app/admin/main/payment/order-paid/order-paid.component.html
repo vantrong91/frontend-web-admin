@@ -134,12 +134,12 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button *ngIf="row.state!=8" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId)"
+          <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId)"
             title="Thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
-          <button *ngIf="row.state==8" class="btn btn-info button-custom-admin ml-2" disabled title="Đã thanh toán">
+          <button *ngIf="row.state!=6" class="btn btn-secondary button-custom-admin ml-2" disabled title="Chưa thể thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 

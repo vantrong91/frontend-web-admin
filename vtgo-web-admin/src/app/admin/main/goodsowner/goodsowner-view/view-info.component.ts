@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { OwnerViewModel } from '../model/owner.model';
 import { DataService } from 'src/app/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-info',
@@ -13,7 +14,9 @@ export class ViewInfoComponent implements OnInit {
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
   imgUrl = '';
-  keyArr :any;
+  ulrImgFull = '';
+  imgName = '';
+  keyArr: any;
 
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
@@ -26,7 +29,9 @@ export class ViewInfoComponent implements OnInit {
     } else
       this.addEditForm.reset();
   };
-  constructor(private dataService: DataService, private formBuilder: FormBuilder) {
+  constructor(private dataService: DataService,
+    private formBuilder: FormBuilder,
+    private modalServices: NgbModal) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl(''),
@@ -55,5 +60,11 @@ export class ViewInfoComponent implements OnInit {
     return this.imgUrl;
   }
 
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalServices
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
+  }
 
 }

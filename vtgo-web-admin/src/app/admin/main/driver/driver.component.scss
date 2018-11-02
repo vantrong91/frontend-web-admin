@@ -14,24 +14,7 @@
   padding: 20px;
 }
 
-.imgView img {
-  max-width: 100%;
-  margin: 0px auto 10px;
-}
 
-.imgView img:hover {
-  max-width: 100%;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.img-name {
-  overflow: hidden;
-}
-
-.img-name:hover {
-  cursor: pointer;
-}
 
 .container .row {
   padding-bottom: 10px;
@@ -47,21 +30,3 @@
   color: #000000c7;
 }
 
-//////////////////////////ng-model view Img
-.dark-modal .modal-content {
-  background-color: #292b2c;
-  color: white;
-}
-
-.dark-modal .close {
-  color: white;
-}
-
-.light-blue-backdrop {
-  background-color: #5cb3fd;
-}
-
-.imgFull {
-  max-width: 100%;
-  border-radius: 4px;
-}

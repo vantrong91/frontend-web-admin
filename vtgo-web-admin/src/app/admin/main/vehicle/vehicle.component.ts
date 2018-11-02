@@ -26,6 +26,8 @@ export class VehicleComponent implements OnInit {
   txtNoti = '';
   noneShow: boolean;
 
+  
+
   constructor(private modalService: NgbModal,
     @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
   }
@@ -151,5 +153,7 @@ export class VehicleComponent implements OnInit {
       }
     );
   }
+
+ 
 
 }
