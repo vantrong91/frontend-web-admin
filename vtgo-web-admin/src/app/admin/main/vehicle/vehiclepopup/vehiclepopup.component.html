@@ -10,9 +10,8 @@
           </div>
           <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input [ngClass]="{'mouse-hover': noneShow}"
-              type="text" class="form-control" id="vehicleCode" placeholder="Mã xe" formControlName="vehicleCode"
-              tabindex="2">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="vehicleCode" placeholder="Mã xe"
+              formControlName="vehicleCode" tabindex="2">
           </div>
         </div>
 
@@ -24,8 +23,7 @@
           </div>
           <label for="route" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
           <div class="col-sm-4">
-            <select class="custom-select form-control" id="route" formControlName="route" tabindex="2"
-              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
+            <select class="custom-select form-control" id="route" formControlName="route" tabindex="2" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
               <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
               <option value="71">Xe chạy nội thành</option>
               <option value="72">Xe liên tỉnh</option>
@@ -252,51 +250,59 @@
     </ngb-tab>
     <ngb-tab title="Đính kèm" *ngIf="isAdd || noneShow">
       <ng-template ngbTabContent>
-        <div class="mt-2" [ngClass]="{'d-none': !noneShow}">
+        <div class="mt-2 imgView" [ngClass]="{'d-none': !noneShow}">
           <div class="form-group my-3 mr-2 ml-3">
-            <label class="col-sm-6">Đăng ký xe (ảnh chụp trang bìa và các trang liên quan)</label>
-            <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKYXE">
-                <a [href]="getUrlImg('DKYXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('DKYXE') +el" alt="" class="img-show"/>
+            <p class="col-sm-12"> + Đăng ký xe:
+              {{_entity.attachProperties.DKYXE===undefined?'Không có ảnh':''}}</p>
+            <ng-container *ngFor="let el of _entity.attachProperties?.DKYXE">
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKYXE'),el)">
+                <img [src]="getUrlImg('DKYXE') +el" alt="" />
+                <br>
+                <div class="text-center img-name">{{el}}</div>
               </div>
-            </div>
+            </ng-container>
+          </div>
+
+          <div class="form-group my-3 mr-2 ml-3">
+            <p class="col-sm-12"> + Đăng kiểm xe: {{_entity.attachProperties.DKIEMXE===undefined?'Không có ảnh':''}}</p>
+            <ng-container *ngFor="let el of _entity.attachProperties?.DKIEMXE">
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKIEMXE'),el)">
+                <img [src]="getUrlImg('DKIEMXE') +el" alt="" />
+                <br>
+                <div class="text-center img-name">{{el}}</div>
+              </div>
+            </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <label class="col-sm-6">Đăng kiểm xe (chụp 2 mặt của giấy tờ)</label>
-            <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of _entity.attachProperties?.DKIEMXE">
-                <a [href]="getUrlImg('DKIEMXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('DKIEMXE') +el" alt="" class="img-show"/>
+            <p class="col-sm-12"> + Bảo hiểm dân sự xe: {{_entity.attachProperties.BHDSXE===undefined?'Không có
+              ảnh':''}}</p>
+            <ng-container *ngFor="let el of _entity.attachProperties?.BHDSXE">
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHDSXE'),el)">
+                <img [src]="getUrlImg('BHDSXE') +el" alt="" />
+                <br>
+                <div class="text-center img-name">{{el}}</div>
               </div>
-            </div>
+            </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <label class="col-sm-6">Bảo hiểm dân sự xe (chụp 2 mặt của giấy phép)</label>
-            <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHDSXE">
-                <a [href]="getUrlImg('BHDSXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('BHDSXE') +el" alt="" class="img-show"/>
+            <p class="col-sm-12"> + Bảo hiểm hàng hóa xe: {{_entity.attachProperties.BHHHXE===undefined?'Không có ảnh':''}}</p>
+            <ng-container *ngFor="let el of _entity.attachProperties?.BHHHXE">
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHHHXE'),el)">
+                <img [src]="getUrlImg('BHHHXE') +el" alt="" />
+                <br>
+                <div class="text-center img-name">{{el}}</div>
               </div>
-            </div>
+            </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <label class="col-sm-6">Bảo hiểm hàng hóa xe (chụp 2 mặt của giấy phép)</label>
-            <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of _entity.attachProperties?.BHHHXE">
-                <a [href]="getUrlImg('BHHHXE') +el">{{el}}</a>
-                <img [src]="getUrlImg('BHHHXE') +el" alt="" class="img-show"/>
+            <p class="col-sm-12"> + Giấy xác nhận xe đã được gắn GS hành trình: {{_entity.attachProperties.GXNTBGS===undefined?'Không có ảnh':''}}</p>
+            <ng-container *ngFor="let el of _entity.attachProperties?.GXNTBGS">
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GXNTBGS'),el)">
+                <img [src]="getUrlImg('GXNTBGS') +el" alt="" />
+                <br>
+                <div class="text-center img-name">{{el}}</div>
               </div>
-            </div>
-          </div>
-          <div class="form-group my-3 mr-2 ml-3">
-            <label class="col-sm-6">Giấy xác nhận xe đã được gắn GS hành trình</label>
-            <div class="row ml-1">
-              <div class="col-3" *ngFor="let el of _entity.attachProperties?.GXNTBGS">
-                <a [href]="getUrlImg('GXNTBGS') +el">{{el}}</a>
-                <img [src]="getUrlImg('GXNTBGS') +el" alt="" class="img-show"/>
-              </div>
-            </div>
+            </ng-container>
           </div>
         </div>
         <div class="mt-2" [ngClass]="{'d-none': noneShow}" *ngIf="!noneShow">
@@ -439,3 +445,17 @@
   </span> -->
 </div>
 <!-- 8=========== End Popup ===========D -->
+<ng-template #imgView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>

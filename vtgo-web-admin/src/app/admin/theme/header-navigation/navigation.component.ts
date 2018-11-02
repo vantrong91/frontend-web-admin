@@ -21,7 +21,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
         this.currentUser = item.data;
-        console.log(this.currentUser[0]);
+        // console.log(this.currentUser[0]);
     }
 
 

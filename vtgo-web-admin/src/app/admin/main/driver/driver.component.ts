@@ -56,7 +56,6 @@ export class DriverComponent implements OnInit {
 
         this.dataService.Post('driver/search', search).subscribe(
             response => {
-                console.log(response);
                 if (response.status === 0) {
                     this.rows = response.data;
                 }
@@ -71,7 +70,6 @@ export class DriverComponent implements OnInit {
 
 
     txtSearch(event) {
-        console.log(this.searchParam);
         if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
             this.search('{}');
         else
@@ -168,14 +166,10 @@ export class DriverComponent implements OnInit {
 
     getDriver(event) {
         this._entityDriver = event;
-        console.log(this._entityDriver);
     }
     onEditDriver(event) {
-        // delete event.attachProperties;
-        // console.log(event);
         this.dataService.Post('driver/update', event).subscribe(
             response => {
-                console.log(response);
                 if (response.message === "Successful") {
                     this.loadData();
                     this.toastr.info("Chỉnh sửa thành công!", "Thông báo...");

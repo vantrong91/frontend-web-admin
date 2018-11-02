@@ -55,7 +55,6 @@ export class GoodsownerAddComponent implements OnInit {
     // event.preventDefault();
     this.uploadFileToServer(this.uploaderCMND, 'cmnd');
     this._entity = this.addEditForm.value;
-    console.log(this._entity);
     this.convert();
     this.ownerViewModelChange.emit(this._entity);
     this.closeForm.emit();
@@ -102,7 +101,6 @@ export class GoodsownerAddComponent implements OnInit {
     }
     // for (let i = 0; i < data.length; i++)
     //     frmImg.append('files', data[i]._file);
-    console.log(data);
 
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { VehicleViewModel, DataService } from '../../../../core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
 
@@ -21,6 +21,9 @@ export class VehiclepopupComponent implements OnInit {
   oldownerId: any;
   uri = 'http://ngx-uploader.com/upload';
   imgUrl = '';
+  ulrImgFull = '';
+  imgName = '';
+
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
   attachmentDKYXE: any = [];
@@ -71,7 +74,8 @@ export class VehiclepopupComponent implements OnInit {
   @Output() vehicleViewModelChange = new EventEmitter<VehicleViewModel>();
 
   constructor(private formBuilder: FormBuilder,
-    private dataService: DataService) {
+    private dataService: DataService,
+    private modalServices: NgbModal) {
     this.addEditForm = this.formBuilder.group({
       vehicleId: '',
       ownerId: '',
@@ -170,9 +174,9 @@ export class VehiclepopupComponent implements OnInit {
     if (this.isAdd) {
       this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
       this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
-      this.uploadFileToServer(this.uploaderBHHHXE.queue,'bhhhxe');
+      this.uploadFileToServer(this.uploaderBHHHXE.queue, 'bhhhxe');
       this.uploadFileToServer(this.uploaderBHDSXE.queue, 'bhdsxe');
-      this.uploadFileToServer(this.uploaderGXNTBGS.queue,'gxntbgs')
+      this.uploadFileToServer(this.uploaderGXNTBGS.queue, 'gxntbgs')
     }
     this._entity = this.addEditForm.value;
     if (!this.isAdd) {
@@ -186,9 +190,9 @@ export class VehiclepopupComponent implements OnInit {
 
   }
 
-  uploadFileToServer(data: Array<any>, type: string){
+  uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
-    for(let i = 0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
       frmImg.append('files', data[i]._file);
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
@@ -215,5 +219,12 @@ export class VehiclepopupComponent implements OnInit {
     this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
     this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
     this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
+  }
+
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalServices
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
   }
 }
