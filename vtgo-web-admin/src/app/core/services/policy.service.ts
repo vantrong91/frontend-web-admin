@@ -22,4 +22,8 @@ export class PolicyService {
     GetById(policyId: number): Observable<any> {
         return this.dataService.Post(`${this.URL_API_POLICY}/get-by-id`, { policyId: policyId});
     }
+
+    Create(entity: PolicyViewModel): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_POLICY}/create`, entity);
+    }
 }

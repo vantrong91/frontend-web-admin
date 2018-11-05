@@ -8,4 +8,6 @@ export class InsuOrderViewModel{
     contractNo: string;
     insuranPrice: number;
     insuranSpend: number;
+    state: number;
+    updateTime: number;
 }

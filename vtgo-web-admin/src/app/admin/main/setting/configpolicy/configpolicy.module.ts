@@ -2,10 +2,21 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ConfigpolicyComponent } from "./configpolicy.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
+import { SharedModule } from "src/app/shared";
+import { IPolicyServiceToken, PolicyService } from "src/app/core";
+import { ConfigpolicypopupComponent } from './configpolicypopup/configpolicypopup.component';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        NgbTabsetModule,
+        SharedModule.forRoot(),
         RouterModule.forChild([
             {path: '', component: ConfigpolicyComponent, data: {
                 title: 'VTGO Chính sách',
@@ -14,7 +25,11 @@ import { ConfigpolicyComponent } from "./configpolicy.component";
         ])
     ],
     declarations: [
-        ConfigpolicyComponent
+        ConfigpolicyComponent,
+        ConfigpolicypopupComponent
+    ],
+    providers: [
+        { provide: IPolicyServiceToken, useClass: PolicyService}
     ]
 })
 

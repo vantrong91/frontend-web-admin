@@ -35,7 +35,8 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
       contractNo: ['', [Validators.required]],
       insuranPrice: ['', [Validators.required]],
       insuranSpend:['', [Validators.required]],
-      sumInsuPrice: ['', [Validators.required]]
+      sumInsuPrice: ['', [Validators.required]],
+      state: ['', [Validators.required]]
     });
     this.validationMessages = {
       contractNo: {
@@ -50,6 +51,9 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
       sumInsuPrice: {
         required: 'Giá trị không được để trống',
       },
+      state: {
+        required: 'Vui lòng chọn trạng thái',
+      }
     }
     this.genericValidator = new GenericValidator(this.validationMessages);
    }

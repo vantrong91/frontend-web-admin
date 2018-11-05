@@ -33,6 +33,7 @@ export class InsuranceorderComponent implements OnInit {
       (response: any) => {
         if (response.status === 0) {
           this.listInsuranceOrder = response.data;
+          console.log(this.listInsuranceOrder);
         }
       },
       error =>{

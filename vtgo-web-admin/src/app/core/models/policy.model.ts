@@ -1,6 +1,6 @@
 export class PolicyViewModel{
     constructor(){
-
+        this.policyId = 0;
     }
     policyId: number;
     ratioVat: number;
