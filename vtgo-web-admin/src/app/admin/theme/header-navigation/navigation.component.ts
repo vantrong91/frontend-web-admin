@@ -12,6 +12,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     showMenu = '';
     showSubMenu = '';
     imgUrl = '';
+    urlFull = '';
 
     currentUser: AccountManViewModel;
     closeResult: string;
@@ -21,23 +22,37 @@ export class NavigationComponent implements AfterViewInit, OnInit {
         this.currentUser = new AccountManViewModel();
         let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
         this.currentUser = item.data;
-        // console.log(this.currentUser[0]);
+        this.urlFull = this.getUrlImg('AVATA');
     }
 
 
     constructor(private dataService: DataService,
         private modalService: NgbModal,
         private router: Router,
-        @Inject(IAccountServiceToken) private logoutService: IAccountService) { }
+        @Inject(IAccountServiceToken) private logoutService: IAccountService) {
+
+    }
+
+
     getUrlImg(folder: string) {
         this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
-        if(this.currentUser[0].fileAvata !== null){
+        if (this.currentUser[0].fileAvata !== null) {
             return this.imgUrl + this.currentUser[0].fileAvata.AVATA[0];
-        }else{
+        } else {
             return `http://placehold.it/50x50`;
         }
-        
+
     }
+
+    viewData(event) {
+        this.urlFull = this.imgUrl + event.AVATA[0];
+
+        console.log(this.urlFull);
+
+    }
+
+
+
     // This is for Notifications
     notifications: Object[] = [{
         round: 'round-danger',

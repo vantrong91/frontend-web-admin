@@ -7,7 +7,7 @@ import { UserInfoComponent } from './user-info.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
-
+import { NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -17,8 +17,8 @@ import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
-
+    NgbModule,
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
