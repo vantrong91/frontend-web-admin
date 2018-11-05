@@ -114,7 +114,7 @@
                 <div class="container imgView">
                   <div class="row">
                     <p class="col-sm-12"> + Chứng minh nhân dân/ Căn cước:
-                      {{row.attachProperties.CMND===undefined?'Không có ảnh':''}}</p>
+                      {{(row.attachProperties?.CMND===undefined||row.attachProperties?.CMND.length==0)?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.CMND">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND'),el)">
                         <img [src]="getUrlImg('CMND') +el" alt="" />
@@ -124,7 +124,8 @@
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + Ảnh chân dung: {{row.attachProperties.ACD===undefined?'Không có ảnh':''}}</p>
+                    <p class="col-sm-12"> + Ảnh chân dung: 
+                        {{(row.attachProperties?.ACD===undefined||row.attachProperties?.ACD.length==0)?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.ACD">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('ACD'),el)">
                         <img [src]="getUrlImg('ACD') +el" alt="" />
@@ -134,7 +135,8 @@
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + Giấy phép lái xe: {{row.attachProperties.GPLX===undefined?'Không có ảnh':''}}</p>
+                    <p class="col-sm-12"> + Giấy phép lái xe:
+                        {{(row.attachProperties?.GPLX===undefined||row.attachProperties?.GPLX.length==0)?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.GPLX">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GPLX'),el)">
                         <img [src]="getUrlImg('GPLX') +el" alt="" />
@@ -144,7 +146,8 @@
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + Sổ hộ khẩu: {{row.attachProperties.SHK===undefined?'Không có ảnh':''}}</p>
+                    <p class="col-sm-12"> + Sổ hộ khẩu: 
+                        {{(row.attachProperties?.SHK===undefined||row.attachProperties?.SHK.length==0)?'Không có ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.SHK">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('SHK'),el)">
                         <img [src]="getUrlImg('SHK') +el" alt="" />

@@ -3,7 +3,7 @@ import { AccountManViewModel, SystemConfig, DataService, LoginViewModel, IAuthen
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
-
+import { NgxSpinnerService } from 'ngx-spinner'
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
@@ -11,13 +11,18 @@ import { Location } from '@angular/common';
 })
 export class UserInfoComponent implements OnInit {
 
-  constructor(private location: Location,private dataService: DataService, private modalServices: NgbModal, private toastr: ToastrService,@Inject(IAccountServiceToken) private logoutService: IAccountService, @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
+  constructor(private location: Location, private dataService: DataService,
+    private modalServices: NgbModal,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    @Inject(IAccountServiceToken) private logoutService: IAccountService,
+    @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
   isShowName = false;
   isShowSDT = false;
   currentUser: AccountManViewModel;
   fullName = "";
   phoneNumber = "";
-  password = "";
+  password = "2";
   fileAvatar: any;
   account: AccountManViewModel;
   imgUrl = '';
@@ -25,16 +30,22 @@ export class UserInfoComponent implements OnInit {
   isChangeFullName = true;
   uploaderAvatar: FileList;
   @ViewChild('change') change: any;
+  urlFull = '';
+  getUrlFromChange: any;
 
-
+  viewData(event) {
+    this.urlFull = this.imgUrl + event.AVATA[0];
+  }
 
 
   ngOnInit(): void {
     this.loadData();
+    this.urlFull = this.getUrlImg('AVATA');
   }
 
   loadData() {
     this.currentUser = new AccountManViewModel();
+    console.log(localStorage.getItem(SystemConfig.CURRENT_USER));
     let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
     this.currentUser = item.data;
     this.fullName = this.currentUser[0].fullName;
@@ -42,6 +53,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   saveName() {
+    this.spinner.show();
     this.account = new AccountManViewModel();
     this.account.accountId = this.currentUser[0].accountId;
     this.account.accountToken = this.currentUser[0].accountToken;
@@ -57,14 +69,18 @@ export class UserInfoComponent implements OnInit {
     this.dataService.Post('account-man/update', this.account).subscribe(
       response => {
         if (response.status === 0) {
-          localStorage.removeItem(SystemConfig.CURRENT_USER);
           this.user = new LoginViewModel();
           this.user.email = this.account.email;
           this.user.password = this.account.password;
-          this.authService.Login(this.user).subscribe((item: any) => {    
-          })
-          this.pageRefresh();
+          localStorage.removeItem(SystemConfig.CURRENT_USER);
+          this.authService.Login(this.user).subscribe();
           this.toastr.info('Đã đổi họ tên thành công!');
+          this.currentUser[0].fullName = this.fullName;
+          localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(this.currentUser));
+
+          this.spinner.hide();
+          // setTimeout(() => {
+          // }, 1000);
         }
         else {
           this.toastr.error('Đã có lỗi xảy ra!');
@@ -72,9 +88,11 @@ export class UserInfoComponent implements OnInit {
       }
     );
     this.changeShowName();
+
   }
 
   savePhoneNumber() {
+    this.spinner.show();
     this.account = new AccountManViewModel();
     this.account.accountId = this.currentUser[0].accountId;
     this.account.accountToken = this.currentUser[0].accountToken;
@@ -83,9 +101,9 @@ export class UserInfoComponent implements OnInit {
     this.account.email = this.currentUser[0].email;
     this.account.fileAvata = this.currentUser[0].fileAvata;
     this.account.fullName = this.currentUser[0].fullName;
+    this.account.phoneNumber = this.phoneNumber;
     this.account.osType = this.currentUser[0].osType;
     this.account.password = this.password;
-    this.account.phoneNumber = this.phoneNumber;
     this.account.salt = this.currentUser[0].salt;
     this.dataService.Post('account-man/update', this.account).subscribe(
       response => {
@@ -94,10 +112,11 @@ export class UserInfoComponent implements OnInit {
           this.user = new LoginViewModel();
           this.user.email = this.account.email;
           this.user.password = this.account.password;
-          this.authService.Login(this.user).subscribe((item: any) => {      
+          this.authService.Login(this.user).subscribe((item: any) => {
           })
-          this.pageRefresh();
+          this.currentUser[0].phoneNumber = this.phoneNumber;
           this.toastr.info('Đã đổi số điện thoại thành công!');
+          this.spinner.hide();
         }
         else {
           this.toastr.error('Đã có lỗi xảy ra!');
@@ -125,10 +144,6 @@ export class UserInfoComponent implements OnInit {
         }
       }
     );
-  }
-
-  pageRefresh() {
-    location.reload();
   }
 
   checkPassword1() {

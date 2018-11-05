@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { FormsModule} from '@angular/forms'
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RightSidebarComponent } from './right-sidebar/rightsidebar.component';
@@ -11,7 +12,8 @@ import { AccountService, IAccountServiceToken } from 'src/app/core';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [
     SidebarComponent,

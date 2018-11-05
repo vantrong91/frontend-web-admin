@@ -253,7 +253,7 @@
         <div class="mt-2 imgView" [ngClass]="{'d-none': !noneShow}">
           <div class="form-group my-3 mr-2 ml-3">
             <p class="col-sm-12"> + Đăng ký xe:
-              {{_entity.attachProperties.DKYXE===undefined?'Không có ảnh':''}}</p>
+              {{(_entity.attachProperties?.DKYXE===undefined||_entity.attachProperties?.DKYXE.length==0)?'Không có ảnh':''}}</p>
             <ng-container *ngFor="let el of _entity.attachProperties?.DKYXE">
               <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKYXE'),el)">
                 <img [src]="getUrlImg('DKYXE') +el" alt="" />
@@ -264,7 +264,7 @@
           </div>
 
           <div class="form-group my-3 mr-2 ml-3">
-            <p class="col-sm-12"> + Đăng kiểm xe: {{_entity.attachProperties.DKIEMXE===undefined?'Không có ảnh':''}}</p>
+            <p class="col-sm-12"> + Đăng kiểm xe: {{(_entity.attachProperties?.DKIEMXE===undefined||_entity.attachProperties?.DKIEMXE.length==0)?'Không có ảnh':''}}</p>
             <ng-container *ngFor="let el of _entity.attachProperties?.DKIEMXE">
               <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKIEMXE'),el)">
                 <img [src]="getUrlImg('DKIEMXE') +el" alt="" />
@@ -274,7 +274,7 @@
             </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <p class="col-sm-12"> + Bảo hiểm dân sự xe: {{_entity.attachProperties.BHDSXE===undefined?'Không có
+            <p class="col-sm-12"> + Bảo hiểm dân sự xe: {{(_entity.attachProperties?.BHDSXE===undefined||_entity.attachProperties?.BHDSXE.length==0)?'Không có
               ảnh':''}}</p>
             <ng-container *ngFor="let el of _entity.attachProperties?.BHDSXE">
               <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHDSXE'),el)">
@@ -285,7 +285,7 @@
             </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <p class="col-sm-12"> + Bảo hiểm hàng hóa xe: {{_entity.attachProperties.BHHHXE===undefined?'Không có ảnh':''}}</p>
+            <p class="col-sm-12"> + Bảo hiểm hàng hóa xe: {{(_entity.attachProperties?.BHHHXE===undefined||_entity.attachProperties?.BHHHXE.length==0)?'Không có ảnh':''}}</p>
             <ng-container *ngFor="let el of _entity.attachProperties?.BHHHXE">
               <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHHHXE'),el)">
                 <img [src]="getUrlImg('BHHHXE') +el" alt="" />
@@ -295,7 +295,8 @@
             </ng-container>
           </div>
           <div class="form-group my-3 mr-2 ml-3">
-            <p class="col-sm-12"> + Giấy xác nhận xe đã được gắn GS hành trình: {{_entity.attachProperties.GXNTBGS===undefined?'Không có ảnh':''}}</p>
+            <p class="col-sm-12"> + Giấy xác nhận xe đã được gắn GS hành trình:
+               {{(_entity.attachProperties?.GXNTBGS===undefined||_entity.attachProperties?.GXNTBGS.length==0)?'Không có ảnh':''}}</p>
             <ng-container *ngFor="let el of _entity.attachProperties?.GXNTBGS">
               <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GXNTBGS'),el)">
                 <img [src]="getUrlImg('GXNTBGS') +el" alt="" />

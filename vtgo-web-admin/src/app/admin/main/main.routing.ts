@@ -33,7 +33,7 @@ const routes: Routes = [
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule' },
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule' },
       { path: 'vehiclefines', loadChildren: './setting/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
-      { path: 'pocily', loadChildren: './setting/configpocily/configpocily.module#ConfigPocilyModule' },
+      { path: 'policy', loadChildren: './setting/configpolicy/configpolicy.module#ConfigPolicyModule' },
       { path: 'category', loadChildren: './setting/category/category.module#CategoryModule' }
     ]
   }

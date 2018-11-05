@@ -77,7 +77,7 @@ export class DataService {
       });
   }
 
-  postFile(uri: string, data?: any) {
+  postFile(uri: string, data?: any): Observable<any> {
     // let newHeader = new HttpHeaders();
     // newHeader = newHeader.set('Content-Type', 'multipart/form-data');
     // return this.http.post(this.configuration.getConfiguration().BASE_API + uri, data, {
