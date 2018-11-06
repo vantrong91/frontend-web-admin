@@ -81,7 +81,7 @@ export class ChangeAvatarComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (event) => {
-        this.imgSrcPre = reader.result;
+        this.imgSrcPre = event.target.result;
       }
     }
   }

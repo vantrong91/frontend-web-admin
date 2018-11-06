@@ -42,7 +42,7 @@
       <ngx-datatable-column name="feeCharge" [width]="150" prop="feeCharge">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Phí lưu xe</strong>
+            <strong>Lệ phí</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -59,19 +59,19 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [minWidth]="120" [maxWidth]="120">
+      <ngx-datatable-column [minWidth]="140" [maxWidth]="140">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Thao tác</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <button type="button" class="btn btn-warning button-custom-admin ml-4" (click)="edit(row.pk, content)">
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.pk, content)">
             <i class="fa fa-edit"></i>
           </button>
-          <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
             <i class="fa fa-trash"></i>
-          </button> -->
+          </button>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
