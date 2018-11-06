@@ -34,7 +34,9 @@ const routes: Routes = [
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule' },
       { path: 'vehiclefines', loadChildren: './setting/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
       { path: 'policy', loadChildren: './setting/configpolicy/configpolicy.module#ConfigPolicyModule' },
-      { path: 'category', loadChildren: './setting/category/category.module#CategoryModule' }
+      { path: 'category', loadChildren: './setting/category/category.module#CategoryModule' },
+      { path: 'mailbox', loadChildren: './mailbox/mailbox.module#MailboxModule' },
+      { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' }
     ]
   }
 ];
