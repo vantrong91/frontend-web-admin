@@ -27,7 +27,7 @@
           <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="contractNo" [width]="160" prop="contractNo">
+      <ngx-datatable-column name="contractNo" [width]="115" prop="contractNo">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Số hợp đồng</strong>
@@ -37,7 +37,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="insuranSpend" [width]="160" prop="insuranSpend">
+      <ngx-datatable-column name="insuranSpend" [width]="140" prop="insuranSpend">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Chi phí bảo hiểm</strong>
@@ -47,7 +47,7 @@
           <span>{{value|currency:'':'':'0.0'}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="insuranPrice" [width]="250" prop="insuranPrice">
+      <ngx-datatable-column name="insuranPrice" [width]="200" prop="insuranPrice">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Giá trị bảo hiểm hàng hóa </strong>
@@ -57,7 +57,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [width]="160" name="sumInsuPrice" prop="sumInsuPrice">
+      <ngx-datatable-column [width]="110" name="sumInsuPrice" prop="sumInsuPrice">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Tổng tiền</strong>
@@ -65,6 +65,16 @@
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
           <span>{{value|currency:'':'':'0.0'}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="170" prop="state">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Trạng thái</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+          <span>{{value === 1 ? 'Đơn hàng được đăng ký mua bảo hiểm' : value === 2 ? 'đã gửi push yêu cầu chủ hàng xác nhận mua bảo hiểm' : value === 3 ? 'Chủ hàng đã xác nhận mua bảo hiểm' : ''}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [minWidth]="85" [maxWidth]="85">
@@ -77,7 +87,7 @@
           <!-- <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.accountId,content)">
             <i class="fa fa-eye"></i>
           </button> -->
-          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)">
+          <button title="Đăng ký mua" [disabled]="row.state === 2 ? 'true' : ''" type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)">
             <i class="fa fa-edit"></i>
           </button>
           <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">

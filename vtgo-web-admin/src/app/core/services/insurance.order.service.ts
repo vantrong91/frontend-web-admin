@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { IDataService } from "../interfaces/idata.service";
 import { SearchModel } from "../models/search.model";
-import { InsuOrderViewModel } from '../models/insuranceorder.model';
+import { InsuOrderViewModel} from '../models/insuranceorder.model';
 import { Observable } from "rxjs";
 import { IDataServiceToken } from "../tokens/data.service.token";
 
@@ -27,5 +27,8 @@ export class InsuranceOrderService {
     }
     GetById(accountId: number): Observable<any> {
         return this.dataService.Post(`${this.URL_API_INSURANCE_ORDER}/get-by-id`, { accountId: accountId });
+    }
+    Complete(entity: InsuOrderViewModel): Observable<any>{
+        return this.dataService.Post(`${this.URL_API_INSURANCE_ORDER}/complete`, entity);
     }
 }

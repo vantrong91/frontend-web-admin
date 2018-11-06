@@ -18,11 +18,10 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  @Input() set insuOrderViewModel(insuOrder: InsuOrderViewModel){
-    if(insuOrder !== null){
+  @Input() set insuOrderViewModel(insuOrder: InsuOrderViewModel) {
+    if (insuOrder !== null) {
       this._entity = new InsuOrderViewModel();
       this._entity = insuOrder;
-      console.log(this._entity);
       this.addEditForm.reset(insuOrder);
     }
   }
@@ -31,12 +30,13 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
   constructor(private fb: FormBuilder) {
     this.addEditForm = this.fb.group({
       accountId: '',
-      orderId:'',
+      orderId: '',
       contractNo: ['', [Validators.required]],
       insuranPrice: ['', [Validators.required]],
-      insuranSpend:['', [Validators.required]],
+      insuranSpend: ['', [Validators.required]],
       sumInsuPrice: ['', [Validators.required]],
-      state: ['', [Validators.required]]
+      state: ['', [Validators.required]],
+      updateTime: ''
     });
     this.validationMessages = {
       contractNo: {
@@ -56,14 +56,19 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
       }
     }
     this.genericValidator = new GenericValidator(this.validationMessages);
-   }
+  }
 
-   onSave(event){
-     event.preventDefault();
-     this._entity = this.addEditForm.value;
-     this.insuOrderViewModelChange.emit(this._entity);
-     this.closeModalEvent.emit();
-   }
+  onSave(event) {
+    event.preventDefault();
+    this._entity = this.addEditForm.value;
+    this.convert();
+    this.insuOrderViewModelChange.emit(this._entity);
+    this.closeModalEvent.emit();
+  }
+
+  convert() {
+    this._entity.updateTime = new Date(this._entity.updateTime).getTime();
+  }
 
   ngOnInit() {
   }

@@ -10,4 +10,5 @@ export class InsuOrderViewModel{
     insuranSpend: number;
     state: number;
     updateTime: number;
+    message?: string;
 }

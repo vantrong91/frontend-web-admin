@@ -1,176 +1,249 @@
 <form [formGroup]="addEditForm" novalidate>
-    <ngb-tabset>
-      <ngb-tab title="Thông tin đăng ký xe">
-        <ng-template ngbTabContent>
-  
-          <div class="form-group row my-3" hidden>
-            <label for="VehicleId" class="col-sm-2 col-form-label text-md-right">Id</label>
+  <ngb-tabset>
+    <ngb-tab title="Thông tin đăng ký xe">
+      <ng-template ngbTabContent>
+
+        <div class="form-group row my-3" hidden>
+          <label for="VehicleId" class="col-sm-2 col-form-label text-md-right">Id</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="VehicleId" formControlName="vehicleId">
+          </div>
+          <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger">*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="vehicleCode" placeholder="Mã xe"
+              formControlName="vehicleCode" tabindex="2">
+          </div>
+        </div>
+
+        <div class="form-group row my-3">
+          <label for="ownerId" class="col-sm-2 col-form-label text-md-right">ID Chủ xe</label>
+          <div class="col-sm-4">
+            <input type="text" placeholder="AccountId của chủ xe" class="form-control" id="ownerId" formControlName="ownerId"
+              tabindex="1">
+          </div>
+          <label for="route" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="route" formControlName="route" tabindex="2" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
+              <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
+              <option value="71">Xe chạy nội thành</option>
+              <option value="72">Xe liên tỉnh</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div formArrayName="route">
+          <div class="form-group row mb-3" *ngFor="let rou of route.controls; let i = index">
+            <label class="col-sm-2 col-form-label text-md-right">Tuyến xe {{i+1}}</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="VehicleId" formControlName="vehicleId">
+              <input [ngClass]="{'mouse-hover': noneShow}" type="text" [id]="i" class="form-control" placeholder="Tuyến xe"
+                [attr.disabled]="noneShow ? 'disabled' : null" [formControlName]="i" [ngClass]="{'mouse-hover': noneShow}"
+                tabindex="3">
             </div>
-            <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe <span class="text-danger">*</span></label>
-            <div class="col-sm-4">
-              <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="vehicleCode" placeholder="Mã xe"
-                formControlName="vehicleCode" tabindex="2">
+            <div class="col-sm-2">
+              <span>
+                <button *ngIf="!noneShow" class="btn btn-outline-success mr-2" type="button" (click)="addRoute()">
+                  Thêm
+                </button>
+              </span>
+              <span>
+                <button class="btn btn-outline-danger" *ngIf="route.controls.length >1 && !noneShow" type="button"
+                  (click)="subRoute(i)">
+                  <span class="fa fa-trash-o"></span>
+                </button>
+              </span>
             </div>
           </div>
-  
-          <div class="form-group row my-3">
-            <label for="ownerId" class="col-sm-2 col-form-label text-md-right">ID Chủ xe</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="AccountId của chủ xe" class="form-control" id="ownerId" formControlName="ownerId"
-                tabindex="1">
-            </div>
-            <label for="route" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
-            <div class="col-sm-4">
-              <select class="custom-select form-control" id="route" formControlName="route" tabindex="2" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
-                <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
-                <option value="71">Xe chạy nội thành</option>
-                <option value="72">Xe liên tỉnh</option>
-              </select>
-            </div>
+        </div> -->
+        <div class="form-group row mb-3">
+          <label for="LicencePlate" class="col-sm-2 col-form-label text-md-right">Biển số <span class="text-danger"
+              *ngIf="addEditForm.get('licencePlate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licencePlate').touched || addEditForm.get('licencePlate').dirty) && !addEditForm.get('licencePlate').valid}"
+              class="form-control" id="LicencePlate" placeholder="Nhập biển số" formControlName="licencePlate" tabindex="3">
           </div>
-          <!-- <div formArrayName="route">
-            <div class="form-group row mb-3" *ngFor="let rou of route.controls; let i = index">
-              <label class="col-sm-2 col-form-label text-md-right">Tuyến xe {{i+1}}</label>
-              <div class="col-sm-4">
-                <input [ngClass]="{'mouse-hover': noneShow}" type="text" [id]="i" class="form-control" placeholder="Tuyến xe"
-                  [attr.disabled]="noneShow ? 'disabled' : null" [formControlName]="i" [ngClass]="{'mouse-hover': noneShow}"
-                  tabindex="3">
-              </div>
-              <div class="col-sm-2">
-                <span>
-                  <button *ngIf="!noneShow" class="btn btn-outline-success mr-2" type="button" (click)="addRoute()">
-                    Thêm
-                  </button>
-                </span>
-                <span>
-                  <button class="btn btn-outline-danger" *ngIf="route.controls.length >1 && !noneShow" type="button"
-                    (click)="subRoute(i)">
-                    <span class="fa fa-trash-o"></span>
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div> -->
-          <div class="form-group row mb-3">
-            <label for="LicencePlate" class="col-sm-2 col-form-label text-md-right">Biển số <span class="text-danger"
-                *ngIf="addEditForm.get('licencePlate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="text" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licencePlate').touched || addEditForm.get('licencePlate').dirty) && !addEditForm.get('licencePlate').valid}"
-                class="form-control" id="LicencePlate" placeholder="Nhập biển số" formControlName="licencePlate" tabindex="3">
-            </div>
-            <label for="Weight" class="col-sm-2 col-form-label text-md-right">Tải trọng <span class="text-danger" *ngIf="addEditForm.get('weight').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="number" class="form-control" id="Weight" placeholder="Tải trọng" formControlName="weight"
-                [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('weight').touched || addEditForm.get('weight').dirty) && !addEditForm.get('weight').valid}"
-                tabindex="4">
-            </div>
+          <label for="Weight" class="col-sm-2 col-form-label text-md-right">Tải trọng <span class="text-danger" *ngIf="addEditForm.get('weight').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="number" class="form-control" id="Weight" placeholder="Tải trọng" formControlName="weight"
+              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('weight').touched || addEditForm.get('weight').dirty) && !addEditForm.get('weight').valid}"
+              tabindex="4">
           </div>
-          <!-- ========================================================================= -->
-  
-          <!-- *ngIf="addEditForm.get('licence').errors" -->
-          <!-- [ngClass]="{'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}" -->
-          <div class="form-group row mb-3">
-            <label for="Licence" class="col-sm-2 col-form-label text-md-right">Số đăng ký xe <span class="text-danger"
-                *ngIf="addEditForm.get('licence').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="Licence" placeholder="Số đăng ký xe" formControlName="licence"
-                tabindex="5" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}">
-            </div>
-            <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
-            <div class="col-sm-4">
-              <select class="custom-select form-control" id="VehicleType" formControlName="vehicleType" tabindex="6"
-                [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('vehicleType').touched || addEditForm.get('vehicleType').dirty) && !addEditForm.get('vehicleType').valid}">
-                <option value=null disabled selected>&#45;&#45; Xe Công &#45;&#45;</option>
-                <option value="1">Xe Bán Tải</option>
-                <option value="2">Xe Con</option>
-                <option value="3">Xe Lăn</option>
-              </select>
-            </div>
+        </div>
+        <!-- ========================================================================= -->
+
+        <!-- *ngIf="addEditForm.get('licence').errors" -->
+        <!-- [ngClass]="{'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}" -->
+        <div class="form-group row mb-3">
+          <label for="Licence" class="col-sm-2 col-form-label text-md-right">Số đăng ký xe <span class="text-danger"
+              *ngIf="addEditForm.get('licence').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="Licence" placeholder="Số đăng ký xe" formControlName="licence"
+              tabindex="5" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licence').touched || addEditForm.get('licence').dirty) && !addEditForm.get('licence').valid}">
           </div>
-          <!-- ========================================================================== -->
-          <div class="form-group row mb-3">
-            <label for="LicenceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
-                *ngIf="addEditForm.get('licenceIssueDate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="date" [value]="addEditForm.get('licenceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-                id="LicenceIssueDate" formControlName="licenceIssueDate" tabindex="7" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueDate').touched || addEditForm.get('licenceIssueDate').dirty) && !addEditForm.get('licenceIssueDate').valid}">
-            </div>
-            <label for="LicenceIssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger"
-                *ngIf="addEditForm.get('licenceIssueBy').errors">*</span></label>
-            <div class="col-sm-4">
-              <select class="custom-select form-control" id="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="8"
-                [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueBy').touched || addEditForm.get('licenceIssueBy').dirty) && !addEditForm.get('licenceIssueBy').valid}">
-                <option value=null disabled selected>&#45;&#45; CA Thành Phố Hà Nội &#45;&#45;</option>
-                <option value="1">CA TP Hà Nội</option>
-                <option value="2">CA TP Cà Mau</option>
-                <option value="NA">CA TP Vinh</option>
-              </select>
-            </div>
+          <label for="VehicleType" class="col-sm-2 col-form-label text-md-right">Loại xe<span class="text-danger" *ngIf="addEditForm.get('vehicleType').errors">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="VehicleType" formControlName="vehicleType" tabindex="6"
+              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('vehicleType').touched || addEditForm.get('vehicleType').dirty) && !addEditForm.get('vehicleType').valid}">
+              <option value=null disabled selected>&#45;&#45; Xe Công &#45;&#45;</option>
+              <option value="1">Xe Bán Tải</option>
+              <option value="2">Xe Con</option>
+              <option value="3">Xe Lăn</option>
+            </select>
           </div>
-          <!-- ========================================================================= -->
-          <div class="form-group row mb-3">
-            <label for="RegistrationNo" class="col-sm-2 col-form-label text-md-right">Số đăng kiểm xe <span class="text-danger"
-                *ngIf="addEditForm.get('registrationNo').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="RegistrationNo" placeholder="Số đăng kiểm xe" name="RegistrationNo"
-                formControlName="registrationNo" tabindex="9" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationNo').touched || addEditForm.get('registrationNo').dirty) && !addEditForm.get('registrationNo').valid}">
-            </div>
-            <div class="col-sm-6">
-            </div>
+        </div>
+        <!-- ========================================================================== -->
+        <div class="form-group row mb-3">
+          <label for="LicenceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
+              *ngIf="addEditForm.get('licenceIssueDate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get('licenceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
+              id="LicenceIssueDate" formControlName="licenceIssueDate" tabindex="7" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueDate').touched || addEditForm.get('licenceIssueDate').dirty) && !addEditForm.get('licenceIssueDate').valid}">
           </div>
-          <!-- ========================================================================= -->
-          <div class="form-group row mb-3">
-            <label for="RegistrationIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
-                *ngIf="addEditForm.get('registrationIssueDate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="date" [value]="addEditForm.get('registrationIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-                id="RegistrationIssueDate" formControlName="registrationIssueDate" tabindex="10" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationIssueDate').touched || addEditForm.get('registrationIssueDate').dirty) && !addEditForm.get('registrationIssueDate').valid}" />
-            </div>
-            <label for="RegistrationExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
-                *ngIf="addEditForm.get('registrationExpDate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="date" [value]="addEditForm.get('registrationExpDate').value | date:'yyyy-MM-dd'" class="form-control"
-                id="RegistrationExpDate" formControlName="registrationExpDate" tabindex="11" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationExpDate').touched || addEditForm.get('registrationExpDate').dirty) && !addEditForm.get('registrationExpDate').valid}" />
-            </div>
+          <label for="LicenceIssueBy" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger"
+              *ngIf="addEditForm.get('licenceIssueBy').errors">*</span></label>
+          <div class="col-sm-4">
+            <select class="custom-select form-control" id="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="8"
+              [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('licenceIssueBy').touched || addEditForm.get('licenceIssueBy').dirty) && !addEditForm.get('licenceIssueBy').valid}">
+              <option value=null disabled selected>&#45;&#45; CA Thành Phố Hà Nội &#45;&#45;</option>
+              <option value="1">CA TP Hà Nội</option>
+              <option value="2">CA TP Cà Mau</option>
+              <option value="NA">CA TP Vinh</option>
+            </select>
           </div>
-          <!-- ========================================================================= -->
-          <div class="form-group row mb-3">
-            <label for="CivInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm dân sự <span class="text-danger"
-                *ngIf="addEditForm.get('civilInsurance').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="CivInsurance" placeholder="Bảo hiểm dân sự" name="CivInsurance"
-                formControlName="civilInsurance" tabindex="12" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsurance').touched || addEditForm.get('civilInsurance').dirty) && !addEditForm.get('civilInsurance').valid}">
-            </div>
-            <div class="col-sm-6">
-            </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="RegistrationNo" class="col-sm-2 col-form-label text-md-right">Số đăng kiểm xe <span class="text-danger"
+              *ngIf="addEditForm.get('registrationNo').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="RegistrationNo" placeholder="Số đăng kiểm xe" name="RegistrationNo"
+              formControlName="registrationNo" tabindex="9" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationNo').touched || addEditForm.get('registrationNo').dirty) && !addEditForm.get('registrationNo').valid}">
           </div>
-          <!-- ========================================================================= -->
-          <div class="form-group row mb-3">
-            <label for="CivilInsuranceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
-                *ngIf="addEditForm.get('civilInsuranceIssueDate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="date" [value]="addEditForm.get('civilInsuranceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
-                id="CivilInsuranceIssueDate" formControlName="civilInsuranceIssueDate" tabindex="13" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceIssueDate').touched || addEditForm.get('civilInsuranceIssueDate').dirty) && !addEditForm.get('civilInsuranceIssueDate').valid}" />
-            </div>
-            <label for="CivilInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
-                *ngIf="addEditForm.get('civilInsuranceExpDate').errors">*</span></label>
-            <div class="col-sm-4">
-              <input type="date" [value]="addEditForm.get('civilInsuranceExpDate').value | date:'yyyy-MM-dd'" class="form-control"
-                id="CivilInsuranceExpDate" formControlName="civilInsuranceExpDate" tabindex="14" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceExpDate').touched || addEditForm.get('civilInsuranceExpDate').dirty) && !addEditForm.get('civilInsuranceExpDate').valid}" />
-            </div>
+          <div class="col-sm-6">
           </div>
-          <!-- ========================================================================= -->
-          <div class="form-group row mb-3">
-            <label for="CargoInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm hàng hóa <span class="text-danger"
-                hidden>*</span></label>
-            <div class="col-sm-4">
-              <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="CargoInsurance"
-                placeholder="Bảo hiểm hàng hóa" name="CargoInsurance" formControlName="cargoInsurance" tabindex="15">
-            </div>
-            <div class="col-sm-6">
-            </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="RegistrationIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
+              *ngIf="addEditForm.get('registrationIssueDate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get('registrationIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
+              id="RegistrationIssueDate" formControlName="registrationIssueDate" tabindex="10" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationIssueDate').touched || addEditForm.get('registrationIssueDate').dirty) && !addEditForm.get('registrationIssueDate').valid}" />
+          </div>
+          <label for="RegistrationExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
+              *ngIf="addEditForm.get('registrationExpDate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get('registrationExpDate').value | date:'yyyy-MM-dd'" class="form-control"
+              id="RegistrationExpDate" formControlName="registrationExpDate" tabindex="11" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('registrationExpDate').touched || addEditForm.get('registrationExpDate').dirty) && !addEditForm.get('registrationExpDate').valid}" />
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="CivInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm dân sự <span class="text-danger"
+              *ngIf="addEditForm.get('civilInsurance').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="CivInsurance" placeholder="Bảo hiểm dân sự" name="CivInsurance"
+              formControlName="civilInsurance" tabindex="12" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsurance').touched || addEditForm.get('civilInsurance').dirty) && !addEditForm.get('civilInsurance').valid}">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="CivilInsuranceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
+              *ngIf="addEditForm.get('civilInsuranceIssueDate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get('civilInsuranceIssueDate').value | date:'yyyy-MM-dd'" class="form-control"
+              id="CivilInsuranceIssueDate" formControlName="civilInsuranceIssueDate" tabindex="13" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceIssueDate').touched || addEditForm.get('civilInsuranceIssueDate').dirty) && !addEditForm.get('civilInsuranceIssueDate').valid}" />
+          </div>
+          <label for="CivilInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
+              *ngIf="addEditForm.get('civilInsuranceExpDate').errors">*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [value]="addEditForm.get('civilInsuranceExpDate').value | date:'yyyy-MM-dd'" class="form-control"
+              id="CivilInsuranceExpDate" formControlName="civilInsuranceExpDate" tabindex="14" [ngClass]="{'mouse-hover': noneShow,'has-error': (addEditForm.get('civilInsuranceExpDate').touched || addEditForm.get('civilInsuranceExpDate').dirty) && !addEditForm.get('civilInsuranceExpDate').valid}" />
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="CargoInsurance" class="col-sm-2 col-form-label text-md-right">Bảo hiểm hàng hóa <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="CargoInsurance"
+              placeholder="Bảo hiểm hàng hóa" name="CargoInsurance" formControlName="cargoInsurance" tabindex="15">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="CargoInsuranceIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('cargoInsuranceIssueDate').value | date:'yyyy-MM-dd'"
+              class="form-control" id="CargoInsuranceIssueDate" formControlName="cargoInsuranceIssueDate" tabindex="16" />
+          </div>
+          <label for="CargoInsuranceExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('cargoInsuranceExpDate').value | date:'yyyy-MM-dd'"
+              class="form-control" id="CargoInsuranceExpDate" formControlName="cargoInsuranceExpDate" tabindex="17" />
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="ItineraryMonitoring" class="col-sm-2 col-form-label text-md-right">Giám sát <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="ItineraryMonitoring"
+              placeholder="Giấy xác nhận đã gắn thiết bị GS hành trình" formControlName="itineraryMonitoring" tabindex="18">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+        <div class="form-group row mb-3">
+          <label for="ItineraryMonitoringIssueDate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="date" [value]="addEditForm.get('itineraryMonitoringIssueDate').value | date:'yyyy-MM-dd'"
+              class="form-control" id="ItineraryMonitoringIssueDate" formControlName="itineraryMonitoringIssueDate"
+              tabindex="19" />
+          </div>
+          <label for="ItineraryMonitoringExpDate" class="col-sm-2 col-form-label text-md-right">Ngày hết hạn <span
+              class="text-danger" hidden>*</span></label>
+          <div class="col-sm-4">
+            <input type="date" [ngClass]="{'mouse-hover': noneShow}" [value]="addEditForm.get('itineraryMonitoringExpDate').value | date:'yyyy-MM-dd'"
+              class="form-control" id="ItineraryMonitoringExpDate" formControlName="itineraryMonitoringExpDate"
+              tabindex="20" />
+          </div>
+        </div>
+        <!-- ========================================================================= -->
+
+        <div class="form-group row mb-3 mt-3">
+          <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái <span class="text-danger" hidden>*</span></label>
+          <div class="col-sm-4">
+            <select [ngClass]="{'mouse-hover': noneShow}" class="custom-select form-control" id="state" tabindex="21"
+              formControlName="state">
+              <option value=null>&#45;&#45; Trạng thái &#45;&#45;</option>
+              <option value="0">Chưa đăng ký xe</option>
+              <option value="1">Đơn hàng chờ xác nhận</option>
+              <option value="2">Có yêu cầu chưa báo giá</option>
+              <option value="3">Báo giá cao, cần xem lại báo giá </option>
+              <option value="4">Đang chờ vận chuyển</option>
+              <option value="5">Đang chở hàng</option>
+            </select>
+          </div>
+          <label for="DriverId" class="col-sm-2 col-form-label text-md-right">Id tài xế <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="DriverId" placeholder="AccountId tai xe"
+              formControlName="driverId" tabindex="22">
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="DriverName" class="col-sm-2 col-form-label text-md-right">Tên tài xế <span class="text-danger"
+              hidden>*</span></label>
+          <div class="col-sm-4">
+            <input [ngClass]="{'mouse-hover': noneShow}" type="text" class="form-control" id="DriverName" placeholder="Tên tài xế"
+              formControlName="driverName" tabindex="23">
           </div>
         </div>
       </ng-template>
@@ -232,217 +305,158 @@
               </div>
             </ng-container>
           </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Đính kèm" *ngIf="isAdd || noneShow">
-        <ng-template ngbTabContent>
-          <div class="mt-2 imgView" [ngClass]="{'d-none': !noneShow}">
-            <div class="form-group my-3 mr-2 ml-3">
-              <p class="col-sm-12"> + Đăng ký xe:
-                {{(_entity.attachProperties?.DKYXE===undefined||_entity.attachProperties?.DKYXE.length==0)?'Không có ảnh':''}}</p>
-              <ng-container *ngFor="let el of _entity.attachProperties?.DKYXE">
-                <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKYXE'),el)">
-                  <img [src]="getUrlImg('DKYXE') +el" alt="" />
-                  <br>
-                  <div class="text-center img-name">{{el}}</div>
-                </div>
-              </ng-container>
-            </div>
-  
-            <div class="form-group my-3 mr-2 ml-3">
-              <p class="col-sm-12"> + Đăng kiểm xe: {{(_entity.attachProperties?.DKIEMXE===undefined||_entity.attachProperties?.DKIEMXE.length==0)?'Không có ảnh':''}}</p>
-              <ng-container *ngFor="let el of _entity.attachProperties?.DKIEMXE">
-                <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKIEMXE'),el)">
-                  <img [src]="getUrlImg('DKIEMXE') +el" alt="" />
-                  <br>
-                  <div class="text-center img-name">{{el}}</div>
-                </div>
-              </ng-container>
-            </div>
-            <div class="form-group my-3 mr-2 ml-3">
-              <p class="col-sm-12"> + Bảo hiểm dân sự xe: {{(_entity.attachProperties?.BHDSXE===undefined||_entity.attachProperties?.BHDSXE.length==0)?'Không có
-                ảnh':''}}</p>
-              <ng-container *ngFor="let el of _entity.attachProperties?.BHDSXE">
-                <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHDSXE'),el)">
-                  <img [src]="getUrlImg('BHDSXE') +el" alt="" />
-                  <br>
-                  <div class="text-center img-name">{{el}}</div>
-                </div>
-              </ng-container>
-            </div>
-            <div class="form-group my-3 mr-2 ml-3">
-              <p class="col-sm-12"> + Bảo hiểm hàng hóa xe: {{(_entity.attachProperties?.BHHHXE===undefined||_entity.attachProperties?.BHHHXE.length==0)?'Không có ảnh':''}}</p>
-              <ng-container *ngFor="let el of _entity.attachProperties?.BHHHXE">
-                <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHHHXE'),el)">
-                  <img [src]="getUrlImg('BHHHXE') +el" alt="" />
-                  <br>
-                  <div class="text-center img-name">{{el}}</div>
-                </div>
-              </ng-container>
-            </div>
-            <div class="form-group my-3 mr-2 ml-3">
-              <p class="col-sm-12"> + Giấy xác nhận xe đã được gắn GS hành trình:
-                 {{(_entity.attachProperties?.GXNTBGS===undefined||_entity.attachProperties?.GXNTBGS.length==0)?'Không có ảnh':''}}</p>
-              <ng-container *ngFor="let el of _entity.attachProperties?.GXNTBGS">
-                <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GXNTBGS'),el)">
-                  <img [src]="getUrlImg('GXNTBGS') +el" alt="" />
-                  <br>
-                  <div class="text-center img-name">{{el}}</div>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-          <div class="mt-2" [ngClass]="{'d-none': noneShow}" *ngIf="!noneShow">
-            <div class="form-group row my-3 mr-2 ml-3">
-              <label class="col-sm-6">Đăng ký xe (ảnh chụp trang bìa và các trang liên quan</label>
-              <div class="col-sm-6" formGroupName="attachProperties">
-                <div class="row">
-                  <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="DKYXEfiles[]"
-                    multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="selectFile('DKYXE')"
-                    ng2FileSelect [uploader]="uploaderDKYXE" />
-                  <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
-                      aria-hidden="true"></i></label>
-                </div>
-                <div class="row uploadList" *ngFor="let item of uploaderDKYXE.queue">
-                  <div class="col-sm-6">{{item.file.name}}</div>
-                  <div class="col-sm-4">
-                    <div class="progress">
-                      <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-1">
-                    <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                        aria-hidden="true"></i></button>
-                  </div>
-                </div>
+        </div>
+        <div class="mt-2" [ngClass]="{'d-none': noneShow}" *ngIf="!noneShow">
+          <div class="form-group row my-3 mr-2 ml-3">
+            <label class="col-sm-6">Đăng ký xe (ảnh chụp trang bìa và các trang liên quan</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+              <div class="row">
+                <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="DKYXEfiles[]"
+                  multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="selectFile('DKYXE')"
+                  ng2FileSelect [uploader]="uploaderDKYXE" />
+                <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                    aria-hidden="true"></i></label>
               </div>
-            </div>
-  
-            <div class="form-group row my-3 mr-2 ml-3">
-              <label class="col-sm-6">Đăng kiểm xe (chụp 2 mặt của giấy tờ)</label>
-              <div class="col-sm-6" formGroupName="attachProperties">
-                <div class="row">
-                  <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                    multiple class="custom-file-input form-control" id="inputGroupFile02" (change)="selectFile('DKIEMXE')"
-                    ng2FileSelect [uploader]="uploaderDKIEMXE" tabindex="28" />
-                  <label class="custom-file-label lbl-input" for="inputGroupFile02"><i class="fa fa-file-image-o"
-                      aria-hidden="true"></i></label>
-                </div>
-                <div class="row uploadList" *ngFor="let item of uploaderDKIEMXE.queue">
-                  <div class="col-sm-6">{{item.file.name}}</div>
-                  <div class="col-sm-4">
-                    <div class="progress">
-                      <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-1">
-                    <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                        aria-hidden="true"></i></button>
+              <div class="row uploadList" *ngFor="let item of uploaderDKYXE.queue">
+                <div class="col-sm-6">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
                   </div>
                 </div>
-              </div>
-            </div>
-  
-            <div class="form-group row my-3 mr-2 ml-3">
-              <label class="col-sm-6">Bảo hiểm dân sự xe (chụp 2 mặt của giấy phép)</label>
-              <div class="col-sm-6" formGroupName="attachProperties">
-                <div class="row">
-                  <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                    multiple class="custom-file-input form-control" id="inputGroupFile03" (change)="selectFile('BHDSXE')"
-                    ng2FileSelect [uploader]="uploaderBHDSXE" tabindex="28" />
-                  <label class="custom-file-label lbl-input" for="inputGroupFile03"><i class="fa fa-file-image-o"
-                      aria-hidden="true"></i></label>
-                </div>
-                <div class="row uploadList" *ngFor="let item of uploaderBHDSXE.queue">
-                  <div class="col-sm-6">{{item.file.name}}</div>
-                  <div class="col-sm-4">
-                    <div class="progress">
-                      <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-1">
-                    <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                        aria-hidden="true"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-  
-            <div class="form-group row my-3 mr-2 ml-3">
-              <label class="col-sm-6">Bảo hiểm hàng hóa xe (chụp 2 mặt của giấy phép)</label>
-              <div class="col-sm-6" formGroupName="attachProperties">
-                <div class="row">
-                  <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                    multiple class="custom-file-input form-control" id="inputGroupFile04" (change)="selectFile('BHHHXE')"
-                    ng2FileSelect [uploader]="uploaderBHHHXE" tabindex="28" />
-                  <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
-                      aria-hidden="true"></i></label>
-                </div>
-                <div class="row uploadList" *ngFor="let item of uploaderBHHHXE.queue">
-                  <div class="col-sm-6">{{item.file.name}}</div>
-                  <div class="col-sm-4">
-                    <div class="progress">
-                      <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-1">
-                    <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                        aria-hidden="true"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-  
-            <div class="form-group row my-3 mr-2 ml-3">
-              <label class="col-sm-6">Giấy xác nhận xe đã được gắn GS hành trình</label>
-              <div class="col-sm-6" formGroupName="attachProperties">
-                <div class="row">
-                  <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
-                    multiple class="custom-file-input form-control" id="inputGroupFile05" (change)="selectFile('GXNTBGS')"
-                    ng2FileSelect [uploader]="uploaderGXNTBGS" tabindex="28" />
-                  <label class="custom-file-label lbl-input" for="inputGroupFile05"><i class="fa fa-file-image-o"
-                      aria-hidden="true"></i></label>
-                </div>
-                <div class="row uploadList" *ngFor="let item of uploaderGXNTBGS.queue">
-                  <div class="col-sm-6">{{item.file.name}}</div>
-                  <div class="col-sm-4">
-                    <div class="progress">
-                      <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-1">
-                    <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                        aria-hidden="true"></i></button>
-                  </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                      aria-hidden="true"></i></button>
                 </div>
               </div>
             </div>
           </div>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-  </form>
-  
-  <div class="modal-footer">
-    <button *ngIf="!noneShow" type="button" class="btn btn-success" [disabled]="!addEditForm.valid" (click)="onSave($event)">Save</button>
-    <!-- <span *ngIf="!noneShow">
-      <button class="btn btn-danger" type="button" (click)="populateTestData()">
-        Test Data
-      </button>
-    </span> -->
+
+          <div class="form-group row my-3 mr-2 ml-3">
+            <label class="col-sm-6">Đăng kiểm xe (chụp 2 mặt của giấy tờ)</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+              <div class="row">
+                <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
+                  multiple class="custom-file-input form-control" id="inputGroupFile02" (change)="selectFile('DKIEMXE')"
+                  ng2FileSelect [uploader]="uploaderDKIEMXE" tabindex="28" />
+                <label class="custom-file-label lbl-input" for="inputGroupFile02"><i class="fa fa-file-image-o"
+                    aria-hidden="true"></i></label>
+              </div>
+              <div class="row uploadList" *ngFor="let item of uploaderDKIEMXE.queue">
+                <div class="col-sm-6">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row my-3 mr-2 ml-3">
+            <label class="col-sm-6">Bảo hiểm dân sự xe (chụp 2 mặt của giấy phép)</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+              <div class="row">
+                <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
+                  multiple class="custom-file-input form-control" id="inputGroupFile03" (change)="selectFile('BHDSXE')"
+                  ng2FileSelect [uploader]="uploaderBHDSXE" tabindex="28" />
+                <label class="custom-file-label lbl-input" for="inputGroupFile03"><i class="fa fa-file-image-o"
+                    aria-hidden="true"></i></label>
+              </div>
+              <div class="row uploadList" *ngFor="let item of uploaderBHDSXE.queue">
+                <div class="col-sm-6">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row my-3 mr-2 ml-3">
+            <label class="col-sm-6">Bảo hiểm hàng hóa xe (chụp 2 mặt của giấy phép)</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+              <div class="row">
+                <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
+                  multiple class="custom-file-input form-control" id="inputGroupFile04" (change)="selectFile('BHHHXE')"
+                  ng2FileSelect [uploader]="uploaderBHHHXE" tabindex="28" />
+                <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
+                    aria-hidden="true"></i></label>
+              </div>
+              <div class="row uploadList" *ngFor="let item of uploaderBHHHXE.queue">
+                <div class="col-sm-6">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row my-3 mr-2 ml-3">
+            <label class="col-sm-6">Giấy xác nhận xe đã được gắn GS hành trình</label>
+            <div class="col-sm-6" formGroupName="attachProperties">
+              <div class="row">
+                <input [disabled]="noneShow" [ngClass]="{'mouse-hover': noneShow}" type="file" accept="image/*" name="CMNDfiles[]"
+                  multiple class="custom-file-input form-control" id="inputGroupFile05" (change)="selectFile('GXNTBGS')"
+                  ng2FileSelect [uploader]="uploaderGXNTBGS" tabindex="28" />
+                <label class="custom-file-label lbl-input" for="inputGroupFile05"><i class="fa fa-file-image-o"
+                    aria-hidden="true"></i></label>
+              </div>
+              <div class="row uploadList" *ngFor="let item of uploaderGXNTBGS.queue">
+                <div class="col-sm-6">{{item.file.name}}</div>
+                <div class="col-sm-4">
+                  <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+                      aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</form>
+
+<div class="modal-footer">
+  <button *ngIf="!noneShow" type="button" class="btn btn-success" [disabled]="!addEditForm.valid" (click)="onSave($event)">Save</button>
+  <!-- <span *ngIf="!noneShow">
+    <button class="btn btn-danger" type="button" (click)="populateTestData()">
+      Test Data
+    </button>
+  </span> -->
+</div>
+<!-- 8=========== End Popup ===========D -->
+<ng-template #imgView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <!-- 8=========== End Popup ===========D -->
-  <ng-template #imgView let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <div class="text-center">{{imgName}}</div>
-  
-      <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <img class="imgFull" [src]="ulrImgFull" alt="" />
-      <br>
-      <br>
-    </div>
-  </ng-template>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>

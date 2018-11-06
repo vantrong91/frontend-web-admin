@@ -8,4 +8,5 @@ export interface IInsuranceOrderService {
     Create(entity: InsuOrderViewModel): Observable<any>;
     Put(entity: InsuOrderViewModel): Observable<any>;
     Delete(accountId: number): Observable<any>;
+    Complete(entity: InsuOrderViewModel): Observable<any>;
 }
