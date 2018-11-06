@@ -58,12 +58,12 @@ export class ConfigpolicyComponent implements OnInit {
       (response: any) => {
         if (response.status === 0) {
           this.initData();
-          this.isShow =  true;
+          this.isShow = true;
           setTimeout(() => {
             this.isShow = false;
           }, 2000);
           this.txtNoti = 'Thêm thành công chính sách'
-        }else{
+        } else {
           this.isShow = true;
           setTimeout(() => {
             this.isShow = false;
@@ -79,19 +79,26 @@ export class ConfigpolicyComponent implements OnInit {
     this._entity = event;
     this.policyService.Put(this._entity).subscribe(
       (response: any) => {
-        if (response.status === 0) {
+        if (response.status === 1) {
           this.initData();
           this.isShow = true;
           setTimeout(() => {
             this.isShow = false;
           }, 2000);
-          this.txtNoti = 'Sửa thành công';
-        } else {
+          this.txtNoti = "Lỗi! " + response.message;
+        } if (response.status === 0) {
+          this.initData();
           this.isShow = true;
           setTimeout(() => {
             this.isShow = false;
           }, 2000);
-          this.txtNoti = 'Có lỗi xảy ra: ' + response.message;
+          this.txtNoti = 'Thêm thành công chính sách';
+        } if (response.status === 403) {
+          this.isShow = true;
+          setTimeout(() => {
+            this.isShow = false;
+          }, 2000);
+          this.txtNoti = 'Có lỗi xảy ra! Vui lòng thử lại';
         }
       }
     )

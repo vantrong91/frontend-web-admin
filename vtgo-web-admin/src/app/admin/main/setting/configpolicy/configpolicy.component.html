@@ -76,12 +76,12 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row, content)">
+          <button type="button" class="btn btn-warning button-custom-admin ml-4" (click)="edit(row, content)">
             <i class="fa fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
+          <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
             <i class="fa fa-trash"></i>
-          </button>
+          </button> -->
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
