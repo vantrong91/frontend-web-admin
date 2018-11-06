@@ -56,21 +56,27 @@ export class ConfigpolicyComponent implements OnInit {
     this._entity = event;
     this.policyService.Create(this._entity).subscribe(
       (response: any) => {
-        if (response.status === 0) {
-          this.initData();
-          this.isShow =  true;
-          setTimeout(() => {
-            this.isShow = false;
-          }, 2000);
-          this.txtNoti = 'Thêm thành công chính sách'
-        }else{
+        console.log(response);
+        if(response.status === 1){
           this.isShow = true;
           setTimeout(() => {
             this.isShow = false;
-          });
-          this.txtNoti = "Có lỗi xảy ra: " + response.message;
+          }, 2000);
+          this.txtNoti = "Lỗi! " + response.message;
+        } if(response.status === 0){
+          this.initData();
+          this.isShow = true;
+          setTimeout(() => {
+            this.isShow = false;
+          }, 2000);
+          this.txtNoti = 'Thêm thành công chính sách';
+        } if(response.status === 403){
+          this.isShow =true;
+          setTimeout(() => {
+            this.isShow = false;
+          }, 2000);
+          this.txtNoti = 'Có lỗi xảy ra! Vui lòng thử lại';
         }
-
       }
     )
   }

@@ -2,11 +2,11 @@
   <div class="form-group row my-3">
     <label for="AccountId" class="col-sm-2 col-form-label text-md-right">Mã chủ hàng </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="AccountId" formControlName="accountId" tabindex="1" disabled />
+      <input type="text" class="form-control" id="AccountId" formControlName="accountId" tabindex="1" readonly />
     </div>
     <label for="OrderId" class="col-sm-2 col-form-label text-md-right">Mã đơn hàng </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="OrderId" formControlName="orderId" tabindex="2" disabled />
+      <input type="text" class="form-control" id="OrderId" formControlName="orderId" tabindex="2" readonly />
     </div>
   </div>
   <div class="form-group row my-3">
@@ -55,6 +55,11 @@
       <span class="invalid-feedback">
         {{displayMessage.state}}
       </span>
+    </div>
+    <label for="updateTime" class="col-sm-2 col-form-label text-md-right">Ngày mua</label>
+    <div class="col-sm-4">
+      <input type="date" class="form-control" [value]="addEditForm.get('updateTime').value  | date:'yyyy-MM-dd'"
+        formControlName="updateTime">
     </div>
   </div>
 </form>

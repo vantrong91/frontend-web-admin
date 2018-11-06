@@ -41,7 +41,6 @@ export class ConfigpolicypopupComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.isAdd);
   }
 
   onSave(event){
