@@ -69,27 +69,10 @@ export class GoodsownerAddComponent implements OnInit {
   propCMND: any;
   selectFile(ev, type: string) {
     this.uploaderCMND = ev.target.files;
-    console.log(this.uploaderCMND);
     const fileListAsArray = Array.from(this.uploaderCMND);
     for (let item of fileListAsArray) {
       this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
-    // switch (type) {
-    //   case 'CMND':
-    //     this.propCMND = ev.target.files;
-    //     this.addEditForm.controls.attachProperties.value.CMND.length = 0;
-    //     for (let item of this.propCMND) {
-    //       console.log(item);
-
-    //       let attachName = item.name;
-    //       // let filePath = "../IMAGE/CMND/";
-    //       // let attachCode = "CMND";
-    //       this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
-    //     }
-    //     break;
-    //   default:
-    //     this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
-    // }
   }
 
   uploadFileToServer(data: FileList, type: string) {
@@ -99,16 +82,8 @@ export class GoodsownerAddComponent implements OnInit {
     for (let item of fileListAsArray) {
       frmImg.append('files', item);
     }
-    // for (let i = 0; i < data.length; i++)
-    //     frmImg.append('files', data[i]._file);
-
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
-        console.log(response);
-        // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
-        //     closeButton: true,
-        //     tapToDismiss: true,
-        // })
       }
     );
   }

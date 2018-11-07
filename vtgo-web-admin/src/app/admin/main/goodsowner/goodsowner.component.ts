@@ -41,8 +41,6 @@ export class GoodsOwnerComponent implements OnInit {
     search(search) {
         this.dataService.Post('good-owner/search', search).subscribe(
             response => {
-                // console.log('-- response:');
-                // console.log(response);
                 if (response.status === 0) {
                     this.rows = response.data;
                 }

@@ -24,7 +24,6 @@ export class ViewInfoComponent implements OnInit {
       this._entity = new OwnerViewModel();
       this._entity = owner;
       this.keyArr = Object.values(this._entity.attachProperties);
-      console.log(this._entity);
       this.addEditForm.reset(owner);
     } else
       this.addEditForm.reset();

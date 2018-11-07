@@ -4,6 +4,7 @@ import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // import * as $ from 'jquery';
 @Component({
@@ -17,13 +18,14 @@ export class GoodsownerInfoComponent implements OnInit {
   imgUrl = '';
   keyArr :any;
   uploaderCMND: FileList;
+  ulrImgFull = '';
+  imgName = '';
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
       this.keyArr = Object.values(this._entity.attachProperties);
-      console.log(this.keyArr);
       this.addEditForm.reset(owner);
     } else
       this.addEditForm.reset();
@@ -31,7 +33,7 @@ export class GoodsownerInfoComponent implements OnInit {
   @Output() ownerViewModelChange = new EventEmitter<OwnerViewModel>();
   @Output() closeForm = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder,private dataService: DataService, private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder,private modalServices: NgbModal,private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl(''),
@@ -78,17 +80,9 @@ export class GoodsownerInfoComponent implements OnInit {
     for (let item of fileListAsArray) {
       frmImg.append('files', item);
     }
-    // for (let i = 0; i < data.length; i++)
-    //     frmImg.append('files', data[i]._file);
-    console.log(data);
 
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
-        console.log(response);
-        // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
-        //     closeButton: true,
-        //     tapToDismiss: true,
-        // })
       }
     );
   }
@@ -96,32 +90,13 @@ export class GoodsownerInfoComponent implements OnInit {
 
   propCMND: any;
   selectFile(ev, type: string) {
-    this.uploaderCMND = ev.target.files;
-    console.log(this.uploaderCMND);
-    const fileListAsArray = Array.from(this.uploaderCMND);
-    console.log(fileListAsArray);
     this.addEditForm.value.attachProperties.CMND = [];
-    console.log(this.addEditForm);
-    
+    this.uploaderCMND = ev.target.files;
+    const fileListAsArray = Array.from(this.uploaderCMND);
     for (let item of fileListAsArray) {
       this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
-    // switch (type) {
-    //   case 'CMND':
-    //     this.propCMND = ev.target.files;
-    //     this.addEditForm.controls.attachProperties.value.CMND.length = 0;
-    //     for (let item of this.propCMND) {
-    //       console.log(item);
-
-    //       let attachName = item.name;
-    //       // let filePath = "../IMAGE/CMND/";
-    //       // let attachCode = "CMND";
-    //       this.addEditForm.controls.attachProperties.value.CMND.push(attachName);
-    //     }
-    //     break;
-    //   default:
-    //     this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
-    // }
+    this.getUrlImg('CMND');
   }
 
   getUrlImg(folder: string) {
@@ -129,5 +104,10 @@ export class GoodsownerInfoComponent implements OnInit {
     return this.imgUrl;
   }
 
-
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalServices
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
+  }
 }
