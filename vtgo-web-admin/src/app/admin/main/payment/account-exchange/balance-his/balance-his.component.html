@@ -8,39 +8,56 @@
           <div style="padding-left:35px;">
             <div class="container">
               <u><i>THÔNG TIN CHI TIẾT</i></u>
-              <table class="table table-bordered">
+
+              <table class="table table-bordered  table-striped">
                 <tbody>
-                  <tr class="row">
-                    <div class="col-sm-2">Mã tài khoản:</div>
-                    <div class="col sm-7">{{row.accountId}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Mã tài khoản:</div>
+                      <div class="col sm-7">{{row.accountId}}</div>
+                    <td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Thời gian:</div>
-                    <div class="col sm-7">{{row.time|date:'hh:mm:ss - dd/MM/yyyy'}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Thời gian:</div>
+                      <div class="col sm-7">{{row.time|date:'hh:mm:ss - dd/MM/yyyy'}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Địa chỉ IP:</div>
-                    <div class="col sm-7">{{row.iP}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Địa chỉ IP:</div>
+                      <div class="col sm-7">{{row.iP}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Loại giao dịch:</div>
-                    <div class="col sm-7">{{row.hisType}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Loại giao dịch:</div>
+                      <div class="col sm-7">{{row.hisType}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Nội dung:</div>
-                    <div class="col sm-7">{{row.hisContent}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Nội dung:</div>
+                      <div class="col sm-7">{{row.hisContent}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Trước giao dịch:</div>
-                    <div class="col sm-7">{{row.balanceBefor|currency:'':'':'0.0'}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Trước giao dịch:</div>
+                      <div class="col sm-7">{{row.balanceBefor|currency:'':'':'0.0'}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Sau giao dịch:</div>
-                    <div class="col sm-7">{{row.balanceAfter|currency:'':'':'0.0'}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Sau giao dịch:</div>
+                      <div class="col sm-7">{{row.balanceAfter|currency:'':'':'0.0'}}</div>
+                    </td>
                   </tr>
-                  <tr class="row">
-                    <div class="col-sm-2">Thay đổi:</div>
-                    <div class="col sm-7">{{row.amount|currency:'':'':'0.0'}}</div>
+                  <tr>
+                    <td class="row">
+                      <div class="col-sm-2">Thay đổi:</div>
+                      <div class="col sm-7">{{row.amount|currency:'':'':'0.0'}}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
