@@ -6,7 +6,8 @@ import {
   SearchModel,
   IVehicleServiceToken,
   IVehicleService,
-  VehicleViewModel
+  VehicleViewModel,
+  DataService
 } from '../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -17,6 +18,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   styleUrls: ['./vehicle.component.scss'],
 })
 export class VehicleComponent implements OnInit {
+  @ViewChild('vehicleTable') _vehicleTable: any;
   closeResult: string;
   _entityVehicle: VehicleViewModel;
   listVehicle: any;
@@ -24,14 +26,16 @@ export class VehicleComponent implements OnInit {
   isAdd = false;
   isShow = false;
   txtNoti = '';
-  noneShow: boolean;
+  imgUrl = '';
+  ulrImgFull = '';
+  imgName = '';
 
-  
+
 
   constructor(private modalService: NgbModal,
+    private dataService: DataService,
     @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
   }
-  @ViewChild('vehicleTable') _vehicleTable: DatatableComponent;
   ngOnInit() {
     this.initData();
   }
@@ -61,9 +65,28 @@ export class VehicleComponent implements OnInit {
       }
     );
   }
+
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+}
+
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalService.open(ele, { windowClass: 'dark-modal', size: 'lg' });
+}
+
+  toggleExpandRow(row) {
+    console.log('Toggled Expand Row!', row);
+    // this.table.rowDetail.collapseAllRows();
+    this._vehicleTable.rowDetail.toggleExpandRow(row);
+  }
+  onDetailToggle(event) {
+    // console.log('Detail Toggled', event);
+  }
   //New Vehicle
   open(content) {
-    this.noneShow = false;
     this._entityVehicle = new VehicleViewModel;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -72,16 +95,9 @@ export class VehicleComponent implements OnInit {
     });
   }
   //View Vehicle
-  view(vehicleId, content) {
-    this._entityVehicle = new VehicleViewModel();
-    this.getVehicleById(vehicleId);
-    this.noneShow = true;
-    this.modalService.open(content, { size: 'lg' });
-  }
   // EDIT Vehicle
-  edit(vehicleId, content) {
-    this.getVehicleById(vehicleId);
-    this.noneShow = false;
+  edit(row, content) {
+    this._entityVehicle = row;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Close with : ${result}`;
     }, (reason) => {
@@ -138,6 +154,8 @@ export class VehicleComponent implements OnInit {
   // Edit Vehicle
   onEditVehicle(event) {
     this._entityVehicle = event;
+    console.log(this._entityVehicle);
+
     this.vehicleService.Put(this._entityVehicle).subscribe(
       (response: any) => {
         if (response.status === 0) {
@@ -154,6 +172,6 @@ export class VehicleComponent implements OnInit {
     );
   }
 
- 
+
 
 }

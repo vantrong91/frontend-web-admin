@@ -8,4 +8,5 @@ export interface IVehicleService {
     Create(entity: VehicleViewModel): Observable<any>;
     Put(entity: VehicleViewModel): Observable<any>;
     Delete(vehicleId: number): Observable<any>;
+    GetListVehicleType(entity: SearchModel): Observable<any>;
 }

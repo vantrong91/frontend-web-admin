@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { VehicleViewModel, DataService } from '../../../../core';
+import { VehicleViewModel, DataService, IVehicleServiceToken, IVehicleService, SearchModel, CategoryViewModel } from '../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
@@ -14,15 +14,14 @@ import { FileUploader } from 'ng2-file-upload';
 })
 export class VehiclepopupComponent implements OnInit {
   _entity: VehicleViewModel;
+  searchObject: SearchModel;
   snackbar: any;
   isAdd = false;
   oldAttachPro: any;
   oldvehicleCode: any;
   oldownerId: any;
   uri = 'http://ngx-uploader.com/upload';
-  imgUrl = '';
-  ulrImgFull = '';
-  imgName = '';
+  lstCategory: [];
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
@@ -38,10 +37,6 @@ export class VehiclepopupComponent implements OnInit {
 
   public addEditForm: FormGroup;
 
-  // get route(): FormArray {
-  //   return <FormArray>this.addEditForm.get('route');
-  // }
-
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
     if (vehiclepopup.vehicleId !== 0) {
@@ -55,27 +50,23 @@ export class VehiclepopupComponent implements OnInit {
       this.oldvehicleCode = this._entity.vehicleCode;
       this.oldownerId = this._entity.ownerId;
       if (vehiclepopup.vehicleCode === null || vehiclepopup.vehicleCode === undefined) {
-        this.addEditForm.controls['vehicleCode'].enable();
         this.addEditForm.controls['ownerId'].enable();
 
       } else {
-        this.addEditForm.controls['vehicleCode'].disable();
         this.addEditForm.controls['ownerId'].disable();
       }
     } else {
       this.isAdd = true;
       this._entity = new VehicleViewModel();
       this.addEditForm.reset();
-      // this.addRoute();
     }
   };
-  @Input() noneShow: boolean;
   @Output() closeModalEvent = new EventEmitter<any>();
   @Output() vehicleViewModelChange = new EventEmitter<VehicleViewModel>();
 
   constructor(private formBuilder: FormBuilder,
     private dataService: DataService,
-    private modalServices: NgbModal) {
+    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
     this.addEditForm = this.formBuilder.group({
       vehicleId: '',
       ownerId: '',
@@ -84,7 +75,7 @@ export class VehiclepopupComponent implements OnInit {
       // route: this.formBuilder.array([]),
       vehicleType: ['', Validators.required],
       licencePlate: ['', [Validators.required]],
-      weight: [, [Validators.required]],
+      weight: '',
       licence: ['', [Validators.required]],
       licenceIssueDate: ['', [Validators.required]],
       licenceIssueBy: ['-1', [Validators.required]],
@@ -112,28 +103,18 @@ export class VehiclepopupComponent implements OnInit {
       driverName: '',
     });
     this.uploaderDKYXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentDKYXE.push(JSON.parse(response));
     };
     this.uploaderDKIEMXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentDKIEMXE.push(JSON.parse(response));
     };
     this.uploaderBHDSXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentBHDS.push(JSON.parse(response));
     };
     this.uploaderBHHHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentBHHH.push(JSON.parse(response));
     };
     this.uploaderGXNTBGS.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      //this.attachmentGSHT.push(JSON.parse(response));
     };
   }
 
   ngOnInit() {
-    if (this.noneShow) {
-      this.addEditForm.disable();
-    } else {
-      this.addEditForm.enable();
-    }
   }
 
   selectFile(code: string) {
@@ -166,10 +147,6 @@ export class VehiclepopupComponent implements OnInit {
     this.uploaderGXNTBGS.queue.forEach(e => this.addEditForm.controls.attachProperties.value.GXNTBGS.push(e.file.name));
   }
 
-  getUrlImg(folder: string) {
-    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
-    return this.imgUrl;
-  }
   onSave(event) {
     if (this.isAdd) {
       this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
@@ -190,6 +167,22 @@ export class VehiclepopupComponent implements OnInit {
 
   }
 
+  ChangingValue(event){
+    
+    this.searchObject = new SearchModel();
+    this.searchObject.searchParam = event.target.value;
+    this.vehicleService.GetListVehicleType(this.searchObject).subscribe(
+      (response:any) => {
+        if(response.status === 0){
+          this.lstCategory = response.data;
+
+        }
+        console.log(this.lstCategory);
+      }
+    )
+    console.log(event.target.value);
+  }
+
   uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
     for (let i = 0; i < data.length; i++) {
@@ -202,13 +195,6 @@ export class VehiclepopupComponent implements OnInit {
     }
   }
 
-  // addRoute() {
-  //   this.route.push(new FormControl());
-  // }
-  // subRoute(i) {
-  //   this.route.removeAt(i);
-  // }
-
   convert() {
     this._entity.licenceIssueDate = new Date(this._entity.licenceIssueDate).getTime();
     this._entity.registrationIssueDate = new Date(this._entity.registrationIssueDate).getTime();
@@ -219,12 +205,5 @@ export class VehiclepopupComponent implements OnInit {
     this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
     this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
     this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
-  }
-
-  openImg(ele, imgUrl, fileName) {
-    this.ulrImgFull = imgUrl + fileName;
-    this.imgName = fileName;
-    this.modalServices
-      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
   }
 }

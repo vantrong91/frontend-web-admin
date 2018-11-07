@@ -25,4 +25,7 @@ export class VehicleService{
     Delete(vehicleId: number): Observable<any>{
         return this.dataService.Post(`${this.URL_API_VEHICLE}/delete`, {vehicleId: vehicleId});
     }
+    GetListVehicleType(entity: SearchModel): Observable<any>{
+        return this.dataService.Post(`${this.URL_API_VEHICLE}/get-vehicle-type`, entity);
+    }
 }
