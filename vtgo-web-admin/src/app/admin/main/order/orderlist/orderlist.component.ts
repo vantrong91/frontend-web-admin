@@ -19,12 +19,17 @@ import { OrderCompleteModel } from 'src/app/core/models/ordercomplete.mode';
   styleUrls: ['./orderlist.component.scss']
 })
 export class OrderListComponent implements OnInit, AfterViewChecked {
-  imgUrl = '';
   orderState = 0;
   toShow = 5;
   searchObject: SearchModel;
   orderComplete: OrderCompleteModel;
   listOrder: any;
+
+  imgUrl = '';
+  ulrImgFull = '';
+  imgName = '';
+
+
 
   @ViewChild('orderTable') _orderTable: DatatableComponent;
   toggleExpandRow(row) {
@@ -54,9 +59,17 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     this._orderTable.recalculate();
   }
+
   getUrlImg(folder: string) {
     this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
     return this.imgUrl;
+  }
+
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalService
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
   }
 
   changeShow(el) {

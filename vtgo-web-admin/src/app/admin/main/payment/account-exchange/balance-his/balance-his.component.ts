@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output,ViewChild } from '@angular/core';
 import { AccountManViewModel } from 'src/app/core/models/accountMan.model';
 import { SearchModel, DataService, BalanceModel } from 'src/app/core';
 import { FormBuilder } from '@angular/forms';
@@ -12,12 +12,16 @@ import { ToastrService } from 'ngx-toastr';
     styleUrls: ['./balance-his.component.scss']
 })
 export class BalanceHisComponent implements OnInit {
+    @ViewChild('myTable') table: any;
+    searchObject: SearchModel;
+    expanded: any = {};
 
     balanceHisId: AccountManViewModel;
     searchParam: SearchModel;
     balanceList: BalanceHisModel;
     _entityBalance: BalanceModel;
 
+    toShow =5;
 
     @Input() set accountManModel(accountManModel: AccountManViewModel) {
         this.balanceHisId = accountManModel;
@@ -35,12 +39,20 @@ export class BalanceHisComponent implements OnInit {
         this.search();
     }
 
+    changeShow(el) {
+        if (el != 0)
+          this.toShow = el;
+        else
+          this.toShow = undefined;
+      }
     search() {
         this.dataService.Post('balance-his/get-by-acc-id', this.balanceHisId).subscribe(
             response => {
+                console.log(response.data);
+                
                 if (response.status === 0) {                    
                     if (response.data == "") {
-                        this.toastr.error("Mã tài khoản không tồn tại","Cảnh báo");
+                        this.toastr.error("Không tìm thấy lịch sử của tài khoản","Thông báo");
                         this.closeForm.emit();
                     } else {
                         this.balanceList = response.data;
@@ -57,5 +69,7 @@ export class BalanceHisComponent implements OnInit {
 
     }
 
-
+    toggleExpandRow(row) {
+        this.table.rowDetail.toggleExpandRow(row);
+      }
 }

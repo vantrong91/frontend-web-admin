@@ -1,38 +1,130 @@
-<!-- <div class="container">
-    <div class="row" *ngFor="let item of balanceList">
-        <div class="col-6" [ngStyle]="{'font-weight': 'bold'}"> Mã lịch sử giao dịch: {{item.hisId}} </div>
-        <div class="col-6">Mã tài khoản giao dịch: {{item.accountId}} </div>
-        <div class="col-6">Loại giao dịch: {{item.hisType}} </div>
-        <div class="col-6">Nội dung giao dịch: {{item.hisContent}} </div>
-        <div class="col-6">Địa chỉ giao dịch: {{item.ip}} </div>
-        <div class="col-6">Trước giao dịch: {{item.balanceBefor}} </div>
-        <div class="col-6">Sau giao dịch: {{item.balanceAfter}} </div>
-        <div class="col-6">Số tiền giao dịch: {{item.amount}} </div>
-        <div class="col-6">Thời gian giao dịch: {{item.time | date}} </div>
-        <div class="col-12"><hr></div>
+<div class="row mt-2" [ngClass]="'d-block'">
+  <div class="col">
+    <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]='balanceList' [sorts]="[{prop: 'hisId', dir: 'desc'}]" [limit]="toShow">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div class="container">
+              <u><i>THÔNG TIN CHI TIẾT</i></u>
+              <table class="table table-bordered">
+                <tbody>
+                  <tr class="row">
+                    <div class="col-sm-2">Mã tài khoản:</div>
+                    <div class="col sm-7">{{row.accountId}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Thời gian:</div>
+                    <div class="col sm-7">{{row.time|date:'hh:mm:ss - dd/MM/yyyy'}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Địa chỉ IP:</div>
+                    <div class="col sm-7">{{row.iP}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Loại giao dịch:</div>
+                    <div class="col sm-7">{{row.hisType}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Nội dung:</div>
+                    <div class="col sm-7">{{row.hisContent}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Trước giao dịch:</div>
+                    <div class="col sm-7">{{row.balanceBefor|currency:'':'':'0.0'}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Sau giao dịch:</div>
+                    <div class="col sm-7">{{row.balanceAfter|currency:'':'':'0.0'}}</div>
+                  </tr>
+                  <tr class="row">
+                    <div class="col-sm-2">Thay đổi:</div>
+                    <div class="col sm-7">{{row.amount|currency:'':'':'0.0'}}</div>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+      <!-- Column Templates -->
+      <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="default">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <span>{{rowIndex+1}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="hisId" [width]="120">
+        <ng-template ngx-datatable-header-template>
+          <span>
+            <strong>Mã G.Dịch</strong>
+          </span>
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a class="link" (click)="toggleExpandRow(row)">{{value}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Thời gian</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <a class="link" (click)="toggleExpandRow(row)">{{row.time|date:'hh:mm:ss dd/MM/yyyy'}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="200">
+        <ng-template ngx-datatable-header-template>
+          <span>Nội dung</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <a class="link" (click)="toggleExpandRow(row)">{{row.hisContent}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Thay đổi</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <a class="link" [className]="row.amount>=0?'text-success link':'text-danger link'" (click)="toggleExpandRow(row)">{{row.amount>0?'+':''}}{{row.amount|currency:'':'':'0.0'}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span>Số dư</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <a class="link" (click)="toggleExpandRow(row)">{{row.balanceBefor|currency:'':'':'0.0'}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-2 offset-sm-10">
+    <div class="col text-right">
+      <div ngbDropdown placement="top-right" class="d-inline-block btn-block">
+        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
+          {{toShow==undefined?'Tất cả':toShow}}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>
+          <button class="dropdown-item" (click)="changeShow(10)"><span class="mdi mdi-eye"></span> 10</button>
+          <button class="dropdown-item" (click)="changeShow(20)"><span class="mdi mdi-eye"></span> 20</button>
+          <button class="dropdown-item" (click)="changeShow(50)"><span class="mdi mdi-eye"></span> 50</button>
+          <button class="dropdown-item" (click)="changeShow(0)"><span class="mdi mdi-eye"></span> Tất cả</button>
+        </div>
+      </div>
     </div>
-</div> -->
-<div class="container">
-    <table class="table">
-        <thead>
-          <tr>
-            <th><strong> Mã</strong></th>
-            <th><strong>Ngày</strong></th>
-            <th><strong>Loại giao dịch</strong></th>
-            <th><strong>Địa chỉ</strong></th>
-            <th><strong>Nội dung</strong></th>
-            <th><strong>Số tiền</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of balanceList">
-            <td>{{item.hisId}}</td>
-            <td>{{item.time | date}}</td>
-            <td>{{item.hisType}}</td>
-            <td>{{item.iP}}</td>
-            <td>{{item.hisContent}}</td>
-            <td>{{item.amount}}</td>
-          </tr>
-        </tbody>
-      </table>
+  </div>
 </div>

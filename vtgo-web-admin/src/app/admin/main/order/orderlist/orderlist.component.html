@@ -146,10 +146,10 @@
                               </thead>
                               <tbody>
                                 <tr *ngFor="let el of row.lstProduct">
-                                  <td>{{el.Name}}</td>
-                                  <td>{{el.Volumn}} (kg)</td>
-                                  <td>{{el.Quantity}}</td>
-                                  <td>{{el.Package}}</td>
+                                  <td>{{el.name}}</td>
+                                  <td>{{el.volumn}} (kg)</td>
+                                  <td>{{el.quantity}}</td>
+                                  <td>{{el.package}}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -208,9 +208,9 @@
                             </thead>
                             <tbody>
                               <tr *ngFor="let el of row.lstOrderHis">
-                                <td>{{el.UpdateTime| date:'hh:mm:ss a dd/MM/yyyy'}}</td>
-                                <td>{{el.Content}}</td>
-                                <td>{{el.Type}}</td>
+                                <td>{{el.updateTime| date:'hh:mm:ss a dd/MM/yyyy'}}</td>
+                                <td>{{el.content}}</td>
+                                <td>{{el.type}}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -289,14 +289,12 @@
                     <td>
                       <div class="container">
                         <div class="row">7. Hình ảnh: </div>
-                        <div class="row imgArea">
+                        <div class="row imgView">
                           <ng-container *ngFor="let el of row.productImgLst">
-                            <div class="col-3 imgView">
-                              <a [href]="getUrlImg('IMAGE-ORDER')+ el" target="_blank" rel="noopener noreferrer">
-                                <img [src]="getUrlImg('IMAGE-ORDER')+ el" alt="">
-                                <br>
-                                {{el}}
-                              </a>
+                            <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('IMAGE-ORDER'),el)">
+                              <img [src]="getUrlImg('IMAGE-ORDER') +el" alt="" />
+                              <br>
+                              <div class="text-center img-name">{{el}}</div>
                             </div>
                           </ng-container>
                         </div>
@@ -308,7 +306,6 @@
                       <br>
                       <p>Trạng thái:<strong> {{getState(row.state)}} </strong></p>
                       <div>
-
                         &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-secondary" (click)="toggleExpandRow(row)">Đóng</button>
                       </div>
                     </td>
@@ -361,16 +358,7 @@
           {{row.weight}}
         </ng-template>
       </ngx-datatable-column>
-      <!-- <ngx-datatable-column [maxWidth]="100">
-        <ng-template ngx-datatable-header-template>
-          <span>
-            <strong>Xe yêu cầu</strong>
-          </span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.typeCar}}
-        </ng-template>
-      </ngx-datatable-column> -->
+   
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
           <span class="tbl-header">
@@ -418,3 +406,19 @@
     </ngx-datatable>
   </div>
 </div>
+
+
+<ng-template #imgView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>

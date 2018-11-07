@@ -2,6 +2,8 @@
   <ngb-tabset>
     <ngb-tab title="Thông Tin Công ty kinh doanh vận tải">
       <ng-template ngbTabContent>
+        <button class="btn btn-danger" (click) = "initData()">Click</button>
+        <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="22">Save</button>
         <input type="text" hidden id="AccountId">
         <div class="form-group row my-3">
           <label for="fullName" class="col-sm-2 col-form-label text-md-right">Tên công ty<span

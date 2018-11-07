@@ -37,7 +37,7 @@
           </div>
           <label for="" class="col-sm-2 col-form-label text-md-right">Phí rút tiền</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [value]="fee==null?'0':fee" placeholder="Phí rút tiền" tabindex="6"/>
+            <input type="text" class="form-control" [value]="fee==null?'0':fee" placeholder="Phí rút tiền" tabindex="6" />
           </div>
         </div>
         <div class="form-group row my-3" *ngIf="isShow">
@@ -60,18 +60,18 @@
       <ng-template ngbTabContent>
         <input type="text" id="accountid" hidden>
         <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Mã người dùng</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Mã tài khoản:</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1"
               readonly="readonly" />
           </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng:</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2"
               readonly="readonly" />
           </div>
         </div>
-        <div class="form-group row my-3">
+        <div class="form-group row my-3 d-none">
           <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản ngân hàng</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" formControlName="acctNumber"
@@ -79,7 +79,6 @@
           </div>
           <label for="" class="col-sm-2 col-form-label text-md-right">Thuộc ngân hàng</label>
           <div class="col-sm-4">
-            <!-- <input type="text" class="form-control" placeholder="Tên ngân hàng" tabindex="4" /> -->
             <select class="form-control" (change)="bankChanged($event)">
               <option>Chọn ngân hàng</option>
               <option *ngFor="let i of listBank" [value]="i.transferId">{{i.bankName}} --- {{i.fee}}VNĐ</option>
@@ -87,23 +86,23 @@
           </div>
         </div>
         <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền muốn nộp</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền muốn nộp:</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" placeholder="Số tiền nộp" tabindex="5" formControlName="transferAmount" />
           </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Phí nộp tiền</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Phí nộp tiền:</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" [value]="fee==null?'':fee" placeholder="Phí nộp tiền" tabindex="6"
-              required />
+              required disabled readonly />
           </div>
         </div>
-        <div class="form-group row my-3" *ngIf="isShow">
+        <div class="form-group row my-3 d-none" *ngIf="isShow">
           <label for="" class="col-sm-2 col-form-label text-md-right">Mã xác thực</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" placeholder="Mã xác thực" tabindex="7" formControlName="code" />
           </div>
         </div>
-        <div class="form-group row my-3">
+        <div class="form-group row my-3 d-none">
           <div class="col-sm-4"> </div>
           <div class="col-sm-4">
             <a class="btn btn-success btn-block" href="https://www.vietcombank.com.vn/IBanking2015/55c3c0a782b739e063efa9d5985e2ab4/Account/Login"
@@ -117,6 +116,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-success" (click)="withdrawal()" *ngIf="isWithdrawal" [disabled]="!reconfirmForm.valid">Rút
       tiền</button>
-    <button type="button" class="btn btn-success" (click)="payment()" *ngIf="!isWithdrawal" [disabled]="!reconfirmForm.valid">Nộp tiền</button>
+    <button type="button" class="btn btn-success" (click)="payment()" *ngIf="!isWithdrawal">Nộp tiền</button>
   </div>
 </form>

@@ -38,6 +38,7 @@ a.link {
     &:hover,
     &:focus {
         color: $themecolor;
+        cursor: pointer;
     }
 }
 

@@ -22,10 +22,9 @@ export class CompanyComponent implements OnInit {
   /* Public Variables */
   @Input()
   set companyViewModel(company: CompanyViewModel) {
-    if (company !== null) {
+    if (company.accountId != 0) {
       this._entity = new CompanyViewModel();
       this._entity = company;
-      console.log(this._entity);
       if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
         const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
           return this.formBuilder.group(bankAccount);
@@ -49,6 +48,7 @@ export class CompanyComponent implements OnInit {
       }
       this.addEditForm.reset(company);
     } else {
+      // console.log(this.obj());
       this.addEditForm.reset();
     }
   }
@@ -102,12 +102,25 @@ export class CompanyComponent implements OnInit {
   }
 
   onSave(event) {
-    event.preventDefault();
-    if (this.addEditForm.valid) {
+    // event.preventDefault();
+    console.log(this.addEditForm.valid);
+
+    // if (this.addEditForm.valid) {
       this._entity = this.addEditForm.value;
+      this.convert();
       console.log(this._entity);
       this.personViewModelChange.emit(this._entity);
-    }
+    // }
+  }
+
+  convert(){
+    console.log(this._entity.businessLicenseIssueDate);
+    this._entity.businessLicenseIssueDate = new Date(this._entity.businessLicenseIssueDate.month+'/'+this._entity.businessLicenseIssueDate.day+'/'+this._entity.businessLicenseIssueDate.year).getTime();
+    this._entity.moderatorLicenseIssueDate = new Date(this._entity.moderatorLicenseIssueDate.month+'/'+this._entity.moderatorLicenseIssueDate.day+'/'+this._entity.moderatorLicenseIssueDate.year).getTime();
+    this._entity.moderatorLicenseExpDate = new Date(this._entity.moderatorLicenseExpDate.month+'/'+this._entity.moderatorLicenseExpDate.day+'/'+this._entity.moderatorLicenseExpDate.year).getTime();
+    this._entity.businessTransportLicenseIssueDate = new Date(this._entity.businessTransportLicenseIssueDate.month+'/'+this._entity.businessTransportLicenseIssueDate.day+'/'+this._entity.businessTransportLicenseIssueDate.year).getTime();
+    this._entity.businessTransportLicenseExpDate = new Date(this._entity.businessTransportLicenseExpDate.month+'/'+this._entity.businessTransportLicenseExpDate.day+'/'+this._entity.businessTransportLicenseExpDate.year).getTime();
+    // // // // this._entity.issueDate = new Date(this._entity.issueDate.month+'/'+this._entity.issueDate.day+'/'+this._entity.issueDate.year).getTime();    
   }
 
   checkDisabled() {
@@ -208,4 +221,102 @@ export class CompanyComponent implements OnInit {
   }
   onbusinessLicenseIssueDateSelect(event) { }
 
+
+  initData() {
+
+    this.addEditForm.reset(this.obj());
+  }
+
+  obj() {
+    return JSON.parse(`
+      {
+        "fullName": "NameCompanyVV",
+        "director": "tengiamdoc",
+        "taxCode": "123456",
+        "contactPhone": "07799999777",
+        "email": "doanhnghiep12@gmail.com",
+        "fax": "012344777",
+        "website": "webcompany.vn",
+        "contactPerson": "tennguoilienhe",
+        "contactPersonPhone": "sdtlenhe",
+        "contactPersonEmail": "emaillienhe",
+        "businessLicense": "sogiayphepKDVT",
+        "businessLicenseIssueDate": {
+            "year": 2018,
+            "month": 6,
+            "day": 4
+        },
+        "businessLicenseIssueBy": "noicap",
+        "moderator": "tennguoidieuhanh",
+        "moderatorLicense": "sogiayphepdieuhanh",
+        "moderatorLicenseIssueDate": {
+            "year": 2018,
+            "month": 6,
+            "day": 4
+        },
+        "moderatorLicenseExpDate": {
+            "year": 2018,
+            "month": 6,
+            "day": 4
+        },
+        "companyPhone": "0777797777",
+        "businessTransportLicense": "12333",
+        "businessTransportLicenseIssueDate": {
+            "year": 2018,
+            "month": 6,
+            "day": 4
+        },
+        "businessTransportLicenseExpDate": {
+          "year": 2011,
+          "month": 1,
+          "day": 1
+      },
+        "nationality": null,
+        "licenseNo": null,
+        "issueDate": 0,
+        "issueBy": null,
+        "gender": 0,
+        "ethnic": null,
+        "vehicleOwnerType": 0,
+        "contactAddress": {
+            "country": "VN",
+            "province": "NA",
+            "wards": "HD",
+            "street": "sonhaduongCty",
+            "district": "ND"
+        },
+        "address": {
+            "country": "VN",
+            "householdNo": "sonhaduogCty",
+            "province": "NA",
+            "wards": "HD",
+            "district": "ND"
+        },
+        "attachProperties": {
+            "DKKD": ["testavata.jpg", "tesss.jpg"],
+            "GPKDVT": ["tesss2.jpg"],
+            "DAUCT": ["tesss.jpg"],
+            "GPDHVT": ["1538560824-458-13-1538556895-width650height458.png"]
+        },
+        "bankAccountLst": [{
+            "accountId": null,
+            "bankCode": "AAA",
+            "accountNumber": "177777777337",
+            "branch": "NA",
+            "ownerName": "van2"
+        }, {
+            "accountId": null,
+            "bankCode": "",
+            "accountNumber": "111112233422444",
+            "branch": "",
+            "ownerName": "Van3"
+        }, {
+            "accountId": null,
+            "bankCode": "CS",
+            "accountNumber": "2022222222331",
+            "branch": "NA",
+            "ownerName": "van1"
+        }]
+    }`);
+  }
 }

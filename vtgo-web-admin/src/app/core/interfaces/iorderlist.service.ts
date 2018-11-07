@@ -8,4 +8,5 @@ export interface IOrderListService {
     Complete(entity: OrderCompleteModel): Observable<any>;
     GetComplete(entity: OrderCompleteModel): Observable<any>;
     // GetOwnerById(accountId: number): Observable<any>;
+    GetQuotationByOrderId(search: SearchModel):Observable<any>;
 }

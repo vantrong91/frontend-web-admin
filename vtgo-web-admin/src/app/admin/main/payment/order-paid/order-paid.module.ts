@@ -13,17 +13,19 @@ import {
   OrderListService,
   IOrderListServiceToken
 } from '../../../../core';
+import { NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
+    NgxSpinnerModule,
     FormsModule,
     OrderPaidRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     NgbTabsetModule,
-    SharedModule.forRoot(),
+    SharedModule.forRoot()
   ],
   declarations: [
     OrderPaidComponent

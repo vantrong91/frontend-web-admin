@@ -32,6 +32,8 @@ export * from './models/compare-validator';
 export * from './models/accountMan.model';
 export * from './models/category.model';
 export * from './models/policy.model';
+export * from './models/transaction.model';
+export * from './models/balanceHis.model';
 // Export Service
 export * from './services/authen.service';
 export * from './services/config.service';
@@ -46,6 +48,7 @@ export * from './services/balance.service';
 export * from './services/account.service';
 export * from './services/category.service';
 export * from './services/policy.service';
+export * from './services/ip.service';
 // Export Token
 export * from './tokens/authen.service.token';
 export * from './tokens/data.service.token';

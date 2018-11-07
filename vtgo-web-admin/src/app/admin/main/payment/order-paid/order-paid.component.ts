@@ -3,43 +3,66 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import {
   SearchModel,
-
+  TransactionModel,
+  BalanceHisModel,
+  IpService,
   IOrderListService,
   IOrderListServiceToken,
-
+  IQuotationService,
+  IQuotationServiceToken,
   IHelperService,
-  IHelperServiceToken
+  IHelperServiceToken,
+  DataService
 } from '../../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { OrderCompleteModel } from 'src/app/core/models/ordercomplete.mode';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order-paid',
   templateUrl: './order-paid.component.html',
-  styleUrls: ['./order-paid.component.scss']
+  styleUrls: ['./order-paid.component.scss'],
+  providers: [IpService]
 })
 export class OrderPaidComponent implements OnInit, AfterViewChecked {
   orderState = 0;
-  paid: number;
+  paid: 0;
   message = "Thanh toán đơn hàng";
   paidValid = true;
-  orderId = 0;
+  orderId = '';
   toShow = 5;
   searchObject: SearchModel;
   orderComplete: OrderCompleteModel;
   listOrder: any;
+
+  quotation: any;
+  accountIdGoodOwner = 0;
+  goodOwnerName = '';
+  currentBalanceGoodOwner = 0;
+  //balanceHis
+  balanceHis: BalanceHisModel;
+  ip: any;
 
   @ViewChild('orderTable') _orderTable: DatatableComponent;
 
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private dataService: DataService,
+    private ipService: IpService,
+    private spinner: NgxSpinnerService,
     @Inject(IOrderListServiceToken) private orderListService: IOrderListService,
     @Inject(IHelperServiceToken) private helperService: IHelperService
   ) { }
 
   ngOnInit() {
     this.initData();
+
+    this.ipService.getIp().subscribe(data => {
+      this.ip = data;
+      // console.log(data);
+
+    })
   }
 
   initData(): any {
@@ -51,40 +74,183 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this._orderTable.recalculate();
   }
 
-  openSm(del, id) {
+  openSm(del, id, idGoodOwner) {
     this.orderId = id;
-    this.modalService.open(del).result
-      .then(result => {
-        this.orderComplete = new OrderCompleteModel();
-        this.orderComplete.message = this.message;
-        this.orderComplete.orderId = id;
-        this.orderComplete.paid = this.paid;
+    this.getGoodOwner(idGoodOwner);
 
-        this.orderListService.Complete(this.orderComplete).subscribe(
-          response => {
-            console.log(response);
-            if (response.status === 0) {
-              this.toastr.success("Đơn hàng: " + id, "Xác nhận thanh toán thành công!", {
-                closeButton: true,
-                tapToDismiss: true
-              });
-              this.search(this.searchObject);
-            }
-            else {
-              this.toastr.error("Đã xảy ra lỗi !", "Thông báo...", {
-                closeButton: true,
-                disableTimeOut: true,
-                tapToDismiss: true
-              });
-            }
-          }
-        );
+    this.getPriceFromQuotation(this.orderId, del, id);
 
-      },
-        reason => {
-          // alert("No");
-        });
   }
+
+  getPriceFromQuotation(orderId: string, del: any, id: any) {
+    this.paid = 0;
+    let searhQuo = new SearchModel();
+    searhQuo.searchParam = orderId;
+    this.orderListService.GetQuotationByOrderId(searhQuo).subscribe(
+      response => {
+        if (response.data.length != 0) {
+          this.quotation = response.data;
+          this.paid = this.quotation[0].price;
+          //check before Paid 
+          this.paid < this.currentBalanceGoodOwner ? this.paidValid = true : this.paidValid = false;
+
+          this.modalService.open(del).result
+            .then(
+              //Confirm click
+              result => {
+                this.spinner.show();
+                this.orderComplete = new OrderCompleteModel();
+                this.orderComplete.message = this.message;
+                this.orderComplete.orderId = id;
+                this.orderComplete.paid = this.paid;
+                if (this.paidValid) {
+                  this.orderListService.Complete(this.orderComplete).subscribe(
+                    response => {
+                      if (response.status === 0) {
+                        this.deductGoodOwner(this.paid);
+                      }
+                      else {
+                        this.spinner.hide();
+                        this.toastr.error("Đã xảy ra lỗi !", "Thông báo...", {
+                          closeButton: true,
+                          disableTimeOut: true,
+                          tapToDismiss: true
+                        });
+                      }
+                    }
+                  );
+                } else {
+                  this.spinner.hide();
+                  this.toastr.warning('Tài khoản chủ hàng không đủ.', 'Thông báo', {
+                    disableTimeOut: true,
+                    tapToDismiss: true
+                  });
+                }
+
+              },
+              //cancel click
+              reason => {
+                // alert("No");
+              });
+        } else {
+          this.toastr.error('Đơn hàng không có báo giá.', 'Lỗi dữ liệu');
+        }
+      },
+      error => { }
+    );
+  }
+
+  getGoodOwner(goodOwnerId) {
+    this.dataService.Post('balance/get-by-id', '{"accountId":"' + goodOwnerId + '"}').subscribe(
+      response => {
+        if (response.data != null) {
+
+          if (response.data.length != 0 && response.data[0].balance[1].Gross != null && response.data[0].balance[1].Consume) {
+            this.accountIdGoodOwner = goodOwnerId;
+            this.currentBalanceGoodOwner = response.data[0].balance[1].Gross - response.data[0].balance[1].Consume
+          }
+          else
+            this.currentBalanceGoodOwner = 0;
+        } else {
+          this.toastr.error('Không thể tìm thấy tài khoản chủ hàng.', 'Thông báo lỗi');
+        }
+      }
+    );
+
+    this.dataService.Post('good-owner/get-by-id', '{"accountId":"' + goodOwnerId + '"}').subscribe(
+      response => {
+        this.goodOwnerName = response.data[0].fullName;
+      });
+  }
+
+  //trừ tiền G-O
+
+  deductGoodOwner(money) {
+    let transGoodOwner = new TransactionModel();
+    transGoodOwner.accountId = this.accountIdGoodOwner;
+    transGoodOwner.change = -money;
+    transGoodOwner.balType = 1;
+
+    this.dataService.Post('balance/transaction', transGoodOwner).subscribe(
+      response => {
+        if (response.status === 0) {
+          console.log("Chủ hàng: " + (-money));
+          this.payToAdmin(money);
+        } else {
+          this.spinner.hide();
+          this.toastr.error('Lỗi khi thanh toán tiền chủ hàng.', 'Thông báo', {
+            disableTimeOut: true
+          });
+        }
+      }
+    );
+  }
+  //Cộng tiền cho Admin
+  payToAdmin(money) {
+    let transAdmin = new TransactionModel();
+    transAdmin.accountId = 1;
+    transAdmin.balType = 1;
+    transAdmin.change = money;
+
+    this.dataService.Post('balance/transaction', transAdmin).subscribe(
+      response => {
+        if (response.status === 0) {
+          console.log("Admin: +" + money);
+          //Thêm lịch sử Goodowner
+          this.addBalanceHis(
+            this.accountIdGoodOwner, -money,
+            'Thanh toán đơn hàng ' + this.orderComplete.orderId,
+            this.currentBalanceGoodOwner,
+            this.currentBalanceGoodOwner - money,
+            this.ip.ip);
+          //admin: accountID = 1
+          this.addBalanceHis(1, +money, 'Thanh toán đơn hàng ' + this.orderComplete.orderId, 0, 0, this.ip.ip)
+          this.spinner.hide();
+          this.toastr.success("Xác nhận thanh toán thành công!", "Thông báo", {
+            closeButton: true,
+            tapToDismiss: true
+          });
+          this.search(this.searchObject);
+        } else {
+          //roolback GoodOwner;
+          this.dataService.Post('balance/transaction', transAdmin).subscribe(
+            response => {
+              if (response.status === 0) {
+                this.spinner.hide();
+                console.log("Rollback Chủ hàng: +" + (money));
+                this.payToAdmin(money);
+              }
+            });
+          this.spinner.hide();
+          this.toastr.error('Lỗi khi thanh toán vào tài khoản VTOGO', 'Thông báo', {
+            disableTimeOut: true
+          });
+        }
+      }
+    );
+  }
+  //Add history balance 
+  addBalanceHis(accountId, money: number, content: string, before: number, after: number, ip) {
+    const temp = new Date();
+    this.balanceHis = new BalanceHisModel;
+    this.balanceHis.accountId = accountId
+    this.balanceHis.hisType = "UPDATE_BALANCE";
+    this.balanceHis.hisContent = content;
+    this.balanceHis.iP = ip;
+    this.balanceHis.balanceAfter = after;
+    this.balanceHis.balanceBefor = before;
+    this.balanceHis.amount = money;
+    this.balanceHis.time = temp.getTime();
+
+    this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
+      response => {
+        if (response.status === 0) {
+          // console.log(accountId + 'Đã thêm lịch sử thành công!');
+        }
+      }
+    );
+  }
+
   changeShow(el) {
     if (el != 0)
       this.toShow = el;
@@ -101,7 +267,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.orderListService.Get(searchModel).subscribe(
       (response: any) => {
         this.listOrder = response.data;
-        // console.log(this.listOrder);
       },
       error => console.log(error)
     );
@@ -115,7 +280,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
       this.paidValid = false;
     else
       this.paidValid = true;
-    console.log(this.paidValid);
   }
 
   getComplete(state: number) {

@@ -34,6 +34,9 @@ export class ExchangeComponent implements OnInit {
   isShow = false;
   isWithdrawal = true;
   ip: any = {};
+
+  messageToPayment='Nộp tiền vào tài khoản tại VTGO';
+
   public reconfirmForm: FormGroup;
   temp: any;
 
@@ -169,7 +172,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   payment() {
-    this.closeForm.emit();
+    
     this.transaction = new TransactionModel;
     const num1 = parseInt(this.reconfirmForm.value.transferAmount);
     const num2 = parseInt(this.fee);
@@ -180,7 +183,7 @@ export class ExchangeComponent implements OnInit {
 
       response => {
         if (response.status === 0) {
-          this.toastr.success('Đã cộng tiền thành công', 'Thông báo');
+          this.toastr.success('Nộp tiền thành công', 'Thông báo');
           this.addBalanceHisPayment();
         }
         else {
@@ -188,7 +191,7 @@ export class ExchangeComponent implements OnInit {
         }
       }
     );
-
+    this.closeForm.emit();
   }
 
   changeShow() {

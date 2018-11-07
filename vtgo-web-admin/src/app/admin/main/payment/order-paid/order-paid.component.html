@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-sm-4 my-auto">
     <input type="text" class="form-control text-input" placeholder="Tìm kiếm" (keyup)='txtSearch($event)' />
   </div>
@@ -18,16 +17,15 @@
               Tất cả đơn hàng
             </span>
           </span></button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button class="dropdown-item" (click)="changeState(0)">Tất cả đơn hàng</button>
           <button class="dropdown-item" (click)="changeState(1)">Đơn hàng đã thanh toán</button>
-          <!-- <button class="dropdown-item" (click)="changeState(2)">Đơn hàng chưa thanh toán</button> -->
-        </div>
+          <button class="dropdown-item" (click)="changeState(2)">Đơn hàng chưa thanh toán</button>
+        </div> -->
       </div>
     </div>
   </div>
   <div class="col-sm-2 ofsfet-sm-1">
-    <!-- <button class="btn btn-success">Tìm kiếm</button> -->
     <div class="col text-right">
       <div ngbDropdown class="d-inline-block btn-block">
         <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
@@ -134,8 +132,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button *ngIf="row.state==6||row.state==7" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId)"
-            title="Thanh toán">
+          <button *ngIf="row.state==6||row.state==7" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"  title="Thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
@@ -162,17 +159,27 @@
     <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message"></textarea>
     <div class="input-group mb-3">
       <div class="input-group-append">
-        <span class="input-group-text" id="basic-addon2">Số tiền (VNĐ):</span>
+        <span class="input-group-text" id="basic-addon2">Số tiền thanh toán (VNĐ):</span>
       </div>
-      <input type="text" class="form-control" (keypress)="checkTypeNum($event)" (keyup)="checkNum($event)" [(ngModel)]="paid"
-        placeholder="tối đa 100 tỷ" aria-describedby="basic-addon2" title="Số tiền">
+      <!-- <input type="text" class="form-control" (keypress)="checkTypeNum($event)" (keyup)="checkNum($event)" [(ngModel)]="paid"
+        placeholder="tối đa 100 tỷ" aria-describedby="basic-addon2" title="Số tiền"> -->
+      <label class="form-control" placeholder="Error" aria-describedby="basic-addon2" title="Số tiền">{{paid|currency:'':'':'0.0'}}</label>
     </div>
     <div class="input-group mb-3">
-      <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ'}}</small>
+      <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ.'}}{{paidValid?'':' hoặc Số dư không đủ'}}</small>
+    </div>
+    <hr>
+    <div>
+      <i>Thông tin chủ hàng:</i><br>
+      - Mã chủ hàng: {{accountIdGoodOwner}}<br>
+      - Họ tên: {{goodOwnerName}} <br>
+      - Số dư hiện tại: {{currentBalanceGoodOwner|currency:'':'':'0.0'}}
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" (click)="c('Ok click')" [disabled]="!paidValid  ">Thanh toán</button>
+      <small class="text-danger"></small>
+    <button type="button" class="btn btn-outline-success" (click)="paidValid?c('Ok click'):''" [disabled]="!paidValid  ">Thanh toán</button>
     <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy bỏ</button>
   </div>
 </ng-template>
+<ngx-spinner bdColor="rgba(107, 107, 107, 0.54)" size="medium" color="rgb(8, 210, 24)" type="ball-clip-rotate-multiple"></ngx-spinner>
