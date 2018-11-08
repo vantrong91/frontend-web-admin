@@ -11,22 +11,25 @@ export class PersonalViewModel {
   contactPerson: string;
   contactPersonPhone: string;
   contactPersonEmail: string;
-  businessLicense: string;
-  businessLicenseIssueDate: any;
-  businessLicenseIssueBy: string;
-  moderator: string;
-  moderatorLicense: string;
-  moderatorLicenseIssueDate: any;
-  moderatorLicenseExpDate: number;
-  businessTransportLicense: string;
-  businessTransportLicenseIssueDate: number;
-  businessTransportLicenseExpDate: number;
+
   nationality: string;
+  gender: number;
+  ethnic: string;
+ //CMND CCCD 
   licenseNo: string;
   issueDate: any;
   issueBy: string;
-  gender: number;
-  ethnic: string;
+  //GPKDVT
+  businessTransportLicense: string;
+  businessTransportLicenseIssueDate: any;
+  businessTransportLicenseExpDate: any;
+  //GTDHVT
+  moderator: string;
+  moderatorLicense: string;
+  moderatorLicenseIssueDate: any;
+  moderatorLicenseExpDate: any;
+
+  
   vehicleOwnerType: number;
   contactAddress: Map<string, string>;
   address: Map<string, string>;

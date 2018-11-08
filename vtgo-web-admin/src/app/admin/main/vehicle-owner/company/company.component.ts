@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { CompanyViewModel } from '../../../../core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { CompanyViewModel, DataService } from '../../../../core';
+import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
-
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-company',
@@ -13,54 +13,73 @@ import { MyFormatter } from '../../../../core/services/format-date.service';
 })
 export class CompanyComponent implements OnInit {
 
-  fileChoseBusinessLicense = 'Choose file';
-  fileChoseCompanySeal = 'Choose file';
-  fileChoseBusinessTransport = 'Choose file';
-  fileChoseModerator = 'Choose file';
+  //upload Img
+  uploaderDKKD: FileUploader = new FileUploader({ url: '' });
+  uploaderDAUCT: FileUploader = new FileUploader({ url: '' });
+  uploaderGPKDVT: FileUploader = new FileUploader({ url: '' });
+  uploaderGPDHVT: FileUploader = new FileUploader({ url: '' });
+
+  oldAttachPro: any;
+  imgUrl = '';
+  ulrImgFull = '';
+  imgName = '';
+
+  isAdd = true; //isAdd =true => add new; flase => edit
+
   /* Private Vảiables */
   _entity: CompanyViewModel;
   /* Public Variables */
   @Input()
   set companyViewModel(company: CompanyViewModel) {
-    if (company.accountId != 0) {
-      this._entity = new CompanyViewModel();
-      this._entity = company;
-      if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
-        const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
-          return this.formBuilder.group(bankAccount);
-        });
-        const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
-        this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
-      }
-      if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
-        const attachments = Object.keys(company.attachProperties).map(function (index) {
-          const attachment = company.attachProperties[index];
-          return attachment;
-        });
-        company.attachProperties = attachments;
-        if (attachments && attachments.length > 0) {
-          const attachmentGroups = attachments.map(attachment => {
-            return this.formBuilder.group(attachment);
+    if (company != null || company != undefined) {
+      if (company.accountId != 0) {
+        this.isAdd = false;
+        this._entity = new CompanyViewModel();
+        this._entity = company;
+        this.oldAttachPro = this._entity.attachProperties;
+
+        if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
+          const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
+            return this.formBuilder.group(bankAccount);
           });
-          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
-          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+          const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
+          this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
         }
+        if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
+          const attachments = Object.keys(company.attachProperties).map(function (index) {
+            const attachment = company.attachProperties[index];
+            return attachment;
+          });
+          company.attachProperties = attachments;
+          if (attachments && attachments.length > 0) {
+            const attachmentGroups = attachments.map(attachment => {
+              return this.formBuilder.group(attachment);
+            });
+            const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+            this.addEditForm.setControl('attachProperties', attachmenttArrays);
+          }
+        }
+        this.addEditForm.reset(company);
       }
-      this.addEditForm.reset(company);
     } else {
       // console.log(this.obj());
+      //add New
+      this.isAdd = true;
       this.addEditForm.reset();
     }
   }
   @Input() noneShow: boolean;
-  @Output() personViewModelChange = new EventEmitter<CompanyViewModel>();
+  @Output() companyViewModelChange = new EventEmitter<CompanyViewModel>();
+  @Output() closeEvent = new EventEmitter<any>();
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
   // Form Group
   public addEditForm: FormGroup;
   /* Ctor */
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private dataService: DataService,
+    private modalServices: NgbModal,
+    private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl('', [Validators.required]),
@@ -89,7 +108,12 @@ export class CompanyComponent implements OnInit {
       bankAccountLst: new FormArray([this.initBankArray()]),
       address: this.initAddress(),
       contactAddress: this.initContactAddress(),
-      attachProperties: new FormArray([this.initAttachProperties()])
+      attachProperties: this.formBuilder.group({
+        DKKD: new FormArray([]),
+        DAUCT: new FormArray([]),
+        GPKDVT: new FormArray([]),
+        GPDHVT: new FormArray([])
+      }),
     });
   }
 
@@ -102,25 +126,84 @@ export class CompanyComponent implements OnInit {
   }
 
   onSave(event) {
-    // event.preventDefault();
-    console.log(this.addEditForm.valid);
-
-    // if (this.addEditForm.valid) {
-      this._entity = this.addEditForm.value;
-      this.convert();
-      console.log(this._entity);
-      this.personViewModelChange.emit(this._entity);
+    if (this.isAdd) {
+      console.log('add new img');
+      this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
+      this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
+      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+    }
+    else
+      this._entity.attachProperties = this.oldAttachPro;
+    this._entity = this.addEditForm.value;
+    this.convert();
+    this.companyViewModelChange.emit(this._entity);
+    this.closeEvent.emit();
     // }
   }
+  //show img
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+  }
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalServices
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
+  }
 
-  convert(){
-    console.log(this._entity.businessLicenseIssueDate);
-    this._entity.businessLicenseIssueDate = new Date(this._entity.businessLicenseIssueDate.month+'/'+this._entity.businessLicenseIssueDate.day+'/'+this._entity.businessLicenseIssueDate.year).getTime();
-    this._entity.moderatorLicenseIssueDate = new Date(this._entity.moderatorLicenseIssueDate.month+'/'+this._entity.moderatorLicenseIssueDate.day+'/'+this._entity.moderatorLicenseIssueDate.year).getTime();
-    this._entity.moderatorLicenseExpDate = new Date(this._entity.moderatorLicenseExpDate.month+'/'+this._entity.moderatorLicenseExpDate.day+'/'+this._entity.moderatorLicenseExpDate.year).getTime();
-    this._entity.businessTransportLicenseIssueDate = new Date(this._entity.businessTransportLicenseIssueDate.month+'/'+this._entity.businessTransportLicenseIssueDate.day+'/'+this._entity.businessTransportLicenseIssueDate.year).getTime();
-    this._entity.businessTransportLicenseExpDate = new Date(this._entity.businessTransportLicenseExpDate.month+'/'+this._entity.businessTransportLicenseExpDate.day+'/'+this._entity.businessTransportLicenseExpDate.year).getTime();
-    // // // // this._entity.issueDate = new Date(this._entity.issueDate.month+'/'+this._entity.issueDate.day+'/'+this._entity.issueDate.year).getTime();    
+
+  //select+upload file
+  selectFile(code: string) {
+    switch (code) {
+      case 'DKKD':
+        //upload Here!
+        break;
+      case 'DAUCT':
+        break;
+      case 'GPKDVT':
+        break;
+      case 'GPDHVT':
+        break;
+      default:
+        alert("Đã xảy ra lỗi xin vui lòng thử lại!");
+    }
+    // console.log(this.uploader.queue);
+    this.groupImg();
+  }
+
+  groupImg() {
+    this.addEditForm.controls.attachProperties.value.DKKD.length = 0;
+    this.addEditForm.controls.attachProperties.value.DAUCT.length = 0;
+    this.addEditForm.controls.attachProperties.value.GPKDVT.length = 0;
+    this.addEditForm.controls.attachProperties.value.GPDHVT.length = 0;
+    this.uploaderDKKD.queue.forEach(el => this.addEditForm.controls.attachProperties.value.DKKD.push(el.file.name));
+    this.uploaderDAUCT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.DAUCT.push(el.file.name));
+    this.uploaderGPKDVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPKDVT.push(el.file.name));
+    this.uploaderGPDHVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPDHVT.push(el.file.name));
+  }
+  uploadFileToServer(data: Array<any>, type: string) {
+
+    var frmImg = new FormData();
+    for (let i = 0; i < data.length; i++)
+      frmImg.append('files', data[i]._file);
+    this.dataService.postFile('upload/' + type, frmImg).subscribe(
+      response => {
+        console.log(response.data);
+      }
+    );
+  }
+
+
+  convert() {
+    this._entity.email = this._entity.email.toLowerCase();
+    this._entity.contactPersonEmail = this._entity.contactPersonEmail.toLowerCase();
+    this._entity.businessLicenseIssueDate = new Date(this._entity.businessLicenseIssueDate.month + '/' + this._entity.businessLicenseIssueDate.day + '/' + this._entity.businessLicenseIssueDate.year).getTime();
+    this._entity.moderatorLicenseIssueDate = new Date(this._entity.moderatorLicenseIssueDate.month + '/' + this._entity.moderatorLicenseIssueDate.day + '/' + this._entity.moderatorLicenseIssueDate.year).getTime();
+    this._entity.moderatorLicenseExpDate = new Date(this._entity.moderatorLicenseExpDate.month + '/' + this._entity.moderatorLicenseExpDate.day + '/' + this._entity.moderatorLicenseExpDate.year).getTime();
+    this._entity.businessTransportLicenseIssueDate = new Date(this._entity.businessTransportLicenseIssueDate.month + '/' + this._entity.businessTransportLicenseIssueDate.day + '/' + this._entity.businessTransportLicenseIssueDate.year).getTime();
+    this._entity.businessTransportLicenseExpDate = new Date(this._entity.businessTransportLicenseExpDate.month + '/' + this._entity.businessTransportLicenseExpDate.day + '/' + this._entity.businessTransportLicenseExpDate.year).getTime();
   }
 
   checkDisabled() {
@@ -131,13 +214,7 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  initAttachProperties() {
-    return this.formBuilder.group({
-      attachCode: new FormControl(),
-      attachName: new FormControl(),
-      attachPath: new FormControl()
-    });
-  }
+
 
   initBankArray() {
     return this.formBuilder.group({
@@ -168,29 +245,7 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  fileEvent(event) {
-    const getFiles = event.target.files;
-    if (getFiles.length !== null) {
-      if (getFiles.length === 1) {
-        return getFiles[0].name;
-      } else {
-        return 'So file da chon ' + getFiles.length + '(hover mouse watch name file)';
-      }
-    }
-  }
-  fileChoseBusiness(event) {
-    this.fileChoseBusinessLicense = this.fileEvent(event);
-  }
 
-  fileCompanySeal(event) {
-    this.fileChoseCompanySeal = this.fileEvent(event);
-  }
-  fileBusinessTransport(event) {
-    this.fileChoseBusinessTransport = this.fileEvent(event);
-  }
-  fileModerator(event) {
-    this.fileChoseModerator = this.fileEvent(event);
-  }
 
   setDate(): void {
     // Set today date using the patchValue function
@@ -230,11 +285,11 @@ export class CompanyComponent implements OnInit {
   obj() {
     return JSON.parse(`
       {
-        "fullName": "NameCompanyVV",
+        "fullName": "ThaiCompany",
         "director": "tengiamdoc",
         "taxCode": "123456",
-        "contactPhone": "07799999777",
-        "email": "doanhnghiep12@gmail.com",
+        "contactPhone": "0999888111",
+        "email": "ThaiCompany001@gmail.com",
         "fax": "012344777",
         "website": "webcompany.vn",
         "contactPerson": "tennguoilienhe",

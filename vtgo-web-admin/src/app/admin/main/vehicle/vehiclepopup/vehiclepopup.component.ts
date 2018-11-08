@@ -21,7 +21,7 @@ export class VehiclepopupComponent implements OnInit {
   oldvehicleCode: any;
   oldownerId: any;
   uri = 'http://ngx-uploader.com/upload';
-  lstCategory: [];
+  lstCategory: any;
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });

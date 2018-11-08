@@ -14,6 +14,7 @@ import {
   VehicleOwnerService
 } from '../../../core';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     NgbDatepickerModule,
     FormsModule,
     SharedModule.forRoot(),
-    DpDatePickerModule
+    DpDatePickerModule,
+    FileUploadModule
   ],
   declarations: [VehicleOwnerComponent, CompanyComponent, PersonalComponent],
   providers: [{
