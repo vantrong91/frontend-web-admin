@@ -35,7 +35,7 @@ export class ExchangeComponent implements OnInit {
   isWithdrawal = true;
   ip: any = {};
 
-  messageToPayment='Nộp tiền vào tài khoản tại VTGO';
+  messageToPayment = 'Nộp tiền vào tài khoản tại VTGO';
 
   public reconfirmForm: FormGroup;
   temp: any;
@@ -119,10 +119,6 @@ export class ExchangeComponent implements OnInit {
     );
   }
 
-
-
-
-
   bankChanged(event) {
     this.Arrbank = Object.values(this.listBank);
     for (var _i = 0; _i < this.Arrbank.length; _i++) {
@@ -141,6 +137,8 @@ export class ExchangeComponent implements OnInit {
     this.transaction.accountId = this.balanceHisId.accountId;
     this.transaction.balType = 1;
     this.transaction.change = -(num1 + num2);
+    console.log(this.transaction);
+    
     this.dataService.Post('balance/transaction', this.transaction).subscribe(
       response => {
         if (response.status === 0) {
@@ -156,8 +154,8 @@ export class ExchangeComponent implements OnInit {
               if (response.status === 0) {
                 // console.log("Cộng tiền thành công:");
               } else {
-                this.toastr.error('Cộng tiền vào VTGO lỗi', 'Thông báo',{
-                  disableTimeOut:true
+                this.toastr.error('Cộng tiền vào VTGO lỗi', 'Thông báo', {
+                  disableTimeOut: true
                 });
               }
             }
@@ -172,7 +170,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   payment() {
-    
+
     this.transaction = new TransactionModel;
     const num1 = parseInt(this.reconfirmForm.value.transferAmount);
     const num2 = parseInt(this.fee);
@@ -205,10 +203,12 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.hisType = "UPDATE_BALANCE";
     this.balanceHis.hisContent = "Rút tiền tại VTGO";
     this.balanceHis.iP = this.ip.ip;
-    this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
-    this.balanceHis.balanceBefor = (this.balanceHis.balanceAfter - this.reconfirmForm.value.transferAmount - parseInt(this.fee));
-    this.balanceHis.amount = -(this.transaction.change);
+    this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
+    this.balanceHis.balanceAfter = (this.balanceHis.balanceBefor - this.reconfirmForm.value.transferAmount - parseInt(this.fee));
+    this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
+    console.log(this.balanceHis);
+    
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
         if (response.status === 0) {
@@ -228,8 +228,8 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.hisType = "UPDATE_BALANCE";
     this.balanceHis.hisContent = "Nạp tiền tại VTGO";
     this.balanceHis.iP = this.ip.ip;
-    this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
+    this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);
     this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
