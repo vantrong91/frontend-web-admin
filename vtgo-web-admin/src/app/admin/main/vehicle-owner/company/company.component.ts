@@ -24,45 +24,43 @@ export class CompanyComponent implements OnInit {
   ulrImgFull = '';
   imgName = '';
 
-  isAdd = true; //isAdd =true => add new; flase => edit
+  isAdd = false; //isAdd =true => add new; flase => edit
 
   /* Private Vảiables */
   _entity: CompanyViewModel;
   /* Public Variables */
   @Input()
   set companyViewModel(company: CompanyViewModel) {
-    if (company != null || company != undefined) {
-      if (company.accountId != 0) {
-        this.isAdd = false;
-        this._entity = new CompanyViewModel();
-        this._entity = company;
-        this.oldAttachPro = this._entity.attachProperties;
+    if (company.accountId != null) {
+      this.isAdd = false;
+      this._entity = new CompanyViewModel();
+      this._entity = company;
+      this.oldAttachPro = this._entity.attachProperties;
 
-        if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
-          const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
-            return this.formBuilder.group(bankAccount);
-          });
-          const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
-          this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
-        }
-        if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
-          const attachments = Object.keys(company.attachProperties).map(function (index) {
-            const attachment = company.attachProperties[index];
-            return attachment;
-          });
-          company.attachProperties = attachments;
-          if (attachments && attachments.length > 0) {
-            const attachmentGroups = attachments.map(attachment => {
-              return this.formBuilder.group(attachment);
-            });
-            const attachmenttArrays = this.formBuilder.array(attachmentGroups);
-            this.addEditForm.setControl('attachProperties', attachmenttArrays);
-          }
-        }
-        this.addEditForm.reset(company);
+      if (company && company.bankAccountLst && company.bankAccountLst.length > 0) {
+        const bankAccountLstGroups = company.bankAccountLst.map((bankAccount: any) => {
+          return this.formBuilder.group(bankAccount);
+        });
+        const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
+        this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
       }
+      if (company && (company.attachProperties !== undefined || company.attachProperties !== null)) {
+        const attachments = Object.keys(company.attachProperties).map(function (index) {
+          const attachment = company.attachProperties[index];
+          return attachment;
+        });
+        company.attachProperties = attachments;
+        if (attachments && attachments.length > 0) {
+          const attachmentGroups = attachments.map(attachment => {
+            return this.formBuilder.group(attachment);
+          });
+          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+        }
+      }
+      this.addEditForm.reset(company);
     } else {
-      // console.log(this.obj());
+      console.log('add New');
       //add New
       this.isAdd = true;
       this.addEditForm.reset();
@@ -126,6 +124,8 @@ export class CompanyComponent implements OnInit {
   }
 
   onSave(event) {
+    this._entity = this.addEditForm.value;
+    this.convert();
     if (this.isAdd) {
       console.log('add new img');
       this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
@@ -135,8 +135,7 @@ export class CompanyComponent implements OnInit {
     }
     else
       this._entity.attachProperties = this.oldAttachPro;
-    this._entity = this.addEditForm.value;
-    this.convert();
+    this._entity.vehicleOwnerType = 0;
     this.companyViewModelChange.emit(this._entity);
     this.closeEvent.emit();
     // }

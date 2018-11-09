@@ -44,7 +44,8 @@
           </div>
           <label class="col-sm-2 col-form-label text-md-right">Số Fax</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Fax">
+            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Fax"
+              formControlName="fax">
           </div>
         </div>
         <div class="form-group row mb-3">
@@ -305,7 +306,8 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm tài khoản
+          <button *ngIf="!noneShow" type="button" class="btn btn-dark" tabindex="20" (click)="onAddBankGroup($event)">Thêm
+            tài khoản
           </button>
         </div>
       </ng-template>
@@ -313,7 +315,8 @@
     <ngb-tab title="Hồ sơ đính kèm">
       <ng-template ngbTabContent>
         <!-- View Img -->
-        <div class="mt-2" [ngClass]="{'d-none': !noneShow}">
+        <!-- <div class="mt-2" [ngClass]="{'d-none': !noneShow}"> -->
+        <div class="mt-2" *ngIf="!isAdd">
           <div class="container imgView">
             <div class="row">
               <p class="col-sm-12"> +Đăng ký kinh doanh:</p>
@@ -362,7 +365,7 @@
         </div>
 
         <!-- Select on create -->
-        <div class="mt-2" [ngClass]="{'d-none': noneShow}">
+        <div class="mt-2" *ngIf="isAdd">
           <div class="form-group row my-3">
             <label class="col-sm-6">Đăng ký kinh doanh:</label>
             <div class="col-sm-6">

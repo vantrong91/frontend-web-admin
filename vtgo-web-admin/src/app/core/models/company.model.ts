@@ -30,6 +30,6 @@ businessTransportLicenseIssueBy: string;
 vehicleOwnerType: number;
 contactAddress: Map<string, string>;
 address: Map<string, string>;
-attachProperties: Array<any>;
+attachProperties: any;
 bankAccountLst: Array<any>;
 }

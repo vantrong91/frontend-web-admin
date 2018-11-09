@@ -79,7 +79,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     this.search(this.searchObject);
   }
 
-  getOwnerById(accountId: number) {
+  getOwnerById(accountId: number, content) {
     this.vehicleOwnerService.GetOwnerById(accountId).subscribe(
       (response: any) => {
         if (response.status === 0) {
@@ -87,34 +87,17 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
             this.entityCompany = new CompanyViewModel();
             this.entityCompany = this.mapingCompanyModel(response.data[0]);
           } else {
+
             this.entityPersonal = new PersonalViewModel();
             this.entityPersonal = this.mapingPersonalModel(response.data[0]);
           }
-        }
-      }
-    );
-  }
-
-  update(entityCompany) {
-    this.vehicleOwnerService.Put(entityCompany).subscribe(
-      (response: any) => {
-        if (response.status === 0) {
-        }
-      }
-    );
-  }
-
-  delete(accountId: number) {
-    this.vehicleOwnerService.Delete(accountId).subscribe(
-      (response: any) => {
-        if (response.status === 0) {
+          this.modalService.open(content, { size: 'lg' });
         }
       }
     );
   }
 
   open(content) {
-
     this.noneShow = false;
     this.isAddCompany = true;
     this.isAddPerson = true;
@@ -136,28 +119,13 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   edit(accountId, content) {
     this.isAddCompany = false;
     this.isAddPerson = false;
-    this.getOwnerById(accountId);
+    this.getOwnerById(accountId, content);
     this.noneShow = false;
-    // gan data vao service
-    this.modalService.open(content, { size: 'lg' });
   }
 
   view(accountId, content) {
-    this.getOwnerById(accountId);
+    this.getOwnerById(accountId,content);
     this.noneShow = true;
-
-    // gan data vao service
-    this.modalService.open(content, { size: 'lg' });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
   openSm(del, id, name) {
@@ -177,59 +145,16 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
             }
           );
         },
-        reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),
+        reason => { }
       );
   }
 
-  onSubmitPerson(event) {
-    this.entityPersonal = event;
-    console.log('AddData', this.entityPersonal);
-    this.vehicleOwnerService.Create(this.entityPersonal).subscribe(
-      response => {
-        if (response.status === 0) {
-          this.toastr.success("Đã thêm khách hàng cá nhân!", "Thông báo...");
-          this.search(this.searchObject);
-        }
-        else {
-          switch (response.message) {
-            case 'PhoneNumber was existed':
-              this.toastr.clear();
-              this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
-                {
-                  closeButton: true,
-                  disableTimeOut: true
-                });
-              break;
-            case 'Email was existed':
-              this.toastr.clear();
-              this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
-                {
-                  closeButton: true,
-                  disableTimeOut: true
-                });
-              break;
-            default:
-              this.toastr.clear();
-              this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
-                {
-                  closeButton: true,
-                  disableTimeOut: true
-                });
-          }
-        }
-      }
-    );
-  }
-  onEditPerson(event) {
-    this.entityPersonal = event;
-    console.log('EditData', this.entityPersonal);
-  }
-
-  onSubmitCompany(event) {
-    console.log('Company: ', event);
+  onCreate(event) {
+    console.log('CreateData: ', event);
 
     this.vehicleOwnerService.Create(event).subscribe(
       response => {
+        console.log(response);
         if (response.status === 0) {
           this.toastr.success("Đã thêm khách hàng doanh nghiệp!", "Thông báo...");
           this.search(this.searchObject);
@@ -261,12 +186,13 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
                 });
           }
         }
-      }
+      },
+      error => console.log(error)
     );
   }
 
-  onEditCompany(event) {
-    console.log('edit:' + event);
+  onEdit(event) {
+    console.log('editData:' + event);
     console.log(event);
 
     this.vehicleOwnerService.Put(event).subscribe(
@@ -281,15 +207,15 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         }
       },
       error => {
+        console.log(error);
+
         this.toastr.clear();
         this.toastr.error("Lỗi máy chủ. Xin vui lòng thử lại", "Thông báo...");
       }
     );
   }
 
-  // getValueInMap(map: Map, key: string) {
-  //   return map.get(key);
-  // }
+
   ngAfterViewChecked() {
     if (this.tabCompany) {
       this._companyTable.recalculate();
@@ -303,35 +229,35 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     entity = responseModel;
 
     if (entity.businessLicenseIssueDate) {
-      const businessLicense = new Date(entity.businessLicenseIssueDate);
-      const businessLicenseFormat = {
-        year: businessLicense.getUTCFullYear(),
-        month: businessLicense.getUTCMonth(),
-        day: businessLicense.getUTCDay()
+      const date = new Date(entity.businessLicenseIssueDate);
+      const businessTransportIssueDateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
-      entity.businessLicenseIssueDate = businessLicenseFormat;
+      entity.businessLicenseIssueDate = businessTransportIssueDateFormat;
     } else {
       entity.businessLicenseIssueDate = null;
     }
 
     if (entity.businessTransportLicenseExpDate) {
-      const businessTransportExpDate = new Date(entity.businessTransportLicenseExpDate);
-      const businessTransportExpDateFormat = {
-        year: businessTransportExpDate.getUTCFullYear(),
-        month: businessTransportExpDate.getUTCMonth(),
-        day: businessTransportExpDate.getUTCDay()
+      const date = new Date(entity.businessTransportLicenseExpDate);
+      const businessTransportIssueDateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
-      entity.businessTransportLicenseExpDate = businessTransportExpDateFormat;
+      entity.businessTransportLicenseExpDate = businessTransportIssueDateFormat;
     } else {
       entity.businessTransportLicenseExpDate = null;
     }
 
     if (entity.businessTransportLicenseIssueDate) {
-      const businessTransportIssueDate = new Date(entity.businessTransportLicenseIssueDate);
+      const date = new Date(entity.businessTransportLicenseIssueDate);
       const businessTransportIssueDateFormat = {
-        year: businessTransportIssueDate.getUTCFullYear(),
-        month: businessTransportIssueDate.getUTCMonth(),
-        day: businessTransportIssueDate.getUTCDay()
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
       entity.businessTransportLicenseIssueDate = businessTransportIssueDateFormat;
     } else {
@@ -339,23 +265,23 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     }
 
     if (entity.moderatorLicenseExpDate) {
-      const moderatorLicenseIssueExp = new Date(entity.moderatorLicenseExpDate);
-      const moderatorLicenseExpDateFormat = {
-        year: moderatorLicenseIssueExp.getUTCFullYear(),
-        month: moderatorLicenseIssueExp.getUTCMonth(),
-        day: moderatorLicenseIssueExp.getUTCDay()
+      const date = new Date(entity.moderatorLicenseExpDate);
+      const businessTransportIssueDateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
-      entity.moderatorLicenseExpDate = moderatorLicenseExpDateFormat;
+      entity.moderatorLicenseExpDate = businessTransportIssueDateFormat;
     } else {
       entity.moderatorLicenseExpDate = null;
     }
 
     if (entity.moderatorLicenseIssueDate) {
-      const moderatorLicenseIssue = new Date(entity.moderatorLicenseIssueDate);
+      const date = new Date(entity.moderatorLicenseIssueDate);
       const businessTransportIssueDateFormat = {
-        year: moderatorLicenseIssue.getUTCFullYear(),
-        month: moderatorLicenseIssue.getUTCMonth(),
-        day: moderatorLicenseIssue.getUTCDay()
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
       entity.moderatorLicenseIssueDate = businessTransportIssueDateFormat;
     } else {
@@ -384,8 +310,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
       const issueDates = new Date(entity.issueDate);
       const issueDatesFormat = {
         year: issueDates.getUTCFullYear(),
-        month: issueDates.getUTCMonth(),
-        day: issueDates.getUTCDay()
+        month: issueDates.getMonth() + 1,
+        day: issueDates.getDate()
       };
       entity.issueDate = issueDatesFormat;
     } else {
@@ -393,23 +319,46 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     }
 
     if (entity.businessTransportLicenseExpDate) {
-      entity.businessTransportLicenseExpDate = this.helperService.formatDateTime(entity.businessTransportLicenseExpDate);
+      const date = new Date(entity.businessTransportLicenseExpDate);
+      const dateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
+      };
+      entity.businessTransportLicenseExpDate = dateFormat;
+    } else {
+      entity.businessTransportLicenseExpDate = null;
     }
 
     if (entity.businessTransportLicenseIssueDate) {
-      entity.businessTransportLicenseIssueDate = this.helperService.formatDateTime(entity.businessTransportLicenseIssueDate);
+      const date = new Date(entity.businessTransportLicenseIssueDate);
+      const dateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
+      };
+      entity.businessTransportLicenseIssueDate = dateFormat;
+    } else {
+      entity.businessTransportLicenseIssueDate = null;
     }
-
     if (entity.moderatorLicenseExpDate) {
-      entity.moderatorLicenseExpDate = this.helperService.formatDateTime(entity.moderatorLicenseExpDate);
+      const date = new Date(entity.moderatorLicenseExpDate);
+      const dateFormat = {
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
+      };
+      entity.moderatorLicenseExpDate = dateFormat;
+    } else {
+      entity.moderatorLicenseExpDate = null;
     }
 
     if (entity.moderatorLicenseIssueDate) {
-      const moderatorLicenseIssue = new Date(entity.moderatorLicenseIssueDate);
+      const date = new Date(entity.moderatorLicenseIssueDate);
       const businessTransportIssueDateFormat = {
-        year: moderatorLicenseIssue.getUTCFullYear(),
-        month: moderatorLicenseIssue.getUTCMonth(),
-        day: moderatorLicenseIssue.getUTCDay()
+        year: date.getUTCFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
       };
       entity.moderatorLicenseIssueDate = businessTransportIssueDateFormat;
     } else {

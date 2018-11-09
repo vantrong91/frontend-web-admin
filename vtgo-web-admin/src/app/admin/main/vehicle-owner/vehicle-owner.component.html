@@ -1,5 +1,4 @@
 <div class="row">
-  <!--<div class="col-md-4"></div>-->
   <div class="col-md-3 my-auto">
     <select class="custom-select" [ngModel]="searchObject.ownerType" name="ownerType" (change)="selectType($event.target)">
       <option [value]="0">Khách hàng doanh nghiệp</option>
@@ -230,9 +229,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-company *ngIf="tabCompany" [noneShow]="noneShow" [companyViewModel]="entityCompany" (companyViewModelChange)="isAddCompany?onSubmitCompany($event):onEditCompany($event)"
+    <app-company *ngIf="tabCompany" [noneShow]="noneShow" [companyViewModel]="entityCompany" (companyViewModelChange)="isAddCompany?onCreate($event):onEdit($event)"
       (closeEvent)="c('')"></app-company>
-    <app-personal *ngIf="!tabCompany" [noneShow]="noneShow" [personViewModel]="entityPersonal" (personViewModelChange)="isAddPerson?onSubmitPerson($event):onEditPerson($event)"
+    <app-personal *ngIf="!tabCompany" [noneShow]="noneShow" [personViewModel]="entityPersonal" (personViewModelChange)="isAddPerson?onCreate($event):onEdit($event)"
       (closeForm)="d('')"></app-personal>
   </div>
 </ng-template>
