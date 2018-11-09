@@ -11,7 +11,9 @@ import { SharedModule } from '../../../shared';
 
 import {
   IVehicleServiceToken,
-  VehicleService
+  VehicleService,
+  IAddressServiceToken,
+  AddressService
 } from '../../../core';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -36,6 +38,8 @@ import { FileUploadModule } from 'ng2-file-upload';
   providers: [{
     provide: IVehicleServiceToken,
     useClass: VehicleService
-  }]
+  },{
+    provide: IAddressServiceToken, 
+    useClass: AddressService}]
 })
 export class VehicleModule { }

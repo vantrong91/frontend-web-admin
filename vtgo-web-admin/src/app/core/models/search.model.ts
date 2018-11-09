@@ -3,5 +3,6 @@ export class SearchModel {
     this.ownerType = 0;
   }
   searchParam: string;
+  searchParam2: number;
   ownerType: any;
 }

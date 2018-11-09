@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { VehicleViewModel, DataService, IVehicleServiceToken, IVehicleService, SearchModel, CategoryViewModel } from '../../../../core';
+import { VehicleViewModel, DataService, IVehicleServiceToken, IVehicleService, SearchModel, CategoryViewModel, IAddressServiceToken, IAddressService } from '../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
@@ -14,14 +14,15 @@ import { FileUploader } from 'ng2-file-upload';
 })
 export class VehiclepopupComponent implements OnInit {
   _entity: VehicleViewModel;
-  searchObject: SearchModel;
+  searchObject;searchObject2: SearchModel;
   snackbar: any;
   isAdd = false;
   oldAttachPro: any;
   oldvehicleCode: any;
   oldownerId: any;
   uri = 'http://ngx-uploader.com/upload';
-  lstCategory: [];
+  lstCategory: any;
+  lstAddress: any;
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
@@ -66,7 +67,8 @@ export class VehiclepopupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private dataService: DataService,
-    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
+    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService,
+    @Inject(IAddressServiceToken) private addressService: IAddressService) {
     this.addEditForm = this.formBuilder.group({
       vehicleId: '',
       ownerId: '',
@@ -115,6 +117,13 @@ export class VehiclepopupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchObject2 = new SearchModel();
+    this.searchObject2.searchParam2 = 0;
+    this.addressService.getProvince(this.searchObject2).subscribe(
+      (response: any) => {
+        this.lstAddress = response.data;
+      }
+    )
   }
 
   selectFile(code: string) {
@@ -175,12 +184,9 @@ export class VehiclepopupComponent implements OnInit {
       (response:any) => {
         if(response.status === 0){
           this.lstCategory = response.data;
-
         }
-        console.log(this.lstCategory);
       }
     )
-    console.log(event.target.value);
   }
 
   uploadFileToServer(data: Array<any>, type: string) {

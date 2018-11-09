@@ -106,10 +106,8 @@
           <div class="col-sm-4">
             <select class="custom-select form-control" id="LicenceIssueBy" formControlName="licenceIssueBy" tabindex="8"
               [ngClass]="{'has-error': (addEditForm.get('licenceIssueBy').touched || addEditForm.get('licenceIssueBy').dirty) && !addEditForm.get('licenceIssueBy').valid}">
-              <option value=null disabled selected>&#45;&#45; CA Thành Phố Hà Nội &#45;&#45;</option>
-              <option value="1">CA TP Hà Nội</option>
-              <option value="2">CA TP Cà Mau</option>
-              <option value="NA">CA TP Vinh</option>
+              <option value=null disabled selected>&#45;&#45; Chọn nơi cấp &#45;&#45;</option>
+              <option *ngFor="let addres of lstAddress" value={{addres.pk}}>{{addres.tenDinhDanh}}</option>
             </select>
           </div>
         </div>
@@ -125,8 +123,8 @@
           <div class="col-sm-4">
             <select class="custom-select form-control" id="route" formControlName="route" tabindex="2" [ngClass]="{'has-error': (addEditForm.get('route').touched || addEditForm.get('route').dirty) && !addEditForm.get('route').valid}">
               <option value=null disabled selected>&#45;&#45; Chọn tuyến xe &#45;&#45;</option>
-              <option value="71">Xe chạy nội thành</option>
-              <option value="72">Xe liên tỉnh</option>
+              <option value="71">Xe chạy liên tỉnh</option>
+              <option value="72">Xe chạy nội thành</option>
             </select>
           </div>
         </div>
@@ -396,5 +394,3 @@
     </button>
   </span> -->
 </div>
-
-<br> {{ addEditForm.value | json}}

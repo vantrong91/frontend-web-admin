@@ -4,12 +4,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { IAuthenServiceToken, AuthenService, IDataServiceToken, DataService,
   IHelperServiceToken, HelperService } from '../core';
 import { ToStringPipe } from './convertnumber-text.pipe';
-import { ToStringPipe2 } from './convertnumber-text2.pipe';
+import { ToStringPipe2, ToStringPipe3, ToStringPipe4, ToStringPipeAddress } from './convertnumber-text2.pipe';
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [NotFoundComponent, ToStringPipe, ToStringPipe2],
+  declarations: [NotFoundComponent, ToStringPipe, ToStringPipe2, ToStringPipe3, ToStringPipe4, ToStringPipeAddress],
   providers: [
     {
       provide: IAuthenServiceToken,
@@ -24,7 +24,7 @@ import { ToStringPipe2 } from './convertnumber-text2.pipe';
       useClass: HelperService
     }
   ],
-  exports: [NotFoundComponent, ToStringPipe, ToStringPipe2]
+  exports: [NotFoundComponent, ToStringPipe, ToStringPipe2, ToStringPipe3, ToStringPipe4, ToStringPipeAddress]
 })
 export class SharedModule {
   public static forRoot(): ModuleWithProviders {

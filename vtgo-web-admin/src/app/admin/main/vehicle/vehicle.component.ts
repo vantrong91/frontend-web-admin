@@ -7,7 +7,9 @@ import {
   IVehicleServiceToken,
   IVehicleService,
   VehicleViewModel,
-  DataService
+  DataService,
+  IAddressServiceToken,
+  IAddressService
 } from '../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -22,7 +24,7 @@ export class VehicleComponent implements OnInit {
   closeResult: string;
   _entityVehicle: VehicleViewModel;
   listVehicle: any;
-  searchObject: SearchModel;
+  searchObject; searchObject2: SearchModel;
   isAdd = false;
   isShow = false;
   txtNoti = '';
@@ -34,7 +36,8 @@ export class VehicleComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     private dataService: DataService,
-    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService) {
+    @Inject(IVehicleServiceToken) private vehicleService: IVehicleService,
+    @Inject(IAddressServiceToken) private addressService: IAddressService) {
   }
   ngOnInit() {
     this.initData();
@@ -78,8 +81,13 @@ export class VehicleComponent implements OnInit {
 }
 
   toggleExpandRow(row) {
-    console.log('Toggled Expand Row!', row);
-    // this.table.rowDetail.collapseAllRows();
+    
+    this.addressService.getById(row.licenceIssueBy).subscribe(
+      (response: any) => {
+        console.log(response.data);
+        row.licenceIssueBy = response.data[0].tenDinhDanh;
+      }
+    );
     this._vehicleTable.rowDetail.toggleExpandRow(row);
   }
   onDetailToggle(event) {

@@ -1,7 +1,7 @@
 import { ValidatorFn, AbstractControl, ValidationErrors, NG_VALIDATORS, Validator } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Directive, Input } from "@angular/core";
-
+//Check trung password
 export function compareValidator(controlName: string): ValidatorFn{
     return (c: AbstractControl): ValidationErrors | null => {
         if(c.value === null || c.value.length === 0){

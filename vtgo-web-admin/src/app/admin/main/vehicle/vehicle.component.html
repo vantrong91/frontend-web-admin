@@ -37,11 +37,11 @@
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Tuyến xe</label>
-                  <div>{{row.route}}</div>
+                  <div>{{row.route === 71 ? 'Xe chạy liên tỉnh' : row.route === 72 ? 'Xe chạy nội thành' : 'Đang cập nhật'}}</div>
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Loại xe</label>
-                  <div>{{row.vehicleType}}</div>
+                  <div>{{row.vehicleType | showData3}}</div>
                 </div>
               </div>
               <div class="row">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Tải trọng</label>
-                  <div>{{row.weight}}</div>
+                  <div>{{row.weight | showWeight}}</div>
                 </div>
               </div>
               <div class="row">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Nơi cấp</label>
-                  <div>{{row.licenceIssueBy}}</div>
+                  <div>{{row.licenceIssueBy }}</div>
                 </div>
               </div>
               <div class="row">

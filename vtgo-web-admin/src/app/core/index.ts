@@ -14,6 +14,7 @@ export * from './interfaces/ibalance.service';
 export * from './interfaces/iaccount.service';
 export * from './interfaces/icategory.service';
 export * from './interfaces/ipolicy.service';
+export * from './interfaces/iaddress.service';
 // Export Model
 export * from './models/config.model';
 export * from './models/user.model';
@@ -34,6 +35,7 @@ export * from './models/category.model';
 export * from './models/policy.model';
 export * from './models/transaction.model';
 export * from './models/balanceHis.model';
+export * from './models/address.model';
 // Export Service
 export * from './services/authen.service';
 export * from './services/config.service';
@@ -49,6 +51,7 @@ export * from './services/account.service';
 export * from './services/category.service';
 export * from './services/policy.service';
 export * from './services/ip.service';
+export * from './services/address.service';
 // Export Token
 export * from './tokens/authen.service.token';
 export * from './tokens/data.service.token';
@@ -62,3 +65,4 @@ export * from './tokens/balance.token';
 export * from './tokens/account.service.token';
 export * from './tokens/category.service.token';
 export * from './tokens/policy.service.token';
+export * from './tokens/address.service.token';
