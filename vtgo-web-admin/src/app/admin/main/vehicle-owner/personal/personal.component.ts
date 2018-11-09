@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PersonalViewModel } from '../../../../core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { PersonalViewModel, DataService } from '../../../../core';
+import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-personal',
@@ -11,47 +12,62 @@ import { MyFormatter } from '../../../../core/services/format-date.service';
   providers: [{ provide: NgbDateParserFormatter, useClass: MyFormatter }]
 })
 export class PersonalComponent implements OnInit {
-  fileChoseRegistrationBook = 'Choose file';
-  fileChosePassport = 'Choose file';
-  fileChoseTransportationBusiness = 'Choose file';
-  fileChoseTransportOperator = 'Choose file';
+  //upload Img
+  uploaderSHK: FileUploader = new FileUploader({ url: '' });
+  uploaderCMND: FileUploader = new FileUploader({ url: '' });
+  uploaderGPKDVT: FileUploader = new FileUploader({ url: '' });
+  uploaderGPDHVT: FileUploader = new FileUploader({ url: '' });
+
+  oldAttachPro: any;
+  imgUrl = '';
+  ulrImgFull = '';
+  imgName = '';
+
+  isAdd = true; //isAdd =true => add new;  flase => edit
+
   /* Private Vảiables */
   _entity: PersonalViewModel;
 
   /* Public Variables */
   @Input()
   set personViewModel(personal: PersonalViewModel) {
-    if (personal !== null || personal !== undefined) {
-      this._entity = new PersonalViewModel();
-      this._entity = personal;
-      if (personal && personal.bankAccountLst && personal.bankAccountLst.length > 0) {
-        const bankAccountLstGroups = personal.bankAccountLst.map((bankAccount: any) => {
-          return this.formBuilder.group(bankAccount);
-        });
-        const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
-        this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
-      }
-      if (personal && (personal.attachProperties !== undefined || personal.attachProperties !== null)) {
-        const attachments = Object.keys(personal.attachProperties).map(function (index) {
-          const attachment = personal.attachProperties[index];
-          return attachment;
-        });
-        personal.attachProperties = attachments;
-        if (attachments && attachments.length > 0) {
-          const attachmentGroups = attachments.map(attachment => {
-            return this.formBuilder.group(attachment);
+    if (personal != null || personal != undefined) {
+      if (personal.accountId != null) {
+        this._entity = new PersonalViewModel();
+        this._entity = personal;
+        this.isAdd = false;
+        this.oldAttachPro = this._entity.attachProperties;
+        if (personal && personal.bankAccountLst && personal.bankAccountLst.length > 0) {
+          const bankAccountLstGroups = personal.bankAccountLst.map((bankAccount: any) => {
+            return this.formBuilder.group(bankAccount);
           });
-          const attachmenttArrays = this.formBuilder.array(attachmentGroups);
-          this.addEditForm.setControl('attachProperties', attachmenttArrays);
+          const bankAccountLstArrays = this.formBuilder.array(bankAccountLstGroups);
+          this.addEditForm.setControl('bankAccountLst', bankAccountLstArrays);
         }
+        if (personal && (personal.attachProperties !== undefined || personal.attachProperties !== null)) {
+          const attachments = Object.keys(personal.attachProperties).map(function (index) {
+            const attachment = personal.attachProperties[index];
+            return attachment;
+          });
+          personal.attachProperties = attachments;
+          if (attachments && attachments.length > 0) {
+            const attachmentGroups = attachments.map(attachment => {
+              return this.formBuilder.group(attachment);
+            });
+            const attachmenttArrays = this.formBuilder.array(attachmentGroups);
+            this.addEditForm.setControl('attachProperties', attachmenttArrays);
+          }
+        }
+        this.addEditForm.reset(personal);
       }
-      this.addEditForm.reset(personal);
     } else {
+      this.isAdd = true;
       this.addEditForm.reset();
     }
   }
   @Input() noneShow: boolean;
   @Output() personViewModelChange = new EventEmitter<PersonalViewModel>();
+  @Output() closeForm = new EventEmitter<any>();
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
@@ -67,7 +83,10 @@ export class PersonalComponent implements OnInit {
   public addEditForm: FormGroup;
 
   /* Ctor */
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private dataService: DataService,
+    private modalServices: NgbModal,
+    private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl('', [Validators.required]),
@@ -76,9 +95,9 @@ export class PersonalComponent implements OnInit {
       contactPerson: new FormControl(''),
       contactPersonPhone: new FormControl(''),
       contactPersonEmail: new FormControl(''),
-      businessLicense: new FormControl(''),
-      businessLicenseIssueDate: new FormControl(new Date()),
-      businessLicenseIssueBy: new FormControl(''),
+      // businessLicense: new FormControl(''),
+      // businessLicenseIssueDate: new FormControl(new Date()),
+      // businessLicenseIssueBy: new FormControl(''),
       moderator: new FormControl(''),
       moderatorLicense: new FormControl(''),
       moderatorLicenseIssueDate: new FormControl(new Date()),
@@ -96,7 +115,12 @@ export class PersonalComponent implements OnInit {
       bankAccountLst: new FormArray([this.initBankArray()]),
       address: this.initAddress(),
       contactAddress: this.initContactAddress(),
-      attachProperties: new FormArray([this.initAttachProperties()])
+      attachProperties: this.formBuilder.group({
+        CMND: new FormArray([]),
+        SHK: new FormArray([]),
+        GPKDVT: new FormArray([]),
+        GPDHVT: new FormArray([])
+      }),
     });
   }
 
@@ -109,11 +133,74 @@ export class PersonalComponent implements OnInit {
   }
 
   onSave(event) {
-    event.preventDefault();
-    if (this.addEditForm.valid) {
-      this._entity = this.addEditForm.value;
-      this.personViewModelChange.emit(this._entity);
+    if (this.isAdd) {
+      console.log('add new img');
+      this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
+      this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
     }
+    else
+      this._entity.attachProperties = this.oldAttachPro;
+    // if (this.addEditForm.valid) {
+    this._entity = this.addEditForm.value;
+    this.convert();
+    this.personViewModelChange.emit(this._entity);
+    this.closeForm.emit();
+    // }
+  }
+
+  //show img
+  getUrlImg(folder: string) {
+    this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
+    return this.imgUrl;
+  }
+  openImg(ele, imgUrl, fileName) {
+    this.ulrImgFull = imgUrl + fileName;
+    this.imgName = fileName;
+    this.modalServices
+      .open(ele, { windowClass: 'dark-modal', size: 'lg' });
+  }
+
+  //select+upload file
+
+  groupImg() {
+    if (this.addEditForm.controls.attachProperties.value.CMND.length)
+      this.addEditForm.controls.attachProperties.value.CMND.length = 0;
+    if (this.addEditForm.controls.attachProperties.value.SHK.length)
+      this.addEditForm.controls.attachProperties.value.SHK.length = 0;
+    if (this.addEditForm.controls.attachProperties.value.GPKDVT.length)
+      this.addEditForm.controls.attachProperties.value.GPKDVT.length = 0;
+    if (this.addEditForm.controls.attachProperties.value.GPDHVT.length)
+      this.addEditForm.controls.attachProperties.value.GPDHVT.length = 0;
+    this.uploaderCMND.queue.forEach(el => this.addEditForm.controls.attachProperties.value.CMND.push(el.file.name));
+    this.uploaderSHK.queue.forEach(el => this.addEditForm.controls.attachProperties.value.SHK.push(el.file.name));
+    this.uploaderGPKDVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPKDVT.push(el.file.name));
+    this.uploaderGPDHVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPDHVT.push(el.file.name));
+  }
+  uploadFileToServer(data: Array<any>, type: string) {
+
+    var frmImg = new FormData();
+    for (let i = 0; i < data.length; i++)
+      frmImg.append('files', data[i]._file);
+    this.dataService.postFile('upload/' + type, frmImg).subscribe(
+      response => {
+        console.log(response.data);
+      }
+    );
+  }
+
+
+  convert() {
+    this._entity.email = this._entity.email.toLowerCase();
+    this._entity.contactPersonEmail = this._entity.contactPersonEmail.toLowerCase();
+
+    this._entity.businessTransportLicenseExpDate = new Date(this._entity.businessTransportLicenseExpDate.month + '/' + this._entity.businessTransportLicenseExpDate.day + '/' + this._entity.businessTransportLicenseExpDate.year).getTime();
+    this._entity.businessTransportLicenseIssueDate = new Date(this._entity.businessTransportLicenseIssueDate.month + '/' + this._entity.businessTransportLicenseIssueDate.day + '/' + this._entity.businessTransportLicenseIssueDate.year).getTime();
+
+    this._entity.moderatorLicenseIssueDate = new Date(this._entity.moderatorLicenseIssueDate.month + '/' + this._entity.moderatorLicenseIssueDate.day + '/' + this._entity.moderatorLicenseIssueDate.year).getTime();
+    this._entity.moderatorLicenseExpDate = new Date(this._entity.moderatorLicenseExpDate.month + '/' + this._entity.moderatorLicenseExpDate.day + '/' + this._entity.moderatorLicenseExpDate.year).getTime();
+    this._entity.issueDate = new Date(this._entity.issueDate.month + '/' + this._entity.issueDate.day + '/' + this._entity.issueDate.year).getTime();
   }
 
   initBankArray() {
@@ -132,13 +219,6 @@ export class PersonalComponent implements OnInit {
       province: new FormControl(),
       householdNo: new FormControl(),
       wards: new FormControl()
-    });
-  }
-  initAttachProperties() {
-    return this.formBuilder.group({
-      attachCode: new FormControl(),
-      attachName: new FormControl(),
-      attachPath: new FormControl()
     });
   }
 
@@ -176,18 +256,6 @@ export class PersonalComponent implements OnInit {
       }
     }
   }
-  fileRegistrationBook(event) {
-    this.fileChoseRegistrationBook = this.fileEvent(event);
-  }
-  filePassport(event) {
-    this.fileChosePassport = this.fileEvent(event);
-  }
-  fileTransportationBusiness(event) {
-    this.fileChoseTransportationBusiness = this.fileEvent(event);
-  }
-  fileTransportOperator(event) {
-    this.fileChoseTransportOperator = this.fileEvent(event);
-  }
 
   onAddBankGroup(event) {
     event.preventDefault();
@@ -202,6 +270,100 @@ export class PersonalComponent implements OnInit {
       banks.removeAt(groupIndex);
     }
   }
-  onbusinessLicenseIssueDateSelect(event) { }
 
+
+  initData() {
+    this.addEditForm.reset(this.obj());
+  }
+
+  obj() {
+    return JSON.parse(`
+    {
+      "fullName": "Nguyen Van Hoang",
+      "director": "Pham Huu Nam",
+      "taxCode": 1111,
+      "contactPhone": "017577799",
+      "email": "EmlNamePersional@gmail.com",
+      "fax": 22222,
+      "website": "Nam.vn",
+      "contactPerson": "tennguoilienhe",
+      "contactPersonPhone": "sdtlenhe",
+      "contactPersonEmail": "emaillienhe",
+
+      "moderator": "tennguoidieuhanh",
+      "moderatorLicense": "sogiayphepdieuhanh",
+      "moderatorLicenseIssueDate": {
+          "year": 2012,
+          "month": 2,
+          "day": 2
+      },
+      "moderatorLicenseExpDate": {
+        "year": 2013,
+        "month": 3,
+        "day": 3
+      },
+      "companyPhone": 2222,
+      "businessTransportLicense": 33333,
+      "businessTransportLicenseIssueDate":  {
+          "year": 2014,
+          "month": 4,
+          "day": 4
+      },
+      "businessTransportLicenseExpDate":  {
+          "year": 2015,
+          "month": 5,
+          "day": 5
+      },
+      "nationality": "vietNam",
+      "licenseNo": "123456",
+      "issueDate": {
+          "year": 2011,
+          "month": 1,
+          "day": 1
+      },
+      "issueBy": "NA",
+      "gender": 1,
+      "ethnic": "Kinh",
+      "vehicleOwnerType": 1,
+      "contactAddress": {
+          "country": "VN",
+          "province": "NA",
+          "wards": "HD",
+          "street": "sonhaduong",
+          "district": "ND"
+      },
+      "address": {
+          "country": "VN",
+          "householdNo": "sohokhau",
+          "province": "NA",
+          "wards": "HD",
+          "district": "ND"
+      },
+      "attachProperties": {
+          "GPKDVT": ["tesss2.jpg"],
+          "GPDHVT": ["tesss.jpg"],
+          "SHK": ["tesss.jpg"],
+          "CMND": ["cmnd2.jpg", "cmnd1.jpg"]
+      },
+      "bankAccountLst": [{
+          "accountId": null,
+          "bankCode": "AAAAA",
+          "accountNumber": "999999999999",
+          "branch": "NA",
+          "ownerName": "van2"
+      }, {
+          "accountId": null,
+          "bankCode": "",
+          "accountNumber": "888888888888",
+          "branch": "",
+          "ownerName": "Van3"
+      }, {
+          "accountId": null,
+          "bankCode": "CS",
+          "accountNumber": "777777777777",
+          "branch": "NA",
+          "ownerName": "van1"
+      }]
+  }`);
+  }
 }

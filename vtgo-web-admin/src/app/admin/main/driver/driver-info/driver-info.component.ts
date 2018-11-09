@@ -2,7 +2,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
 import { DriverViewModel } from './../driver-model/driver.model';
 import { DataService } from '../../../../core/services/data.service';
-import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 import { Parser } from '@angular/compiler';
@@ -23,13 +23,9 @@ export class DriverInfoComponent implements OnInit {
 
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
-    attachmentListCMND: any = [];
     uploaderGPLX: FileUploader = new FileUploader({ url: 'GPLX' });
-    attachmentListGPLX: any = [];
     uploaderACD: FileUploader = new FileUploader({ url: 'ACD' });
-    attachmentListACD: any = [];
     uploaderSHK: FileUploader = new FileUploader({ url: 'SHK' });
-    attachmentListSHK: any = [];
 
     @Input() set driverViewModel(driver: DriverViewModel) {
         if (driver.accountId !== 0) {
@@ -95,19 +91,6 @@ export class DriverInfoComponent implements OnInit {
             state: new FormControl('', Validators.required),
             birthday: new FormControl('')
         });
-
-        this.uploaderCMND.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            // this.attachmentListCMND.push(JSON.parse(response));
-        };
-        this.uploaderGPLX.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            // this.attachmentListGPLX.push(JSON.parse(response));
-        };
-        this.uploaderSHK.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            // this.attachmentListSHK.push(JSON.parse(response));
-        };
-        this.uploaderACD.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-            // this.attachmentListACD.push(JSON.parse(response));
-        }
     }
 
     ngOnInit() {
@@ -223,11 +206,10 @@ export class DriverInfoComponent implements OnInit {
             this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
             this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
         }
-
+        else
+            this._entity.attachProperties = this.oldAttachPro;
         this._entity = this.addEditForm.value;
 
-        if (!this.isAdd)
-            this._entity.attachProperties = this.oldAttachPro;
 
         this.convert();
         this.driverViewModelChange.emit(this._entity);

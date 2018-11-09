@@ -9,7 +9,8 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },
             { path: 'main', canActivate: [AuthenService], loadChildren: './main/main.module#MainModule' },
-            { path: 'login', loadChildren: './login/login.module#LoginModule' }
+            { path: 'login', loadChildren: './login/login.module#LoginModule' },
+            { path: 'fogot', loadChildren: './fogot-password/fogot-password.module#FogotPasswordModule' }
         ]
     }
 ];

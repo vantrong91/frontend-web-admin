@@ -10,6 +10,7 @@ import {
   IHelperServiceToken
 } from '../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicle-owner',
@@ -26,7 +27,14 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   listOwnerCompany: any;
   listOwnerPersonal: any;
   noneShow: boolean;
+
+  isAddCompany = true;
+  isAddPerson = true;
+
+  nameDelete: any;
+
   constructor(private modalService: NgbModal,
+    private toastr: ToastrService,
     @Inject(IVehicleOwnerServiceToken) private vehicleOwnerService: IVehicleOwnerService,
     @Inject(IHelperServiceToken) private helperService: IHelperService) {
   }
@@ -108,6 +116,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   open(content) {
 
     this.noneShow = false;
+    this.isAddCompany = true;
+    this.isAddPerson = true;
     // Instant Object
     if (this.tabCompany) {
       // Function change data Campany code here
@@ -124,6 +134,8 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   edit(accountId, content) {
+    this.isAddCompany = false;
+    this.isAddPerson = false;
     this.getOwnerById(accountId);
     this.noneShow = false;
     // gan data vao service
@@ -148,13 +160,131 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  openSm(del) {
-    this.modalService.open(del);
+  openSm(del, id, name) {
+    this.nameDelete = name;
+    this.modalService.open(del, { size: 'sm' })
+      .result.then(
+        result => {
+          this.closeResult = `Close with: ${result}`;
+          this.vehicleOwnerService.Delete(id).subscribe(
+            result => {
+              if (result.status === 0) {
+                this.toastr.info("Đã xóa id " + id, "Thông báo..");
+                this.search(this.searchObject);
+              } else {
+                this.toastr.error("Đã xả ra lỗi xin vui lòng thử lại", "Thông báo...");
+              }
+            }
+          );
+        },
+        reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`),
+      );
   }
 
   onSubmitPerson(event) {
     this.entityPersonal = event;
-    console.log('Data', this.entityPersonal);
+    console.log('AddData', this.entityPersonal);
+    this.vehicleOwnerService.Create(this.entityPersonal).subscribe(
+      response => {
+        if (response.status === 0) {
+          this.toastr.success("Đã thêm khách hàng cá nhân!", "Thông báo...");
+          this.search(this.searchObject);
+        }
+        else {
+          switch (response.message) {
+            case 'PhoneNumber was existed':
+              this.toastr.clear();
+              this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+              break;
+            case 'Email was existed':
+              this.toastr.clear();
+              this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+              break;
+            default:
+              this.toastr.clear();
+              this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+          }
+        }
+      }
+    );
+  }
+  onEditPerson(event) {
+    this.entityPersonal = event;
+    console.log('EditData', this.entityPersonal);
+  }
+
+  onSubmitCompany(event) {
+    console.log('Company: ', event);
+
+    this.vehicleOwnerService.Create(event).subscribe(
+      response => {
+        if (response.status === 0) {
+          this.toastr.success("Đã thêm khách hàng doanh nghiệp!", "Thông báo...");
+          this.search(this.searchObject);
+        }
+        else {
+          switch (response.message) {
+            case 'PhoneNumber was existed':
+              this.toastr.clear();
+              this.toastr.error("Số điện thoại đã được sử dụng.", "Đã xảy ra lỗi...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+              break;
+            case 'Email was existed':
+              this.toastr.clear();
+              this.toastr.error("Email đã được sử dụng.", "Đã xảy ra lỗi...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+              break;
+            default:
+              this.toastr.clear();
+              this.toastr.error("Đã xảy ra lỗi xin vui lòng thử lại!", "Thông báo...",
+                {
+                  closeButton: true,
+                  disableTimeOut: true
+                });
+          }
+        }
+      }
+    );
+  }
+
+  onEditCompany(event) {
+    console.log('edit:' + event);
+    console.log(event);
+
+    this.vehicleOwnerService.Put(event).subscribe(
+      response => {
+        if (response.message === "Successful") {
+          this.search(this.searchObject);
+          this.toastr.info("Chỉnh sửa thành công!", "Thông báo...");
+        }
+        else {
+          this.toastr.clear();
+          this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
+        }
+      },
+      error => {
+        this.toastr.clear();
+        this.toastr.error("Lỗi máy chủ. Xin vui lòng thử lại", "Thông báo...");
+      }
+    );
   }
 
   // getValueInMap(map: Map, key: string) {
@@ -238,17 +368,17 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     let entity = new PersonalViewModel();
     entity = responseModel;
 
-    if (entity.businessLicenseIssueDate) {
-      const businessLicense = new Date(entity.businessLicenseIssueDate);
-      const businessLicenseFormat = {
-        year: businessLicense.getUTCFullYear(),
-        month: businessLicense.getUTCMonth(),
-        day: businessLicense.getUTCDay()
-      };
-      entity.businessLicenseIssueDate = businessLicenseFormat;
-    } else {
-      entity.businessLicenseIssueDate = null;
-    }
+    // if (entity.businessLicenseIssueDate) {
+    //   const businessLicense = new Date(entity.businessLicenseIssueDate);
+    //   const businessLicenseFormat = {
+    //     year: businessLicense.getUTCFullYear(),
+    //     month: businessLicense.getUTCMonth(),
+    //     day: businessLicense.getUTCDay()
+    //   };
+    //   entity.businessLicenseIssueDate = businessLicenseFormat;
+    // } else {
+    //   entity.businessLicenseIssueDate = null;
+    // }
 
     if (entity.issueDate) {
       const issueDates = new Date(entity.issueDate);

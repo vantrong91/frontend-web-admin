@@ -8,7 +8,8 @@
     <input class="form-control" [ngModel]="searchObject.ownerType" name="ownerType" type="hidden">
   </div>
   <div class="col-md-4">
-    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm">
+    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin"
+      placeholder="Tìm Kiếm">
   </div>
   <div class="col-md-1 pl-md-0">
     <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button>
@@ -17,15 +18,15 @@
 <div class="row mt-2">
   <div class="col-md-11"></div>
   <div class="col-md-1 text-align-right">
-    <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button>
+    <button type="button" class="btn btn-success w-100" (click)="isAddCompany=true;isAddPerson=true;open(content)">Add</button>
   </div>
 </div>
 <!-- Company default-->
 <div class="row mt-2" [ngClass]="tabCompany ? 'd-block' : 'd-none'">
   <div class="col">
     <div class="owner-view-title">Khách hàng doanh nghiệp</div>
-    <ngx-datatable class='material selection-cell datatable' [rows]='listOwnerCompany' [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50'
-      [rowHeight]='"auto"' [limit]="50" #companyTable>
+    <ngx-datatable class='material selection-cell datatable' [rows]='listOwnerCompany' [columnMode]='"force"'
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #companyTable>
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="default align-center tbl-header">
@@ -101,7 +102,7 @@
           <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.accountId,content)">
             <i class="fa fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.accountId,row.fullName)">
             <i class="fa  fa-trash"></i>
           </button>
         </ng-template>
@@ -113,8 +114,8 @@
 <div class="row mt-2" [ngClass]="tabCompany ? 'd-none' : 'd-block'">
   <div class="col">
     <div class="owner-view-title">Khách hàng cá nhân</div>
-    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listOwnerPersonal' [columnMode]='"force"' [headerHeight]='50'
-      [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #personTable>
+    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listOwnerPersonal' [columnMode]='"force"'
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #personTable>
       <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
@@ -168,15 +169,15 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="moderator" [width]="120" prop="moderator">
-          <ng-template let-column="column" ngx-datatable-header-template>
-            <span class="tbl-header">
-              <strong>Ngày cấp</strong>
-            </span>
-          </ng-template>
-          <ng-template ngx-datatable-cell-template let-value="value" let-row="row " prop="moderator">
-            {{value}}
-          </ng-template>
-        </ngx-datatable-column>
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Ngày cấp</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row " prop="moderator">
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column name="issueDate" [width]="120" prop="issueDate">
         <ng-template let-column="column" ngx-datatable-header-template>
@@ -211,7 +212,7 @@
           <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row.accountId,content)">
             <i class="fa fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.accountId,row.fullName)">
             <i class="fa  fa-trash"></i>
           </button>
         </ng-template>
@@ -229,8 +230,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-personal *ngIf="!tabCompany" [noneShow]="noneShow" [personViewModel]="entityPersonal" (personViewModelChange)="onSubmitPerson($event)"></app-personal>
-    <app-company *ngIf="tabCompany" [noneShow]="noneShow" [companyViewModel]="entityCompany"></app-company>
+    <app-company *ngIf="tabCompany" [noneShow]="noneShow" [companyViewModel]="entityCompany" (companyViewModelChange)="isAddCompany?onSubmitCompany($event):onEditCompany($event)"
+      (closeEvent)="c('')"></app-company>
+    <app-personal *ngIf="!tabCompany" [noneShow]="noneShow" [personViewModel]="entityPersonal" (personViewModelChange)="isAddPerson?onSubmitPerson($event):onEditPerson($event)"
+      (closeForm)="d('')"></app-personal>
   </div>
 </ng-template>
 
@@ -239,16 +242,16 @@
 <ng-template #del let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title">Xóa</h3>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="d('Diss click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Bạn có muốn xóa chủ xe ... không?</p>
+    <p>Bạn có muốn xóa chủ xe <b class="text-danger">{{nameDelete}}</b> không?</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="c('Close click')">Không</button>
-    <button type="button" class="btn btn-danger">Có</button>
+    <button type="button" class="btn btn-primary" (click)="d('Diss click')">Không</button>
+    <button type="button" class="btn btn-danger" (click)="c('Del click')">Có</button>
     <!-- <button type="button" class="btn btn-light" (click)="c('Close click')">Có</button> -->
   </div>
 </ng-template>

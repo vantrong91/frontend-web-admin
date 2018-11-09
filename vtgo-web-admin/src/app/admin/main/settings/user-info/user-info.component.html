@@ -7,45 +7,45 @@
   <div class="col-sm-1"></div>
   <div class="col-sm-8" >
     <div class="form-group row my-3">
-      <label for="fullName" class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
+      <label for="fullName" class="col-sm-3 col-form-label text-md-right">Họ và tên:</label>
       <div class="col-sm-5">
         <label for="fullName" class="col-form-label text-md-right" *ngIf="!isShowName">{{currentUser[0].fullName}}</label>
         <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="fullName" placeholder="Họ tên"
           tabindex="1" *ngIf="isShowName" />
       </div>
-      <div class="col-sm-5">
-        <i class="fa fa-edit" *ngIf="!isShowName" (click)="changeShowName()"></i>
-        <i class="fa fa-save" *ngIf="isShowName" (click)="isChangeFullName = true;open(content);"></i>
-        <i class="fa fa-pencil" *ngIf="isShowName" (click)="changeShowName()"></i>
+      <div class="col-sm-4">
+        <i class="fa fa-edit link" *ngIf="!isShowName" (click)="changeShowName()"></i>
+        <i class="fa fa-save link" *ngIf="isShowName" (click)="isChangeFullName = true;open(content);"></i>
+        <i class="fa fa-times-circle-o link" *ngIf="isShowName" (click)="changeShowName()"></i>
       </div>
     </div>
     <div class="form-group row my-3">
-      <label for="phoneNumber" class="col-sm-2 col-form-label text-md-right">Số điện thoại</label>
+      <label for="phoneNumber" class="col-sm-3 col-form-label text-md-right">Số điện thoại:</label>
       <div class="col-sm-5">
         <label for="phoneNumber" class="col-form-label text-md-right" *ngIf="!isShowSDT">{{currentUser[0].phoneNumber}}</label>
         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="phoneNumber"
           placeholder="Số điện thoại" tabindex="4" *ngIf="isShowSDT" />
       </div>
-      <div class="col-sm-5">
-        <i class="fa fa-edit" *ngIf="!isShowSDT" (click)="changeShowSDT()"></i>
-        <i class="fa fa-save" *ngIf="isShowSDT" (click)="isChangeFullName = false;open(content)"></i>
-        <i class="fa fa-pencil" *ngIf="isShowSDT" (click)="changeShowSDT()"></i>
+      <div class="col-sm-4">
+        <i class="fa fa-edit link" *ngIf="!isShowSDT" (click)="changeShowSDT()"></i>
+        <i class="fa fa-save link" *ngIf="isShowSDT" (click)="isChangeFullName = false;open(content)"></i>
+        <i class="fa fa-times-circle-o link" *ngIf="isShowSDT" (click)="changeShowSDT()"></i>
       </div>
     </div>
     <div class="form-group row my-3">
-      <label for="email" class="col-sm-2 col-form-label text-md-right">Email</label>
+      <label for="email" class="col-sm-3 col-form-label text-md-right">Email:</label>
       <div class="col-sm-5">
         <label for="email" class="col-form-label text-md-right">{{currentUser[0].email}}</label>
       </div>
-      <div class="col-sm-5"></div>
+      <div class="col-sm-4"></div>
     </div>
 
     <div class="form-group row my-3">
-      <label for="accountType" class="col-sm-2 col-form-label text-md-right">Loại tài khoản</label>
+      <label for="accountType" class="col-sm-3 col-form-label text-md-right">Loại tài khoản:</label>
       <div class="col-sm-5">
         <label for="accountType" class="col-form-label text-md-right">{{currentUser[0].accountType==0?'ADMIN':(currentUser[0].accountType==5?'Bộ phận kinh doanh':(currentUser[0].accountType==6?'Bộ phận hỗ trợ':(currentUser[0].accountType==7?'Bộ phận kế toán':(currentUser[0].accountType==8?'Bộ phận kỹ thuật':(currentUser[0].accountType==9?'Bộ phận quản lý':'Chưa được phân quyền')))))}}</label>
       </div>
-      <div class="col-sm-5"></div>
+      <div class="col-sm-4"></div>
     </div>
 
 

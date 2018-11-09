@@ -5,7 +5,7 @@ import { CompanyViewModel } from '../models/company.model';
 export interface IVehicleOwnerService {
     Get(entity: SearchModel): Observable<any>;
     GetOwnerById(accountId: number): Observable<any>;
-    Create(entity: CompanyViewModel): Observable<any>;
-    Put(entity: CompanyViewModel): Observable<any>;
+    Create(entity: any): Observable<any>;
+    Put(entity: any): Observable<any>;
     Delete(accountId: number): Observable<any>;
 }

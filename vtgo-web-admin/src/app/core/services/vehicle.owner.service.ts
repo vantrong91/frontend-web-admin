@@ -18,10 +18,10 @@ export class VehicleOwnerService {
     GetOwnerById(accountId: number): Observable<any> {
         return this.dataService.Post(`${this.URL_API_VEHICLE_OWNER}/get-by-id`, { accountId: accountId });
     }
-    Create(entity: CompanyViewModel): Observable<any> {
+    Create(entity: any): Observable<any> {
         return this.dataService.Post(`${this.URL_API_VEHICLE_OWNER}/create`, entity);
     }
-    Put(entity: CompanyViewModel): Observable<any> {
+    Put(entity: any): Observable<any> {
         return this.dataService.Post(`${this.URL_API_VEHICLE_OWNER}/update`, entity);
     }
     Delete(accountId: number): Observable<any> {
