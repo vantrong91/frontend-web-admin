@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LoginViewModel, IAuthenServiceToken, IAuthenService, SystemConfig } from 'src/app/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   pageTitle = '';
   noti = '';
   user: LoginViewModel;
-  constructor(private router: Router,
+  constructor(private router: Router, private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 
   login(loginForm: NgForm) {
@@ -31,9 +32,9 @@ export class LoginComponent implements OnInit {
       } if (item.status === 104) {
         this.isError = true;
         this.noti = 'Bạn không có quyền truy cập'
-        
+
       }
-      if(item.data === null){
+      if (item.data === null) {
         this.isError = true;
         this.noti = 'Sai tên đăng nhập hoặc mật khẩu';
       }
@@ -45,6 +46,12 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
 
+  }
+
+
+  open(ele) {
+    this.modalServices
+      .open(ele, { size: 'sm' })
   }
 
 }

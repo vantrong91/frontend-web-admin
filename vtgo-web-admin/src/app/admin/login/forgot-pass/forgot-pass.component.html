@@ -1,0 +1,36 @@
+<div class="fogot">
+  <div class="container">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="text-center">
+            <h3><i class="fa fa-lock fa-4x"></i></h3>
+            <h2 class="text-center">Quên mật khẩu ?</h2>
+            <p *ngIf="isShow">Nhập email tại đây một mã xác nhận sẽ được gửi vào email của bạn.</p>
+            <p *ngIf="!isShow">Nhập mã xác nhận tài khoản để đặt lại mật khẩu của bạn</p>
+            <div class="panel-body">
+              <form id="register-form" role="form" autocomplete="off" class="form" method="post">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                    <input id="email" name="email" [(ngModel)]="email" placeholder="Nhập địa chỉ email" class="form-control"
+                      type="email" *ngIf="isShow">
+                      <input id="code" name="code" [(ngModel)]="code" placeholder="Nhập mã xác nhận" class="form-control"
+                      type="text" *ngIf="!isShow">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Gửi email xác nhận"
+                    (click)="sendEmail()" type="button" *ngIf="isShow">
+                    <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Đặt lại mật khẩu"
+                    (click)="resetPassword()" type="button" *ngIf="!isShow">
+                </div>
+                <input type="hidden" class="hide" name="token" id="token" value="">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
