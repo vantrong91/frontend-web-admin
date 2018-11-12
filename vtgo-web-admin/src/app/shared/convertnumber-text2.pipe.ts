@@ -112,19 +112,63 @@ export class ToStringPipe4 implements PipeTransform {
             return 'Đang cập nhật';
         }
     }
-}
+};
+// @Pipe({
+//     name: 'showAddress'
+// })
+// export class ToStringPipeAddress implements PipeTransform{
+//     address: any;
+//     constructor(@Inject(IAddressServiceToken) private addressService: IAddressService) {};
+//     transform(value: any) {
+//         this.addressService.getById(value).subscribe(
+//             (response:any) => {
+//                 this.address = response.data[0];
+//             }
+//         )
+//         return this.address.tenDinhDanh;
+//     }
+// };
 @Pipe({
-    name: 'showAddress'
+    name: 'showTypeLicense'
 })
-export class ToStringPipeAddress implements PipeTransform{
-    address: any;
-    constructor(@Inject(IAddressServiceToken) private addressService: IAddressService) {};
+export class TypeLicensePipe implements PipeTransform{
+    
     transform(value: any) {
-        this.addressService.getById(value).subscribe(
-            (response:any) => {
-                this.address = response.data[0];
-            }
-        )
-        return this.address.tenDinhDanh;
+        console.log("ihi");
+        if (value === "8") {
+            return 'FD';
+        }
+        if (value === "9") {
+            return 'FE';
+        }
+        if (value === "131") {
+            return 'B2';
+        }
+        if (value === "132") {
+            return 'C';
+        }
+        if (value === "133") {
+            return 'D';
+        }
+        if (value === "134") {
+            return 'E';
+        }
+        if (value === "135") {
+            return 'F';
+        }
+        if (value === "136") {
+            return 'FB2';
+        }
+        if (value === "137") {
+            return 'FC';
+        }
+        if (value === "138") {
+            return 'FD';
+        }
+        if (value === "139") {
+            return 'FE';
+        } else {
+            return "Đang cập nhật";
+        }
     }
 }

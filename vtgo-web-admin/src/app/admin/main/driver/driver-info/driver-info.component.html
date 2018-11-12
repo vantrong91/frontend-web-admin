@@ -8,8 +8,11 @@
     </div>
     <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">{{addEditForm.get('nationality').invalid&&addEditForm.get('nationality').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="nationality" name="nationality" placeholder="" formControlName="nationality"
-        tabindex="2" />
+        <select class="form-control" id="nationality" formControlName="nationality"
+          tabindex="2">
+          <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+          <option *ngFor="let conntry of lstContry" value={{conntry.tenDinhDanh}}>{{conntry.tenDinhDanh}}</option>
+        </select>
     </div>
   </div>
   <div class="form-group row my-3">
@@ -27,13 +30,16 @@
   <div class="form-group row my-3">
     <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">{{addEditForm.get('issueBy').invalid&&addEditForm.get('issueBy').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="issueby" name="issueby" placeholder="" formControlName="issueBy"
-        tabindex="5" />
+        <select class="form-control" id="issueby" formControlName="issueBy" tabindex="5">
+          <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+          <option *ngFor="let province of lstProvince" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+        </select>
     </div>
     <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">{{addEditForm.get('gender').invalid&&addEditForm.get('gender').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
       <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="6">
-        <option selected value="1">Nam</option>
+        <option selected disabled value=null>Chọn giới tính</option>
+        <option value="1">Nam</option>
         <option value="0">Nữ</option>
       </select>
     </div>
@@ -41,8 +47,10 @@
   <div class="form-group row mb-3">
     <label for="ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc <span class="text-danger">{{addEditForm.get('ethnic').invalid&&addEditForm.get('ethnic').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="ethnic" name="ethnic" placeholder="" formControlName="ethnic"
-        tabindex="7" />
+      <select class="form-control" id="ethnic" formControlName="ethnic" tabindex="7">
+        <option selected value=null disabled>&#45;&#45; Chọn dân tộc &#45;&#45;</option>
+        <option *ngFor="let ethnic of lstEthnic" value={{ethnic.item}}>{{ethnic.item}}</option>
+      </select>
     </div>
     <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">{{addEditForm.get('email').touched&&(!mailValid||addEditForm.get('email').invalid)?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
@@ -62,25 +70,36 @@
     <div class="form-group row mb-3">
       <label for="addrcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">{{addEditForm.get('address').get('country').invalid&&addEditForm.get('address').get('country').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrcountry" name="addrcountry" placeholder="" formControlName="country"
-          tabindex="10" />
+        <select class="form-control" id="addrcountry" (change)="ChangingValue($event)" formControlName="country"
+          tabindex="10">
+          <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+          <option *ngFor="let conntry of lstContry" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+        </select>
       </div>
       <label for="addrprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('address').get('province').invalid&&addEditForm.get('address').get('province').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrprovince" name="addrprovince" placeholder="" formControlName="province"
-          tabindex="11" />
+        <select class="form-control" (change)="ChagingValueProvince($event)" id="addrprovince" formControlName="province"
+          tabindex="11">
+          <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+          <option *ngFor="let province of lstProvince" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group row mb-3">
       <label for="addrdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">{{addEditForm.get('address').get('district').invalid&&addEditForm.get('address').get('district').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrdistrict" name="addrdistrict" placeholder="" formControlName="district"
-          tabindex="12" />
+        <select class="form-control" (change)="ChagingValueDistrict($event)" id="addrdistrict" formControlName="district"
+          tabindex="12">
+          <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+          <option *ngFor="let district of lstTown" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+        </select>
       </div>
       <label for="addrwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('address').get('wards').invalid&&addEditForm.get('address').get('wards').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="addrwards" name="addrwards" placeholder="" formControlName="wards"
-          tabindex="13" />
+        <select class="form-control" id="addrwards" formControlName="wards" tabindex="13">
+          <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+          <option *ngFor="let addrward of addrwards" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group row mb-3">
@@ -96,25 +115,36 @@
     <div class="form-group row mb-3">
       <label for="contactcountry" class="col-sm-2 col-form-label text-md-right">Quốc gia <span class="text-danger">{{addEditForm.get('contactAddress').get('country').invalid&&addEditForm.get('contactAddress').get('country').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactcountry" name="contactcountry" placeholder=""
-          formControlName="country" tabindex="15" />
+        <select class="form-control" id="contactcountry" (change)="ChangingValue2($event)" formControlName="country"
+          tabindex="15">
+          <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+          <option *ngFor="let conntry of lstContry" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+        </select>
       </div>
       <label for="contactprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('contactAddress').get('province').invalid&&addEditForm.get('contactAddress').get('province').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactprovince" name="contactprovince" placeholder=""
-          formControlName="province" tabindex="16" />
+        <select class="form-control" (change)="ChagingValueProvince22($event)" id="contactprovince" formControlName="province"
+          tabindex="16">
+          <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+          <option *ngFor="let province of lstProvince2" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group row mb-3">
       <label for="contactdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">{{addEditForm.get('contactAddress').get('district').invalid&&addEditForm.get('contactAddress').get('district').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactdistrict" name="contactdistrict" placeholder=""
-          formControlName="district" tabindex="17" />
+        <select class="form-control" (change)="ChagingValueDistrict($event)" id="contactdistrict" formControlName="district"
+          tabindex="17">
+          <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+          <option *ngFor="let district of lstTown2" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+        </select>
       </div>
       <label for="contactwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('contactAddress').get('wards').invalid&&addEditForm.get('contactAddress').get('wards').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="contactwards" name="contactwards" placeholder="" formControlName="wards"
-          tabindex="18" />
+        <select class="form-control" id="contactwards" formControlName="wards" tabindex="18">
+          <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+          <option *ngFor="let addrward of addrwards" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group row mb-3">
@@ -129,10 +159,12 @@
 
   <div>Thông tin giấy phép</div>
   <div class="form-group row my-3">
-    <label for="typelicenseno" class="col-sm-2 col-form-label text-md-right">Loại giấy phép <span class="text-danger">{{addEditForm.get('typeLicenseno').invalid&&addEditForm.get('typeLicenseno').touched?'*':'&nbsp;'}}</span></label>
+    <label for="typelicenseNo" class="col-sm-2 col-form-label text-md-right">Loại giấy phép <span class="text-danger">{{addEditForm.get('typeLicenseNo').invalid&&addEditForm.get('typeLicenseNo').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="typelicenseno" name="typelicenseno" placeholder="B1-B2-C-D..."
-        formControlName="typeLicenseno" tabindex="20">
+      <select class="form-control" id="typelicenseNo" formControlName="typeLicenseNo" tabindex="20">
+        <option selected value=null disabled>&#45;&#45; Chọn giấy phép lái xe &#45;&#45;</option>
+        <option *ngFor="let typeLicense of lstTypeLicense" value={{typeLicense.pk}}>{{typeLicense.item}}</option>
+      </select>
     </div>
     <label for="extlicenseno" class="col-sm-2 col-form-label text-md-right">Số giấy phép <span class="text-danger">{{addEditForm.get('extLicenseNo').invalid&&addEditForm.get('extLicenseNo').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
@@ -148,8 +180,10 @@
     </div>
     <label for="extissueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">{{addEditForm.get('extIssueBy').invalid&&addEditForm.get('extIssueBy').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="extissueby" name="extissueby" placeholder="" formControlName="extIssueBy"
-        tabindex="23">
+      <select class="form-control" id="extissueby" formControlName="extIssueBy" tabindex="23">
+        <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+        <option *ngFor="let province of lstProvince" value={{province.tenDinhDanh}}>{{province.tenDinhDanh}}</option>
+      </select>
     </div>
   </div>
   <hr class="hr-border-color mb-1">

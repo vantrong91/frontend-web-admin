@@ -1,10 +1,11 @@
 import { DriverViewModel } from './driver-model/driver.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 import { AuthenService } from '../../../core/services/authen.service';
 import { enterView } from '@angular/core/src/render3/instructions';
 import { ToastrService } from 'ngx-toastr';
+import { ICategoryServiceToken, ICategoryService, SearchModel, IAddressServiceToken, IAddressService } from 'src/app/core';
 
 
 @Component({
@@ -21,28 +22,30 @@ export class DriverComponent implements OnInit {
     closeResult: string;
     searchParam: ' ';
     _entityDriver: DriverViewModel;
+    searchEthnic: SearchModel;
 
     imgUrl = '';
     ulrImgFull = '';
     imgName = '';
 
 
-    toggleExpandRow(row) {
-        // console.log('Toggled Expand Row!', row);
-        // this.table.rowDetail.collapseAllRows();
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-    onDetailToggle(event) {
-        // console.log('Detail Toggled', event);
-    }
+    
 
 
     constructor(private modalServices: NgbModal,
         private dataService: DataService,
         private toastr: ToastrService,
-        private authenServices: AuthenService
+        private authenServices: AuthenService,
+        @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
+        @Inject(IAddressServiceToken) private addressService: IAddressService
     ) { }
 
+    toggleExpandRow(row) {
+        this.table.rowDetail.toggleExpandRow(row);
+    }
+    onDetailToggle(event) {
+        // console.log('Detail Toggled', event);
+    }
 
     ngOnInit() {
         this.loadData();

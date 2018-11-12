@@ -37,7 +37,7 @@
                     (click)="table.rowDetail.collapseAllRows()"></i>&nbsp;&nbsp;&nbsp;</div>
               </div>
               <div class="row">
-                <strong class="col-2 text-right">- Quốc gia:</strong>
+                <strong class="col-2 text-right">- Quốc tịch :</strong>
                 <div class="col-3">{{row.nationality}} </div>
                 <strong class="col-3 text-right">- Dân tộc: </strong>
                 <div class="col-3">{{row.ethnic}}</div>
@@ -81,7 +81,7 @@
               <div class="row">
                 <strong class="col-2 text-right">- Giấy tờ:</strong>
                 <div class="col-3">
-                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}</div>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}, Loại giấy tờ: {{row.typeLicenseNo | showTypeLicense}}</div>
                   <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{ row.issueDate | date:
                     'dd/MM/yyyy'}}. Nơi cấp: {{row.issueBy}}
                   </div>
@@ -95,18 +95,15 @@
                 </div>
               </div>
               <div class="row">
-                <strong class="col-2 text-right">- Cư trú:</strong>
+                <strong class="col-2 text-right">- Nơi cư trú:</strong>
                 <div class="col-10">
-                  Số hộ khẩu: {{row.address.householdNo}}, {{row.address.wards}},
-                  {{row.address.district}}, {{row.address.province}}, {{row.address.country}}
+                  Số hộ khẩu: {{row.address.householdNo}}, {{row.address.wards}}
                 </div>
               </div>
               <div class="row">
                 <strong class="col-2 text-right">- Thường trú:</strong>
                 <div class="col-10">
-                  {{row.contactAddress.street}}, {{row.contactAddress.wards}},
-                  {{row.contactAddress.district}}, {{row.contactAddress.province}},
-                  {{row.contactAddress.country}}
+                  {{row.contactAddress.street}}, {{row.contactAddress.wards}}
                 </div>
               </div>
               <div class="row">

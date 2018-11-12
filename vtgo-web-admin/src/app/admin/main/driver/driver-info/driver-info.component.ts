@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
 import { DriverViewModel } from './../driver-model/driver.model';
 import { DataService } from '../../../../core/services/data.service';
 import { FileUploader } from 'ng2-file-upload';
@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 import { Parser } from '@angular/compiler';
 import { Driver } from 'selenium-webdriver/ie';
+import { ICategoryService, ICategoryServiceToken, SearchModel, IAddressServiceToken, IAddressService } from 'src/app/core';
 // import * as $ from 'jquery';
 
 @Component({
@@ -20,6 +21,15 @@ export class DriverInfoComponent implements OnInit {
     oldAttachPro: any;
     mailValid = false;
     phoneValid = false;
+    searchEthnic: SearchModel;
+    lstEthnic: any;
+    lstContry: any;
+    lstProvince: any;
+    lstTown: any;
+    lstTown2: any;
+    addrwards: any;
+    lstTypeLicense: any;
+    lstProvince2: any;
 
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
@@ -48,7 +58,9 @@ export class DriverInfoComponent implements OnInit {
     constructor(
         private dataService: DataService,
         private toastrService: ToastrService,
-        private formBuilder: FormBuilder) {
+        private formBuilder: FormBuilder,
+        @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
+        @Inject(IAddressServiceToken) private addressService: IAddressService) {
         this.addEditForm = this.formBuilder.group({
             accountId: new FormControl(''),
             fullName: new FormControl('', Validators.required),
@@ -76,7 +88,7 @@ export class DriverInfoComponent implements OnInit {
                 street: new FormControl(''),
             }),
 
-            typeLicenseno: new FormControl(''),
+            typeLicenseNo: new FormControl(''),
             extLicenseNo: new FormControl('', Validators.required),
             extIssueDate: new FormControl('', Validators.required),
             extIssueBy: new FormControl('', Validators.required),
@@ -94,7 +106,81 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.searchEthnic = new SearchModel();
+        this.searchEthnic.searchParam2 = 4;
+        this.categoryService.Get(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstEthnic = response.data;
+            }
+        )
+        this.searchEthnic.searchParam2 = -1;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstContry = response.data;
+            }
+        )
+        this.searchEthnic.searchParam2 = 0;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response:any) => {
+                this.lstProvince = response.data;
+            }
+        )
+        this.searchEthnic.searchParam2 = 6;
+        this.categoryService.Get(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstTypeLicense = response.data;
+            }
+        )
+
     }
+
+    ChangingValue(event) {
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstProvince = response.data;
+            }
+        )
+    }
+
+    ChangingValue2(event) {
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstProvince2 = response.data;
+            }
+        )
+    }
+
+    ChagingValueProvince(event) {
+        console.log(event.target.value);
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstTown = response.data;
+            }
+        )
+    }
+
+    ChagingValueProvince22(event) {
+        console.log(event.target.value);
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.lstTown2 = response.data;
+            }
+        )
+    }
+
+    ChagingValueDistrict(event) {
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.addrwards = response.data;
+            }
+        )
+    }
+
     selectFile(code: string) {
         switch (code) {
             case 'CMND':

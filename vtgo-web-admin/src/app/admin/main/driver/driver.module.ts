@@ -7,6 +7,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { DriverRoutingModule } from './driver-routing.module';
 import { DriverComponent } from './driver.component';
 import { DriverInfoComponent } from './driver-info/driver-info.component';
+import { ICategoryServiceToken, CategoryService, IAddressServiceToken, AddressService } from 'src/app/core';
+import { SharedModule } from 'src/app/shared';
 
 @NgModule({
   imports: [
@@ -15,12 +17,14 @@ import { DriverInfoComponent } from './driver-info/driver-info.component';
     DriverRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,
+    SharedModule.forRoot(),
     NgbTabsetModule,
     FileUploadModule
   ],
   declarations: [
     DriverComponent,
     DriverInfoComponent
-  ]
+  ],
+  providers: [{provide: ICategoryServiceToken, useClass: CategoryService},{ provide: IAddressServiceToken, useClass: AddressService}]
 })
 export class DriverModule { }

@@ -18,7 +18,7 @@ export class DriverViewModel {
   phoneNumber: string;
   address: Map<string, string>;
   contactAddress: Map<string, string>;
-  typelicenseno: string;
+  typeLicenseNo: string;
   extLicenseNo: string;
   extIssueDate: number;
   extIssueBy: string;
