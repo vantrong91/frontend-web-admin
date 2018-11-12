@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { CompanyViewModel, DataService } from '../../../../core';
+import { CompanyViewModel, DataService, SearchModel, ICategoryServiceToken, ICategoryService, IAddressServiceToken, IAddressService } from '../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
@@ -25,6 +25,18 @@ export class CompanyComponent implements OnInit {
   imgName = '';
 
   isAdd = false; //isAdd =true => add new; flase => edit
+
+
+  searchAddress: SearchModel;
+  lstAddress_Country = [];
+  lstAddress_Province = [];
+  lstAddress_District = [];
+  lstAddress_Wards = [];
+
+  lstContactAddress_Country = [];
+  lstContactAddress_Province = [];
+  lstContactAddress_District = [];
+  lstContactAddress_Wards = [];
 
   /* Private Vảiables */
   _entity: CompanyViewModel;
@@ -77,6 +89,9 @@ export class CompanyComponent implements OnInit {
   /* Ctor */
   constructor(private dataService: DataService,
     private modalServices: NgbModal,
+    @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
+    @Inject(IAddressServiceToken) private addressService: IAddressService,
+
     private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
@@ -113,6 +128,7 @@ export class CompanyComponent implements OnInit {
         GPDHVT: new FormArray([])
       }),
     });
+
   }
 
   ngOnInit() {
@@ -121,6 +137,135 @@ export class CompanyComponent implements OnInit {
     } else {
       this.addEditForm.enable();
     }
+
+    this.searchAddress = new SearchModel();
+
+    //getAllCountry
+    this.searchAddress.searchParam2 = -1;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Country = response.data;
+
+        this.lstContactAddress_Country = response.data;
+      }
+    )
+
+    //get ALL Province of VN
+    this.searchAddress.searchParam2 = 0;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Province = response.data;
+        this.lstContactAddress_Province = response.data;
+      }
+    );
+
+    if (!this.isAdd) {
+      this.loadAddress();
+    }
+  }
+
+  loadAddress() {
+    console.log(Object.values(this._entity.address));
+    //Load Address district
+    this.searchAddress.searchParam2 = Object.values(this._entity.address)[1];
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_District = response.data;
+      }
+    );
+    // Load Address Ward
+    this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Wards = response.data;
+      }
+    );
+
+    //Load contact Address district
+    this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_District = response.data;
+      }
+    );
+    // Load contact Address Ward
+    this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_Wards = response.data;
+      }
+    );
+
+
+  }
+
+  //On select change => reload list province address
+  addressCountryChange(event) {
+    console.log(event.target.value);
+
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Province = response.data;
+        this.lstAddress_Province.unshift('');
+      }
+    )
+  }
+  //reload District
+  addressProvinceChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_District = response.data;
+        this.lstAddress_District.unshift('');
+        this.lstAddress_Wards = [];
+      }
+    )
+  }
+  //reload Ward
+  addressDistrictChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Wards = response.data;
+        this.lstAddress_Wards.unshift('');
+      }
+    )
+  }
+
+  /////////////////////////////////////////////////contact Addr
+  //get list Province of Contact Address
+  contactAddressCountryChange(event) {
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_Province = response.data;
+        this.lstContactAddress_Province.unshift('');
+      }
+    )
+  }
+
+  contactAddressProvinceChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_District = response.data;
+        this.lstContactAddress_District.unshift('');
+        this.lstContactAddress_Wards = [];
+      }
+    )
+  }
+  contactAddressDistrictChange(event) {
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_Wards = response.data;
+        this.lstContactAddress_Wards.unshift('');
+      }
+    )
   }
 
   onSave(event) {

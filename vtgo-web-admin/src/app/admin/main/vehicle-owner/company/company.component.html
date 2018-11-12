@@ -85,25 +85,37 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="nationailt" placeholder="Quốc gia"
-                formControlName="country">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="addressCountryChange($event)"
+                formControlName="country" tabindex="10">
+                <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+                <option *ngFor="let conntry of lstAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+              </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
-                formControlName="province">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressProvinceChange($event)"
+                id="addrprovince" formControlName="province" tabindex="11">
+                <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+                <option *ngFor="let province of lstAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
-                formControlName="district">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressDistrictChange($event)"
+                id="addrdistrict" formControlName="district" tabindex="12">
+                <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+                <option *ngFor="let district of lstAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+              </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Phường/Xã"
-                formControlName="wards">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
+                tabindex="13">
+                <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+                <option *ngFor="let addrward of lstAddress_Wards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
@@ -120,25 +132,37 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
-                formControlName="country">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="contactAddressCountryChange($event)"
+                formControlName="country" tabindex="10">
+                <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+                <option *ngFor="let conntry of lstContactAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+              </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
-                formControlName="province">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressProvinceChange($event)"
+                id="addrprovince" formControlName="province" tabindex="11">
+                <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+                <option *ngFor="let province of lstContactAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
-                formControlName="district">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressDistrictChange($event)"
+                id="addrdistrict" formControlName="district" tabindex="12">
+                <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+                <option *ngFor="let district of lstContactAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+              </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Phường/Xã"
-                formControlName="wards">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
+                tabindex="13">
+                <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+                <option *ngFor="let addrward of lstContactAddress_Wards" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
