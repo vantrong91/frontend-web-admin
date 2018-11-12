@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SendMailModel } from '../../../core/models/send-mail.model';
 import { SendSaltModel } from '../../../core/models/send-salt.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-forgot-pass',
@@ -20,7 +21,7 @@ export class ForgotPassComponent implements OnInit {
   accountByEmail: AccountViewModel;
   isShow = true;
   searchParam: SearchModel;
-  constructor(private router: Router, private dataService: DataService,private toastr: ToastrService) { }
+  constructor(private router: Router,private spinner: NgxSpinnerService, private dataService: DataService,private toastr: ToastrService) { }
   accounts: AccountViewModel;
   allAccount: AccountViewModel;
   temp: any;
@@ -59,8 +60,8 @@ export class ForgotPassComponent implements OnInit {
   }
 
   sendEmail() {
+    this.spinner.show();
     this.temp = Object.values(this.allAccount);
-    var count;
     for (let item of this.temp) {
       this.allEmail.push(item.email);
     }
@@ -82,6 +83,7 @@ export class ForgotPassComponent implements OnInit {
           console.log(response);
           if (response.status === 0) {
             this.toastr.info("Email đã được gửi");
+            this.spinner.hide();
           } else{
             this.toastr.error("Đã xảy ra lỗi");
           }
