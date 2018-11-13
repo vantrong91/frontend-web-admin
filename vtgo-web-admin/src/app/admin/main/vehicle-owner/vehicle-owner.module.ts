@@ -11,7 +11,8 @@ import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap
 import { SharedModule } from '../../../shared';
 import {
   IVehicleOwnerServiceToken,
-  VehicleOwnerService
+  VehicleOwnerService,
+  ICategoryServiceToken, CategoryService, IAddressServiceToken, AddressService
 } from '../../../core';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -30,9 +31,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     FileUploadModule
   ],
   declarations: [VehicleOwnerComponent, CompanyComponent, PersonalComponent],
-  providers: [{
-    provide: IVehicleOwnerServiceToken,
-    useClass: VehicleOwnerService
-  }]
+  providers: [
+    { provide: IVehicleOwnerServiceToken, useClass: VehicleOwnerService },
+    { provide: ICategoryServiceToken, useClass: CategoryService },
+    { provide: IAddressServiceToken, useClass: AddressService }]
 })
 export class VehicleOwnerModule { }

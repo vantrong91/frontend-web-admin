@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { LoginViewModel, IAuthenServiceToken, IAuthenService, SystemConfig } from 'src/app/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  userName: '';
-  password: '';
+  userName = this.cookie.get("email");
+  password= this.cookie.get("password");
   isError = false
   pageTitle = '';
   noti = '';
   user: LoginViewModel;
-  current: any;
   constructor(private router: Router, private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 
@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       }
 
     })
+
   }
 
   release() {
@@ -46,6 +47,19 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {
   }
+
+  saveAccount(event) {
+
+    if (event.target.checked == true) {
+      this.isSaveAccount = true;
+
+    } else {
+      this.isSaveAccount = false;
+    }
+    console.log(this.isSaveAccount);
+
+  }
+
 
 
   open(ele) {

@@ -42,6 +42,8 @@ export class UserInfoComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
     this.urlFull = this.getUrlImg('AVATA');
+    console.log(this.urlFull);
+
   }
 
   loadData() {
