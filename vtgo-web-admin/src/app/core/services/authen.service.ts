@@ -22,8 +22,8 @@ export class AuthenService implements CanActivate {
     Login(user: LoginViewModel): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         const url = this.configService.getConfiguration().BASE_API + 'account-man/check-login';
-        return this.http.post(url, user, { headers: headers }).pipe(map(response => {
-            if (response) {
+        return this.http.post(url, user, { headers: headers }).pipe(map((response: any) => {
+            if (response.status ===0) {
                 localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response));
             } else {
                 localStorage.removeItem(SystemConfig.CURRENT_USER);

@@ -123,7 +123,7 @@
       </div>
       <label for="contactprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('contactAddress').get('province').invalid&&addEditForm.get('contactAddress').get('province').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <select class="form-control" (change)="ChagingValueProvince22($event)" id="contactprovince" formControlName="province"
+        <select class="form-control" (change)="ChagingValueProvince2($event)" id="contactprovince" formControlName="province"
           tabindex="16">
           <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
           <option *ngFor="let province of lstProvince2" value={{province.pk}}>{{province.tenDinhDanh}}</option>
@@ -133,7 +133,7 @@
     <div class="form-group row mb-3">
       <label for="contactdistrict" class="col-sm-2 col-form-label text-md-right">Quận/ Huyện <span class="text-danger">{{addEditForm.get('contactAddress').get('district').invalid&&addEditForm.get('contactAddress').get('district').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
-        <select class="form-control" (change)="ChagingValueDistrict($event)" id="contactdistrict" formControlName="district"
+        <select class="form-control" (change)="ChagingValueDistrict2($event)" id="contactdistrict" formControlName="district"
           tabindex="17">
           <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
           <option *ngFor="let district of lstTown2" value={{district.pk}}>{{district.tenDinhDanh}}</option>
@@ -143,7 +143,7 @@
       <div class="col-sm-4">
         <select class="form-control" id="contactwards" formControlName="wards" tabindex="18">
           <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-          <option *ngFor="let addrward of addrwards" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+          <option *ngFor="let addrward of addrwards2" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
         </select>
       </div>
     </div>

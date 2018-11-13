@@ -25,11 +25,13 @@ export class DriverInfoComponent implements OnInit {
     lstEthnic: any;
     lstContry: any;
     lstProvince: any;
+    lstProvince2: any;
     lstTown: any;
     lstTown2: any;
     addrwards: any;
+    addrwards2: any;
     lstTypeLicense: any;
-    lstProvince2: any;
+    
 
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
@@ -123,6 +125,7 @@ export class DriverInfoComponent implements OnInit {
         this.addressService.getProvince(this.searchEthnic).subscribe(
             (response:any) => {
                 this.lstProvince = response.data;
+                this.lstProvince2 = response.data;
             }
         )
         this.searchEthnic.searchParam2 = 6;
@@ -131,7 +134,6 @@ export class DriverInfoComponent implements OnInit {
                 this.lstTypeLicense = response.data;
             }
         )
-
     }
 
     ChangingValue(event) {
@@ -162,7 +164,7 @@ export class DriverInfoComponent implements OnInit {
         )
     }
 
-    ChagingValueProvince22(event) {
+    ChagingValueProvince2(event) {
         console.log(event.target.value);
         this.searchEthnic.searchParam2 = event.target.value;
         this.addressService.getProvince(this.searchEthnic).subscribe(
@@ -177,6 +179,15 @@ export class DriverInfoComponent implements OnInit {
         this.addressService.getProvince(this.searchEthnic).subscribe(
             (response: any) => {
                 this.addrwards = response.data;
+            }
+        )
+    }
+
+    ChagingValueDistrict2(event) {
+        this.searchEthnic.searchParam2 = event.target.value;
+        this.addressService.getProvince(this.searchEthnic).subscribe(
+            (response: any) => {
+                this.addrwards2 = response.data;
             }
         )
     }

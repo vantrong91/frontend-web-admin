@@ -33,11 +33,11 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
     }
 
-
     getUrlImg(folder: string) {
         this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
         if (this.currentUser[0].fileAvata !== null) {
-            return this.imgUrl + this.currentUser[0].fileAvata.AVATA[0];
+            return this.imgUrl + this.currentUser[0].fileAvata;
+            
         } else {
             return `http://placehold.it/50x50`;
         }
@@ -45,7 +45,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     }
 
     viewData(event) {
-        this.urlFull = this.imgUrl + event.AVATA[0];
+        console.log(event);
+        this.urlFull = this.imgUrl + event;
 
         console.log(this.urlFull);
 

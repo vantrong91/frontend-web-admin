@@ -3,7 +3,7 @@
     <label class="col-sm-12">Chọn ảnh đại diện</label>
     <div class="col-sm-12" formGroupName="fileAvatar">
       <div class="custom-file">
-        <input type="file" multiple class="form-control custom-file-input" id="inputGroupFile01" (change)="selectFile($event,'CMND');previewImg($event)" />
+        <input type="file" multiple class="form-control custom-file-input" id="inputGroupFile01" (change)="selectFile($event);previewImg($event)" />
         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
       </div>
     </div>
@@ -11,7 +11,7 @@
   <div class="form-group row my-3">
     <hr>
     <div class="col-2 offset-2" *ngIf="keyArr.length===0">Chưa có ảnh</div>
-    <ng-container *ngFor="let el of keyArr[0]">
+    <ng-container>
       <div class="col-sm-12">
         <img class="img-show" [src]="imgSrcPre" alt="" />
         <br>

@@ -84,7 +84,6 @@ export class VehicleComponent implements OnInit {
     
     this.addressService.getById(row.licenceIssueBy).subscribe(
       (response: any) => {
-        console.log(response.data);
         row.licenceIssueBy = response.data[0].tenDinhDanh;
       }
     );

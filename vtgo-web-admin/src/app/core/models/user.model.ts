@@ -10,7 +10,7 @@ export class LoggedInUser {
     fullName: string;
     email: string;
     phoneNumber: string;
-    fileAvata: Map<string, object>;
+    fileAvata: string;
 
     constructor(
         accoundId: string,
@@ -19,7 +19,7 @@ export class LoggedInUser {
         accountType: any, 
         email: string,
         phoneNumber: string,
-        fileAvata: Map<string, object>) {
+        fileAvata: string) {
         this.accountId = accoundId;
         this.accountToken = accountToken;
         this.fullName = fullName;

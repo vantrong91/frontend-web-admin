@@ -61,10 +61,10 @@
     </div>
   </div>
   <div class="form-group row my-3">
-    <label for="" class="col-sm-6">Ảnh đại diện</label>
-    <div class="col-sm-6" formGroupName="fileAvata">
+    <label for="" class="col-sm-2 text-md-right">Ảnh đại diện</label>
+    <div class="col-sm-6 ml-3 mr-3" formGroupName="fileAvata">
       <div class="row">
-        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="selectFile('AVATA')" ng2FileSelect [uploader]="uploaderAVATA">
+        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="groupImg()" ng2FileSelect [uploader]="uploaderAVATA">
         <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
       </div>
       <div class="row uploadList" *ngFor="let item of uploaderAVATA.queue">

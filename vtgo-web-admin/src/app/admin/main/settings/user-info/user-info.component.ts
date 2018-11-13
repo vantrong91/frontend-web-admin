@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { AccountManViewModel, SystemConfig, DataService, LoginViewModel, IAuthenService, IAccountService, IAccountServiceToken, IAuthenServiceToken } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,11 +33,12 @@ export class UserInfoComponent implements OnInit {
   urlFull = '';
   getUrlFromChange: any;
 
+  @Output() closeModalEvent = new EventEmitter<any>();
   viewData(event) {
-    this.urlFull = this.imgUrl + event.AVATA[0];
+    this.urlFull = this.imgUrl + event;
+    this.closeModalEvent.emit(event);
   }
-
-
+  
   ngOnInit(): void {
     this.loadData();
     this.urlFull = this.getUrlImg('AVATA');
@@ -45,7 +46,6 @@ export class UserInfoComponent implements OnInit {
 
   loadData() {
     this.currentUser = new AccountManViewModel();
-    console.log(localStorage.getItem(SystemConfig.CURRENT_USER));
     let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
     this.currentUser = item.data;
     this.fullName = this.currentUser[0].fullName;
@@ -165,7 +165,7 @@ export class UserInfoComponent implements OnInit {
   getUrlImg(folder: string) {
     this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
     if (this.currentUser[0].fileAvata !== null) {
-      return this.imgUrl + this.currentUser[0].fileAvata.AVATA[0];
+      return this.imgUrl + this.currentUser[0].fileAvata;
     } else {
       return `http://placehold.it/50x50`;
     }

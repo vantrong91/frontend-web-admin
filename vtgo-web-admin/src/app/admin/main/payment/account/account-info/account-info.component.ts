@@ -46,9 +46,10 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       password: ['', [Validators.required,
       Validators.minLength(3),
       Validators.maxLength(50)]],
-      fileAvata: this.fb.group({
-        AVATA: new FormArray([])
-      }),
+      fileAvata: '',
+      // fileAvata: this.fb.group({
+      //   AVATA: new FormArray([])
+      // }),
       confirmPassword: ['', [Validators.required, compareValidator('password')]],
       accountType: ['', [Validators.required]],
     });
@@ -105,8 +106,9 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   }
 
   groupImg(){
-    this.addEditForm.controls.fileAvata.value.AVATA.length = 0;
-    this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.value.AVATA.push(e.file.name));
+    console.log(this.addEditForm.controls.fileAvata);
+    
+    this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.setValue(e.file.name));
   }
 
   onSave(event) {

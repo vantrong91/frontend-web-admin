@@ -41,9 +41,7 @@ export class ChangeAvatarComponent implements OnInit {
     private spinner: NgxSpinnerService,
     @Inject(IAccountServiceToken) private logoutService: IAccountService, @Inject(IAuthenServiceToken) private authService: IAuthenService) {
     this.changeAvatar = this.formBuilder.group({
-      fileAvatar: this.formBuilder.group({
-        AVATA: new FormControl('')
-      })
+      fileAvatar: ''
     });
   }
 
@@ -56,23 +54,23 @@ export class ChangeAvatarComponent implements OnInit {
     this.currentUser = new AccountManViewModel();
     let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
     this.currentUser = item.data;
-    this.keyArr = Object.values(this.currentUser[0].fileAvata);
+    this.keyArr = this.currentUser[0].fileAvata;
     this.initImgURL();
 
   }
 
   initImgURL() {
-    this.imgSrcPre = this.getUrlImg('AVATA') + this.keyArr[0][0];
+    this.imgSrcPre = this.getUrlImg('AVATA') + this.keyArr;
     return this.imgSrcPre;
 
   }
-  selectFile(ev, type: string) {
+  selectFile(ev) {
     this.uploaderAVATAR = ev.target.files;
     const fileListAsArray = Array.from(this.uploaderAVATAR);
-    this.changeAvatar.value.fileAvatar.AVATA = [];
-    for (let item of fileListAsArray) {
-      this.changeAvatar.controls.fileAvatar.value.AVATA.push(item.name);
-    }
+    console.log(fileListAsArray);
+    this.changeAvatar.value.fileAvatar= '';
+    this.changeAvatar.controls.fileAvatar.setValue(fileListAsArray[0].name);
+
     this.isDisabled = false;
   }
 
@@ -107,9 +105,12 @@ export class ChangeAvatarComponent implements OnInit {
           this.account.phoneNumber = this.currentUser[0].phoneNumber;
           this.account.salt = this.currentUser[0].salt;
           this.closeModalEvent.emit(this.account.fileAvata);
+          console.log(this.account.fileAvata);
           this.dataService.Post('account-man/update', this.account).subscribe(
             response => {
               if (response.status === 0) {
+                console.log(response);
+                
                 localStorage.removeItem(SystemConfig.CURRENT_USER);
                 this.user = new LoginViewModel();
                 this.user.email = this.account.email;

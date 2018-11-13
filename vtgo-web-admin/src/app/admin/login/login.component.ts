@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   pageTitle = '';
   noti = '';
   user: LoginViewModel;
+  current: any;
   constructor(private router: Router, private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 
@@ -27,17 +28,16 @@ export class LoginComponent implements OnInit {
     this.user.password = this.password;
     this.authService.Login(this.user).subscribe((item: any) => {
       item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
-      if (item.status === 0) {
-        this.router.navigate(['/admin/main']);
-      } if (item.status === 104) {
-        this.isError = true;
-        this.noti = 'Bạn không có quyền truy cập'
-
+      if (item !== null) {
+        if (item.status === 0) {
+          this.router.navigate(['/admin/main']);
+        }
       }
-      if (item.data === null) {
+      else {
         this.isError = true;
         this.noti = 'Sai tên đăng nhập hoặc mật khẩu';
       }
+
     })
   }
 
@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     this.isError = false;
   }
   ngOnInit() {
-
   }
 
 
