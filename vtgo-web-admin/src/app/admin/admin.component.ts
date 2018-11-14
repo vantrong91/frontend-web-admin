@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
     if(this.currentUser !== null){
-      this.router.navigate(['/admin/main']);
+      // this.router.navigate(['/admin/main']);
     }else{
 
     }

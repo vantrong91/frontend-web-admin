@@ -47,8 +47,8 @@
           <label for="Gender" class="col-sm-2 col-form-label text-md-right">Giới tính<span class="text-danger">*</span></label>
           <div class="col-sm-4">
             <select class="custom-select" [ngClass]="{'mouse-hover': noneShow}" id="Gender" tabindex="6"
-              [attr.disabled]="noneShow ? 'disabled' : null">
-              <option selected>&#45;&#45; Chọn giới tính &#45;&#45;</option>
+              formControlName="gender" [attr.disabled]="noneShow ? 'disabled' : null">
+              <option selected value=null disabled>&#45;&#45; Chọn giới tính &#45;&#45;</option>
               <option value="1">Nam</option>
               <option value="2">Nữ</option>
             </select>
@@ -57,8 +57,11 @@
         <div class="form-group row mb-3">
           <label for="Ethnic" class="col-sm-2 col-form-label text-md-right">Dân tộc<span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Ethnic" placeholder="Dân tộc"
-              tabindex="7" formControlName="ethnic">
+            <select class="custom-select" [ngClass]="{'mouse-hover': noneShow}" id="Ethnic" tabindex="7"
+              formControlName="ethnic" [attr.disabled]="noneShow ? 'disabled' : null">
+              <option selected value=null disabled>&#45;&#45; Chọn dân tộc &#45;&#45;</option>
+              <option *ngFor="let el of lstEthnic" value={{el.pk}}>{{el.item}}</option>
+            </select>
           </div>
           <label for="ContactPhone" class="col-sm-2 col-form-label text-md-right">Số điện thoại<span class="text-danger">*</span></label>
           <div class="col-sm-4">
@@ -96,27 +99,41 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
-                formControlName="country" tabindex="11">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="addressCountryChange($event)"
+                formControlName="country" tabindex="10">
+                <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+                <option *ngFor="let conntry of lstAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+              </select>
             </div>
-            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
+            <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
-                formControlName="province" tabindex="12">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressProvinceChange($event)"
+                id="addrprovince" formControlName="province" tabindex="11">
+                <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+                <option *ngFor="let province of lstAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
-                formControlName="district" tabindex="11">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressDistrictChange($event)"
+                id="addrdistrict" formControlName="district" tabindex="12">
+                <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+                <option *ngFor="let district of lstAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+              </select>
             </div>
-            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
+            <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Phường/Xã"
-                formControlName="wards" tabindex="12">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
+                tabindex="13">
+                <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+                <option *ngFor="let addrward of lstAddress_Wards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
+
+
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Sổ hộ khẩu</label>
             <div class="col-sm-4">
@@ -131,25 +148,37 @@
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quốc gia<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quốc gia"
-                formControlName="country" tabindex="11">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="contactAddressCountryChange($event)"
+                formControlName="country" tabindex="10">
+                <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+                <option *ngFor="let conntry of lstContactAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+              </select>
             </div>
-            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
+            <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="email" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Tỉnh/Thành phố"
-                formControlName="province" tabindex="12">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressProvinceChange($event)"
+                id="addrprovince" formControlName="province" tabindex="11">
+                <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+                <option *ngFor="let province of lstContactAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
             <label class="col-sm-2 col-form-label text-md-right">Quận/Huyện<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Quận/Huyện"
-                formControlName="district" tabindex="11">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressDistrictChange($event)"
+                id="addrdistrict" formControlName="district" tabindex="12">
+                <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
+                <option *ngFor="let district of lstContactAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+              </select>
             </div>
-            <label for="ContactPnEmail" class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
+            <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger">*</span></label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ContactPnEmail"
-                placeholder="Phường/Xã" formControlName="wards" tabindex="12">
+              <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
+                tabindex="13">
+                <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
+                <option *ngFor="let addrward of lstContactAddress_Wards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+              </select>
             </div>
           </div>
           <div class="form-group row mb-3">
@@ -166,19 +195,20 @@
       <ng-template ngbTabContent>
         <div class="" formArrayName="bankAccountLst" *ngFor="let bank of addEditForm.controls['bankAccountLst']['controls']; index as i">
           <div [formGroupName]="i">
-            <div class="row my-3 border-top" *ngIf="i>0" >
-              <div class="col text-right mt-1" >
+            <div class="row my-3 border-top" *ngIf="i>0">
+              <div class="col text-right mt-1">
                 <button class="btn btn-danger" (click)="onRemoveBankGroup($event,i)" [ngClass]="{'d-none': noneShow}">
                   <span class="fa fa-trash-o"></span>
                 </button>
               </div>
             </div>
             <div class="form-group row my-3">
-              <label class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+              <label class="col-sm-2 col-form-label text-md-right">Ngân hàng:</label>
               <div class="col-sm-4">
-                <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" formControlName="bankCode" name="bankCode"
+                <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}"
                   [attr.disabled]="noneShow ? 'disabled' : null">
-                  <option *ngFor="let item of bankList" [value]="item.bankCode">{{item.bankName}}</option>
+                  <option selected value=null disabled>&#45;&#45; Chọn Ngân hàng &#45;&#45;</option>
+                  <option *ngFor="let item of lstBank" [value]="item.bankCode">{{item.bankName}}</option>
                 </select>
                 <input type="hidden" formControlName="bankCode" name="bankCode" />
               </div>
@@ -373,7 +403,8 @@
                 <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
                   ngbDatepicker #businessTransportLicenseIssueDatepick="ngbDatepicker" formControlName="businessTransportLicenseIssueDate">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseIssueDatepick.toggle()" type="button">
+                  <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseIssueDatepick.toggle()"
+                    type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -387,7 +418,8 @@
                 <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
                   ngbDatepicker #businessTransportLicenseExpDatePick="ngbDatepicker" formControlName="businessTransportLicenseExpDate">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseExpDatePick.toggle()" type="button">
+                  <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseExpDatePick.toggle()"
+                    type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -418,7 +450,8 @@
                 <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
                   ngbDatepicker #moderatorLicenseIssueDatePick="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseIssueDatePick.toggle()" type="button">
+                  <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseIssueDatePick.toggle()"
+                    type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -432,7 +465,8 @@
                 <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
                   ngbDatepicker #moderatorLicenseExpDatePick="ngbDatepicker" formControlName="moderatorLicenseExpDate">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseExpDatePick.toggle()" type="button">
+                  <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseExpDatePick.toggle()"
+                    type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -454,17 +488,16 @@
   </div>
 </form>
 <ng-template #imgView let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <div class="text-center">{{imgName}}</div>
-  
-      <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <img class="imgFull" [src]="ulrImgFull" alt="" />
-      <br>
-      <br>
-    </div>
-  </ng-template>
-  
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>
