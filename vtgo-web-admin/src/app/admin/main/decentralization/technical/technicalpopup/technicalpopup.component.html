@@ -1,51 +1,70 @@
 <form [formGroup]="addEditForm" novalidate>
-    <ngb-tabset>
-      <ngb-tab title="Thông tin nhân viên Kỹ thuật">
-        <ng-template ngbTabContent>
-          <input type="text" id="accountid" hidden formControlName="accountId">
-          <div class="form-group row my-3">
-            <label for="fullname" class="col-sm-2 col-form-label text-md-right">Tên đăng nhập</label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="username" name="userName" placeholder="Tên đăng nhập"
-                formControlName="userName" tabindex="1" />
-            </div>
-            <label for="fullname" class="col-sm-2 col-form-label text-md-right">Mật khẩu</label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="password" name="password" placeholder="Mật khẩu"
-                formControlName="password" tabindex="5" />
-            </div>
-            
+  <ngb-tabset>
+    <ngb-tab title="Thông tin nhân viên Kỹ thuật">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Họ và tên"
+              formControlName="fullName" tabindex="1" readonly="readonly"/>
           </div>
-          <div class="form-group row my-3">
-              <label for="nationality" class="col-sm-2 col-form-label text-md-right">Họ và tên </label>
-              <div class="col-sm-4">
-                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Họ tên" formControlName="fullName"
-                  tabindex="2" />
-              </div>
-            <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh</label>
-            <div class="col-sm-4">
-              <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'"
-                name="dateOfBirth" formControlName="dateOfBirth">
-            </div>
+          <label for="fullname" class="col-sm-2 col-form-label text-md-right">Email</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="email" name="email" placeholder="Email" formControlName="email"
+              tabindex="2" readonly="readonly"/>
           </div>
-          <div class="form-group row my-3">
-            <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính </label>
-            <div class="col-sm-4">
-              <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="7">
-                <option selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
-                <option value="1">Nam</option>
-                <option value="0">Nữ</option>
-              </select>
-            </div>
-            <label for="gender" class="col-sm-2 col-form-label text-md-right">Loại tài khoản</label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" name="acctType" formControlName="acctType">
-            </div>
+
+        </div>
+        <div class="form-group row my-3">
+          <label for="nationality" class="col-sm-2 col-form-label text-md-right">Số điện thoại</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Số điện thoại"
+              formControlName="phoneNumber" tabindex="3" readonly="readonly"/>
           </div>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success">Save</button>
-    </div>
-  </form>
+          <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Loại tài khoản</label>
+          <div class="col-sm-4">
+            <select id="accountType" class="form-control" formControlName="accountType" tabindex="4" readonly="readonly">
+              <option value=null disabled selected>&#45;&#45; Chọn loại tài khoản &#45;&#45;</option>
+              <option value="5">Bộ phận kinh doanh</option>
+              <option value="6">Bộ phận hỗ trợ</option>
+              <option value="7">Bộ phận kế toán</option>
+              <option value="8">Bộ phận kỹ thuật</option>
+              <option value="9">Bộ phận quản lý</option>
+            </select>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="File Ảnh đại diện">
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <label class="col-sm-6" *ngIf="isAdd">Ảnh đại diện</label>
+          <label class="col-sm-12" *ngIf="!isAdd">Ảnh đại diện</label>
+          <div class="col-sm-6" formGroupName="fileAvata" *ngIf="isAdd">
+            <input type="file" multiple class="form-control" id="inputGroupFile" (change)="selectFile($event,'AVATA')" />
+          </div>
+          <div class="col-sm-6" (click)="openImg(imgView,getUrlImg('AVATA'),keyArr)" *ngIf="!isAdd">
+            <img class="imgavt" [src]="getUrlImg('AVATA') + keyArr" alt="" />
+            <br>
+            <div class="text-center img-name">{{keyArr}}</div>
+          </div>
+
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</form>
+<ng-template #imgView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d('Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>
