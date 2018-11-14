@@ -4,43 +4,43 @@
             <ng-template ngbTabContent>
                 <input type="text" id="accountid" hidden formControlName="accountId">
                 <div class="form-group row my-3">
-                    <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
+                    <label for="fullname" class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Họ tên"
                             formControlName="fullName" tabindex="1" />
                     </div>
-                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">*</span></label>
+                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Quốc tịch"
                             formControlName="nationality" tabindex="2" />
                     </div>
                 </div>
                 <div class="form-group row my-3">
-                    <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh <span class="text-danger">*</span></label>
+                    <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'"
                             name="dateOfBirth" formControlName="dateOfBirth">
                     </div>
                 </div>
                 <div class="form-group row my-3">
-                    <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số CMT <span class="text-danger">*</span></label>
+                    <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số CMT </label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="identityNo" name="identityNo" placeholder="Số giấy tờ"
                             formControlName="identityNo" tabindex="4" />
                     </div>
-                    <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp <span class="text-danger">*</span></label>
+                    <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'yyyy-MM-dd'"
                             name="issueDate" formControlName="issueDate">
                     </div>
                 </div>
                 <div class="form-group row my-3">
-                    <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">*</span></label>
+                    <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp </label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="issueby" name="issueby" placeholder="Nơi cấp"
                             formControlName="issueBy" tabindex="6" />
                     </div>
-                    <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">*</span></label>
+                    <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính </label>
                     <div class="col-sm-4">
                         <select class="form-control" id="gender" name="gender" formControlName="gender" tabindex="7">
                             <option selected>&#45;&#45; Chọn giới tính &#45;&#45; </option>
@@ -51,12 +51,12 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại <span class="text-danger">*</span></label>
+                    <label for="phonenumber" class="col-sm-2 col-form-label text-md-right"> Số điện thoại</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="Số điện thoại"
                             formControlName="phoneNumber" tabindex="8" />
                     </div>
-                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Địa chỉ <span class="text-danger">*</span></label>
+                    <label for="nationality" class="col-sm-2 col-form-label text-md-right">Địa chỉ</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ "
                             formControlName="address" tabindex="9" />

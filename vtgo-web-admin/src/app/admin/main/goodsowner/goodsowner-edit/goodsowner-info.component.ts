@@ -16,15 +16,18 @@ export class GoodsownerInfoComponent implements OnInit {
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
   imgUrl = '';
-  keyArr :any;
+  keyArr: any;
   uploaderCMND: FileList;
   ulrImgFull = '';
   imgName = '';
+  isSelectFile = false;
+  imgOld: any;
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
+      this.imgOld = this._entity.attachProperties;
       this.keyArr = Object.values(this._entity.attachProperties);
       this.addEditForm.reset(owner);
     } else
@@ -33,7 +36,7 @@ export class GoodsownerInfoComponent implements OnInit {
   @Output() ownerViewModelChange = new EventEmitter<OwnerViewModel>();
   @Output() closeForm = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder,private modalServices: NgbModal,private dataService: DataService, private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private modalServices: NgbModal, private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
       fullName: new FormControl(''),
@@ -60,8 +63,13 @@ export class GoodsownerInfoComponent implements OnInit {
 
   Save(event) {
     // event.preventDefault();
-    this.uploadFileToServer(this.uploaderCMND, 'cmnd');
-    this._entity = this.addEditForm.value;
+    if (this.isSelectFile == true) {
+      this.uploadFileToServer(this.uploaderCMND, 'cmnd');
+      this._entity = this.addEditForm.value;
+    } else{
+      this._entity = this.addEditForm.value;
+      this._entity.attachProperties = this.imgOld;
+    }
     this.convert();
     this.ownerViewModelChange.emit(this._entity);
     this.closeForm.emit();
@@ -97,6 +105,7 @@ export class GoodsownerInfoComponent implements OnInit {
       this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
     this.getUrlImg('CMND');
+    this.isSelectFile = true;
   }
 
   getUrlImg(folder: string) {

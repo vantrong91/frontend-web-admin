@@ -94,6 +94,7 @@ export class ChangePwComponent implements OnInit {
     this.account.osType = this.currentUser[0].osType;
     this.account.password = this.newPassword;
     this.account.phoneNumber = this.currentUser[0].phoneNumber;
+    this.account.fileAvata = this.currentUser[0].fileAvata;
     this.dataService.Post('account-man/update', this.account).subscribe(
       response => {
         if (response.status === 0) {

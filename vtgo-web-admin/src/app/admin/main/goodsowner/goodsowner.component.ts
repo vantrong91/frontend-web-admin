@@ -104,7 +104,7 @@ export class GoodsOwnerComponent implements OnInit {
                     this.loadData();
                 }
                 else {
-                    this.toastr.error('Số điện thoại không hợp lệ', 'Cảnh báo');
+                    this.toastr.error('Đã xảy ra lỗi', 'Cảnh báo');
                 }
             }
         );

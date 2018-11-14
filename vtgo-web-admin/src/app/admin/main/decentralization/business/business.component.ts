@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DataService, AuthenService } from 'src/app/core';
+import { DataService, AuthenService, AccountViewModel, SearchModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -10,9 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class BusinessComponent implements OnInit {
 
-
-
+  data = [];
+  rows: any;
+  searchParam: SearchModel;
+  accountData: AccountViewModel;
   closeResult: string;
+  isAdd = false;
   constructor(
     private modalServices: NgbModal,
     private dataService: DataService,
@@ -25,24 +28,33 @@ export class BusinessComponent implements OnInit {
   }
 
   loadData() {
-
+    this.searchParam = new SearchModel();
+    this.searchParam.searchParam2 = 5;
+    this.search(this.searchParam);    
   }
 
-  rows = [
-    { accountId: "1", userName: "username1", fullName: "fullname1", gender: "1", dateOfBirth: "1545031493506", acctType: "5" },
-    { accountId: "2", userName: "username2", fullName: "fullname2", gender: "2", dateOfBirth: "1545031493507", acctType: "5" },
-    { accountId: "3", userName: "username3", fullName: "fullname3", gender: "1", dateOfBirth: "1545031493508", acctType: "5" },
-    { accountId: "4", userName: "username4", fullName: "fullname4", gender: "2", dateOfBirth: "1545031493509", acctType: "5" },
-    { accountId: "5", userName: "username5", fullName: "fullname5", gender: "1", dateOfBirth: "1545031493503", acctType: "5" },
-    { accountId: "6", userName: "username6", fullName: "fullname6", gender: "2", dateOfBirth: "1545031493504", acctType: "5" },
-    { accountId: "7", userName: "username7", fullName: "fullname7", gender: "1", dateOfBirth: "1545031493505", acctType: "5" },
-    { accountId: "8", userName: "username8", fullName: "fullname8", gender: "2", dateOfBirth: "1545031493510", acctType: "5" },
-    { accountId: "9", userName: "username9", fullName: "fullname9", gender: "1", dateOfBirth: "1545031493511", acctType: "5" },
-    { accountId: "10", userName: "username10", fullName: "fullname10", gender: "2", dateOfBirth: "1545031493523", acctType: "5" },
-    { accountId: "11", userName: "username11", fullName: "fullname11", gender: "1", dateOfBirth: "1545031493512", acctType: "5" },
-  ];
+  txtSearch(event) {
+    this.search(this.searchParam);
+  }
+
+
+  search(search) {
+    this.dataService.Post('account-man/search', search).subscribe(
+      response => {
+        if (response.status === 0) {
+          this.data = response.data;
+        }
+      }
+    );
+  }
+
+
+  getAccount(event) {
+    this.accountData = event;
+  }
 
   open(ele) {
+    this.accountData = new AccountViewModel;
     this.modalServices
       .open(ele, { size: 'lg' })
       .result.then(
@@ -70,10 +82,10 @@ export class BusinessComponent implements OnInit {
       .result.then(
         result => {
           this.closeResult = `Close with: ${result}`;
-          this.dataService.Post('/delete', { accountId: id }).subscribe(
+          this.dataService.Post('account-man/delete', { accountId: id }).subscribe(
             result => {
               if (result.status === 0) {
-                this.toastr.warning('Đã xóa chủ hàng có id là:' + id);
+                this.toastr.warning('Đã xóa tài khoản có id là:' + id);
                 this.loadData();
               } else {
                 this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');

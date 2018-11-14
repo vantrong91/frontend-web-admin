@@ -14,6 +14,7 @@ export class GoodsownerAddComponent implements OnInit {
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
   uploaderCMND: FileList;
+  isSelectFile = false;
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
@@ -30,10 +31,10 @@ export class GoodsownerAddComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
-      accountId: ['', Validators.required],
+      accountId: [''],
       fullName: ['', Validators.required],
       nationality: ['', Validators.required],
-      licenseNo: ['', Validators.required],
+      licenseNo: [''],
       issueDate: ['', Validators.required],
       issueBy: ['', Validators.required],
       gender: ['', Validators.required],
@@ -53,11 +54,16 @@ export class GoodsownerAddComponent implements OnInit {
 
   Save(event) {
     // event.preventDefault();
-    this.uploadFileToServer(this.uploaderCMND, 'cmnd');
-    this._entity = this.addEditForm.value;
-    this.convert();
-    this.ownerViewModelChange.emit(this._entity);
-    this.closeForm.emit();
+    if (this.isSelectFile == true) {
+      this.uploadFileToServer(this.uploaderCMND, 'cmnd');
+      this._entity = this.addEditForm.value;
+      this.convert();
+      this.ownerViewModelChange.emit(this._entity);
+      this.closeForm.emit();
+    } else {
+      this.toastr.warning('Bạn chưa chọn Chứng minh nhân dân', 'Cảnh báo');
+    }
+
   }
 
   convert() {
@@ -73,6 +79,7 @@ export class GoodsownerAddComponent implements OnInit {
     for (let item of fileListAsArray) {
       this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
+    this.isSelectFile = true;
   }
 
   uploadFileToServer(data: FileList, type: string) {

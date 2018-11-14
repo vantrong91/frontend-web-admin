@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { CompanyViewModel, DataService, SearchModel, ICategoryServiceToken, ICategoryService, IAddressServiceToken, IAddressService } from '../../../../core';
+import {
+  CompanyViewModel, DataService,
+  SearchModel, AddressConstant,
+  ICategoryServiceToken, ICategoryService,
+  IAddressServiceToken, IAddressService,
+  IBankListServiceToken, IBankListService
+} from '../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
@@ -26,7 +32,7 @@ export class CompanyComponent implements OnInit {
 
   isAdd = false; //isAdd =true => add new; flase => edit
 
-
+  addressConstant=new AddressConstant();
   searchAddress: SearchModel;
   lstAddress_Country = [];
   lstAddress_Province = [];
@@ -37,6 +43,8 @@ export class CompanyComponent implements OnInit {
   lstContactAddress_Province = [];
   lstContactAddress_District = [];
   lstContactAddress_Wards = [];
+
+  lstBank = [];
 
   /* Private Vảiables */
   _entity: CompanyViewModel;
@@ -91,6 +99,7 @@ export class CompanyComponent implements OnInit {
     private modalServices: NgbModal,
     @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
     @Inject(IAddressServiceToken) private addressService: IAddressService,
+    @Inject(IBankListServiceToken) private bankListService: IBankListService,
 
     private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
@@ -137,11 +146,37 @@ export class CompanyComponent implements OnInit {
     } else {
       this.addEditForm.enable();
     }
-
     this.searchAddress = new SearchModel();
+    this.getCountryProvince();
+    this.getBankList();
 
+    if (!this.isAdd) {
+      this.loadAddress();//to show + update
+    }
+  }
+
+
+  onSave(event) {
+    this._entity = this.addEditForm.value;
+    this.convert();
+    if (this.isAdd) {
+      console.log('add new img');
+      this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
+      this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
+      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+    }
+    else
+      this._entity.attachProperties = this.oldAttachPro;
+    this._entity.vehicleOwnerType = 0;
+    this.companyViewModelChange.emit(this._entity);
+    this.closeEvent.emit();
+    // }
+  }
+
+  getCountryProvince() {
     //getAllCountry
-    this.searchAddress.searchParam2 = -1;
+    this.searchAddress.searchParam2 =this.addressConstant.COUNTRY;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Country = response.data;
@@ -151,51 +186,67 @@ export class CompanyComponent implements OnInit {
     )
 
     //get ALL Province of VN
-    this.searchAddress.searchParam2 = 0;
+    this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstContactAddress_Province = response.data;
       }
     );
+  }
 
-    if (!this.isAdd) {
-      this.loadAddress();
-    }
+  getBankList() {
+    this.bankListService.Get(new SearchModel).subscribe(
+      response => {
+        this.lstBank = response.data;
+      },
+      error => console.log(error)
+    );
   }
 
   loadAddress() {
-    console.log(Object.values(this._entity.address));
+    // console.log(this._entity.address);
+    // console.log(Object.values(this._entity.address));
+    // console.log(this._entity.contactAddress);
+    // console.log(Object.values(this._entity.contactAddress));
+
     //Load Address district
-    this.searchAddress.searchParam2 = Object.values(this._entity.address)[1];
-    this.addressService.getProvince(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_District = response.data;
-      }
-    );
+    if (Object.values(this._entity.address)[1] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.address)[1];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstAddress_District = response.data;
+        }
+      );
+    }
     // Load Address Ward
-    this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
-    this.addressService.getProvince(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_Wards = response.data;
-      }
-    );
+    if (Object.values(this._entity.address)[4] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstAddress_Wards = response.data;
+        }
+      );
+    }
 
     //Load contact Address district
-    this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
-    this.addressService.getProvince(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstContactAddress_District = response.data;
-      }
-    );
+    if (Object.values(this._entity.contactAddress)[1] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstContactAddress_District = response.data;
+        }
+      );
+    }
     // Load contact Address Ward
-    this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
-    this.addressService.getProvince(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstContactAddress_Wards = response.data;
-      }
-    );
-
+    if (Object.values(this._entity.contactAddress)[4] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstContactAddress_Wards = response.data;
+        }
+      );
+    }
 
   }
 
@@ -207,7 +258,9 @@ export class CompanyComponent implements OnInit {
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
-        this.lstAddress_Province.unshift('');
+        this.lstAddress_Province.unshift('');  
+        // this.lstAddress_District = [];
+        // this.lstAddress_Wards = [];
       }
     )
   }
@@ -243,6 +296,8 @@ export class CompanyComponent implements OnInit {
       (response: any) => {
         this.lstContactAddress_Province = response.data;
         this.lstContactAddress_Province.unshift('');
+        // this.lstContactAddress_District=[];
+        // this.lstContactAddress_Wards = [];
       }
     )
   }
@@ -268,23 +323,7 @@ export class CompanyComponent implements OnInit {
     )
   }
 
-  onSave(event) {
-    this._entity = this.addEditForm.value;
-    this.convert();
-    if (this.isAdd) {
-      console.log('add new img');
-      this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
-      this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
-      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
-      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
-    }
-    else
-      this._entity.attachProperties = this.oldAttachPro;
-    this._entity.vehicleOwnerType = 0;
-    this.companyViewModelChange.emit(this._entity);
-    this.closeEvent.emit();
-    // }
-  }
+
   //show img
   getUrlImg(folder: string) {
     this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';

@@ -23,7 +23,7 @@
                   </div>
               </div>
               <div class="form-group row my-3">
-                  <label for="licenseno" class="col-sm-2 col-form-label text-md-right">Số CMT <span class="text-danger" *ngIf="addEditForm.get('identityNo').invalid && addEditForm.get('identityNo').touched">*</span></label>
+                  <label for="identityNo" class="col-sm-2 col-form-label text-md-right">Số CMT <span class="text-danger" *ngIf="addEditForm.get('identityNo').invalid && addEditForm.get('identityNo').touched">*</span></label>
                   <div class="col-sm-4">
                       <input type="text" class="form-control" id="identityNo" name="identityNo" placeholder="Số giấy tờ" formControlName="identityNo"
                           tabindex="4" />
@@ -76,7 +76,7 @@
       </ngb-tab>
   </ngb-tabset>
   <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="(Save($event))">Save</button>
+      <button type="button" class="btn btn-success" [disabled]="addEditForm.invalid" (click)="(Save($event))">Save</button>
   </div>
   
 </form>

@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PersonalViewModel, DataService } from '../../../../core';
+import {
+  PersonalViewModel,
+  DataService, SearchModel,
+  ICategoryServiceToken, ICategoryService,
+  IAddressServiceToken, IAddressService,
+  IBankListService, IBankListServiceToken
+} from '../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
+import { AddressConstant } from 'src/app/core/constant/address.constant.modal';
 
 @Component({
   selector: 'app-personal',
@@ -24,6 +31,24 @@ export class PersonalComponent implements OnInit {
   imgName = '';
 
   isAdd = false; //isAdd =true => add new;  flase => edit
+
+  //to get,set Address
+  addressConstant = new AddressConstant();
+  searchAddress = new SearchModel();;
+  lstAddress_Country = [];
+  lstAddress_Province = [];
+  lstAddress_District = [];
+  lstAddress_Wards = [];
+
+  lstContactAddress_Country = [];
+  lstContactAddress_Province = [];
+  lstContactAddress_District = [];
+  lstContactAddress_Wards = [];
+
+  searchEthnic: SearchModel;
+  lstEthnic = [];
+
+  lstBank = [];
 
   /* Private Vảiables */
   _entity: PersonalViewModel;
@@ -55,14 +80,7 @@ export class PersonalComponent implements OnInit {
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
-  bankList = [{
-    'bankCode': 'MBB',
-    'bankName': 'Ngân hàng quân đội'
-  },
-  {
-    'bankCode': 'VPB',
-    'bankName': 'Ngân hàng VPbank'
-  }];
+  
   // Form Group
   public addEditForm: FormGroup;
 
@@ -70,6 +88,9 @@ export class PersonalComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private modalServices: NgbModal,
+    @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
+    @Inject(IAddressServiceToken) private addressService: IAddressService,
+    @Inject(IBankListServiceToken) private bankListService: IBankListService,
     private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
       accountId: new FormControl(''),
@@ -116,6 +137,14 @@ export class PersonalComponent implements OnInit {
     } else {
       this.addEditForm.enable();
     }
+
+    this.getEthnic();
+    this.getBankList();
+    this.getCountryProvince();
+    if (!this.isAdd) {
+      this.loadAddress();
+    }
+
   }
 
   onSave(event) {
@@ -132,11 +161,168 @@ export class PersonalComponent implements OnInit {
       this._entity.attachProperties = this.oldAttachPro;
     }
     // if (this.addEditForm.valid) {
-      this._entity.vehicleOwnerType = 1;
+    this._entity.vehicleOwnerType = 1;
     this.personViewModelChange.emit(this._entity);
     this.closeForm.emit();
     // }
   }
+
+  getEthnic() {
+    //get Ethnic list
+    this.searchEthnic = new SearchModel();
+    this.searchEthnic.searchParam2 = 4;
+    this.categoryService.Get(this.searchEthnic).subscribe(
+      (response: any) => {
+        this.lstEthnic = response.data;
+      }
+    );
+  }
+
+  getCountryProvince() {
+    //getAllCountry
+
+    this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Country = response.data;
+
+        this.lstContactAddress_Country = response.data;
+      }
+    )
+
+    //get ALL Province of VN
+    this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Province = response.data;
+        this.lstContactAddress_Province = response.data;
+      }
+    );
+  }
+
+  getBankList() {
+    this.bankListService.Get(new SearchModel).subscribe(
+      response => {
+        this.lstBank = response.data;
+      },
+      error => console.log(error)
+    );
+  }
+
+  loadAddress() {
+    console.log(this._entity.address);
+    console.log(this._entity.contactAddress);
+
+    //Load Address district from province
+    if (Object.values(this._entity.address)[2] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.address)[2];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstAddress_District = response.data;
+        }
+      );
+    }
+    // Load Address Ward from district
+    if (Object.values(this._entity.address)[4] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstAddress_Wards = response.data;
+        }
+      );
+    }
+
+    //Load contact Address district from province
+    if (Object.values(this._entity.contactAddress)[1] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstContactAddress_District = response.data;
+        }
+      );
+    }
+    // Load contact Address Ward from district
+    if (Object.values(this._entity.contactAddress)[4] != null) {
+      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
+      this.addressService.getProvince(this.searchAddress).subscribe(
+        (response: any) => {
+          this.lstContactAddress_Wards = response.data;
+        }
+      );
+    }
+
+  }
+
+  //On select change => reload list province address
+  addressCountryChange(event) {
+    console.log(event.target.value);
+
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Province = response.data;
+        this.lstAddress_Province.unshift('');
+      }
+    )
+  }
+  //reload District
+  addressProvinceChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_District = response.data;
+        this.lstAddress_District.unshift('');
+        this.lstAddress_Wards = [];
+      }
+    )
+  }
+  //reload Ward
+  addressDistrictChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstAddress_Wards = response.data;
+        this.lstAddress_Wards.unshift('');
+      }
+    )
+  }
+
+  /////////////////////////////////////////////////contact Addr
+  //get list Province of Contact Address
+  contactAddressCountryChange(event) {
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_Province = response.data;
+        this.lstContactAddress_Province.unshift('');
+      }
+    )
+  }
+
+  contactAddressProvinceChange(event) {
+    console.log(event.target.value);
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_District = response.data;
+        this.lstContactAddress_District.unshift('');
+        this.lstContactAddress_Wards = [];
+      }
+    )
+  }
+  contactAddressDistrictChange(event) {
+    this.searchAddress.searchParam2 = event.target.value;
+    this.addressService.getProvince(this.searchAddress).subscribe(
+      (response: any) => {
+        this.lstContactAddress_Wards = response.data;
+        this.lstContactAddress_Wards.unshift('');
+      }
+    )
+  }
+
+
 
   //show img
   getUrlImg(folder: string) {
@@ -257,7 +443,7 @@ export class PersonalComponent implements OnInit {
   obj() {
     return JSON.parse(`
     {
-      "fullName": "Nguyen Van Hoang",
+      "fullName": "ThaiPersonal",
       "director": "Pham Huu Nam",
       "taxCode": 1111,
       "contactPhone": "017577799",
