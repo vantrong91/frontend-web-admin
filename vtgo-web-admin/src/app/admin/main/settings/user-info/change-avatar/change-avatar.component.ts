@@ -67,7 +67,6 @@ export class ChangeAvatarComponent implements OnInit {
   selectFile(ev) {
     this.uploaderAVATAR = ev.target.files;
     const fileListAsArray = Array.from(this.uploaderAVATAR);
-    console.log(fileListAsArray);
     this.changeAvatar.value.fileAvatar= '';
     this.changeAvatar.controls.fileAvatar.setValue(fileListAsArray[0].name);
 
@@ -105,12 +104,9 @@ export class ChangeAvatarComponent implements OnInit {
           this.account.phoneNumber = this.currentUser[0].phoneNumber;
           this.account.salt = this.currentUser[0].salt;
           this.closeModalEvent.emit(this.account.fileAvata);
-          console.log(this.account.fileAvata);
           this.dataService.Post('account-man/update', this.account).subscribe(
             response => {
               if (response.status === 0) {
-                console.log(response);
-                
                 localStorage.removeItem(SystemConfig.CURRENT_USER);
                 this.user = new LoginViewModel();
                 this.user.email = this.account.email;

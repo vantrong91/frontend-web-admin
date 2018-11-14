@@ -47,9 +47,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     viewData(event) {
         console.log(event);
         this.urlFull = this.imgUrl + event;
-
         console.log(this.urlFull);
-
     }
 
 

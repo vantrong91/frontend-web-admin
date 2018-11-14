@@ -33,17 +33,13 @@ export class UserInfoComponent implements OnInit {
   urlFull = '';
   getUrlFromChange: any;
 
-  @Output() closeModalEvent = new EventEmitter<any>();
   viewData(event) {
     this.urlFull = this.imgUrl + event;
-    this.closeModalEvent.emit(event);
   }
   
   ngOnInit(): void {
     this.loadData();
     this.urlFull = this.getUrlImg('AVATA');
-    console.log(this.urlFull);
-
   }
 
   loadData() {

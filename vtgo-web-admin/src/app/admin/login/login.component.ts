@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
   pageTitle = '';
   noti = '';
   user: LoginViewModel;
-  constructor(private router: Router, private modalServices: NgbModal,
+  isSaveAccount = false;
+  constructor(private router: Router,  private cookie: CookieService,private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 
   login(loginForm: NgForm) {
@@ -31,6 +32,11 @@ export class LoginComponent implements OnInit {
       if (item !== null) {
         if (item.status === 0) {
           this.router.navigate(['/admin/main']);
+          if (this.isSaveAccount == true) {
+            this.cookie.deleteAll();
+            this.cookie.set("email", this.user.email);
+            this.cookie.set("password", this.user.password);         
+          }
         }
       }
       else {
@@ -49,22 +55,15 @@ export class LoginComponent implements OnInit {
   }
 
   saveAccount(event) {
-
     if (event.target.checked == true) {
       this.isSaveAccount = true;
 
     } else {
       this.isSaveAccount = false;
     }
-    console.log(this.isSaveAccount);
-
   }
-
-
-
   open(ele) {
     this.modalServices
       .open(ele, { size: 'sm' })
   }
-
 }

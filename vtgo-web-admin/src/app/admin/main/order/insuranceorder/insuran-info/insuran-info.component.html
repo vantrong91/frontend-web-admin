@@ -46,7 +46,7 @@
     <label for="State" class="col-sm-2 col-form-label text-md-right">Trạng thái </label>
     <div class="col-sm-4">
       <select class="custom-select form-control" [ngClass]="{'is-invalid': displayMessage.state}" id="State"
-        formControlName="state" tabindex="7">
+        formControlName="state" tabindex="7" disabled>
         <option value=null disabled selected>&#45;&#45; Chọn trạng thái &#45;&#45;</option>
         <option value="1">Đơn hàng được đăng ký mua bảo hiểm</option>
         <option value="2">đã gửi push yêu cầu chủ hàng xác nhận mua bảo hiểm</option>
@@ -64,6 +64,8 @@
   </div>
 </form>
 <div class="modal-footer">
+  <span *ngIf="addEditForm.invalid" style="color: red" class="is-invalid">
+    Hãy điền đầy đủ thông tin
+  </span>
   <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="addEditForm.invalid">Save</button>
-  <!-- <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div> -->
 </div>
