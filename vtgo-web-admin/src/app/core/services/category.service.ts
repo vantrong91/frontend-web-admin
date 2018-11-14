@@ -15,6 +15,10 @@ export class CategoryService {
         return this.dataService.Post(`${this.URL_API_CATEGORY}/search`, entity);
     }
 
+    GetType(entity: SearchModel): Observable<any>{
+        return this.dataService.Post(`${this.URL_API_CATEGORY}/searchType`, entity);
+    }
+
     Put(entity: CategoryViewModel): Observable<any> {
         return this.dataService.Post(`${this.URL_API_CATEGORY}/update`, entity);
     }

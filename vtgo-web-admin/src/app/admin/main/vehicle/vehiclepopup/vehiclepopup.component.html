@@ -60,17 +60,7 @@
             <select class="custom-select form-control" (change)="ChangingValue($event)" id="VehicleType"
               formControlName="vehicleType" tabindex="6" [ngClass]="{'has-error': (addEditForm.get('vehicleType').touched || addEditForm.get('vehicleType').dirty) && !addEditForm.get('vehicleType').valid}">
               <option value=null disabled selected>&#45;&#45; Chọn loại xe &#45;&#45;</option>
-              <option value="10">Xe tải thùng bạt</option>
-              <option value="18">Xe tải thùng kín</option>
-              <option value="26">Xe đông lạnh</option>
-              <option value="34">Xe ben</option>
-              <option value="42">Xe có cẩu chuyên dụng</option>
-              <option value="50">Xe container</option>
-              <option value="51">Xe fooc</option>
-              <option value="52">Xe cứu hộ</option>
-              <option value="53">Xe chuyên dùng chở ô tô</option>
-              <option value="54">Xe taxi tải</option>
-              <option value="62">Xe siêu trường, siêu trọng</option>
+              <option *ngFor="let vehicle of lstVehicle" value={{vehicle.pk}}>{{vehicle.item}}</option>
             </select>
           </div>
         </div>
@@ -88,7 +78,7 @@
           <label for="Weight" class="col-sm-2 col-form-label text-md-right">Tải trọng <span class="text-danger" *ngIf="addEditForm.get('weight').errors"></span></label>
           <div class="col-sm-4">
             <select class="custom-select form-control" id="Weight" formControlName="weight" tabindex="6">
-              <option value=null disabled selected>&#45;&#45; Chọn loại xe &#45;&#45;</option>
+              <option value=null disabled selected>&#45;&#45; Chọn tải trọng &#45;&#45;</option>
               <option *ngFor="let cate of lstCategory" value={{cate.pk}}>{{cate.item}}</option>
             </select>
           </div>

@@ -27,15 +27,16 @@ export class ConfigVehiclefinesComponent implements OnInit {
 
   initData(){
     this.searchObject = new SearchModel();
-    this.searchObject.searchParam = '1';
+    this.searchObject.searchParam2 = 1;
     this.search(this.searchObject);
   }
 
   search(search: SearchModel){
-    this.categoryService.Get(search).subscribe(
+    this.categoryService.GetType(search).subscribe(
       (response: any) => {
         if(response.status === 0){
           this.lstCategory = response.data;
+          console.log(this.lstCategory.pk);
         }
       }
     )

@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   noti = '';
   user: LoginViewModel;
   isSaveAccount = false;
+  currentUser: any;
+
   constructor(private router: Router,  private cookie: CookieService,private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 

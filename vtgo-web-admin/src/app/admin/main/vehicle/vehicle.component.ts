@@ -31,6 +31,8 @@ export class VehicleComponent implements OnInit {
   imgUrl = '';
   ulrImgFull = '';
   imgName = '';
+  isToggle = false;
+  oldLicenceIssueBy: string;
 
 
 
@@ -72,21 +74,29 @@ export class VehicleComponent implements OnInit {
   getUrlImg(folder: string) {
     this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
     return this.imgUrl;
-}
+  }
 
   openImg(ele, imgUrl, fileName) {
     this.ulrImgFull = imgUrl + fileName;
     this.imgName = fileName;
     this.modalService.open(ele, { windowClass: 'dark-modal', size: 'lg' });
-}
+  }
 
   toggleExpandRow(row) {
-    
-    this.addressService.getById(row.licenceIssueBy).subscribe(
-      (response: any) => {
-        row.licenceIssueBy = response.data[0].tenDinhDanh;
-      }
-    );
+    if(row.licenceIssueBy > 0){      
+      this.isToggle = true;
+    }else{
+      this.isToggle = false;
+    }
+    if (this.isToggle) {
+      this.addressService.getById(row.licenceIssueBy).subscribe(
+        (response: any) => {
+          this.oldLicenceIssueBy = row.licenceIssueBy;
+          row.licenceIssueBy = response.data[0].tenDinhDanh;
+        }
+      );
+    }
+    console.log(this.isToggle);
     this._vehicleTable.rowDetail.toggleExpandRow(row);
   }
   onDetailToggle(event) {
@@ -104,6 +114,9 @@ export class VehicleComponent implements OnInit {
   //View Vehicle
   // EDIT Vehicle
   edit(row, content) {
+    if(this.oldLicenceIssueBy !== undefined){
+      row.licenceIssueBy = this.oldLicenceIssueBy;
+    }
     this._entityVehicle = row;
     this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Close with : ${result}`;

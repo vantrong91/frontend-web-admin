@@ -23,6 +23,7 @@ export class VehiclepopupComponent implements OnInit {
   uri = 'http://ngx-uploader.com/upload';
   lstCategory: any;
   lstAddress: any;
+  lstVehicle: any;
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
@@ -123,6 +124,15 @@ export class VehiclepopupComponent implements OnInit {
       (response: any) => {
         this.lstAddress = response.data;
       }
+    );
+    this.searchObject2.searchParam2 = 1;
+    this.vehicleService.GetListVehicleType(this.searchObject2).subscribe(
+      (response:any) => {
+        if(response.status === 0){
+          console.log(response);
+          this.lstVehicle = response.data;
+        }
+      }
     )
   }
 
@@ -177,9 +187,8 @@ export class VehiclepopupComponent implements OnInit {
   }
 
   ChangingValue(event){
-    
     this.searchObject = new SearchModel();
-    this.searchObject.searchParam = event.target.value;
+    this.searchObject.searchParam2 = event.target.value;
     this.vehicleService.GetListVehicleType(this.searchObject).subscribe(
       (response:any) => {
         if(response.status === 0){
