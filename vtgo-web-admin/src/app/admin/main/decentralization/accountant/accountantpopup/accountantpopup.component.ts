@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountantpopupComponent implements OnInit {
   public addEditForm: FormGroup;
-  isAdd = false;
   _entity: AccountViewModel;
   uploaderAVATA: FileList;
   keyArr: any;
@@ -19,10 +18,11 @@ export class AccountantpopupComponent implements OnInit {
   ulrImgFull = '';
   imgName = '';
   confirmPassword: any;
+  
+  @Input() isShowAvatar;
 
   @Input() set _entityAccount(accountData: AccountViewModel) {
     if (accountData.accountId !== 0) {
-      this.isAdd = false;
       this._entity = new AccountViewModel();
       this._entity = accountData;
       this.keyArr = this._entity.fileAvata;
@@ -30,7 +30,6 @@ export class AccountantpopupComponent implements OnInit {
       
       this.addEditForm.reset(accountData);
     } else {
-      this.isAdd = true;
       this._entity = new AccountViewModel();
       this.addEditForm.reset();
     }
@@ -53,7 +52,7 @@ export class AccountantpopupComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {    
   }
 
 

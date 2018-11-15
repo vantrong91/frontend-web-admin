@@ -13,7 +13,6 @@ export class TechnicalpopupComponent implements OnInit {
 
   
   public addEditForm: FormGroup;
-  isAdd = false;
   _entity: AccountViewModel;
   uploaderAVATA: FileList;
   keyArr: any;
@@ -21,10 +20,11 @@ export class TechnicalpopupComponent implements OnInit {
   ulrImgFull = '';
   imgName = '';
   confirmPassword: any;
+  
+  @Input() isShowAvatar;
 
   @Input() set _entityAccount(accountData: AccountViewModel) {
     if (accountData.accountId !== 0) {
-      this.isAdd = false;
       this._entity = new AccountViewModel();
       this._entity = accountData;
       this.keyArr = this._entity.fileAvata;
@@ -32,7 +32,6 @@ export class TechnicalpopupComponent implements OnInit {
       
       this.addEditForm.reset(accountData);
     } else {
-      this.isAdd = true;
       this._entity = new AccountViewModel();
       this.addEditForm.reset();
     }
@@ -55,7 +54,7 @@ export class TechnicalpopupComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {    
   }
 
 

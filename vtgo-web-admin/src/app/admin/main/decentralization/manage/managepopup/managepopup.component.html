@@ -35,20 +35,15 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="File Ảnh đại diện">
+    <ngb-tab title="File Ảnh đại diện" *ngIf="isShowAvatar">
       <ng-template ngbTabContent>
-        <div class="form-group row my-3">
-          <label class="col-sm-6" *ngIf="isAdd">Ảnh đại diện</label>
-          <label class="col-sm-12" *ngIf="!isAdd">Ảnh đại diện</label>
-          <div class="col-sm-6" formGroupName="fileAvata" *ngIf="isAdd">
-            <input type="file" multiple class="form-control" id="inputGroupFile" (change)="selectFile($event,'AVATA')" />
-          </div>
-          <div class="col-sm-6" (click)="openImg(imgView,getUrlImg('AVATA'),keyArr)" *ngIf="!isAdd">
+        <div class="form-group row my-3">         
+          <label class="col-sm-12">Ảnh đại diện</label>
+          <div class="col-sm-6" (click)="openImg(imgView,getUrlImg('AVATA'),keyArr)">
             <img class="imgavt" [src]="getUrlImg('AVATA') + keyArr" alt="" />
             <br>
             <div class="text-center img-name">{{keyArr}}</div>
           </div>
-
         </div>
       </ng-template>
     </ngb-tab>

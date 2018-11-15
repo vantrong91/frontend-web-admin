@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService, AuthenService, AccountViewModel, SearchModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
@@ -10,12 +10,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class BusinessComponent implements OnInit {
 
+  rows = "";
   data = [];
-  rows: any;
+  showData = [];
+  accountList: AccountViewModel;
   searchParam: SearchModel;
   accountData: AccountViewModel;
   closeResult: string;
   isAdd = false;
+  isSetAvatar= true;
+
+  @ViewChild('content') content: any;
   constructor(
     private modalServices: NgbModal,
     private dataService: DataService,
@@ -30,7 +35,9 @@ export class BusinessComponent implements OnInit {
   loadData() {
     this.searchParam = new SearchModel();
     this.searchParam.searchParam2 = 5;
-    this.search(this.searchParam);    
+    this.search(this.searchParam);
+    console.log(this.searchParam);
+    
   }
 
   txtSearch(event) {
@@ -48,13 +55,20 @@ export class BusinessComponent implements OnInit {
     );
   }
 
-
   getAccount(event) {
     this.accountData = event;
+    if(this.accountData.fileAvata == null){
+      this.accountData.fileAvata = ""
+      this.isSetAvatar = false;
+    } else{
+      this.accountData.fileAvata = event.fileAvata;
+      this.isSetAvatar = true;
+    }
+    this.open(this.content);
   }
 
   open(ele) {
-    this.accountData = new AccountViewModel;
+    // this.accountData = new AccountViewModel;
     this.modalServices
       .open(ele, { size: 'lg' })
       .result.then(
@@ -97,7 +111,6 @@ export class BusinessComponent implements OnInit {
           (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
       );
   }
-
 
 
 

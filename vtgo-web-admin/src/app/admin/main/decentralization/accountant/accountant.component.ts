@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService, AuthenService, SearchModel, AccountViewModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,9 @@ export class AccountantComponent implements OnInit {
   accountData: AccountViewModel;
   closeResult: string;
   isAdd = false;
+  isSetAvatar= true;
+
+  @ViewChild('content') content: any;
   constructor(
     private modalServices: NgbModal,
     private dataService: DataService,
@@ -53,10 +56,18 @@ export class AccountantComponent implements OnInit {
 
   getAccount(event) {
     this.accountData = event;
+    if(this.accountData.fileAvata == null){
+      this.accountData.fileAvata = ""
+      this.isSetAvatar = false;
+    } else{
+      this.accountData.fileAvata = event.fileAvata;
+      this.isSetAvatar = true;
+    }
+    this.open(this.content);
   }
 
   open(ele) {
-    this.accountData = new AccountViewModel;
+    // this.accountData = new AccountViewModel;
     this.modalServices
       .open(ele, { size: 'lg' })
       .result.then(
