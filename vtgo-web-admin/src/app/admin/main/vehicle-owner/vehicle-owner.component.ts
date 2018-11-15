@@ -150,11 +150,9 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   onCreate(event) {
-    console.log('CreateData: ', event);
 
     this.vehicleOwnerService.Create(event).subscribe(
       response => {
-        console.log(response);
         if (response.status === 0) {
           this.toastr.success("Đã thêm khách hàng doanh nghiệp!", "Thông báo...");
           this.search(this.searchObject);
@@ -192,8 +190,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   onEdit(event) {
-    console.log('editData:' + event);
-    console.log(event);
+
 
     this.vehicleOwnerService.Put(event).subscribe(
       response => {
@@ -287,7 +284,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     } else {
       entity.moderatorLicenseIssueDate = null;
     }
-    console.log(entity);
+    // console.log(entity);
     return entity;
   }
   mapingPersonalModel(responseModel): PersonalViewModel {
@@ -365,7 +362,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
       entity.moderatorLicenseIssueDate = null;
     }
 
-    console.log(entity);
+    // console.log(entity);
     return entity;
   }
 }

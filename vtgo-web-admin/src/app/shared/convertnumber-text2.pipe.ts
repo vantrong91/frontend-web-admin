@@ -134,7 +134,6 @@ export class ToStringPipe4 implements PipeTransform {
 export class TypeLicensePipe implements PipeTransform{
     
     transform(value: any) {
-        console.log("ihi");
         if (value === "8") {
             return 'FD';
         }

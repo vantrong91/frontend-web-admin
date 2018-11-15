@@ -9,10 +9,10 @@
 </div>
 <div class="row mt-2">
   <div class="col-md-11">
-    <small>
+    <!-- <small>
       <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
       <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
-    </small>
+    </small> -->
   </div>
   <div class="col-md-1">
     <button type="button" class="btn btn-success w-100" (click)="table.rowDetail.collapseAllRows();isAdd = true; open(content);">Add</button>
@@ -97,13 +97,13 @@
               <div class="row">
                 <strong class="col-2 text-right">- Nơi cư trú:</strong>
                 <div class="col-10">
-                  Số hộ khẩu: {{row.address.householdNo}}, {{row.address.wards}}
+                  Số hộ khẩu: {{row.address?.householdNo}}, {{row.address?.wards}}
                 </div>
               </div>
               <div class="row">
                 <strong class="col-2 text-right">- Thường trú:</strong>
                 <div class="col-10">
-                  {{row.contactAddress.street}}, {{row.contactAddress.wards}}
+                  {{row.contactAddress?.street}}, {{row.contactAddress?.wards}}
                 </div>
               </div>
               <div class="row">

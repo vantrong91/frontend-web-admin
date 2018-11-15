@@ -30,12 +30,16 @@ export class ExchangeComponent implements OnInit {
   balanceHis: BalanceHisModel;
   transaction: any;
   listBank: any;
-  fee = '0';
+
   isShow = false;
   isWithdrawal = true;
   ip: any = {};
+  
+  bankName='-- Chọn ngân hàng --';
+  fee = '0';
+  linkBanking = '';
 
-  messageToPayment = 'Nộp tiền vào tài khoản tại VTGO';
+  hisContent = 'Nộp tiền vào tài khoản tại VTGO';
 
   public reconfirmForm: FormGroup;
   temp: any;
@@ -119,14 +123,22 @@ export class ExchangeComponent implements OnInit {
     );
   }
 
-  bankChanged(event) {
-    this.Arrbank = Object.values(this.listBank);
-    for (var _i = 0; _i < this.Arrbank.length; _i++) {
-      if (this.Arrbank[_i].transferId == event.target.value) {
-        this.fee = this.Arrbank[_i].fee;
-      }
-    }
+  // bankChanged(event) {
+  //   this.Arrbank = Object.values(this.listBank);
+  //   console.log(this.Arrbank);
 
+  //   for (var _i = 0; _i < this.Arrbank.length; _i++) {
+  //     if (this.Arrbank[_i].transferId == event.target.value) {
+  //       this.fee = this.Arrbank[_i].fee;
+  //       this.linkBanking = this.Arrbank[_i].linkIB;
+  //     }
+  //   }
+  // }
+  
+  bankChange(event) {
+    this.fee = event.fee;
+    this.linkBanking = event.linkIB;
+    this.bankName = event.bankName;
   }
 
   withdrawal() {
@@ -137,8 +149,7 @@ export class ExchangeComponent implements OnInit {
     this.transaction.accountId = this.balanceHisId.accountId;
     this.transaction.balType = 1;
     this.transaction.change = -(num1 + num2);
-    console.log(this.transaction);
-    
+
     this.dataService.Post('balance/transaction', this.transaction).subscribe(
       response => {
         if (response.status === 0) {
@@ -208,7 +219,7 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
     console.log(this.balanceHis);
-    
+
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
         if (response.status === 0) {
@@ -226,7 +237,7 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = this.Arr[0].accountId;
     this.balanceHis.hisType = "UPDATE_BALANCE";
-    this.balanceHis.hisContent = "Nạp tiền tại VTGO";
+    this.balanceHis.hisContent = this.hisContent;
     this.balanceHis.iP = this.ip.ip;
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);

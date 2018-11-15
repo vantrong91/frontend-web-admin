@@ -80,7 +80,7 @@ export class PersonalComponent implements OnInit {
   datePickerConfig = {
     format: 'DD/MM/YYYY'
   };
-  
+
   // Form Group
   public addEditForm: FormGroup;
 
@@ -150,21 +150,23 @@ export class PersonalComponent implements OnInit {
   onSave(event) {
     this._entity = this.addEditForm.value;
     this.convert();
-    if (this.isAdd) {
-      console.log('add new img');
-      this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
-      this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
-      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
-      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
-    }
-    else {
-      this._entity.attachProperties = this.oldAttachPro;
-    }
-    // if (this.addEditForm.valid) {
-    this._entity.vehicleOwnerType = 1;
-    this.personViewModelChange.emit(this._entity);
-    this.closeForm.emit();
+    console.log(this._entity);
+
+    // if (this.isAdd) {
+    //   console.log('add new img');
+    //   this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
+    //   this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+    //   this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+    //   this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
     // }
+    // else {
+    //   this._entity.attachProperties = this.oldAttachPro;
+    // }
+    // // if (this.addEditForm.valid) {
+    // this._entity.vehicleOwnerType = 1;
+    // this.personViewModelChange.emit(this._entity);
+    // this.closeForm.emit();
+    // // }
   }
 
   getEthnic() {
@@ -210,8 +212,7 @@ export class PersonalComponent implements OnInit {
   }
 
   loadAddress() {
-    console.log(this._entity.address);
-    console.log(this._entity.contactAddress);
+
 
     //Load Address district from province
     if (Object.values(this._entity.address)[2] != null) {
@@ -255,8 +256,6 @@ export class PersonalComponent implements OnInit {
 
   //On select change => reload list province address
   addressCountryChange(event) {
-    console.log(event.target.value);
-
     this.searchAddress.searchParam2 = event.target.value;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
@@ -267,7 +266,6 @@ export class PersonalComponent implements OnInit {
   }
   //reload District
   addressProvinceChange(event) {
-    console.log(event.target.value);
     this.searchAddress.searchParam2 = event.target.value;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
@@ -279,7 +277,6 @@ export class PersonalComponent implements OnInit {
   }
   //reload Ward
   addressDistrictChange(event) {
-    console.log(event.target.value);
     this.searchAddress.searchParam2 = event.target.value;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
@@ -302,7 +299,7 @@ export class PersonalComponent implements OnInit {
   }
 
   contactAddressProvinceChange(event) {
-    console.log(event.target.value);
+
     this.searchAddress.searchParam2 = event.target.value;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
@@ -365,9 +362,12 @@ export class PersonalComponent implements OnInit {
   }
 
 
+
   convert() {
-    this._entity.email = this._entity.email.toLowerCase();
-    this._entity.contactPersonEmail = this._entity.contactPersonEmail.toLowerCase();
+    if (this._entity.email != null)
+      this._entity.email = this._entity.email.toLowerCase();
+    if (this._entity.contactPersonEmail != null)
+      this._entity.contactPersonEmail = this._entity.contactPersonEmail.toLowerCase();
 
     this._entity.businessTransportLicenseExpDate = new Date(this._entity.businessTransportLicenseExpDate.month + '/' + this._entity.businessTransportLicenseExpDate.day + '/' + this._entity.businessTransportLicenseExpDate.year).getTime();
     this._entity.businessTransportLicenseIssueDate = new Date(this._entity.businessTransportLicenseIssueDate.month + '/' + this._entity.businessTransportLicenseIssueDate.day + '/' + this._entity.businessTransportLicenseIssueDate.year).getTime();

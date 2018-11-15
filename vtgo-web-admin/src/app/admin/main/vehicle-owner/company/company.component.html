@@ -2,7 +2,7 @@
   <ngb-tabset>
     <ngb-tab title="Thông Tin Công ty kinh doanh vận tải">
       <ng-template ngbTabContent>
-        <button class="btn btn-danger" (click)="initData()">Data</button>
+        <!-- <button class="btn btn-danger" (click)="initData()">Data</button> -->
         <input type="text" hidden id="AccountId">
         <div class="form-group row my-3">
           <label for="fullName" class="col-sm-2 col-form-label text-md-right">Tên công ty<span class="text-danger"></span></label>
@@ -186,7 +186,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                <input class="form-control  mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
                   ngbDatepicker #blid="ngbDatepicker" formControlName="businessLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="blid.toggle()" type="button">
@@ -216,7 +216,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                <input class="form-control  mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
                   ngbDatepicker #btlid="ngbDatepicker" formControlName="businessTransportLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btlid.toggle()" type="button">
@@ -230,7 +230,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                <input class="form-control  mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
                   ngbDatepicker #btled="ngbDatepicker" formControlName="businessTransportLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btled.toggle()" type="button">
@@ -261,7 +261,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                <input class="form-control  mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
                   ngbDatepicker #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="mlid.toggle()" type="button">
@@ -275,7 +275,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" placeholder="dd/mm/yyyy" [ngClass]="{'mouse-hover': noneShow}" name="dp"
+                <input class="form-control  mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
                   ngbDatepicker #mled="ngbDatepicker" formControlName="moderatorLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="mled.toggle()" type="button">

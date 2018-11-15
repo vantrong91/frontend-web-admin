@@ -4,7 +4,74 @@
       <ng-template ngbTabContent>
         <input type="text" id="accountid" hidden>
         <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Mã người dùng</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Mã người dùng </label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1"
+              readonly="readonly" />
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng </label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2"
+              readonly="readonly" />
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản </label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" formControlName="acctNumber"
+              tabindex="3" />
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Ngân hàng</label>
+          <div class="col-sm-4">
+            <!-- <select class="form-control" (change)="bankChanged($event)">
+              <option selected disabled value=null>&#45;&#45; Chọn ngân hàng&#45;&#45; </option>
+              <option *ngFor="let i of listBank" [value]="i.transferId">{{i.bankName}} --- {{i.fee}}VNĐ</option>
+            </select> -->
+            <div class="container">
+            <div class="row">
+                <div class="col-sm-9 btn btn-outline-primary dropdown-toggle text-left" data-toggle="dropdown"> {{bankName}}
+                  <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item px-2" *ngFor="let i of listBank" (click)="bankChange(i)">
+                    <a class="row bank-list link">
+                      <div class="col-sm-8">
+                        {{i.bankName}}</div>
+                      <div class="col-sm-4">{{i.fee|currency:'':'':'0.0'}}</div>
+                    </a>
+                  </li>
+                </ul>
+              <div class="col-sm-3">
+                <a class="btn btn-success btn-block" [href]="linkBanking" target="_blank" (click)="changeShow()"
+                  [hidden]="linkBanking.length==0" title="Link InternetBanking"><i class="mdi mdi-bank"></i></a>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Số tiền rút" tabindex="5" formControlName="transferAmount" />
+          </div>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Phí rút tiền</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" [value]="fee==null?'0':fee" placeholder="Phí rút tiền thực tế" tabindex="6" />
+          </div>
+        </div>
+        <div class="form-group row my-3" *ngIf="isShow">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Mã xác thực</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Mã xác thực" tabindex="7" formControlName="code" />
+          </div>
+        </div>
+
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Nạp tiền">
+      <ng-template ngbTabContent>
+        <input type="text" id="accountid" hidden>
+        <div class="form-group row my-3">
+          <label for="" class="col-sm-2 col-form-label text-md-right">Mã tài khoản</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1"
               readonly="readonly" />
@@ -15,101 +82,18 @@
               readonly="readonly" />
           </div>
         </div>
+      
         <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản ngân hàng</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" formControlName="acctNumber"
-              tabindex="3" />
-          </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Thuộc ngân hàng</label>
-          <div class="col-sm-4">
-            <!-- <input type="text" class="form-control" placeholder="Tên ngân hàng" tabindex="4" /> -->
-            <select class="form-control" (change)="bankChanged($event)">
-              <option>Chọn ngân hàng</option>
-              <option *ngFor="let i of listBank" [value]="i.transferId">{{i.bankName}} --- {{i.fee}}VNĐ</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền muốn rút</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tiền muốn rút" tabindex="5" formControlName="transferAmount" />
-          </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Phí rút tiền</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" [value]="fee==null?'0':fee" placeholder="Phí rút tiền" tabindex="6" />
-          </div>
-        </div>
-        <div class="form-group row my-3" *ngIf="isShow">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Mã xác thực</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Mã xác thực" tabindex="7" formControlName="code" />
-          </div>
-        </div>
-        <div class="form-group row my-3">
-          <div class="col-sm-4"> </div>
-          <div class="col-sm-4">
-            <a class="btn btn-success btn-block" href="https://www.vietcombank.com.vn/IBanking2015/55c3c0a782b739e063efa9d5985e2ab4/Account/Login"
-              target="_blank" (click)="changeShow()">Link banking</a>
-          </div>
-          <div class="col-sm-4"> </div>
-        </div>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Nạp tiền">
-      <ng-template ngbTabContent>
-        <input type="text" id="accountid" hidden>
-        <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Mã tài khoản:</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" value="{{Arr[0]?.accountId}}" placeholder="Mã người dùng" tabindex="1"
-              readonly="readonly" />
-          </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Tên người dùng:</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" value="{{Arr[0]?.fullName}}" placeholder="Tên người dùng" tabindex="2"
-              readonly="readonly" />
-          </div>
-        </div>
-        <div class="form-group row my-3 d-none">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tài khoản ngân hàng</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" formControlName="acctNumber"
-              tabindex="3" />
-          </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Thuộc ngân hàng</label>
-          <div class="col-sm-4">
-            <select class="form-control" (change)="bankChanged($event)">
-              <option>Chọn ngân hàng</option>
-              <option *ngFor="let i of listBank" [value]="i.transferId">{{i.bankName}} --- {{i.fee}}VNĐ</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row my-3">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền muốn nộp:</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Số tiền</label>
           <div class="col-sm-4">
             <input type="text" class="form-control" placeholder="Số tiền nộp" tabindex="5" formControlName="transferAmount" />
           </div>
-          <label for="" class="col-sm-2 col-form-label text-md-right">Phí nộp tiền:</label>
+          <label for="" class="col-sm-2 col-form-label text-md-right">Nội dung</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" [value]="fee==null?'':fee" placeholder="Phí nộp tiền" tabindex="6"
-              required disabled readonly />
+            <input type="text" class="form-control" value="Nạp tiền tại VTGO" tabindex="5" [value]="hisContent" (input)="hisContent = $event.target.value" />
           </div>
         </div>
-        <div class="form-group row my-3 d-none" *ngIf="isShow">
-          <label for="" class="col-sm-2 col-form-label text-md-right">Mã xác thực</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Mã xác thực" tabindex="7" formControlName="code" />
-          </div>
-        </div>
-        <div class="form-group row my-3 d-none">
-          <div class="col-sm-4"> </div>
-          <div class="col-sm-4">
-            <a class="btn btn-success btn-block" href="https://www.vietcombank.com.vn/IBanking2015/55c3c0a782b739e063efa9d5985e2ab4/Account/Login"
-              target="_blank" (click)="changeShow()">Link banking</a>
-          </div>
-          <div class="col-sm-4"> </div>
-        </div>
+        
       </ng-template>
     </ngb-tab>
   </ngb-tabset>

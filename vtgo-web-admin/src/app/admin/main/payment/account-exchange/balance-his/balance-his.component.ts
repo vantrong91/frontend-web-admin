@@ -48,8 +48,6 @@ export class BalanceHisComponent implements OnInit {
     search() {
         this.dataService.Post('balance-his/get-by-acc-id', this.balanceHisId).subscribe(
             response => {
-                console.log(response.data);
-                
                 if (response.status === 0) {                    
                     if (response.data == "") {
                         this.toastr.error("Không tìm thấy lịch sử của tài khoản","Thông báo");
