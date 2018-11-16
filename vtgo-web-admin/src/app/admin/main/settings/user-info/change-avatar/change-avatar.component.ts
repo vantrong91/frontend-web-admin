@@ -21,16 +21,11 @@ export class ChangeAvatarComponent implements OnInit {
   imgSrcPre: any;
   keyArr: any;
   currentUser: AccountManViewModel;
-  account: AccountManViewModel;
   pass: any;
+  accountInfo: any;
   user: LoginViewModel;
   @Output() closeForm = new EventEmitter<any>();
   isDisabled = true;
-
-  @Input() set password(password: any) {
-    this.pass = password;
-
-  };
 
   constructor(private location: Location,
     private router: Router,
@@ -67,7 +62,7 @@ export class ChangeAvatarComponent implements OnInit {
   selectFile(ev) {
     this.uploaderAVATAR = ev.target.files;
     const fileListAsArray = Array.from(this.uploaderAVATAR);
-    this.changeAvatar.value.fileAvatar= '';
+    this.changeAvatar.value.fileAvatar = '';
     this.changeAvatar.controls.fileAvatar.setValue(fileListAsArray[0].name);
 
     this.isDisabled = false;
@@ -82,6 +77,8 @@ export class ChangeAvatarComponent implements OnInit {
       }
     }
   }
+
+
   uploadFileToServer(data: FileList, type: string) {
     var frmImg = new FormData();
     const fileListAsArray = Array.from(data);
@@ -89,34 +86,30 @@ export class ChangeAvatarComponent implements OnInit {
       frmImg.append('files', item);
     }
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
-      response => {
+      response => {      
         if (response.status == 200) {
-          this.account = new AccountManViewModel();
-          this.account.accountId = this.currentUser[0].accountId;
-          this.account.accountToken = this.currentUser[0].accountToken;
-          this.account.accountType = this.currentUser[0].accountType;
-          this.account.deviceToken = this.currentUser[0].deviceToken;
-          this.account.email = this.currentUser[0].email;
-          this.account.fileAvata = this.changeAvatar.value.fileAvatar;
-          this.account.fullName = this.currentUser[0].fullName;
-          this.account.osType = this.currentUser[0].osType;
-          this.account.password = this.pass;
-          this.account.phoneNumber = this.currentUser[0].phoneNumber;
-          this.account.salt = this.currentUser[0].salt;
-          this.closeModalEvent.emit(this.account.fileAvata);
-          this.dataService.Post('account-man/update', this.account).subscribe(
+          this.accountInfo = new AccountManViewModel();
+          this.accountInfo.accountId = this.currentUser[0].accountId;
+          this.accountInfo.fileAvata = this.changeAvatar.value.fileAvatar;
+          this.accountInfo.fullName = this.currentUser[0].fullName;
+          this.accountInfo.phoneNumber = this.currentUser[0].phoneNumber;
+          this.closeModalEvent.emit(this.accountInfo.fileAvata);
+          this.dataService.Post('account-man/updateInfo', this.accountInfo).subscribe(
             response => {
               if (response.status === 0) {
-                localStorage.removeItem(SystemConfig.CURRENT_USER);
                 this.user = new LoginViewModel();
-                this.user.email = this.account.email;
-                this.user.password = this.account.password;
-                this.authService.Login(this.user).subscribe((item: any) => {
-                  // localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(this.account));
-                  this.toastr.success('Đổi ảnh đại diện thành công!');
-                  this.closeForm.emit();
-                  this.spinner.hide();
-                })
+                this.user.email = this.currentUser[0].email;
+                this.user.password = this.currentUser[0].password;
+                localStorage.removeItem(SystemConfig.CURRENT_USER);
+                this.dataService.Post('account-man/get-by-id', { accountId: this.accountInfo.accountId }).subscribe(
+                  (response2: any) => {
+                    localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response2))
+                  }
+                )
+                this.toastr.info('Đã đổi ảnh đại diện thành công!');
+                this.imgSrcPre = this.getUrlImg('AVATA') + this.changeAvatar.value.fileAvatar;            
+                this.spinner.hide();
+                this.closeForm.emit();
               }
               else {
                 this.toastr.error('Đã có lỗi xảy ra!');
@@ -133,7 +126,7 @@ export class ChangeAvatarComponent implements OnInit {
 
   saveAvatar() {
     this.spinner.show();
-    this.uploadFileToServer(this.uploaderAVATAR, 'avatar');
+    this.uploadFileToServer(this.uploaderAVATAR, 'avatar');    
   }
 
   getUrlImg(folder: string) {

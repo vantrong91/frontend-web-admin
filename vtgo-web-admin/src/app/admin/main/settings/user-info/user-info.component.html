@@ -2,34 +2,24 @@
 
   <div class="col-sm-3 image">
     <img [src]="urlFull" alt="">
-    <button class="btn btn-outline-success text-center changeAvatar" (click)="open(changeAvatar)">Đổi avatar</button>
+    <button class="btn btn-outline-success text-center changeAvatar" (click)="open(change)">Đổi avatar</button>
   </div>
   <div class="col-sm-1"></div>
   <div class="col-sm-8" >
     <div class="form-group row my-3">
       <label for="fullName" class="col-sm-3 col-form-label text-md-right">Họ và tên:</label>
       <div class="col-sm-5">
-        <label for="fullName" class="col-form-label text-md-right" *ngIf="!isShowName">{{currentUser[0].fullName}}</label>
+        <label for="fullName" class="col-form-label text-md-right" *ngIf="!isShow">{{currentUser[0].fullName}}</label>
         <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="fullName" placeholder="Họ tên"
-          tabindex="1" *ngIf="isShowName" />
-      </div>
-      <div class="col-sm-4">
-        <i class="fa fa-edit link" *ngIf="!isShowName" (click)="changeShowName()"></i>
-        <i class="fa fa-save link" *ngIf="isShowName" (click)="isChangeFullName = true;open(content);"></i>
-        <i class="fa fa-times-circle-o link" *ngIf="isShowName" (click)="changeShowName()"></i>
+          tabindex="1" *ngIf="isShow" />
       </div>
     </div>
     <div class="form-group row my-3">
       <label for="phoneNumber" class="col-sm-3 col-form-label text-md-right">Số điện thoại:</label>
       <div class="col-sm-5">
-        <label for="phoneNumber" class="col-form-label text-md-right" *ngIf="!isShowSDT">{{currentUser[0].phoneNumber}}</label>
+        <label for="phoneNumber" class="col-form-label text-md-right" *ngIf="!isShow">{{currentUser[0].phoneNumber}}</label>
         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="phoneNumber"
-          placeholder="Số điện thoại" tabindex="4" *ngIf="isShowSDT" />
-      </div>
-      <div class="col-sm-4">
-        <i class="fa fa-edit link" *ngIf="!isShowSDT" (click)="changeShowSDT()"></i>
-        <i class="fa fa-save link" *ngIf="isShowSDT" (click)="isChangeFullName = false;open(content)"></i>
-        <i class="fa fa-times-circle-o link" *ngIf="isShowSDT" (click)="changeShowSDT()"></i>
+          placeholder="Số điện thoại" tabindex="2" *ngIf="isShow" />
       </div>
     </div>
     <div class="form-group row my-3">
@@ -48,39 +38,32 @@
       <div class="col-sm-4"></div>
     </div>
 
-
+    <div class="form-group row my-3">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+          <button class="btn btn-outline-success text-center" *ngIf="!isShow" (click)="changeShowEdit()">Sửa</button>
+          <button class="btn btn-outline-success text-center" [ngStyle]="{'margin-right.px': 5}" *ngIf="isShow" (click)="save()">Lưu</button>
+          <button class="btn btn-outline-success text-center" *ngIf="isShow" (click)="changeShowEdit()">Hủy</button>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
   </div>
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss ">
-  <div class="modal-header ">
-    <h3 class="modal-title ">Xác nhận mật khẩu</h3>
-    <button type="button " class="close " aria-label="Close " (click)="d( 'Close') ">
-      <span aria-hidden="true ">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body ">
-    <input type="password" class="form-control" [(ngModel)]="password">
-  </div>
-  <div class="modal-footer ">
-    <button class="btn btn-primary" (click)="checkPassword()" (click)="d( 'Close') ">Xác nhận</button>
-  </div>
-</ng-template>
 
-<ng-template #changeAvatar let-c="close" let-d="dismiss ">
+
+
+<!-- <ng-template #change let-c="close " let-d="dismiss">
   <div class="modal-header ">
-    <h3 class="modal-title ">Xác nhận mật khẩu</h3>
-    <button type="button " class="close " aria-label="Close " (click)="d( 'Close') ">
+    <h3 class="modal-title " id="modal-basic-title ">Đổi ảnh đại diện</h3>
+    <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
       <span aria-hidden="true ">&times;</span>
     </button>
   </div>
   <div class="modal-body ">
-    <input type="password" class="form-control"  [(ngModel)]="password">
+    <app-change-avatar [password]="item"  (closeModalEvent)="viewData($event)" (closeForm)="c('')"></app-change-avatar>
   </div>
-  <div class="modal-footer ">
-    <button class="btn btn-primary" (click)="checkPassword1()" (click)="d( 'Close')">Xác nhận</button>
-  </div>
-</ng-template>
+</ng-template> -->
 
 <ng-template #change let-c="close " let-d="dismiss">
   <div class="modal-header ">
@@ -90,7 +73,7 @@
     </button>
   </div>
   <div class="modal-body ">
-    <app-change-avatar [password]="password"  (closeModalEvent)="viewData($event)" (closeForm)="c('')"></app-change-avatar>
+    <app-change-avatar (closeForm)="c('')" (closeModalEvent)="viewData($event)"></app-change-avatar>
   </div>
 </ng-template>
 
