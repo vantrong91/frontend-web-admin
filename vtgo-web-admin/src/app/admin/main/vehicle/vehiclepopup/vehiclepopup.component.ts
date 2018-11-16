@@ -42,12 +42,26 @@ export class VehiclepopupComponent implements OnInit {
   @Input()
   set vehicleViewModel(vehiclepopup: VehicleViewModel) {
     if (vehiclepopup.vehicleId !== 0) {
-
       this.isAdd = false;
       this._entity = new VehicleViewModel();
       this._entity = vehiclepopup;
+      if(vehiclepopup.attachProperties === null){
+        vehiclepopup.attachProperties= {
+          "GXNTBGS": [
+          ],
+          "BHHHXE": [
+          ],
+          "BHDSXE": [
+          ],
+          "DKYXE": [
+          ],
+          "DKIEMXE": [
+          ]
+        };
+      }
       // this.addEditForm.setControl('route', this.formBuilder.array(vehiclepopup.route || []));
       this.addEditForm.reset(vehiclepopup);
+      //Luu lai attachPro + vehicleCode cu~
       this.oldAttachPro = this._entity.attachProperties;
       this.oldvehicleCode = this._entity.vehicleCode;
       this.oldownerId = this._entity.ownerId;
@@ -129,7 +143,6 @@ export class VehiclepopupComponent implements OnInit {
     this.vehicleService.GetListVehicleType(this.searchObject2).subscribe(
       (response:any) => {
         if(response.status === 0){
-          console.log(response);
           this.lstVehicle = response.data;
         }
       }

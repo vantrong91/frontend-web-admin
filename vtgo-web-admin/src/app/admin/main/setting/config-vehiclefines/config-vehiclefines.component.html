@@ -1,9 +1,14 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm">
+    <small>
+      <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
+      <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
+    </small>
+    <!-- <input type="text" [(ngModel)]="searchObject.searchParam2" name="searchParam" class="form-control input-search-admin"
+      placeholder="Tìm Kiếm"> -->
   </div>
   <div class="col-md-2">
-    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button>
+    <!-- <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button> -->
   </div>
   <div class="col-md-5"></div>
   <div class="col-md-1">
@@ -17,10 +22,49 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Loại danh mục</div>
-    <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='lstCategory' [columnMode]='"force"' [headerHeight]='50'
-      [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'pk', dir: 'asc'}]" [limit]="50">
+    <ngx-datatable #myTable class='material selection-cell datatable table-shadow' [rows]='lstCategory' [columnMode]='"force"'
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'pk', dir: 'asc'}]" [limit]="50">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="auto" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div class="container">
+              <u><i>Thông tin chi tiết loại: {{row.item}}</i></u>
+              <div *ngFor="let categoryToggle of lstCategoryToggle; let i = index">
+                <div class="row mt-3" *ngIf="categoryToggle.id_cha === row.pk">
+                  <div class="col-3 col-form-label text-md-right">{{categoryToggle.item}}</div>
+                  <div class="col-3">
+                    <input class="form-control" type="text" value="{{categoryToggle.feeCharge}}" [disabled]="submitted">
+                  </div>
+                  <div class="col-3">
+                    <input class="form-control" type="text" value="{{categoryToggle.latefine}}" [disabled]="submitted">
+                  </div>
+                  <div class="col-1">
+                    <button type="button" class="btn btn-warning button-custom-admin ml-4" (click)="edit(categoryToggle.pk, content)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </div>
+                  <!-- <div class="col-3">
+                    <button type="button" class="btn btn-success" (click)="onSumit(categoryToggle.pk)">Edit</button>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+      <!-- End Row Detail Template -->
+
+      <ngx-datatable-column [width]="20" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column name="pk" [minWidth]="80" [maxWidth]="80" [resizeable]="false" hidden prop="pk">
-        <ng-template let-column="column" ngx-datatable-header-template >
+        <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>PK</strong>
           </span>
@@ -39,7 +83,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="feeCharge" [width]="150" prop="feeCharge">
+      <!-- <ngx-datatable-column name="feeCharge" [width]="150" prop="feeCharge">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Phí lưu xe</strong>
@@ -58,8 +102,8 @@
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           {{value}}
         </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [minWidth]="120" [maxWidth]="120">
+      </ngx-datatable-column> -->
+      <!-- <ngx-datatable-column [minWidth]="120" [maxWidth]="120">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Thao tác</strong>
@@ -69,23 +113,24 @@
           <button type="button" class="btn btn-warning button-custom-admin ml-4" (click)="edit(row.pk, content)">
             <i class="fa fa-edit"></i>
           </button>
-          <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del, row.vehicleId)">
             <i class="fa fa-trash"></i>
-          </button> -->
+          </button>
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
     </ngx-datatable>
   </div>
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h3 class="modal-title" id="modal-basic-title">Lệ phí xe</h3>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <app-vehiclefinespopup [vehicleFineViewModel]="_entity" (closeModalEvent)="c('close from Save')" (configvefiViewModelChange)="onEditCategory($event)"></app-vehiclefinespopup>
-    </div>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-basic-title">Lệ phí xe</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-vehiclefinespopup [vehicleFineViewModel]="_entity" (closeModalEvent)="c('close from Save')"
+      (configvefiViewModelChange)="onEditCategory($event)"></app-vehiclefinespopup>
+  </div>
 </ng-template>

@@ -96,7 +96,6 @@ export class VehicleComponent implements OnInit {
         }
       );
     }
-    console.log(this.isToggle);
     this._vehicleTable.rowDetail.toggleExpandRow(row);
   }
   onDetailToggle(event) {
