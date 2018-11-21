@@ -23,6 +23,10 @@ export class DriverComponent implements OnInit {
     searchParam: ' ';
     _entityDriver: DriverViewModel;
     searchEthnic: SearchModel;
+    oldEthnic: string;
+    isToggle = false;
+    oldContactAddress: string;
+    oldAddress: string;
 
     imgUrl = '';
     ulrImgFull = '';
@@ -41,6 +45,31 @@ export class DriverComponent implements OnInit {
     ) { }
 
     toggleExpandRow(row) {
+        if(row.ethnic > 0 || row.address.wards > 0 || row.contactAddress.wards > 0){
+            this.isToggle = true;
+        }else{
+            this.isToggle = false;
+        }
+        if(this.isToggle){
+            this.categoryService.GetById(row.ethnic).subscribe(
+                (response: any) => {
+                    this.oldEthnic = row.ethnic;
+                    row.ethnic = response.data[0].item;
+                }
+            );
+            this.addressService.getById(row.contactAddress.wards).subscribe(
+                (response: any) => {
+                    this.oldContactAddress = row.contactAddress.wards;
+                    row.contactAddress.wards = response.data[0].tenDayDu;
+                }
+            );
+            this.addressService.getById(row.address.wards).subscribe(
+                (response: any) => {
+                    this.oldAddress = row.address.wards;
+                    row.address.wards = response.data[0].tenDayDu;
+                }
+            )
+        }
         this.table.rowDetail.toggleExpandRow(row);
     }
     onDetailToggle(event) {
@@ -49,6 +78,8 @@ export class DriverComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        console.log(this.oldEthnic);
+        
     }
     loadData() {
         let search = '{}';
@@ -169,6 +200,11 @@ export class DriverComponent implements OnInit {
 
     getDriver(event) {
         this._entityDriver = event;
+        if(this.oldEthnic !== undefined){
+            this._entityDriver.ethnic = this.oldEthnic;
+            this._entityDriver.contactAddress.wards = this.oldContactAddress;
+            this._entityDriver.address.wards = this.oldAddress;
+        }
     }
     onEditDriver(event) {
         this.dataService.Post('driver/update', event).subscribe(
@@ -179,7 +215,7 @@ export class DriverComponent implements OnInit {
                 }
                 else {
                     this.toastr.clear();
-                    this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
+                            this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
                 }
             }
         );

@@ -173,7 +173,6 @@ export class VehicleComponent implements OnInit {
   // Edit Vehicle
   onEditVehicle(event) {
     this._entityVehicle = event;
-    console.log(this._entityVehicle);
 
     this.vehicleService.Put(this._entityVehicle).subscribe(
       (response: any) => {

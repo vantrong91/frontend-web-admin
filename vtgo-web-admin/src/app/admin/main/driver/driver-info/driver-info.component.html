@@ -49,7 +49,7 @@
     <div class="col-sm-4">
       <select class="form-control" id="ethnic" formControlName="ethnic" tabindex="7">
         <option selected value=null disabled>&#45;&#45; Chọn dân tộc &#45;&#45;</option>
-        <option *ngFor="let ethnic of lstEthnic" value={{ethnic.item}}>{{ethnic.item}}</option>
+        <option *ngFor="let ethnic of lstEthnic" value={{ethnic.pk}}>{{ethnic.item}}</option>
       </select>
     </div>
     <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">{{addEditForm.get('email').touched&&(!mailValid||addEditForm.get('email').invalid)?'*':'&nbsp;'}}</span></label>
@@ -98,7 +98,7 @@
       <div class="col-sm-4">
         <select class="form-control" id="addrwards" formControlName="wards" tabindex="13">
           <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-          <option *ngFor="let addrward of addrwards" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+          <option *ngFor="let addrward of addrwards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
         </select>
       </div>
     </div>
@@ -143,7 +143,7 @@
       <div class="col-sm-4">
         <select class="form-control" id="contactwards" formControlName="wards" tabindex="18">
           <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-          <option *ngFor="let addrward of addrwards2" value={{addrward.tenDayDu}}>{{addrward.tenDinhDanh}}</option>
+          <option *ngFor="let addrward of addrwards2" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
         </select>
       </div>
     </div>

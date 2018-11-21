@@ -31,7 +31,7 @@ export class DriverInfoComponent implements OnInit {
     addrwards: any;
     addrwards2: any;
     lstTypeLicense: any;
-    
+
 
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
@@ -44,6 +44,14 @@ export class DriverInfoComponent implements OnInit {
             this.isAdd = false;
             this._entity = new DriverViewModel();
             this._entity = driver;
+            if (driver.attachProperties === null) {
+                driver.attachProperties = {
+                    "ACD": [],
+                    "GPLX": [],
+                    "SHK": [],
+                    "CMND": []
+                };
+            }
             this.addEditForm.reset(driver);
             this.oldAttachPro = this._entity.attachProperties;
         } else {
@@ -123,7 +131,7 @@ export class DriverInfoComponent implements OnInit {
         )
         this.searchEthnic.searchParam2 = 0;
         this.addressService.getProvince(this.searchEthnic).subscribe(
-            (response:any) => {
+            (response: any) => {
                 this.lstProvince = response.data;
                 this.lstProvince2 = response.data;
             }

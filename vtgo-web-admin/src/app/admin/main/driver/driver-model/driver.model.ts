@@ -16,14 +16,14 @@ export class DriverViewModel {
   ethnic: string;
   email: string;
   phoneNumber: string;
-  address: Map<string, string>;
-  contactAddress: Map<string, string>;
+  address: any;
+  contactAddress: any;
   typeLicenseNo: string;
   extLicenseNo: string;
   extIssueDate: number;
   extIssueBy: string;
   properties: string;
-  attachProperties: Map<string, object>;
+  attachProperties: any;
   vehicleId: string;
   state: string;
   birthday: number;
