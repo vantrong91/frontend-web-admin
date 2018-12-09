@@ -25,7 +25,7 @@
     <ngx-datatable #myTable class='material selection-cell datatable table-shadow' [rows]='lstCategory' [columnMode]='"force"'
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'pk', dir: 'asc'}]" [limit]="50">
       <!-- Row Detail Template -->
-      <ngx-datatable-row-detail [rowHeight]="auto" #myDetailRow>
+      <ngx-datatable-row-detail [rowHeight]='"auto"' #myDetailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
           <div style="padding-left:35px;">
             <div class="container">

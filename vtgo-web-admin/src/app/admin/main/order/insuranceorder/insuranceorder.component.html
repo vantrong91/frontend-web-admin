@@ -87,7 +87,7 @@
           <!-- <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.accountId,content)">
             <i class="fa fa-eye"></i>
           </button> -->
-          <button title="Đăng ký mua" [disabled]="row.state === 2 ? 'true' : ''" type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)">
+          <button title="Đăng ký mua" [disabled]="(row.state === 2 || row.state === 3) ? 'true' : ''" type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)">
             <i class="fa fa-edit"></i>
           </button>
           <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">

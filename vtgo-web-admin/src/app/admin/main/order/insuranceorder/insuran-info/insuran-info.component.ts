@@ -32,8 +32,8 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
       accountId: '',
       orderId: '',
       contractNo: ['', [Validators.required]],
-      insuranPrice: ['', [Validators.required]],
-      insuranSpend: ['', [Validators.required]],
+      insuranPrice: ['', [Validators.required, Validators.pattern(/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/)]],
+      insuranSpend: ['', [Validators.required, Validators.pattern(/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/)]],
       sumInsuPrice: ['', [Validators.required]],
       state: ['', [Validators.required]],
       updateTime: ''
@@ -44,9 +44,11 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
       },
       insuranPrice: {
         required: 'Giá trị không được để trống',
+        pattern: 'Giá trị nhập vào phải là số'
       },
       insuranSpend: {
         required: 'Giá trị không được để trống',
+        pattern: 'Giá trị nhập vào phải là số'
       },
       sumInsuPrice: {
         required: 'Giá trị không được để trống',
@@ -66,6 +68,30 @@ export class InsuranInfoComponent implements OnInit, AfterViewInit {
     this.closeModalEvent.emit();
   }
 
+  sum(event){
+    console.log(this.addEditForm.get('insuranPrice').value);
+    if(this.addEditForm.get('insuranPrice').value === null && this.addEditForm.get('insuranSpend').value === null){
+      this.addEditForm.patchValue({
+        sumInsuPrice: 0,
+      });
+    }
+    if(this.addEditForm.get('insuranPrice').value === null && this.addEditForm.get('insuranSpend').value !== null){
+      this.addEditForm.patchValue({
+        sumInsuPrice: this.addEditForm.get('insuranSpend').value,
+      });
+    }
+    if(this.addEditForm.get('insuranPrice').value !== null && this.addEditForm.get('insuranSpend').value === null){
+      this.addEditForm.patchValue({
+        sumInsuPrice: this.addEditForm.get('insuranPrice').value,
+      });
+    }
+    if(this.addEditForm.get('insuranPrice').value !== null && this.addEditForm.get('insuranSpend').value !== null){
+      this.addEditForm.patchValue({
+        sumInsuPrice: this.addEditForm.get('insuranPrice').value/1 + this.addEditForm.get('insuranSpend').value/1,
+      });
+    }
+    
+  }
   convert() {
     this._entity.updateTime = new Date(this._entity.updateTime).getTime();
   }

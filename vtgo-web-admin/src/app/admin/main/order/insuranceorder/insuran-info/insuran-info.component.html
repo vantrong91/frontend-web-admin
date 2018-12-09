@@ -20,7 +20,8 @@
     </div>
     <label for="InsuranSpend" class="col-sm-2 col-form-label text-md-right">Chi phí bảo hiểm </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="InsuranSpend" formControlName="insuranSpend" tabindex="4" [ngClass]="{'is-invalid': displayMessage.insuranSpend}" />
+      <input type="text" class="form-control" id="InsuranSpend" formControlName="insuranSpend" tabindex="4" [ngClass]="{'is-invalid': displayMessage.insuranSpend}" 
+      (focusout)="sum($event)"/>
       <span class="invalid-feedback">
         {{displayMessage.insuranSpend}}
       </span>
@@ -29,14 +30,15 @@
   <div class="form-group row my-3">
     <label for="InsuranPrice" class="col-sm-2 col-form-label text-md-right">Giá trị bảo hiểm </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="InsuranPrice" formControlName="insuranPrice" tabindex="5" [ngClass]="{'is-invalid': displayMessage.insuranPrice}" />
+      <input type="text" class="form-control" id="InsuranPrice" formControlName="insuranPrice" tabindex="5" [ngClass]="{'is-invalid': displayMessage.insuranPrice}" 
+      (focusout)="sum($event)"/>
       <span class="invalid-feedback">
         {{displayMessage.insuranPrice}}
       </span>
     </div>
     <label for="SumInsuPrice" class="col-sm-2 col-form-label text-md-right">Tổng tiền bảo hiểm </label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="SumInsuPrice" formControlName="sumInsuPrice" tabindex="6" [ngClass]="{'is-invalid': displayMessage.sumInsuPrice}" />
+      <input type="text" class="form-control" id="SumInsuPrice" formControlName="sumInsuPrice" tabindex="6" [ngClass]="{'is-invalid': displayMessage.sumInsuPrice}" readonly>
       <span class="invalid-feedback">
         {{displayMessage.sumInsuPrice}}
       </span>

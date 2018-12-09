@@ -16,8 +16,7 @@ export class InsuranceorderComponent implements OnInit {
   txtNoti = '';
   message = 'Yêu cầu xác nhận thanh toán bảo hiểm';
   constructor(private modalService: NgbModal,
-    @Inject(IInsuranceOrderServiceToken) private insuOrderService: IInsuranceOrderService,
-    @Inject(IHelperServiceToken) private helperService: IHelperService) { }
+    @Inject(IInsuranceOrderServiceToken) private insuOrderService: IInsuranceOrderService) { }
 
   ngOnInit() {
     this.initData();

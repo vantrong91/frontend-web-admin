@@ -78,8 +78,6 @@ export class DriverComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
-        console.log(this.oldEthnic);
-        
     }
     loadData() {
         let search = '{}';
