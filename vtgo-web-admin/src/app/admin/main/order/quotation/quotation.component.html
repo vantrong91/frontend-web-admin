@@ -13,7 +13,7 @@
       <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
       <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
     </small>
-  </div>  
+  </div>
 </div>
 
 <!-- ======================================= Quotation ========================================== -->
@@ -22,7 +22,7 @@
   <div class="col">
     <div class="quotation">Danh sách báo giá</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="5">
+      [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="20">
       <!-- Row Detail Template -->
       <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow>
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -42,44 +42,44 @@
                 <span class="col-3 text-right">- Thuế VAT:</span>
                 <div class="col-3">{{row.vat}}</div>
                 <span class="col-3 text-right">- Tiền hoa hồng:</span>
-                <div class="col-3">{{row.commission}}</div>                
+                <div class="col-3">{{row.commission}}</div>
               </div>
-              <div class="row">                
+              <div class="row">
                 <span class="col-3 text-right">- Tiền phạt:</span>
                 <div class="col-3">{{row.finesAmount}}</div>
                 <span class="col-3 text-right">- Phạt đến chậm:</span>
                 <div class="col-3">{{row.delayPrice}}</div>
               </div>
-              <div class="row">                
+              <div class="row">
                 <span class="col-3 text-right">- Tiền lưu xe lúc nhận:</span>
                 <div class="col-3">{{row.receivePrice}}</div>
                 <span class="col-3 text-right">- Tiền lưu xe lúc trả:</span>
                 <div class="col-3">{{row.deliverPrice}}</div>
               </div>
-              <div class="row">                
+              <div class="row">
                 <span class="col-3 text-right">- Thuế GTGT của chủ xe:</span>
                 <div class="col-3">{{row.driverVatTax}}</div>
                 <span class="col-3 text-right">- Thuế thu nhập cá nhân:</span>
                 <div class="col-3">{{row.perVatTax}}</div>
               </div>
-              <div class="row">                
+              <div class="row">
                 <span class="col-3 text-right">- Tiền còn lại:</span>
                 <div class="col-3">{{row.reserveDriver}}</div>
                 <span class="col-3 text-right">- Tiền thanh toán:</span>
                 <div class="col-3">{{row.reserveOrder}}</div>
-              </div>  
-              <div class="row">                
+              </div>
+              <div class="row">
                 <span class="col-3 text-right">- Thời gian bắt đầu bốc hàng:</span>
                 <div class="col-3">{{row.receiveTime| date:'dd-MM-yyyy'}}</div>
                 <span class="col-3 text-right">- Thời gian kết thúc bốc hàng:</span>
                 <div class="col-3">{{row.toReceiveTime| date:'dd-MM-yyyy'}}</div>
-              </div>  
-              <div class="row">                
+              </div>
+              <div class="row">
                 <span class="col-3 text-right">- Thời gian bắt đầu giao hàng:</span>
                 <div class="col-3">{{row.deliverTime| date:'dd-MM-yyyy'}}</div>
                 <span class="col-3 text-right">- Thời gian kết thúc giao hàng:</span>
                 <div class="col-3">{{row.toDeliverTime| date:'dd-MM-yyyy'}}</div>
-              </div>       
+              </div>
             </div>
           </div>
         </ng-template>
@@ -94,13 +94,13 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
         <ng-template let-column="column" ngx-datatable-header-template>
-            <strong class="tbl-header">STT</strong>
+          <strong class="tbl-header">STT</strong>
         </ng-template>
         <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
           <span>{{rowIndex+1}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="quotationId" [width]="80" >
+      <ngx-datatable-column name="quotationId" [width]="80">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Mã báo giáo</strong>
         </ng-template>
@@ -108,7 +108,7 @@
           <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="orderId" [width]="80" >
+      <ngx-datatable-column name="orderId" [width]="80">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">
             Mã đơn hàng
@@ -118,7 +118,7 @@
           <span class="">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="price" [width]="100">
+      <ngx-datatable-column name="price" [width]="80">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Giá vận chuyển</strong>
         </ng-template>
@@ -126,12 +126,12 @@
           <span class="">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="state" [width]="200">
+      <ngx-datatable-column name="state" [width]="300">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Trạng thái</strong>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span class="">{{value ==0?'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)':(value==3?'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được tài xế xác nhận chuyến, đc ký kết)':(value==4?'Đơn chờ vận chuyển đã bốc hàng':(value==6?'Đơn đang chuyển chưa thanh toán':(value==7?'Đơn hàng đã chuyển chưa thanh toán':(value==8?'Đơn hàng đã thanh toán do ví vtgopay đang giữ':(value==810?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho chủ hàng':(value==801?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe':(value==811?'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe và chủ hàng':(value==9?'Đơn hàng trạng thái hủy (chủ hàng hủy, lái xe hoặc chủ xe hủy,do hệ thống)':(value==10?'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)':(value==11?'Đơn hàng bị sự cố (sự cố do lái xe, đang chuyển bị sự cố, quản lý thị trường, hải quan giữ lại …)':'')))))))))))}}</span>
+          <span class="" style="font-size: 12px; margin-left:-12px;">{{getStateQuotation(value)}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="numQuotation" [width]="50">
@@ -141,7 +141,7 @@
         <ng-template let-value="value" ngx-datatable-cell-template>
           <span class="">{{value}}</span>
         </ng-template>
-      </ngx-datatable-column>     
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>

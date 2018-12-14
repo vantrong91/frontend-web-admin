@@ -311,20 +311,17 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   getState(state: number) {
     switch (state) {
       case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
+      case 2: return 'Đơn hàng chờ vận chuyển, có thay đổi cần xác nhận của chủ xe hoặc lái xe';
       case 3: return 'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được tài xế xác nhận chuyến, đc ký kết)';
       case 4: return 'Đơn chờ vận chuyển đã bốc hàng';
       case 6: return 'Đơn đang chuyển chưa thanh toán';
-      case 7: return 'Đơn hàng đã chuyển chưa thanh toán';
-      case 8: return 'Đơn hàng đã thanh toán do ví vtgopay đang giữ';
-      case 810: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho chủ hàng';
-      case 801: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe';
-      case 811: return 'Đơn hàng đã thanh toán đã chuyển tiền còn lại cho lái xe và chủ hàng';
+      case 7: return 'Đơn đang chuyển đã thanh toán';
+      case 8: return 'Đơn hàng hoàn thành (đã thanh toán có thể vtgo đang giữ hoặc đã được chuyển tiền còn lại cho chủ hàng và tài xế)';
       case 9: return 'Đơn hàng trạng thái hủy (chủ hàng hủy, lái xe hoặc chủ xe hủy,do hệ thống)';
-      case 10: return 'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)';
-      case 11: return 'Đơn hàng bị sự cố (sự cố do lái xe, đang chuyển bị sự cố, quản lý thị trường, hải quan giữ lại …)';
-
+      case 10: return ' Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)';
+      case 11: return ' Đơn hàng bị sự cố (sự cố do lái xe, đang chuyển bị sự cố, quản lý thị trường, hải quan giữ lại …)';
       default:
-        return 'Error!';
+        return 'Lỗi dữ liệu';
     }
   }
 

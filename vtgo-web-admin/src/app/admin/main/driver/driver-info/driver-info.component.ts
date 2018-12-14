@@ -42,8 +42,24 @@ export class DriverInfoComponent implements OnInit {
     @Input() set driverViewModel(driver: DriverViewModel) {
         if (driver.accountId !== 0) {
             this.isAdd = false;
-            this._entity = new DriverViewModel();
-            this._entity = driver;
+            if (driver.address === null) {
+                driver.address = {
+                    country: null,
+                    province: null,
+                    district: null,
+                    wards: null,
+                    householdNo: null
+                }
+            }
+            if (driver.contactAddress === null) {
+                driver.contactAddress = {
+                    country: null,
+                    province: null,
+                    district: null,
+                    wards: null,
+                    householdNo: null
+                }
+            }
             if (driver.attachProperties === null) {
                 driver.attachProperties = {
                     "ACD": [],
@@ -52,7 +68,10 @@ export class DriverInfoComponent implements OnInit {
                     "CMND": []
                 };
             }
-            this.addEditForm.reset(driver);
+            this._entity = new DriverViewModel();
+            this._entity = driver;
+            console.log(this._entity);
+            this.addEditForm.reset(this._entity);
             this.oldAttachPro = this._entity.attachProperties;
         } else {
             this.isAdd = true;
@@ -144,6 +163,7 @@ export class DriverInfoComponent implements OnInit {
         )
     }
 
+    
     ChangingValue(event) {
         this.searchEthnic.searchParam2 = event.target.value;
         this.addressService.getProvince(this.searchEthnic).subscribe(

@@ -33,7 +33,7 @@ export class DriverComponent implements OnInit {
     imgName = '';
 
 
-    
+
 
 
     constructor(private modalServices: NgbModal,
@@ -45,12 +45,14 @@ export class DriverComponent implements OnInit {
     ) { }
 
     toggleExpandRow(row) {
-        if(row.ethnic > 0 || row.address.wards > 0 || row.contactAddress.wards > 0){
-            this.isToggle = true;
-        }else{
-            this.isToggle = false;
+        if (row.address != null && row.contactAddress != null) {
+            if (row.ethnic > 0 || row.address.wards > 0 || row.contactAddress.wards > 0) {
+                this.isToggle = true;
+            } else {
+                this.isToggle = false;
+            }
         }
-        if(this.isToggle){
+        if (this.isToggle) {
             this.categoryService.GetById(row.ethnic).subscribe(
                 (response: any) => {
                     this.oldEthnic = row.ethnic;
@@ -198,7 +200,7 @@ export class DriverComponent implements OnInit {
 
     getDriver(event) {
         this._entityDriver = event;
-        if(this.oldEthnic !== undefined){
+        if (this.oldEthnic !== undefined) {
             this._entityDriver.ethnic = this.oldEthnic;
             this._entityDriver.contactAddress.wards = this.oldContactAddress;
             this._entityDriver.address.wards = this.oldAddress;
@@ -213,7 +215,7 @@ export class DriverComponent implements OnInit {
                 }
                 else {
                     this.toastr.clear();
-                            this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
+                    this.toastr.error("Đã xảy ra lỗi. Xin vui lòng thử lại", "Thông báo...");
                 }
             }
         );
