@@ -1,15 +1,12 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
     <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin"
-      placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
+    (keyup)="searchByPressEnter($event)"  
+    placeholder="Nhập Email tìm kiếm">
   </div>
-  <div class="col-md-2">
-    <button class="btn btn-success w-150">Tìm kiếm</button>
+  <div class="col-md-1">
+    <button class="btn btn-success w-100" title="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
-  <div class="col-md-5"></div>
-  <!-- <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button>
-  </div> -->
 </div>
 
 <div class="row mt-2">
@@ -21,7 +18,7 @@
       <ngx-datatable-column name="accountId" [maxWidth]="100" prop="accountId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Account Id</strong>
+            <strong>ID</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">

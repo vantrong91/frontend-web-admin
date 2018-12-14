@@ -1,21 +1,15 @@
 <div class="row">
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm"
-      (keyup)="txtSearch($event)">
+    <input type="text" [(ngModel)]="searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Nhập SĐT, Tên hoặc Email"
+      (keyup)="searchByPressEnter($event)">
   </div>
-  <div class="col-md-1">
-    <button class="btn btn-success w-150" (click)="search(searchParam);">Tìm kiếm</button>
+  <div class="col-md-1 pl-md-0">
+    <button class="btn btn-success w-100" (click)="search(searchParam);" title="Nhập SĐT, Họ tên hoặc Email"><i class="fa fa-search"
+        aria-hidden="true"></i></button>
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-11">
-    <!-- <small>
-      <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
-      <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
-    </small> -->
-  </div>
-  <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="table.rowDetail.collapseAllRows();isAdd = true; open(content);">Add</button>
+  <div class="col-md-1 offset-md-6">
+    <button type="button" class="btn btn-success w-100" (click)="table.rowDetail.collapseAllRows();isAdd = true; open(content);"
+      title="Thêm mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -23,7 +17,7 @@
 
 <div class="row mt-2" [ngClass]="'d-block'">
   <div class="col">
-    <div class="driver-view-title">Lái xe cá nhân</div>
+    <div class="driver-view-title">Danh sách lái xe</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
       [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="50">
       <!-- Row Detail Template -->
@@ -81,7 +75,8 @@
               <div class="row">
                 <strong class="col-2 text-right">- Giấy tờ:</strong>
                 <div class="col-3">
-                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}, Loại giấy phép: {{row.typeLicenseNo | showTypeLicense}}</div>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}, Loại giấy phép: {{row.typeLicenseNo |
+                    showTypeLicense}}</div>
                   <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{ row.issueDate | date:
                     'dd/MM/yyyy'}}. Nơi cấp: {{row.issueBy}}
                   </div>
@@ -111,7 +106,8 @@
                 <div class="container imgView">
                   <div class="row">
                     <p class="col-sm-12"> + Chứng minh nhân dân/ Căn cước:
-                      {{(row.attachProperties?.CMND===undefined||row.attachProperties?.CMND.length==0)?'Không có ảnh':''}}</p>
+                      {{(row.attachProperties?.CMND===undefined||row.attachProperties?.CMND.length==0)?'Không có
+                      ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.CMND">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND'),el)">
                         <img [src]="getUrlImg('CMND') +el" alt="" />
@@ -121,8 +117,9 @@
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + Ảnh chân dung: 
-                        {{(row.attachProperties?.ACD===undefined||row.attachProperties?.ACD.length==0)?'Không có ảnh':''}}</p>
+                    <p class="col-sm-12"> + Ảnh chân dung:
+                      {{(row.attachProperties?.ACD===undefined||row.attachProperties?.ACD.length==0)?'Không có
+                      ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.ACD">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('ACD'),el)">
                         <img [src]="getUrlImg('ACD') +el" alt="" />
@@ -133,7 +130,8 @@
                   </div>
                   <div class="row">
                     <p class="col-sm-12"> + Giấy phép lái xe:
-                        {{(row.attachProperties?.GPLX===undefined||row.attachProperties?.GPLX.length==0)?'Không có ảnh':''}}</p>
+                      {{(row.attachProperties?.GPLX===undefined||row.attachProperties?.GPLX.length==0)?'Không có
+                      ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.GPLX">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GPLX'),el)">
                         <img [src]="getUrlImg('GPLX') +el" alt="" />
@@ -143,8 +141,9 @@
                     </ng-container>
                   </div>
                   <div class="row">
-                    <p class="col-sm-12"> + Sổ hộ khẩu: 
-                        {{(row.attachProperties?.SHK===undefined||row.attachProperties?.SHK.length==0)?'Không có ảnh':''}}</p>
+                    <p class="col-sm-12"> + Sổ hộ khẩu:
+                      {{(row.attachProperties?.SHK===undefined||row.attachProperties?.SHK.length==0)?'Không có
+                      ảnh':''}}</p>
                     <ng-container *ngFor="let el of row.attachProperties?.SHK">
                       <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('SHK'),el)">
                         <img [src]="getUrlImg('SHK') +el" alt="" />
@@ -244,7 +243,7 @@
 <!-- ======================================= Modal ========================================== -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class=" modal-header">
-    <h3 class="modal-title" id="modal-basic-title">{{isAdd?'Thêm tài xế mới':'Chỉnh sửa thông tin tài xế'}}</h3>
+    <h3 class="modal-title" id="modal-basic-title">{{isAdd?'Thêm Lái xe mới':'Chỉnh sửa thông tin Lái xe'}}</h3>
     <button class="close" aria-label="Close" (click)="d( 'Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>

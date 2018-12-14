@@ -60,13 +60,16 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
             this.listOwnerPersonal = response.data;
           }
         }
-        console.log(response.data);
       },
       error => {
       }
     );
   }
 
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchObject);
+  }
   selectType(event) {
     this.searchObject.searchParam = '';
     if (event.value === '0') {
@@ -78,6 +81,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     }
     this.search(this.searchObject);
   }
+
 
   getOwnerById(accountId: number, content) {
     this.vehicleOwnerService.GetOwnerById(accountId).subscribe(
@@ -124,7 +128,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
   }
 
   view(accountId, content) {
-    this.getOwnerById(accountId,content);
+    this.getOwnerById(accountId, content);
     this.noneShow = true;
   }
 
@@ -284,7 +288,6 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     } else {
       entity.moderatorLicenseIssueDate = null;
     }
-    // console.log(entity);
     return entity;
   }
   mapingPersonalModel(responseModel): PersonalViewModel {
@@ -362,7 +365,6 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
       entity.moderatorLicenseIssueDate = null;
     }
 
-    // console.log(entity);
     return entity;
   }
 }

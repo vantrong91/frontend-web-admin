@@ -73,7 +73,7 @@
       <ngx-datatable-column [width]="50">
         <ng-template ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Mã tài xế</strong>
+            <strong>Mã Lái xe</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -109,7 +109,9 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"  title="Thanh toán">
+          <!-- <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"  title="Thanh toán"> -->
+          <button class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"
+            title="Thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
@@ -143,7 +145,8 @@
       <label class="form-control" placeholder="Error" aria-describedby="basic-addon2" title="Số tiền">{{paid|currency:'':'':'0.0'}}</label>
     </div>
     <div class="input-group mb-3">
-      <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ.'}}{{paidValid?'':' hoặc Số dư không đủ'}}</small>
+      <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ.'}}{{paidValid?'':' hoặc Số
+        dư không đủ'}}</small>
     </div>
     <hr>
     <div>
@@ -154,8 +157,9 @@
     </div>
   </div>
   <div class="modal-footer">
-      <small class="text-danger"></small>
-    <button type="button" class="btn btn-outline-success" (click)="paidValid?c('Ok click'):''" [disabled]="!paidValid  ">Thanh toán</button>
+    <small class="text-danger"></small>
+    <button type="button" class="btn btn-outline-success" (click)="paidValid?c('Ok click'):''" [disabled]="!paidValid  ">Thanh
+      toán</button>
     <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy bỏ</button>
   </div>
 </ng-template>

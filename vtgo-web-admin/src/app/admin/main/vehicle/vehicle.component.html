@@ -1,14 +1,16 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
     <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin"
-      placeholder="Tìm Kiếm">
+    (keyup)="searchByPressEnter($event)" 
+      placeholder="Nhập Biển số xe">
   </div>
-  <div class="col-md-2">
-    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)">Search</button>
-  </div>
-  <div class="col-md-5"></div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="_vehicleTable.rowDetail.collapseAllRows();isAdd=true;open(content)">Add</button>
+    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)" title="Tìm kiếm"><i class="fa fa-search"
+        aria-hidden="true"></i></button>
+  </div>
+  <div class="col-md-1 offset-md-6">
+    <button type="button" class="btn btn-success w-100" (click)="_vehicleTable.rowDetail.collapseAllRows();isAdd=true;open(content)"
+      title="Thêm mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
     <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
   </div>
 </div>
@@ -37,7 +39,8 @@
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Tuyến xe</label>
-                  <div>{{row.route === 71 ? 'Xe chạy liên tỉnh' : row.route === 72 ? 'Xe chạy nội thành' : 'Đang cập nhật'}}</div>
+                  <div>{{row.route === 71 ? 'Xe chạy liên tỉnh' : row.route === 72 ? 'Xe chạy nội thành' : 'Đang cập
+                    nhật'}}</div>
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Loại xe</label>
@@ -46,7 +49,7 @@
               </div>
               <div class="row">
                 <div class="col-4">
-                  <label class="badge-light">Tên tài xế</label>
+                  <label class="badge-light">Tên Lái xe</label>
                   <div>{{row.driverName}}</div>
                 </div>
                 <div class="col-4">
@@ -141,8 +144,9 @@
                 <div class="container imgView">
                   <div class="row mt-3">
                     <div class="col-12">
-                      <p>• Đăng ký xe (ảnh chụp trang bìa và trang liên quan)
-                        {{(row.attachProperties?.DKYXE===undefined||row.attachProperties?.DKYXE.length==0)?'Không có ảnh':''}}</p>
+                      <p>• Đăng ký xe (ảnh chụp trang bìa và trang liên quan): 
+                        {{(row.attachProperties?.DKYXE===undefined||row.attachProperties?.DKYXE.length==0)?'Không có
+                        ảnh':''}}</p>
                       <ng-container *ngFor="let el of row.attachProperties?.DKYXE">
                         <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKYXE'),el)">
                           <img [src]="getUrlImg('DKYXE') +el" alt="" />
@@ -160,8 +164,9 @@
                 <div class="container imgView">
                   <div class="row mt-3">
                     <div class="col-9">
-                      <p>• Đăng kiểm xe (ảnh chụp hai mặt giấy tờ)
-                          {{(row.attachProperties?.DKYXE===undefined||row.attachProperties?.DKYXE.length==0)?'Không có ảnh':''}}
+                      <p>• Đăng kiểm xe (ảnh chụp hai mặt giấy tờ): 
+                        {{(row.attachProperties?.DKYXE===undefined||row.attachProperties?.DKYXE.length==0)?'Không có
+                        ảnh':''}}
                       </p>
                       <ng-container *ngFor="let el of row.attachProperties?.DKIEMXE">
                         <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('DKIEMXE'),el)">
@@ -180,8 +185,9 @@
                 <div class="container imgView">
                   <div class="row mt-3">
                     <div class="col-9">
-                      <p>• Bảo hiểm dân sự xe (ảnh chụp hai mặt giấy tờ)
-                          {{(row.attachProperties?.BHDSXE===undefined||row.attachProperties?.BHDSXE.length==0)?'Không có ảnh':''}}
+                      <p>• Bảo hiểm dân sự xe (ảnh chụp hai mặt giấy tờ): 
+                        {{(row.attachProperties?.BHDSXE===undefined||row.attachProperties?.BHDSXE.length==0)?'Không có
+                        ảnh':''}}
                       </p>
                       <ng-container *ngFor="let el of row.attachProperties?.BHDSXE">
                         <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('BHDSXE'),el)">
@@ -200,8 +206,9 @@
                 <div class="container imgView">
                   <div class="row mt-2">
                     <div class="col-9">
-                      <p>• Bảo hiểm hàng hóa xe (ảnh chụp hai mặt giấy tờ)
-                          {{(row.attachProperties?.BHHHXE===undefined||row.attachProperties?.BHHHXE.length==0)?'Không có ảnh':''}}
+                      <p>• Bảo hiểm hàng hóa xe (ảnh chụp hai mặt giấy tờ): 
+                        {{(row.attachProperties?.BHHHXE===undefined||row.attachProperties?.BHHHXE.length==0)?'Không có
+                        ảnh':''}}
                       </p>
                     </div>
                     <ng-container *ngFor="let el of row.attachProperties?.BHHHXE">
@@ -220,8 +227,9 @@
                 <div class="container imgView">
                   <div class="row mt-2">
                     <div class="col-9">
-                      <p>• Giấy xác nhận xe đã được gắn thiết bị giám sát hành trình (ảnh chụp hai mặt giấy tờ)
-                          {{(row.attachProperties?.GXNTBGS===undefined||row.attachProperties?.GXNTBGS.length==0)?'Không có ảnh':''}}
+                      <p>• Giấy xác nhận xe đã được gắn thiết bị giám sát hành trình (ảnh chụp hai mặt giấy tờ): 
+                        {{(row.attachProperties?.GXNTBGS===undefined||row.attachProperties?.GXNTBGS.length==0)?'Không
+                        có ảnh':''}}
                       </p>
                       <ng-container *ngFor="let el of row.attachProperties?.GXNTBGS">
                         <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GXNTBGS'),el)">
@@ -239,40 +247,6 @@
         </ng-template>
       </ngx-datatable-row-detail>
 
-      <!-- 
-      "vehicleType": 2,
-      "licencePlate": "26b2 14356",
-      "weight": 100,
-      "licence": "so dang ky xe",
-      "licenceIssueDate": 1538240400000,
-      "licenceIssueBy": "OK",
-      "registrationNo": "so dang kiem xe",
-      "registrationIssueDate": 1538240400000,
-      "registrationExpDate": 1540918800000,
-      "civilInsurance": "OK",
-      "civilInsuranceIssueDate": 1538240400000,
-      "civilInsuranceExpDate": 1538240400000,
-      "cargoInsurance": "OK",
-      "cargoInsuranceIssueDate": 1538240400000,
-      "cargoInsuranceExpDate": 1538240400000,
-      "itineraryMonitoring": "OK",
-      "itineraryMonitoringIssueDate": 1538240400000,
-      "itineraryMonitoringExpDate": 1538240400000,
-      "state": null,
-      "driverId": 17702,
-      "driverName": "QUANG",
-      "attachProperties": {
-        "DKYXE": [
-          "41021543_264400434401257_966625524321353728_n.jpg"
-        ],
-        "DKIEMXE": [
-          "41021543_264400434401257_966625524321353728_n.jpg"
-        ],
-        "BHHHXE": [
-          "41021543_264400434401257_966625524321353728_n.jpg"
-        ]
-      } -->
-
       <ngx-datatable-column [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="default align-center tbl-header">
@@ -288,11 +262,11 @@
       <ngx-datatable-column name="vehicleId" [width]="70" hidden prop="vehicleId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Id</strong>
+            <strong>ID</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="vehicleCode" [width]="100" prop="vehicleCode">
@@ -302,17 +276,17 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="driverName" [width]="150" prop="driverName">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            <strong>Tên tài xế</strong>
+            <strong>Tên Lái xe</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          <span>{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="state" [width]="170" prop="state">
@@ -399,16 +373,16 @@
 </ng-template>
 
 <ng-template #imgView let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <div class="text-center">{{imgName}}</div>
-  
-      <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <img class="imgFull" [src]="ulrImgFull" alt="" />
-      <br>
-      <br>
-    </div>
-  </ng-template>
+  <div class="modal-header">
+    <div class="text-center">{{imgName}}</div>
+
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="imgFull" [src]="ulrImgFull" alt="" />
+    <br>
+    <br>
+  </div>
+</ng-template>

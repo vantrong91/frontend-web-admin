@@ -5,8 +5,8 @@ import { DriverComponent } from './driver.component';
 const routes: Routes = [
   {
     path: '', component: DriverComponent, data: {
-      title: 'VTGO Tài xế',
-      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Tài xế'}]
+      title: 'VTGO Lái xe',
+      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Lái xe'}]
     }
   }
 ];

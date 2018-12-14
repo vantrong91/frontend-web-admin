@@ -33,9 +33,15 @@ export class AccountComponent implements OnInit {
       response => {
         if (response.status === 0) {
           this.accounts = response.data;
+          console.log(search);
         }
       }
     );
+  }
+
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchParam);
   }
 
   search2(search) {

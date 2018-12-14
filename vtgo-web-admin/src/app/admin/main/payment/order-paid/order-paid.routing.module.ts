@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '', component: OrderPaidComponent, data: {
       title: 'VTGO Thanh toán đơn hàng',
-      urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Thanh toán đơn hànng' }]
+      urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Thanh toán đơn hàng' }]
     }
   }
 ];

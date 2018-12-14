@@ -82,13 +82,12 @@ export class DriverComponent implements OnInit {
         this.loadData();
     }
     loadData() {
-        let search = '{}';
+        let search = '';
         this.search(search);
     }
 
     search(search) {
-
-        this.dataService.Post('driver/search', search).subscribe(
+        this.dataService.Post('driver/search', { searchParam: search }).subscribe(
             response => {
                 if (response.status === 0) {
                     this.rows = response.data;
@@ -97,17 +96,14 @@ export class DriverComponent implements OnInit {
         );
     }
 
+    searchByPressEnter(event) {
+
+        if (event.keyCode == 13)
+          this.search(event.target.value);
+    }
     getUrlImg(folder: string) {
         this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
         return this.imgUrl;
-    }
-
-
-    txtSearch(event) {
-        if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1)
-            this.search('{}');
-        else
-            this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
     }
 
     open(ele) {

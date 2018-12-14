@@ -48,8 +48,10 @@ export class GoodsOwnerComponent implements OnInit {
         );
     }
 
-    txtSearch(event) {
-        this.search(this.searchParam);
+    searchByPressEnter(event) {
+        this.searchParam.searchParam = event.target.value;
+        if (event.keyCode == 13)
+            this.search(this.searchParam);
     }
 
     open(ele) {
@@ -122,7 +124,7 @@ export class GoodsOwnerComponent implements OnInit {
                     this.toastr.success('Đã chỉnh sửa thành công thông tin chủ hàng!');
                 }
                 else
-                this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
+                    this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
             }
         );
     }

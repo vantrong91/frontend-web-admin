@@ -60,6 +60,12 @@ export class VehicleComponent implements OnInit {
       }
     )
   }
+
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchObject);
+  }
+
   getVehicleById(vehicleId: number) {
     this.vehicleService.GetVehicleById(vehicleId).subscribe(
       (response: any) => {
@@ -83,9 +89,9 @@ export class VehicleComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
-    if(row.licenceIssueBy > 0){      
+    if (row.licenceIssueBy > 0) {
       this.isToggle = true;
-    }else{
+    } else {
       this.isToggle = false;
     }
     if (this.isToggle) {
@@ -113,7 +119,7 @@ export class VehicleComponent implements OnInit {
   //View Vehicle
   // EDIT Vehicle
   edit(row, content) {
-    if(this.oldLicenceIssueBy !== undefined){
+    if (this.oldLicenceIssueBy !== undefined) {
       row.licenceIssueBy = this.oldLicenceIssueBy;
     }
     this._entityVehicle = row;

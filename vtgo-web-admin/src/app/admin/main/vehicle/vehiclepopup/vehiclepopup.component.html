@@ -14,7 +14,7 @@
         <div class="form-group row my-3">
           <label for="ownerId" class="col-sm-2 col-form-label text-md-right">ID Chủ xe</label>
           <div class="col-sm-4">
-            <input type="text" placeholder="AccountId của chủ xe" class="form-control" id="ownerId" formControlName="ownerId"
+            <input type="text" placeholder="Mã ID của Chủ xe" class="form-control" id="ownerId" formControlName="ownerId"
               tabindex="1">
           </div>
           <label for="vehicleCode" class="col-sm-2 col-form-label text-md-right">Mã xe </label>
@@ -227,21 +227,21 @@
               <option value="5">Đang chở hàng</option>
             </select>
           </div>
-          <label for="DriverId" class="col-sm-2 col-form-label text-md-right">Id tài xế <span class="text-danger"
+          <label for="DriverId" class="col-sm-2 col-form-label text-md-right">ID Lái xe <span class="text-danger"
               hidden>*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="DriverId" placeholder="AccountId tai xe" formControlName="driverId"
+            <input type="text" class="form-control" id="DriverId" placeholder="Mã ID của Lái xe" formControlName="driverId"
               tabindex="22">
           </div>
         </div>
-        <div class="form-group row mb-3">
-          <label for="DriverName" class="col-sm-2 col-form-label text-md-right">Tên tài xế <span class="text-danger"
+        <!-- <div class="form-group row mb-3">
+          <label for="DriverName" class="col-sm-2 col-form-label text-md-right">Tên Lái xe <span class="text-danger"
               hidden>*</span></label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="DriverName" placeholder="Tên tài xế" formControlName="driverName"
+            <input type="text" class="form-control" id="DriverName" placeholder="Tên Lái xe" formControlName="driverName"
               tabindex="23">
           </div>
-        </div>
+        </div> -->
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Đính kèm" *ngIf="isAdd">
