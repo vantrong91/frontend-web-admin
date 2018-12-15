@@ -20,7 +20,6 @@ import { OrderCompleteModel } from 'src/app/core/models/ordercomplete.mode';
 })
 export class OrderListComponent implements OnInit, AfterViewChecked {
   orderState = 0;
-  toShow = 5;
   searchObject: SearchModel;
   orderComplete: OrderCompleteModel;
   listOrder: any;
@@ -72,13 +71,6 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
       .open(ele, { windowClass: 'dark-modal', size: 'lg' });
   }
 
-  changeShow(el) {
-    if (el != 0)
-      this.toShow = el;
-    else
-      this.toShow = undefined;
-  }
-
   changeState(state) {
     this.orderState = state;
     this.getComplete(this.orderState);
@@ -91,6 +83,13 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
       },
       error => console.log(error)
     );
+  }
+
+  searchByPressEnter(event) {
+    this.searchObject.searchParam = event.target.value;
+    if (event.keyCode == 13) {
+      this.search(this.searchObject);
+    }
   }
 
   getComplete(state: number) {

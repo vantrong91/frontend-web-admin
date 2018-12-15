@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { IInsuranceOrderServiceToken, InsuranceOrderService } from '../../../../core';
 import { InsuranInfoComponent } from './insuran-info/insuran-info.component';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
+        NgbModule,
         FormsModule,
         NgxDatatableModule,
         NgbTabsetModule,

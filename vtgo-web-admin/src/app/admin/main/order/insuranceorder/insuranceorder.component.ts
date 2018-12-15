@@ -40,6 +40,13 @@ export class InsuranceorderComponent implements OnInit {
     );
   }
 
+  searchByPressEnter(event) {
+    this.searchObject.searchParam = event.target.value;
+    if (event.keyCode == 13) {
+      this.search(this.searchObject);
+    }
+  }
+
   edit(row, content) {
     this._entity = new InsuOrderViewModel();
     this._entity = row;

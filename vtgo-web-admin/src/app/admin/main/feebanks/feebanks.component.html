@@ -4,13 +4,11 @@
       placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-success w-150">Tìm kiếm</button>
+    <button class="btn btn-success w-100" placement="bottom" ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-10"></div>
-  <div class="col-md-2">
-    <button type="button" class="btn btn-success w-100" (click)="isAdd = true;open(content);">Thêm ngân hàng</button>
+  <div class="col-md-1 offset-md-6">
+    <button type="button" class="btn btn-success w-100" (click)="isAdd = true;open(content);" placement="bottom"
+      ngbTooltip="Thêm Ngân hàng mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -62,7 +60,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="fee" [width]="70" [minWidth]="70">
         <ng-template ngx-datatable-header-template>
-          <label>Phí chuyển khoản  </label>
+          <label>Phí chuyển khoản </label>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value}}

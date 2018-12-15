@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { NgxDatatableModule} from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AccountRoutingModule} from './account.routing';
 import { AccountComponent} from './account.component';
@@ -14,6 +14,7 @@ import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 @NgModule({
     imports: [
         CommonModule,
+        NgbModule,
         FileUploadModule,
         FormsModule,
         ReactiveFormsModule,

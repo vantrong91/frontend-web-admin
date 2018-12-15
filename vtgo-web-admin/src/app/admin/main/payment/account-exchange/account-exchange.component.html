@@ -5,7 +5,7 @@
     placeholder="Nhập Email tìm kiếm">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-success w-100" title="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <button class="btn btn-success w-100"  placement="bottom" ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -25,16 +25,6 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <!-- <ngx-datatable-column name="password" [width]="100" prop="password">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Password</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          {{value}}
-        </ng-template>
-      </ngx-datatable-column> -->
       <ngx-datatable-column name="email" [width]="150" prop="email">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
@@ -74,20 +64,6 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
-      <!-- <ngx-datatable-column [width]="80">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
-            <strong>Số tiền nợ</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div *ngFor="let i of balance">
-            <div *ngIf="row.accountId == i.accountId">
-              {{i.debt== null?'Không nợ':'i.debt'}}
-            </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-column> -->
       <ngx-datatable-column name="action" [minWidth]="150" [maxWidth]="150">
         <ng-template let-column="colmun" ngx-datatable-header-template>
           <span>
@@ -95,13 +71,13 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalanceHis);getAccountManById(row.accountId);">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalanceHis);getAccountManById(row.accountId);"  placement="bottom" ngbTooltip="Lịch sử giao dịch">
             <i class="fa fa-history"></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentBalance);getBalanceById(row.accountId);">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentBalance);getBalanceById(row.accountId);"  placement="bottom" ngbTooltip="Số dư">
             <i class=" fa fa-money" style="color:blue;"></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);"  placement="left" ngbTooltip="Rút tiền / Nạp tiền">
             <i class=" fa fa-exchange " style="color:red;"></i>
           </button>
         </ng-template>
@@ -114,7 +90,7 @@
 <!-- ======================================= Modal ========================================== -->
 <ng-template #contentBalanceHis let-c="close " let-d="dismiss">
   <div class="modal-header ">
-    <h3 class="modal-title " id="modal-basic-title ">Xem lịch sử giao dịch</h3>
+    <h3 class="modal-title " id="modal-basic-title ">Xem lịch sử giao dịch ( Click vào từng giao dịch để xem chi tiết )</h3>
     <button class="close " aria-label="Close " (click)="d( 'Cross click') ">
       <span aria-hidden="true ">&times;</span>
     </button>

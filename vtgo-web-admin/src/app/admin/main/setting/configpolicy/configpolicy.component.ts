@@ -39,6 +39,12 @@ export class ConfigpolicyComponent implements OnInit {
     )
   }
 
+  searchByPressEnter(event) {
+
+    if (event.keyCode == 13)
+      this.search(this.searchObject);
+  }
+
   open(content) {
     this.isAdd = true;
     this._entity = new PolicyViewModel();

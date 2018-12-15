@@ -10,6 +10,7 @@ import { TechnicalpopupComponent } from './technicalpopup/technicalpopup.compone
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,

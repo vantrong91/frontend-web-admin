@@ -13,6 +13,7 @@ import { ManagepopupComponent } from './managepopup/managepopup.component';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,

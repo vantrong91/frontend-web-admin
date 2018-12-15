@@ -83,6 +83,6 @@
   </div>
 </form>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Save</button>
+  <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Lưu</button>
   <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
 </div>

@@ -1,11 +1,13 @@
-<div class="row">
-  <div class="col-md-4 my-auto">
-    <input type="text" name="searchParam" [(ngModel)]="searchParam.searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm số điện thoại" (keyup)="txtSearch($event)">
+<div class="row mt-2">
+    <div class="col-md-4 my-auto">
+      <input type="text" [(ngModel)]="searchParam.searchParam" #searchData name="searchParam" class="form-control input-search-admin"
+        placeholder="Nhập SĐT, Tên hoặc Email" (keyup)="searchByPressEnter($event)">
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searchData)" placement="bottom"
+        ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
+    </div>
   </div>
-  <div class="col-md-1">
-    <button class="btn btn-success w-150">Tìm kiếm</button>
-  </div>
-</div>
 
 <!-- ======================================= tblSupport ========================================== -->
 
@@ -66,7 +68,8 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button type="button" class="btn btn-info button-custom-admin" (click)="getAccount(row);">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="getAccount(row);" placement="bottom"
+          ngbTooltip="Xem chi tiết">
             <i class=" fa fa-eye "></i>
           </button>
         </ng-template>

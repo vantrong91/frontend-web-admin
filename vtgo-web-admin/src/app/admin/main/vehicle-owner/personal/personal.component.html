@@ -2,8 +2,6 @@
   <ngb-tabset>
     <ngb-tab title="Thông tin cá nhân chủ xe">
       <ng-template ngbTabContent>
-        <!-- <button type="button" class="btn btn-danger" (click)="initData()" tabindex="20">Init</button>
-        <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="20">Save</button> -->
         <input type="text" hidden id="AccountId">
         <div class="form-group row my-3">
           <label for="FullName" class="col-sm-2 col-form-label text-md-right">Họ và tên <span class="text-danger">*</span></label>
@@ -483,7 +481,7 @@
   </ngb-tabset>
   <div class="modal-footer">
     <div *ngIf="!noneShow">
-      <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="20">Save</button>
+      <button type="button" class="btn btn-success" (click)="onSave($event)" tabindex="20">Lưu</button>
     </div>
   </div>
 </form>

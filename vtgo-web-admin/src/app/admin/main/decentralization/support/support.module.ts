@@ -11,6 +11,7 @@ import { SupportpopupComponent } from './supportpopup/supportpopup.component';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,

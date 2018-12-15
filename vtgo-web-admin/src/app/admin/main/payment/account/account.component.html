@@ -1,13 +1,15 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searchParam" name="searchParam" class="form-control input-search-admin" placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
+    <input type="text" [(ngModel)]="searchParam" #searchData name="searchParam" class="form-control input-search-admin" placeholder="Nhập SĐT, Tên hoặc Email"
+      (keyup)="searchByPressEnter($event)">
   </div>
-  <div class="col-md-2">
-    <button type="button" class="btn btn-success w-100" (click)="search(searchParam)">Search</button>
-  </div>
-  <div class="col-md-5"></div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="open(content)">Add</button>
+    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searchData)" placement="bottom" ngbTooltip="Tìm kiếm"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
+  </div>
+  <div class="col-md-1 offset-md-6">
+    <button type="button" class="btn btn-success w-100" (click)="open(content)" placement="bottom" ngbTooltip="Thêm mới Tài khoản"><i
+        class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
     <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
   </div>
 </div>
@@ -15,26 +17,26 @@
 <div class="row mt-2">
   <div class="col">
     <div class="owner-view-title">Tài khoản</div>
-    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='listAccount'
-      [columnMode]='"force"' [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #accountTable>
+    <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='listAccount' [columnMode]='"force"'
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #accountTable>
       <ngx-datatable-column name="accountId" [minWidth]="100" [maxWidth]="100" prop="accountId" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Account Id</strong>
+            <strong>ID</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="accountToken" [width]="100" prop="fullName">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Full Name</strong>
+            <strong>Họ tên</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="email" [width]="150" prop="email" headerClass="is-gender">
@@ -44,23 +46,23 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="phoneNumber" [width]="100" prop="phoneNumber">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Phone Number</strong>
+            <strong>Số điện thoại</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="accountType" [width]="100" prop="accountType">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Account Type</strong>
+            <strong>Vai trò</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">

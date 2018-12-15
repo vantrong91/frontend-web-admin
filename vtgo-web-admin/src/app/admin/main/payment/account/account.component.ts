@@ -47,24 +47,22 @@ export class AccountComponent implements OnInit {
       }
     )
   }
-  txtSearch(event) {
-    if (this.searchParam === undefined || this.searchParam === null || this.searchParam.length < 1) {
-      this.search('{}');
-    } else {
-      this.search(`{"searchParam":"` + this.searchParam.trim() + `"}`);
-    }
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(`{"searchParam":"` + event.target.value + `"}`);
   }
-  onSubmit(event){
+
+  onSubmit(event) {
     this._entity = event;
-    this.accountService.Create(this._entity).subscribe((response:any) => {
-      if(response.status === 0){
+    this.accountService.Create(this._entity).subscribe((response: any) => {
+      if (response.status === 0) {
         this.initData();
         this.isShow = true;
         setTimeout(() => {
           this.isShow = false;
         }, 2500);
         this.txtNoti = 'Thêm thành công tài khoản ' + this._entity.fullName;
-      } else{
+      } else {
         this.txtNoti = 'Xảy ra lỗi. Xin vui lòng thử lại';
       }
     })

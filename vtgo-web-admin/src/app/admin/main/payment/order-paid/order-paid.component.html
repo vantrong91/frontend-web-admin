@@ -1,33 +1,19 @@
-<div class="row">
-  <div class="col-sm-4 my-auto">
-    <input type="text" class="form-control text-input" placeholder="Tìm kiếm" (keyup)='txtSearch($event)' />
+<div class="row mt-2">
+  <div class="col-md-4 my-auto">
+    <input type="text" [(ngModel)]="searchObject.searchParam" #searchData name="searchObject" class="form-control input-search-admin"
+      placeholder="Nhập Mã đơn hàng" (keyup)="searchByPressEnter($event)">
   </div>
-  <div class="col-sm-2 offset-sm-6">
-    <div class="col text-right">
-      <div ngbDropdown class="d-inline-block btn-block">
-        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
-          {{toShow==undefined?'Tất cả':toShow}}</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>
-          <button class="dropdown-item" (click)="changeShow(10)"><span class="mdi mdi-eye"></span> 10</button>
-          <button class="dropdown-item" (click)="changeShow(20)"><span class="mdi mdi-eye"></span> 20</button>
-          <button class="dropdown-item" (click)="changeShow(50)"><span class="mdi mdi-eye"></span> 50</button>
-          <button class="dropdown-item" (click)="changeShow(0)"><span class="mdi mdi-eye"></span> Tất cả</button>
-        </div>
-      </div>
-    </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-success w-100" (click)="search(searchObject)" placement="bottom" ngbTooltip="Tìm kiếm"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </div>
-<div class="row">
 
-</div>
 <div class="row mt-2">
   <div class="col">
     <div class="order-view-title">Danh sách đơn hàng</div>
     <ngx-datatable #orderTable class='material expandable fullscreen' [columnMode]="'force'" [headerHeight]="50"
-      [footerHeight]="50" [rowHeight]="'auto'" [rows]='listOrder' [sorts]="[{prop: 'orderId', dir: 'desc'}]" [limit]="toShow">
-
-
+      [footerHeight]="50" [rowHeight]="'auto'" [rows]='listOrder' [sorts]="[{prop: 'orderId', dir: 'desc'}]" [limit]="50">
       <!--Data col show-->
       <ngx-datatable-column name="Index" [width]="55" [maxWidth]="55">
         <ng-template let-column="column" ngx-datatable-header-template>
@@ -109,13 +95,12 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <!-- <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"  title="Thanh toán"> -->
-          <button class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"
-            title="Thanh toán">
+          <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)"
+            placement="bottom" ngbTooltip="Xác nhận thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
-          <button *ngIf="row.state!=6" class="btn btn-secondary button-custom-admin ml-2" disabled title="Chưa thể thanh toán">
+          <button *ngIf="row.state!=6" class="btn btn-secondary button-custom-admin ml-2" placement="bottom" ngbTooltip="Chưa thể thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
 
@@ -128,39 +113,45 @@
 <!--Modal--->
 <ng-template #confirm let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán đơn hàng: <strong style="color: #3d66fb;">{{orderId}}</strong></h4>
+    <h4 class="modal-title" id="modal-title">Xác nhận thanh toán đơn hàng <strong style="color: #3d66fb;">{{orderId}}</strong></h4>
     <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Nội dung thông báo:</p>
-    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message"></textarea>
+    <div>
+      <i>Thông tin chủ hàng:</i><br>
+      - Mã chủ hàng: {{accountIdGoodOwner}}<br>
+      - Họ tên: {{goodOwnerName}} <br>
+      - Số dư hiện tại: {{currentBalanceGoodOwner|currency:'':'':'0.0'}} đ
+    </div>
+    <hr>
+    <!-- Mess: {{configService.config.ORDER_PAID_MESSGAGE_TEMPLATE}}<br>
+    <br>inputMessBankNumber _ {{inputMessBankNumber}}
+    <br>inputMessBankCode _ {{inputMessBankCode}}
+    <br>inputMessOrderId _ {{inputMessOrderId}}
+    <br>inputMessUserCode _ {{inputMessUserCode}}
+    <hr> -->
+    <p>Nội dung thanh toán:</p>
+    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message" (keyup)="checkInputMessage($event)"></textarea>
     <div class="input-group mb-3">
       <div class="input-group-append">
         <span class="input-group-text" id="basic-addon2">Số tiền thanh toán (VNĐ):</span>
       </div>
-      <!-- <input type="text" class="form-control" (keypress)="checkTypeNum($event)" (keyup)="checkNum($event)" [(ngModel)]="paid"
-        placeholder="tối đa 100 tỷ" aria-describedby="basic-addon2" title="Số tiền"> -->
       <label class="form-control" placeholder="Error" aria-describedby="basic-addon2" title="Số tiền">{{paid|currency:'':'':'0.0'}}</label>
     </div>
     <div class="input-group mb-3">
       <small class="text-danger">- {{paidValid?numToVND().doc(paid):'Số tiền không hợp lệ.'}}{{paidValid?'':' hoặc Số
         dư không đủ'}}</small>
     </div>
-    <hr>
-    <div>
-      <i>Thông tin chủ hàng:</i><br>
-      - Mã chủ hàng: {{accountIdGoodOwner}}<br>
-      - Họ tên: {{goodOwnerName}} <br>
-      - Số dư hiện tại: {{currentBalanceGoodOwner|currency:'':'':'0.0'}}
-    </div>
   </div>
   <div class="modal-footer">
-    <small class="text-danger"></small>
-    <button type="button" class="btn btn-outline-success" (click)="paidValid?c('Ok click'):''" [disabled]="!paidValid  ">Thanh
+    <small class="text-danger">{{!messageValid?'Nội dung thanh toán không đúng.':''}}</small>
+    <button type="button" *ngIf="(paidValid && messageValid)" class="btn btn-success" (click)="c('Ok click')">Thanh
       toán</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="d('cancel click')">Hủy bỏ</button>
+    <button type="button" *ngIf="!(paidValid && messageValid)" class="btn btn-secondary">Thanh
+      toán</button>
+    <button type="button" class="btn btn-secondary" (click)="d('cancel click')">Hủy bỏ</button>
   </div>
 </ng-template>
 <ngx-spinner bdColor="rgba(107, 107, 107, 0.54)" size="medium" color="rgb(8, 210, 24)" type="ball-clip-rotate-multiple"></ngx-spinner>

@@ -14,6 +14,7 @@ import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.componen
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     GoodsownerRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,

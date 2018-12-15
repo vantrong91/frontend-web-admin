@@ -7,7 +7,7 @@ import { VehicleOwnerRoutingModule } from './vehicle-owner.routing';
 import { VehicleOwnerComponent } from './vehicle-owner.component';
 import { CompanyComponent } from './company/company.component';
 import { PersonalComponent } from './personal/personal.component';
-import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../shared';
 import {
   IVehicleOwnerServiceToken,
@@ -20,6 +20,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     VehicleOwnerRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,

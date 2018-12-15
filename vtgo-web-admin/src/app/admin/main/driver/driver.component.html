@@ -4,12 +4,12 @@
       (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-md-1 pl-md-0">
-    <button class="btn btn-success w-100" (click)="search(searchParam);" title="Nhập SĐT, Họ tên hoặc Email"><i class="fa fa-search"
+    <button class="btn btn-success w-100" (click)="search(searchParam);" placement="bottom" ngbTooltip="Tìm kiếm"><i class="fa fa-search"
         aria-hidden="true"></i></button>
   </div>
   <div class="col-md-1 offset-md-6">
     <button type="button" class="btn btn-success w-100" (click)="table.rowDetail.collapseAllRows();isAdd = true; open(content);"
-      title="Thêm mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
+    placement="bottom" ngbTooltip="Thêm lái xe mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -226,13 +226,13 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button type="button" class="btn btn-info button-custom-admin" (click)="toggleExpandRow(row)">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="toggleExpandRow(row)"  placement="bottom" ngbTooltip="Xem chi tiết">
             <i class=" fa fa-eye "></i>
           </button>
-          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="table.rowDetail.collapseAllRows();isAdd=false; open(content); getDriver(row);">
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="table.rowDetail.collapseAllRows();isAdd=false; open(content); getDriver(row);"  placement="bottom" ngbTooltip="Chỉnh sửa">
             <i class="fa fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.accountId)">
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.accountId)"  placement="bottom" ngbTooltip="Xóa">
             <i class="fa fa-trash"></i>
           </button>
         </ng-template>

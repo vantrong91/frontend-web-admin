@@ -18,7 +18,7 @@ export class ManageComponent implements OnInit {
   accountData: AccountViewModel;
   closeResult: string;
   isAdd = false;
-  isSetAvatar= true;
+  isSetAvatar = true;
 
   @ViewChild('content') content: any;
   constructor(
@@ -37,13 +37,8 @@ export class ManageComponent implements OnInit {
     this.searchParam.searchParam2 = 9;
     this.search(this.searchParam);
     console.log(this.searchParam);
-    
-  }
 
-  txtSearch(event) {
-    this.search(this.searchParam);
   }
-
 
   search(search) {
     this.dataService.Post('account-man/search', search).subscribe(
@@ -55,12 +50,17 @@ export class ManageComponent implements OnInit {
     );
   }
 
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchParam);
+  }
+
   getAccount(event) {
     this.accountData = event;
-    if(this.accountData.fileAvata == null){
+    if (this.accountData.fileAvata == null) {
       this.accountData.fileAvata = ""
       this.isSetAvatar = false;
-    } else{
+    } else {
       this.accountData.fileAvata = event.fileAvata;
       this.isSetAvatar = true;
     }

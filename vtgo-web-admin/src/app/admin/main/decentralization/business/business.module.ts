@@ -10,6 +10,7 @@ import { BusinesspopupComponent } from './businesspopup/businesspopup.component'
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,

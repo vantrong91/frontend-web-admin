@@ -18,7 +18,7 @@ export class BusinessComponent implements OnInit {
   accountData: AccountViewModel;
   closeResult: string;
   isAdd = false;
-  isSetAvatar= true;
+  isSetAvatar = true;
 
   @ViewChild('content') content: any;
   constructor(
@@ -37,7 +37,7 @@ export class BusinessComponent implements OnInit {
     this.searchParam.searchParam2 = 5;
     this.search(this.searchParam);
     console.log(this.searchParam);
-    
+
   }
 
   txtSearch(event) {
@@ -55,12 +55,17 @@ export class BusinessComponent implements OnInit {
     );
   }
 
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(`{"searchParam":"` + event.target.value + `"}`);
+  }
+
   getAccount(event) {
     this.accountData = event;
-    if(this.accountData.fileAvata == null){
+    if (this.accountData.fileAvata == null) {
       this.accountData.fileAvata = ""
       this.isSetAvatar = false;
-    } else{
+    } else {
       this.accountData.fileAvata = event.fileAvata;
       this.isSetAvatar = true;
     }

@@ -10,6 +10,7 @@ import { AccountantpopupComponent } from './accountantpopup/accountantpopup.comp
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,

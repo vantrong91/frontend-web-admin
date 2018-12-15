@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 import { ConfigpolicyComponent } from "./configpolicy.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTabsetModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "src/app/shared";
 import { IPolicyServiceToken, PolicyService } from "src/app/core";
 import { ConfigpolicypopupComponent } from './configpolicypopup/configpolicypopup.component';
@@ -12,16 +12,19 @@ import { ConfigpolicypopupComponent } from './configpolicypopup/configpolicypopu
 @NgModule({
     imports: [
         CommonModule,
+        NgbModule,
         FormsModule,
         ReactiveFormsModule,
         NgxDatatableModule,
         NgbTabsetModule,
         SharedModule.forRoot(),
         RouterModule.forChild([
-            {path: '', component: ConfigpolicyComponent, data: {
-                title: 'VTGO Chính sách',
-                urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Chính sách'}]
-              }}
+            {
+                path: '', component: ConfigpolicyComponent, data: {
+                    title: 'VTGO Chính sách',
+                    urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Chính sách' }]
+                }
+            }
         ])
     ],
     declarations: [
@@ -29,8 +32,8 @@ import { ConfigpolicypopupComponent } from './configpolicypopup/configpolicypopu
         ConfigpolicypopupComponent
     ],
     providers: [
-        { provide: IPolicyServiceToken, useClass: PolicyService}
+        { provide: IPolicyServiceToken, useClass: PolicyService }
     ]
 })
 
-export class ConfigPolicyModule{}
+export class ConfigPolicyModule { }

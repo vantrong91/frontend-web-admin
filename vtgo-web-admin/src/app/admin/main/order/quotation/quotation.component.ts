@@ -37,6 +37,8 @@ export class QuotationComponent implements OnInit {
   }
 
   search(search: SearchModel) {
+    console.log(search);
+
     this.quotationService.Get(search).subscribe(
       (response: any) => {
         if (response.status === 0) {
@@ -46,6 +48,12 @@ export class QuotationComponent implements OnInit {
       error => {
       }
     );
+  }
+
+  searchByPressEnter(event) {
+
+    if (event.keyCode == 13)
+      this.search(this.searchObject);
   }
 
   getStateQuotation(state) {

@@ -1,18 +1,11 @@
 <div class="row">
   <div class="col-md-4 my-auto">
     <input type="text" [(ngModel)]="searchObject.searchParam" name="searchParam" class="form-control input-search-admin"
-      placeholder="Tìm Kiếm">
+      (keyup)="searchByPressEnter($event)" placeholder="Nhập Mã báo giá">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-success w-150" (click)="search(searchObject)">Tìm kiếm</button>
-  </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-11">
-    <small>
-      <a href="javascript:void(0)" (click)="table.rowDetail.expandAllRows()">Hiển thị tất cả</a> |
-      <a href="javascript:void(0)" (click)="table.rowDetail.collapseAllRows()">Thu gọn</a>
-    </small>
+    <button class="btn btn-success w-100" (click)="search(searchObject)" placement="bottom" ngbTooltip="Tìm kiếm"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -20,7 +13,7 @@
 
 <div class="row mt-2" [ngClass]="'d-block'">
   <div class="col">
-    <div class="quotation">Danh sách báo giá</div>
+    <div class="tbl-list-view-title">Danh sách báo giá</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
       [rowHeight]="50" [rows]='listQuotation' [sorts]="[{prop: 'quotationId', dir: 'desc'}]" [limit]="20">
       <!-- Row Detail Template -->
@@ -85,13 +78,7 @@
         </ng-template>
       </ngx-datatable-row-detail>
       <!-- Column Templates -->
-      <ngx-datatable-column [width]="10" [resizeable]="false" [sortable]="true" [draggable]="false" [canAutoResize]="false">
-        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
-            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-          </a>
-        </ng-template>
-      </ngx-datatable-column>
+
       <ngx-datatable-column name="Index" [minWidth]="60" [maxWidth]="60">
         <ng-template let-column="column" ngx-datatable-header-template>
           <strong class="tbl-header">STT</strong>
@@ -102,7 +89,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="quotationId" [width]="80">
         <ng-template ngx-datatable-header-template>
-          <strong class="tbl-header">Mã báo giáo</strong>
+          <strong class="tbl-header">Mã báo giá</strong>
         </ng-template>
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           <span>{{value}}</span>
@@ -126,7 +113,7 @@
           <span class="">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="state" [width]="300">
+      <ngx-datatable-column name="state" [width]="250">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Trạng thái</strong>
         </ng-template>
@@ -134,12 +121,23 @@
           <span class="" style="font-size: 12px; margin-left:-12px;">{{getStateQuotation(value)}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="numQuotation" [width]="50">
+      <ngx-datatable-column name="numQuotation" [width]="80">
         <ng-template ngx-datatable-header-template>
           <strong class="tbl-header">Số lần báo giá</strong>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
           <span class="">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [minWidth]="70" [maxWidth]="70">
+        <ng-template ngx-datatable-header-template>
+          <strong class="tbl-header">Xem</strong>
+        </ng-template>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <button type="button" class="btn btn-success button-custom-admin" (click)="toggleExpandRow(row)" placement="left"
+            ngbTooltip="Xem chi tiết">
+            <i class=" fa fa-eye "></i>
+          </button>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

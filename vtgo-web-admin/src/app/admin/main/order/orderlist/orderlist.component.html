@@ -1,33 +1,18 @@
 <div class="row">
-
   <div class="col-sm-4 my-auto">
-    <input type="text" class="form-control text-input" placeholder="Tìm kiếm" (keyup)='txtSearch($event)' />
+    <input type="text" class="form-control input-search-admin" placeholder="Nhập Mã đơn hàng" (keyup)="searchByPressEnter($event)">
   </div>
-  
-  <div class="col-sm-2 offset-sm-6">
-    <div class="col text-right">
-      <div ngbDropdown class="d-inline-block btn-block">
-        <button class="btn btn-outline-success btn-block" id="dropdownBasic1" ngbDropdownToggle><span class="mdi mdi-eye"></span>
-          {{toShow==undefined?'Tất cả':toShow}}</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button class="dropdown-item" (click)="changeShow(5)"><span class="mdi mdi-eye"></span> 5</button>
-          <button class="dropdown-item" (click)="changeShow(10)"><span class="mdi mdi-eye"></span> 10</button>
-          <button class="dropdown-item" (click)="changeShow(20)"><span class="mdi mdi-eye"></span> 20</button>
-          <button class="dropdown-item" (click)="changeShow(50)"><span class="mdi mdi-eye"></span> 50</button>
-          <button class="dropdown-item" (click)="changeShow(0)"><span class="mdi mdi-eye"></span> Tất cả</button>
-        </div>
-      </div>
-    </div>
+  <div class="col-sm-1 pl-sm-0">
+    <button class="btn btn-success w-100" (click)="search(searchObject);" placement="bottom" ngbTooltip="Tìm kiếm"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </div>
-<div class="row">
 
-</div>
 <div class="row mt-2">
   <div class="col">
     <div class="order-view-title">Danh sách đơn hàng</div>
     <ngx-datatable #orderTable class='material expandable fullscreen' [columnMode]="'force'" [headerHeight]="50"
-      [footerHeight]="50" [rowHeight]="'auto'" [rows]='listOrder' [sorts]="[{prop: 'hisid', dir: 'desc'}]" [limit]="toShow">
+      [footerHeight]="50" [rowHeight]="'auto'" [rows]='listOrder' [sorts]="[{prop: 'hisid', dir: 'desc'}]" [limit]="50">
 
       <!-- Row Detail Template -->
       <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
@@ -335,7 +320,7 @@
           {{row.weight}}
         </ng-template>
       </ngx-datatable-column>
-   
+
       <ngx-datatable-column [width]="80">
         <ng-template ngx-datatable-header-template>
           <span class="tbl-header">
@@ -374,7 +359,8 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <button type="button" class="btn btn-success button-custom-admin" (click)="toggleExpandRow(row)" title="Xem chi tiết">
+          <button type="button" class="btn btn-success button-custom-admin" (click)="toggleExpandRow(row)" placement="left"
+            ngbTooltip="Xem chi tiết">
             <i class=" fa fa-eye "></i>
           </button>
 

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import {
   SearchModel,
   TransactionModel,
+  ConfigService,
   BalanceHisModel,
   IpService,
   IOrderListService,
@@ -27,10 +28,23 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class OrderPaidComponent implements OnInit, AfterViewChecked {
   orderState = 0;
   paid: 0;
-  message = "Thanh toán đơn hàng";
+
+  message = "";
+  authMessage = "Thanh toán đơn hàng {orderId}";
+  messageValid = false;
+
+  inputMessBankNumber = '';
+  inputMessBankCode = '';
+  inputMessOrderId = '';
+  inputMessUserCode = '';
+
+  authMessBankNumber = '';
+  authMessBankCode = '';
+  authMessOrderId = '';
+  authMessUserCode = '';
+
   paidValid = true;
   orderId = '';
-  toShow = 5;
   searchObject: SearchModel;
   orderComplete: OrderCompleteModel;
   listOrder: any;
@@ -43,6 +57,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   balanceHis: BalanceHisModel;
   ip: any;
 
+
   @ViewChild('orderTable') _orderTable: DatatableComponent;
 
   constructor(
@@ -50,6 +65,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     private toastr: ToastrService,
     private dataService: DataService,
     private ipService: IpService,
+    private configService: ConfigService,
     private spinner: NgxSpinnerService,
     @Inject(IOrderListServiceToken) private orderListService: IOrderListService,
     @Inject(IHelperServiceToken) private helperService: IHelperService
@@ -60,12 +76,12 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
 
     this.ipService.getIp().subscribe(data => {
       this.ip = data;
-      // console.log(data);
-
     })
   }
 
   initData(): any {
+    console.log(this.configService);
+
     this.searchObject = new SearchModel();
     this.search(this.searchObject);
   }
@@ -74,9 +90,60 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this._orderTable.recalculate();
   }
 
+
+  search(searchModel: SearchModel) {
+    this.orderListService.Get(searchModel).subscribe(
+      (response: any) => {
+        this.listOrder = response.data;
+        console.log(response.data);
+      },
+      error => console.log(error)
+    );
+  }
+
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchObject);
+  }
+
+  checkInputMessage(event) {
+    this.getDataFromInputMessage(event.target.value);
+
+    if (this.message.toLowerCase().trim() !== this.authMessage.toLowerCase().trim()) {
+      this.messageValid = false;
+    }
+    if (this.message.toLowerCase().trim() === this.authMessage.toLowerCase().trim()) {
+      this.messageValid = true;
+    }
+  }
+  getDataFromInputMessage(mess) {
+    this.inputMessOrderId = mess.slice(mess.indexOf('đơn hàng') + 'đơn hàng'.length, mess.length).trim();
+
+    // this.inputMessBankNumber = mess.slice(mess.indexOf('tài khoản') + 'tài khoản'.length, mess.indexOf(',', mess.indexOf(',', mess.indexOf('tài khoản')))).trim();
+    //   this.inputMessBankCode = mess.slice(mess.indexOf('ngân hàng') + 'ngân hàng'.length, mess.indexOf(',', mess.indexOf(',', mess.indexOf('ngân hàng')))).trim();
+    // this.inputMessOrderId = mess.slice(mess.indexOf('đơn hàng') + 'đơn hàng'.length, mess.indexOf('&', mess.indexOf('&', mess.indexOf('đơn hàng')))).trim();
+    //   this.inputMessUserCode = mess.slice(mess.indexOf('khách hàng') + 'khách hàng'.length, mess.length).trim();
+  }
+
   openSm(del, id, idGoodOwner) {
+    this.message = '';
+    this.authMessage = 'Thanh toán đơn hàng {orderId}';
+    this.paidValid = false;
+    this.messageValid = false;
     this.orderId = id;
     this.getGoodOwner(idGoodOwner);
+
+    //get Transf Content from Server
+    this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
+      `{  "orderId":"` + this.orderId + `",
+        "bankCode":"MBB"}`).subscribe(response => {
+        console.log(this.inputMessOrderId);
+        console.log(response);
+        if (response.data != null)
+          if (response.data.length != 0)
+            this.authMessage = response.data[0].transferContent;
+      }, error => console.log(error)
+      );
 
     this.getPriceFromQuotation(this.orderId, del, id);
 
@@ -251,26 +318,11 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  changeShow(el) {
-    if (el != 0)
-      this.toShow = el;
-    else
-      this.toShow = undefined;
-  }
-
   changeState(state) {
     this.orderState = state;
     this.getComplete(this.orderState);
   }
 
-  search(searchModel: SearchModel) {
-    this.orderListService.Get(searchModel).subscribe(
-      (response: any) => {
-        this.listOrder = response.data;
-      },
-      error => console.log(error)
-    );
-  }
 
   checkTypeNum(event) {
     return event.keyCode >= 48 && event.keyCode <= 57;
@@ -325,12 +377,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     }
   }
 
-
-
   numToVND() {
-
-
-
     let t = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"],
       r = function (r, n) {
         let o = "", a = Math.floor(r / 10), e = r % 10;

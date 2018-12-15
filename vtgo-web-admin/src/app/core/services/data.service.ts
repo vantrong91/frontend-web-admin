@@ -39,8 +39,16 @@ export class DataService {
     }
     const urlPost = this.configuration.getConfiguration().BASE_API + url;
     return this.http.post(urlPost, model, { headers: this.header });
-
   }
+
+  PostFromOtherURL(url: string, model?: any): Observable<any> {
+    this.header = this.header.delete('Authorization');
+    if (this.authenService.GetCurrentUser() && this.authenService.GetCurrentUser().accountToken) {
+      this.header = this.header.append('Authorization', 'Bearer ' + this.authenService.GetCurrentUser().accountToken);
+    }
+    return this.http.post(url, model, { headers: this.header });
+  }
+  
 
   Put(url: string, model?: any): Observable<any> {
     this.header = this.header.delete('Authorization');

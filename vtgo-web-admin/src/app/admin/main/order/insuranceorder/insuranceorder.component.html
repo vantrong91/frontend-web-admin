@@ -1,6 +1,14 @@
+<div class="row">
+  <div class="col-sm-4 my-auto">
+    <input type="text" class="form-control text-input" placeholder="Nhập Mã báo giá" (keyup)="searchByPressEnter($event)">
+  </div>
+  <div class="col-sm-1 pl-sm-0">
+    <button class="btn btn-success w-100" (click)="search(searchObject);" placement="bottom" ngbTooltip="Tìm kiếm"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
+  </div>
+</div>
 <div class="row mt-2" [ngClass]="'d-block'">
   <div class="col">
-
     <div class="owner-view-title">Đơn hàng bảo hiểm hàng hóa</div>
     <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listInsuranceOrder' [columnMode]='"force"'
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'sumInsuPrice', dir: 'desc'}]"
@@ -74,7 +82,8 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
-          <span>{{value === 1 ? 'Đơn hàng được đăng ký mua bảo hiểm' : value === 2 ? 'đã gửi push yêu cầu chủ hàng xác nhận mua bảo hiểm' : value === 3 ? 'Chủ hàng đã xác nhận mua bảo hiểm' : ''}}</span>
+          <span>{{value === 1 ? 'Đơn hàng được đăng ký mua bảo hiểm' : value === 2 ? 'đã gửi push yêu cầu chủ hàng xác
+            nhận mua bảo hiểm' : value === 3 ? 'Chủ hàng đã xác nhận mua bảo hiểm' : ''}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [minWidth]="85" [maxWidth]="85">
@@ -87,7 +96,12 @@
           <!-- <button type="button" class="btn btn-info button-custom-admin" (click)="view(row.accountId,content)">
             <i class="fa fa-eye"></i>
           </button> -->
-          <button title="Đăng ký mua" [disabled]="(row.state === 2 || row.state === 3) ? 'true' : ''" type="button" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)">
+          <button *ngIf="row.state === 2 || row.state === 3" class="btn btn-secondary button-custom-admin ml-2"
+            placement="bottom" ngbTooltip="Đã đăng ký">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button *ngIf="row.state != 2 && row.state != 3" class="btn btn-warning button-custom-admin ml-2" (click)="edit(row,content)"
+            placement="bottom" ngbTooltip="Đăng ký mua">
             <i class="fa fa-edit"></i>
           </button>
           <!-- <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del)">
