@@ -125,18 +125,23 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     //   this.inputMessUserCode = mess.slice(mess.indexOf('khách hàng') + 'khách hàng'.length, mess.length).trim();
   }
 
-  openSm(del, id, idGoodOwner) {
+  openSm(del, row) {
     this.message = '';
     this.authMessage = 'Thanh toán đơn hàng {orderId}';
     this.paidValid = false;
     this.messageValid = false;
-    this.orderId = id;
-    this.getGoodOwner(idGoodOwner);
+    this.orderId = row.orderId;
+    this.getGoodOwner(row.accountId);
+    console.log(row);
 
+    if (row.bankCode == null || row.bankCode == '')
+      this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
+        disableTimeOut: true
+      });
     //get Transf Content from Server
     this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
       `{  "orderId":"` + this.orderId + `",
-        "bankCode":"MBB"}`).subscribe(response => {
+        "bankCode":"`+ row.bankCode + `"}`).subscribe(response => {
         console.log(this.inputMessOrderId);
         console.log(response);
         if (response.data != null)
@@ -145,7 +150,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
       }, error => console.log(error)
       );
 
-    this.getPriceFromQuotation(this.orderId, del, id);
+    this.getPriceFromQuotation(this.orderId, del, row.orderId);
 
   }
 

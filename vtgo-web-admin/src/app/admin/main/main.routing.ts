@@ -9,13 +9,14 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       //Thông tin người dùng
-      { path: 'vehicleowner', loadChildren: './vehicle-owner/vehicle-owner.module#VehicleOwnerModule' },
-      { path: 'vehicle', loadChildren: './vehicle/vehicle.module#VehicleModule' },
-      { path: 'driver', loadChildren: './driver/driver.module#DriverModule' },
-      { path: 'customer', loadChildren: './customer/customer.module#CustomerModule' },
-      { path: 'goodsowner', loadChildren: './goodsowner/goodsowner.module#GoodsownerModule' },
+      { path: 'vehicleowner', loadChildren: './user/vehicle-owner/vehicle-owner.module#VehicleOwnerModule' },
+      { path: 'vehicle', loadChildren: './user/vehicle/vehicle.module#VehicleModule' },
+      { path: 'driver', loadChildren: './user/driver/driver.module#DriverModule' },
+      { path: 'customer', loadChildren: './user/customer/customer.module#CustomerModule' },
+      { path: 'goodsowner', loadChildren: './user/goodsowner/goodsowner.module#GoodsownerModule' },
       //Thanh toán: payment
       { path: 'account-exchange', loadChildren: './payment/account-exchange/account-exchange.module#AccountModule' },
+      { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' },
       { path: 'orderpaid', loadChildren: './payment/order-paid/order-paid.module#OrderPaidModule' },
       //Đơn hàng
       { path: 'insuranceorder', loadChildren: './order/insuranceorder/insuranceorder.module#InsuranceOrderModule' },
@@ -29,14 +30,17 @@ const routes: Routes = [
       { path: 'support', loadChildren: './decentralization/support/support.module#SupportModule' },
       { path: 'technical', loadChildren: './decentralization/technical/technical.module#TechnicalModule' },
       //Quản lý danh mục
-      { path: 'feebanks', loadChildren: './feebanks/feebanks.module#FeeBanksModule' },
+      { path: 'vehiclefines', loadChildren: './configuration/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
+      { path: 'policy', loadChildren: './configuration/configpolicy/configpolicy.module#ConfigPolicyModule' },
+      { path: 'category', loadChildren: './configuration/category/category.module#CategoryModule' },
+      { path: 'feebanks', loadChildren: './configuration/feebanks/feebanks.module#FeeBanksModule' },
+     
+      // Cài đặt tài khoản
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule' },
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule' },
-      { path: 'vehiclefines', loadChildren: './setting/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
-      { path: 'policy', loadChildren: './setting/configpolicy/configpolicy.module#ConfigPolicyModule' },
-      { path: 'category', loadChildren: './setting/category/category.module#CategoryModule' },
-      { path: 'mailbox', loadChildren: './mailbox/mailbox.module#MailboxModule' },
-      { path: 'balance', loadChildren: './payment/balance/balance.module#BalanceModule' }
+
+      //Quên mật khẩu
+      { path: 'mailbox', loadChildren: './mailbox/mailbox.module#MailboxModule' }
     ]
   }
 ];
