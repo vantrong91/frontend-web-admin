@@ -147,6 +147,14 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
         if (response.data != null)
           if (response.data.length != 0)
             this.authMessage = response.data[0].transferContent;
+        if (response.data == null)
+          this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
+            disableTimeOut: true
+          });
+        if (response.data.length == 0)
+          this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
+            disableTimeOut: true
+          });
       }, error => console.log(error)
       );
 
@@ -242,6 +250,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     transGoodOwner.accountId = this.accountIdGoodOwner;
     transGoodOwner.change = -money;
     transGoodOwner.balType = 1;
+    transGoodOwner.content = " Thanh toán đơn hàng "+ this.orderId;
 
     this.dataService.Post('balance/transaction', transGoodOwner).subscribe(
       response => {
@@ -306,12 +315,12 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     const temp = new Date();
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = accountId
+    this.balanceHis.amount = money;
     this.balanceHis.hisType = "UPDATE_BALANCE";
-    this.balanceHis.hisContent = content;
+    this.balanceHis.hisContent = this.balanceHis.hisType + "|1|" + this.balanceHis.amount + "|" + content;
     this.balanceHis.iP = ip;
     this.balanceHis.balanceAfter = after;
     this.balanceHis.balanceBefor = before;
-    this.balanceHis.amount = money;
     this.balanceHis.time = temp.getTime();
 
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(

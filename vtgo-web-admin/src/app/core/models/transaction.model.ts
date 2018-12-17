@@ -6,4 +6,5 @@ export class TransactionModel {
     accountId: number;
     balType: number;
     change: number;
+    content: string;
 }

@@ -34,12 +34,13 @@ export class ExchangeComponent implements OnInit {
   isShow = false;
   isWithdrawal = true;
   ip: any = {};
-  
-  bankName='-- Chọn ngân hàng --';
+
+  bankName = '-- Chọn ngân hàng --';
   fee = '0';
   linkBanking = '';
 
-  hisContent = 'Nộp tiền vào tài khoản tại VTGO';
+  hisContent = '';
+  widrawalContent = '';
 
   public reconfirmForm: FormGroup;
   temp: any;
@@ -85,6 +86,9 @@ export class ExchangeComponent implements OnInit {
     );
   }
 
+  changeWithDrawalContent(event) { //to get WithDrawalContent from textarea
+    this.widrawalContent = event.target.value;
+  }
   getBanklist(search) {
     this.dataService.Post('trans-fee/connected', search).subscribe(
       response => {
@@ -134,7 +138,7 @@ export class ExchangeComponent implements OnInit {
   //     }
   //   }
   // }
-  
+
   bankChange(event) {
     this.fee = event.fee;
     this.linkBanking = event.linkIB;
@@ -149,23 +153,28 @@ export class ExchangeComponent implements OnInit {
     this.transaction.accountId = this.balanceHisId.accountId;
     this.transaction.balType = 1;
     this.transaction.change = -(num1 + num2);
-
+    this.transaction.content = this.widrawalContent;
     this.dataService.Post('balance/transaction', this.transaction).subscribe(
       response => {
         if (response.status === 0) {
-          this.toastr.success('Đã chuyển tiền thành công', 'Thông báo');
-          this.addBalanceHis();
           //Cộng tiền vào Admin
           let admin = new TransactionModel();
           admin.accountId = 1;
           admin.balType = 1;
+          admin.content = this.widrawalContent + " => Account " + this.balanceHisId.accountId;
           admin.change = -this.transaction.change;
           this.dataService.Post('balance/transaction', admin).subscribe(
             response => {
               if (response.status === 0) {
-                // console.log("Cộng tiền thành công:");
+                this.toastr.success('Đã chuyển tiền thành công', 'Thông báo');
+                this.addBalanceHis();
               } else {
-                this.toastr.error('Cộng tiền vào VTGO lỗi', 'Thông báo', {
+                //roolbak account đã trừ
+                this.transaction.change = (num1 + num2);
+                this.transaction.content = "[Roolback] " + this.widrawalContent;
+                this.dataService.Post('balance/transaction', this.transaction).subscribe();
+
+                this.toastr.error('Cộng tiền vào Admin VTGO lỗi', 'Thông báo', {
                   disableTimeOut: true
                 });
               }
@@ -187,9 +196,9 @@ export class ExchangeComponent implements OnInit {
     const num2 = parseInt(this.fee);
     this.transaction.accountId = this.balanceHisId.accountId;
     this.transaction.balType = 1;
+    this.transaction.content = this.hisContent;
     this.transaction.change = (num1 - num2);
     this.dataService.Post('balance/transaction', this.transaction).subscribe(
-
       response => {
         if (response.status === 0) {
           this.toastr.success('Nộp tiền thành công', 'Thông báo');
@@ -212,11 +221,11 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = this.Arr[0].accountId;
     this.balanceHis.hisType = "UPDATE_BALANCE";
-    this.balanceHis.hisContent = "Rút tiền tại VTGO";
+    this.balanceHis.amount = this.transaction.change;
+    this.balanceHis.hisContent = this.balanceHis.hisType + "|1|" + this.balanceHis.amount + "|" + this.widrawalContent;
     this.balanceHis.iP = this.ip.ip;
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.balanceAfter = (this.balanceHis.balanceBefor - this.reconfirmForm.value.transferAmount - parseInt(this.fee));
-    this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
     console.log(this.balanceHis);
 
@@ -237,11 +246,11 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis = new BalanceHisModel;
     this.balanceHis.accountId = this.Arr[0].accountId;
     this.balanceHis.hisType = "UPDATE_BALANCE";
-    this.balanceHis.hisContent = this.hisContent;
+    this.balanceHis.amount = this.transaction.change;
+    this.balanceHis.hisContent = this.balanceHis.hisType + "|1|" + this.balanceHis.amount + "|" + this.hisContent;
     this.balanceHis.iP = this.ip.ip;
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);
-    this.balanceHis.amount = this.transaction.change;
     this.balanceHis.time = temp.getTime();
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
