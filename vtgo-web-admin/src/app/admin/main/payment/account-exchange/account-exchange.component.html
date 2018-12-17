@@ -1,11 +1,11 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
     <input type="text" [(ngModel)]="searchParam.searchParam" name="searchParam" class="form-control input-search-admin"
-    (keyup)="searchByPressEnter($event)"  
-    placeholder="Nhập Email tìm kiếm">
+      (keyup)="searchByPressEnter($event)" placeholder="Nhập SĐT, Tên hoặc Email">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-success w-100"  placement="bottom" ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <button class="btn btn-success w-100" placement="bottom" ngbTooltip="Tìm kiếm" (click)="search(searchParam)"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
   </div>
 </div>
 
@@ -71,13 +71,16 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalanceHis);getAccountManById(row.accountId);"  placement="bottom" ngbTooltip="Lịch sử giao dịch">
+          <button type="button" class="btn btn-info button-custom-admin" (click)="open(contentBalanceHis);getAccountManById(row.accountId);"
+            placement="bottom" ngbTooltip="Lịch sử giao dịch">
             <i class="fa fa-history"></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentBalance);getBalanceById(row.accountId);"  placement="bottom" ngbTooltip="Số dư">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentBalance);getBalanceById(row.accountId);"
+            placement="bottom" ngbTooltip="Số dư">
             <i class=" fa fa-money" style="color:blue;"></i>
           </button>
-          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);"  placement="left" ngbTooltip="Rút tiền / Nạp tiền">
+          <button type="button" class="btn btn-info button-custom-admin ml-2" (click)="open(contentExchange);getBalanceById(row.accountId);getAccountManById(row.accountId);"
+            placement="left" ngbTooltip="Rút tiền / Nạp tiền">
             <i class=" fa fa-exchange " style="color:red;"></i>
           </button>
         </ng-template>
@@ -127,5 +130,3 @@
     <app-exchange [balanceModel]="balanceById" [accountManModel]="accountById" (closeForm)="c('')"></app-exchange>
   </div>
 </ng-template>
-
-

@@ -34,9 +34,6 @@ export class FeebanksComponent implements OnInit {
     this.search(this.searchParam);
   }
 
-  txtSearch(event) {
-    this.search(this.searchParam);
-  }
 
   search(search) {
     this.dataService.Post('trans-fee/search', search).subscribe(
@@ -46,6 +43,11 @@ export class FeebanksComponent implements OnInit {
         }
       }
     );
+  }
+
+  searchByPressEnter(event) {
+    if (event.keyCode == 13)
+      this.search(this.searchParam);
   }
 
   onAddFeeBank(event) {
@@ -92,7 +94,7 @@ export class FeebanksComponent implements OnInit {
 
   getDriver(event) {
     this._entityFee = event;
-}
+  }
 
 
   private getDismissReason(reason: any) {

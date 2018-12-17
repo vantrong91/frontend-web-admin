@@ -10,8 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class AccountComponent implements OnInit {
 
   listAccount: any;
-  searchObject: SearchModel;
-  searchParam: ' ';
+  searhObject: SearchModel;
   _entity: AccountViewModel;
   isShow = false;
   txtNoti = '';
@@ -31,8 +30,9 @@ export class AccountComponent implements OnInit {
   }
 
   initData() {
-    let search = '{}';
-    this.search(search);
+    this.searhObject = new SearchModel();
+    this.searhObject.searchParam = '';
+    this.search(this.searhObject);
   }
 
   search(search) {
@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
   }
   searchByPressEnter(event) {
     if (event.keyCode == 13)
-      this.search(`{"searchParam":"` + event.target.value + `"}`);
+      this.search(this.searhObject);
   }
 
   onSubmit(event) {

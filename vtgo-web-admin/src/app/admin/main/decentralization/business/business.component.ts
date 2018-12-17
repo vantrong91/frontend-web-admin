@@ -57,7 +57,7 @@ export class BusinessComponent implements OnInit {
 
   searchByPressEnter(event) {
     if (event.keyCode == 13)
-      this.search(`{"searchParam":"` + event.target.value + `"}`);
+      this.search(this.searchParam);
   }
 
   getAccount(event) {

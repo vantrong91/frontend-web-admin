@@ -1,10 +1,11 @@
 <div class="row">
   <div class="col-md-4 my-auto">
     <input type="text" name="searchParam" [(ngModel)]="searchParam.searchParam" class="form-control input-search-admin"
-      placeholder="Tìm Kiếm" (keyup)="txtSearch($event)">
+      placeholder="Nhập Mã ngân hàng / Mã chuyển khoản" (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-success w-100" placement="bottom" ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <button class="btn btn-success w-100" placement="bottom" ngbTooltip="Tìm kiếm" (click)="search(searchParam)"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
   </div>
   <div class="col-md-1 offset-md-6">
     <button type="button" class="btn btn-success w-100" (click)="isAdd = true;open(content);" placement="bottom"
@@ -106,8 +107,6 @@
   </div>
 </ng-template>
 
-
-<pre>{{closeResult}}</pre>
 
 <ng-template #del let-c="close" let-d="dismiss">
   <div class="modal-header">

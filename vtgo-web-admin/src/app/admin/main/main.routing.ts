@@ -23,7 +23,7 @@ const routes: Routes = [
       { path: 'orderlist', loadChildren: './order/orderlist/orderlist.module#OrderListModule' },
       { path: 'quotation', loadChildren: './order/quotation/quotation.module#QuotationModule' },
       //Bộ phận & phân quyền      
-      { path: 'account', loadChildren: './payment/account/account.module#AccountModule' },
+      { path: 'account', loadChildren: './decentralization/account/account.module#AccountModule' },
       { path: 'business', loadChildren: './decentralization/business/business.module#BusinessModule' },
       { path: 'accountant', loadChildren: './decentralization/accountant/accountant.module#AccountantModule' },
       { path: 'manage', loadChildren: './decentralization/manage/manage.module#ManageModule' },

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-4 my-auto">
-    <input type="text" class="form-control text-input" placeholder="Nhập Mã báo giá" (keyup)="searchByPressEnter($event)">
+    <input type="text" class="form-control  input-search-admin" placeholder="Nhập Số hợp đồng" (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-sm-1 pl-sm-0">
     <button class="btn btn-success w-100" (click)="search(searchObject);" placement="bottom" ngbTooltip="Tìm kiếm"><i
@@ -13,7 +13,7 @@
     <ngx-datatable class='material selection-cell datatable table-shadow' [rows]='listInsuranceOrder' [columnMode]='"force"'
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [sorts]="[{prop: 'sumInsuPrice', dir: 'desc'}]"
       [limit]="50">
-      <ngx-datatable-column name="id" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
+      <ngx-datatable-column name="id" [minWidth]="60" [maxWidth]="60" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>STT</strong>
@@ -25,7 +25,17 @@
           </span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="orderId" [width]="160" prop="orderId">
+      <ngx-datatable-column name="contractNo" [width]="150" prop="contractNo">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="tbl-header">
+              <strong>Số hợp đồng</strong>
+            </span>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+      <ngx-datatable-column name="orderId" [width]="150" prop="orderId">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Mã đơn hàng</strong>
@@ -33,16 +43,6 @@
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span>{{value}}</span>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="contractNo" [width]="115" prop="contractNo">
-        <ng-template let-column="column" ngx-datatable-header-template>
-          <span class="tbl-header">
-            <strong>Số hợp đồng</strong>
-          </span>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
-          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="insuranSpend" [width]="140" prop="insuranSpend">
@@ -62,7 +62,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
-          {{value}}
+          {{value|currency:'':'':'0.0'}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="110" name="sumInsuPrice" prop="sumInsuPrice">
@@ -82,7 +82,7 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row ">
-          <span>{{value === 1 ? 'Đơn hàng được đăng ký mua bảo hiểm' : value === 2 ? 'đã gửi push yêu cầu chủ hàng xác
+          <span>{{value === 1 ? 'Đơn hàng được đăng ký mua bảo hiểm' : value === 2 ? 'Đã gửi yêu cầu chủ hàng xác
             nhận mua bảo hiểm' : value === 3 ? 'Chủ hàng đã xác nhận mua bảo hiểm' : ''}}</span>
         </ng-template>
       </ngx-datatable-column>

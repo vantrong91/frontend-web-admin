@@ -17,39 +17,39 @@
   <div class="col">
     <div class="view-title">Danh sách nhân viên Bộ phận Kế toán</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-      [rowHeight]="50" [rows]='data' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="5">
+      [rowHeight]="50" [rows]='data' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="50">
       <!-- Column Templates -->
       <ngx-datatable-column name="Index" [width]="50">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span class="default">
+          <span class="tbl-header">
             <strong>STT</strong>
           </span>
         </ng-template>
         <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-          <strong>{{rowIndex+1}}</strong>
+          {{rowIndex+1}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="accountId" [width]="50">
         <ng-template ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>ID</strong>
           </span>
         </ng-template>
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="email" [width]="150">
         <ng-template ngx-datatable-header-template>
-          <span>Email</span>
+          <span class="tbl-header"><strong>Email</strong></span>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="fullName" [width]="150">
         <ng-template ngx-datatable-header-template>
-          <span>Họ tên</span>
+          <span class="tbl-header"><strong>Họ tên</strong></span>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value}}
@@ -57,7 +57,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="phoneNumber" [width]="100">
         <ng-template ngx-datatable-header-template>
-          Số điện thoại
+            <span class="tbl-header"><strong>Số điện thoại</strong></span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value">
           {{value}}
@@ -65,7 +65,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="action" [width]="130" [maxWidth]="130">
         <ng-template let-column="colmun" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Thao tác</strong>
           </span>
         </ng-template>
@@ -92,8 +92,6 @@
   </div>
 </ng-template>
 
-
-<pre>{{closeResult}}</pre>
 
 <ng-template #del let-c="close" let-d="dismiss">
   <div class="modal-header">

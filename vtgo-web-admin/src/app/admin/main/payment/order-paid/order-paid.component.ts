@@ -138,7 +138,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
       this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
         disableTimeOut: true
       });
-    //get Transf Content from Server
+    //get Transf Content from Server to check before paid
     this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
       `{  "orderId":"` + this.orderId + `",
         "bankCode":"`+ row.bankCode + `"}`).subscribe(response => {
@@ -180,7 +180,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
               result => {
                 this.spinner.show();
                 this.orderComplete = new OrderCompleteModel();
-                this.orderComplete.message = this.message;
+                this.orderComplete.message = this.getContentPushFromAuthMess(this.authMessage); //Message content push to Driver;
                 this.orderComplete.orderId = id;
                 this.orderComplete.paid = this.paid;
                 if (this.paidValid) {
@@ -250,7 +250,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     transGoodOwner.accountId = this.accountIdGoodOwner;
     transGoodOwner.change = -money;
     transGoodOwner.balType = 1;
-    transGoodOwner.content = " Thanh toán đơn hàng "+ this.orderId;
+    transGoodOwner.content = this.getContentPushFromAuthMess(this.authMessage);
 
     this.dataService.Post('balance/transaction', transGoodOwner).subscribe(
       response => {
@@ -265,6 +265,16 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
         }
       }
     );
+  }
+
+  getContentPushFromAuthMess(authMess: string) {
+    let mess = authMess.split("_"); // format authmess = ĐH18.12.002.312_US0981234567;
+    if (mess != null) {
+      if (mess.length > 1)
+        return "Thanh toán đơn hàng: " + mess[0] + ". Mã người dùng: " + mess[1];
+      else
+        return "Thanh toán đơn hàng" + this.orderId;
+    }
   }
   //Cộng tiền cho Admin
   payToAdmin(money) {

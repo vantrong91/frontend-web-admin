@@ -1,10 +1,10 @@
 <div class="row mt-2">
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searchParam" #searchData name="searchParam" class="form-control input-search-admin" placeholder="Nhập SĐT, Tên hoặc Email"
+    <input type="text" [(ngModel)]="searhObject.searchParam" #searchData name="searchParam" class="form-control input-search-admin" placeholder="Nhập SĐT, Tên hoặc Email"
       (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searchData)" placement="bottom" ngbTooltip="Tìm kiếm"><i
+    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searhObject)" placement="bottom" ngbTooltip="Tìm kiếm"><i
         class="fa fa-search" aria-hidden="true"></i></button>
   </div>
   <div class="col-md-1 offset-md-6">
@@ -21,7 +21,7 @@
       [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #accountTable>
       <ngx-datatable-column name="accountId" [minWidth]="100" [maxWidth]="100" prop="accountId" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>ID</strong>
           </span>
         </ng-template>
@@ -31,7 +31,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="accountToken" [width]="100" prop="fullName">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Họ tên</strong>
           </span>
         </ng-template>
@@ -42,7 +42,7 @@
       <ngx-datatable-column name="email" [width]="150" prop="email" headerClass="is-gender">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span>
-            <strong>Email</strong>
+            <strong class="tbl-header">Email</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -51,7 +51,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="phoneNumber" [width]="100" prop="phoneNumber">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Số điện thoại</strong>
           </span>
         </ng-template>
@@ -61,7 +61,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="accountType" [width]="100" prop="accountType">
         <ng-template let-column="column" ngx-datatable-header-template>
-          <span>
+          <span class="tbl-header">
             <strong>Vai trò</strong>
           </span>
         </ng-template>

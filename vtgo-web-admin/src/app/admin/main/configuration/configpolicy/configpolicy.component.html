@@ -24,21 +24,21 @@
       <ngx-datatable-column prop="policyId" [minWidth]="70" [maxWidth]="70" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            ID
+           <strong> ID</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="110" prop="ratioVat">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
-            Tỷ lệ/GTGT
+           <strong> Tỷ lệ/GTGT</strong>
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <strong>{{value}}</strong>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="290" prop="ratiRoseNoVat">
