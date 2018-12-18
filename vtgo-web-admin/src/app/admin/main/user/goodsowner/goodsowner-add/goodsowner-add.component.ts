@@ -55,7 +55,7 @@ export class GoodsownerAddComponent implements OnInit {
   Save(event) {
     // event.preventDefault();
     if (this.isSelectFile == true) {
-      this.uploadFileToServer(this.uploaderCMND, 'cmnd');
+      this.uploadFileToServer(this.uploaderCMND, 'CMND-OWNER');
       this._entity = this.addEditForm.value;
       this.convert();
       this.ownerViewModelChange.emit(this._entity);

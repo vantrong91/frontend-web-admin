@@ -1,6 +1,6 @@
 <form [formGroup]="addEditForm" novalidate>
   <ngb-tabset>
-    <ngb-tab title="Thông tin cá nhân Chủ hàng">
+    <ngb-tab title="Thông tin cá nhân Chủ hàngxx">
       <ng-template ngbTabContent>
         <input type="text" id="accountid" hidden formControlName="accountId">
         <div class="form-group row my-3">
@@ -18,7 +18,7 @@
         <div class="form-group row my-3">
           <label for="dateOfBirth" class="col-sm-2 col-form-label text-md-right">Ngày sinh</label>
           <div class="col-sm-4">
-            <input type="date" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'yyyy-MM-dd'"
+            <input type="text" class="form-control" [value]="addEditForm.get('dateOfBirth').value  | date:'dd/MM/yyyy'"
               formControlName="dateOfBirth" readonly="readonly">
           </div>
         </div>
@@ -30,7 +30,7 @@
           </div>
           <label for="issuedate" class="col-sm-2 col-form-label text-md-right">Ngày cấp </label>
           <div class="col-sm-4">
-            <input type="date" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'yyyy-MM-dd'"
+            <input type="text" class="form-control" [value]="addEditForm.get('issueDate').value  | date:'dd/MM/yyyy'"
               formControlName="issueDate" tabindex="5" readonly="readonly" />
           </div>
         </div>
@@ -73,8 +73,8 @@
         <div class="form-group row my-3 imgView">
           <p  class="col-sm-12">Chứng minh nhân dân/ Căn cước: {{keyArr.length===0?'Chưa có ảnh':''}}</p><br>
           <ng-container *ngFor="let el of keyArr[0]">
-              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND'),el)">
-                <img class="" [src]="getUrlImg('CMND') + el" alt="" />
+              <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND-OWNER'),el)">
+                <img class="" [src]="getUrlImg('CMND-OWNER') + el" alt="" />
                 <br>
                 <div class="text-center img-name">{{el}}</div>
             </div>
