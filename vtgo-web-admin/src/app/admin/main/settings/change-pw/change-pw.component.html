@@ -4,7 +4,6 @@
   <div class="col-sm-6">
     <input type="password" class="form-control" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword"
       placeholder="Mật khẩu cũ" (focusout)="checkPassword()" tabindex="1" />
-    <label for="noti" class="col-form-label text-md-right">{{noti}}</label>
   </div>
   <div class="col-sm-2"></div>
 </div>
@@ -14,7 +13,7 @@
   <div class="col-sm-6">
     <input type="{{type}}" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword"
       placeholder="Mật khẩu mới" (keyup)="checkLength()" tabindex="2" /> <i (click)="changeType()" class="fa fa-eye"></i>
-    <label for="noti1" class="col-form-label text-md-right">{{noti1}}</label>
+    <label for="noti1" class="col-form-label text-md-right text-danger">{{noti1}}</label>
   </div>
   <div class="col-sm-2"></div>
 </div>
@@ -24,7 +23,7 @@
   <div class="col-sm-6">
     <input type="{{type1}}" class="form-control" id="reconfirmPassword" name="reconfirmPassword" [(ngModel)]="reconfirmPassword"
       placeholder="Xác nhận lại mật khẩu" (keyup)="checkRefPass()" tabindex="3" /> <i (click)="changeType1()" class="fa fa-eye"></i>
-    <label for="noti2" class="col-form-label text-md-right">{{noti2}}</label>
+    <label for="noti2" class="col-form-label text-md-right text-danger">{{noti2}}</label>
   </div>
   <div class="col-sm-2"></div>
 </div>
@@ -44,7 +43,8 @@
 <div class="form-group row my-3">
   <div class="col-sm-4"></div>
   <div class="col-sm-2">
-    <button class="btn btn-success" [disabled]="checkDisabled()" (click)="save()">Lưu</button>&nbsp;
+    <button class="btn btn-success" *ngIf="!checkDisabled()" (click)="save()">Lưu</button>&nbsp;
+    <button class="btn btn-default" *ngIf="checkDisabled()" >Lưu</button>&nbsp;
     <button class="btn btn-danger" (click)="home()">Hủy</button>
   </div>
   <div class="col-sm-2"></div>

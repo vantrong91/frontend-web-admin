@@ -1,4 +1,5 @@
 export class LoginViewModel {
+    accountCode: string;
     email: string;
     password: string;
 }

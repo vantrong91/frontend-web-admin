@@ -69,16 +69,16 @@
                 <div class="form-group row my-3">
                     <label class="col-sm-6">Chọn chứng minh nhân dân/Thẻ căn cước mới</label>
                     <div class="col-sm-6" formGroupName="attachProperties">
-                        <input type="file" multiple class="form-control" id="inputGroupFile01" (change)="selectFile($event,'CMND')" />
+                        <input type="file" multiple class="form-control" id="inputGroupFile01" (change)="selectFile($event,'CMND-OWNER')" />
                     </div>
                 </div>
                 <div class="form-group row my-3">
                     <label class="col-sm-12">Chứng minh nhân dân đã thêm trước đó</label>
                     <div class="col-2 offset-2" *ngIf="keyArr.length===0">Chưa có ảnh</div>
                     <ng-container *ngFor="let el of keyArr[0]">
-                        <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND'),el)">
+                        <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('CMND-OWNER'),el)">
                             <a rel="noopener noreferrer">
-                                <img class="img-show" [src]="getUrlImg('CMND') + el" alt="" />
+                                <img class="img-show" [src]="getUrlImg('CMND-OWNER') + el" alt="" />
                                 <br>
                                 <div class="text-center">{{el}}</div>
                             </a>

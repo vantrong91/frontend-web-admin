@@ -15,6 +15,7 @@ export class UserInfoComponent implements OnInit {
   isShow = false;
   currentUser: AccountManViewModel;
   fullName = "";
+  email = "";
   phoneNumber = "";
   password = "2";
   fileAvatar: any;
@@ -50,6 +51,7 @@ export class UserInfoComponent implements OnInit {
     this.currentUser = item.data;
     this.fullName = this.currentUser[0].fullName;
     this.phoneNumber = this.currentUser[0].phoneNumber;
+    this.email = this.currentUser[0].email;
   }
 
 
@@ -68,31 +70,45 @@ export class UserInfoComponent implements OnInit {
     this.account = new AccountManViewModel();
     this.account.accountId = this.currentUser[0].accountId;
     this.account.phoneNumber = this.phoneNumber;
-    this.account.fileAvata = this.currentUser[0].fileAvata;
-    this.account.fullName = this.fullName;
-    this.dataService.Post('account-man/updateInfo', this.account).subscribe(
-      response => {
-        if (response.status === 0) {
-          this.user = new LoginViewModel();
-          this.user.email = this.currentUser[0].email;
-          this.user.password = this.currentUser[0].password;
-          localStorage.removeItem(SystemConfig.CURRENT_USER);
-          this.dataService.Post('account-man/get-by-id', { accountId: this.account.accountId }).subscribe(
-            (response2: any) => {
-              localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response2))
+    this.account.email = this.email;
+
+    //reload Avatar from SV
+    this.dataService.Post('account-man/get-by-id', { accountId: this.account.accountId }).subscribe(
+      (response: any) => {
+        localStorage.removeItem(SystemConfig.CURRENT_USER);
+        localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response));
+        let item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
+        this.currentUser = item.data;
+        this.account.fileAvata = this.currentUser[0].fileAvata;
+
+        this.account.fullName = this.fullName;
+        this.dataService.Post('account-man/updateInfo', this.account).subscribe(
+          response => {
+            if (response.status === 0) {
+              this.user = new LoginViewModel();
+              this.user.email = this.currentUser[0].email;
+              this.user.password = this.currentUser[0].password;
+              localStorage.removeItem(SystemConfig.CURRENT_USER);
+              this.dataService.Post('account-man/get-by-id', { accountId: this.account.accountId }).subscribe(
+                (response2: any) => {
+                  localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response2))
+                }
+              )
+              this.toastr.info('Đã đổi thông tin thành công!');
+              this.currentUser[0].fullName = this.fullName;
+              this.currentUser[0].phoneNumber = this.phoneNumber;
+              this.currentUser[0].email = this.email;
+              this.spinner.hide();
+              this.isShow = false;
             }
-          )
-          this.toastr.info('Đã đổi thông tin thành công!');
-          this.currentUser[0].fullName = this.fullName;
-          this.currentUser[0].phoneNumber = this.phoneNumber;
-          this.spinner.hide();
-          this.isShow = false;
-        }
-        else {
-          this.toastr.error('Đã có lỗi xảy ra!');
-        }
+            else {
+              this.toastr.error('Đã có lỗi xảy ra!');
+            }
+          }
+        );
       }
     );
+
   }
 
 
@@ -106,5 +122,6 @@ export class UserInfoComponent implements OnInit {
     this.isShow = !this.isShow;
     this.fullName = this.currentUser[0].fullName;
     this.phoneNumber = this.currentUser[0].phoneNumber;
+    this.email = this.currentUser[0].email;
   }
 }

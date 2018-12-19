@@ -30,7 +30,7 @@ export class ChangePwComponent implements OnInit {
   type1 = 'password';
 
   captcha = '';
-  captchaValid =false;
+  captchaValid = false;
 
 
 
@@ -61,23 +61,21 @@ export class ChangePwComponent implements OnInit {
   checkPassword() {
     this.user = new LoginViewModel();
     this.user.email = this.currentUser[0].email;
+    this.user.accountCode = this.currentUser[0].accountCode;
     this.user.password = this.oldPassword;
     this.dataService.Post('account-man/check-login', this.user).subscribe(
       response => {
-        if (response.status === 1) {
-          this.noti = "Mật khẩu không chính xác";
-          setTimeout(() => {
-            this.noti = "";
-          }, 2000);
-          this.isNoti = false;
-        }
-
         if (response.status === 0) {
-          this.noti = "Mật khẩu chính xác";
-          setTimeout(() => {
-            this.noti = "";
-          }, 2000);
+          this.toastr.clear();
+          this.toastr.success("Mật khẩu chính xác");
           this.isNoti = true;
+        }
+        else {
+          this.toastr.error("Mật khẩu cũ không đúng", "Thông báo", {
+            disableTimeOut: true,
+            tapToDismiss: true
+          })
+          this.isNoti = false;
         }
       }
     );
@@ -86,6 +84,7 @@ export class ChangePwComponent implements OnInit {
   changePassword() {
     this.account = new AccountManViewModel();
     this.account.accountId = this.currentUser[0].accountId;
+    this.account.accountCode = this.currentUser[0].accountCode;
     this.account.accountToken = this.currentUser[0].accountToken;
     this.account.accountType = this.currentUser[0].accountType;
     this.account.deviceToken = this.currentUser[0].deviceToken;
@@ -98,10 +97,10 @@ export class ChangePwComponent implements OnInit {
     this.dataService.Post('account-man/update', this.account).subscribe(
       response => {
         if (response.status === 0) {
-          this.toastr.info('Đã đổi mật khẩu thành công!','Thông báo');
+          this.toastr.info('Đã đổi mật khẩu thành công!', 'Thông báo');
         }
         else
-        this.toastr.error('Đã xảy ra lỗi...','Thông báo');
+          this.toastr.error('Đã xảy ra lỗi...', 'Thông báo');
       }
     );
   }
@@ -109,24 +108,24 @@ export class ChangePwComponent implements OnInit {
   checkLength() {
     if (this.newPassword == null) {
       this.noti1 = "Mật khẩu phải đủ 6 kí tự";
-      setTimeout(() => {
-        this.noti1 = "";
-      }, 2000);
-      this.isNoti1 =false;
+      // setTimeout(() => {
+      //   this.noti1 = "";
+      // }, 10000);
+      this.isNoti1 = false;
     }
     else {
       if (this.newPassword.length < 6) {
         this.noti1 = "Mật khẩu phải đủ 6 kí tự";
-        setTimeout(() => {
-          this.noti1 = "";
-        }, 2000);
-        this.isNoti1 =false;
+        // setTimeout(() => {
+        //   this.noti1 = "";
+        // }, 10000);
+        this.isNoti1 = false;
       }
       else {
         this.noti1 = "Mật khẩu hợp lệ";
         setTimeout(() => {
           this.noti1 = "";
-        }, 2000);
+        }, 0);
         this.isNoti1 = true;
       }
     }
@@ -135,24 +134,24 @@ export class ChangePwComponent implements OnInit {
   checkRefPass() {
     if (this.reconfirmPassword == null) {
       this.noti2 = "Mật khẩu phải đủ 6 kí tự";
-      setTimeout(() => {
-        this.noti2 = "";
-      }, 2000);
-      this.isNoti2 =false;
+      // setTimeout(() => {
+      //   this.noti2 = "";
+      // }, 2000);
+      this.isNoti2 = false;
     }
     else {
       if (this.newPassword != this.reconfirmPassword) {
         this.noti2 = "Mật khẩu không trùng khớp";
-        setTimeout(() => {
-          this.noti2 = "";
-        }, 2000);
-        this.isNoti2 =false;
+        // setTimeout(() => {
+        //   this.noti2 = "";
+        // }, 2000);
+        this.isNoti2 = false;
       }
       else {
-        this.noti2 = "Mật khẩu trùng khớp";
-        setTimeout(() => {
+        // this.noti2 = "Mật khẩu trùng khớp";
+        // setTimeout(() => {
           this.noti2 = "";
-        }, 2000);
+        // }, 2000);
         this.isNoti2 = true;
       }
     }
@@ -166,22 +165,22 @@ export class ChangePwComponent implements OnInit {
       return true;
     }
   }
-  checkCaptcha(event){
-    let str= event.target.value;
-    if(str===this.captcha)
-      this.captchaValid=true;
+  checkCaptcha(event) {
+    let str = event.target.value;
+    if (str === this.captcha)
+      this.captchaValid = true;
     else
-    this.captchaValid=false;
+      this.captchaValid = false;
     console.log(this.captchaValid);
   }
   save() {
-      this.changePassword();
-      this.reset();
-     
+    this.changePassword();
+    this.reset();
+
   }
-home(){
-  this.router.navigate(['/admin/main']);
-}
+  home() {
+    this.router.navigate(['/admin/main']);
+  }
   changeType() {
     if (this.type == 'password') {
       this.type = 'text';
@@ -211,10 +210,10 @@ home(){
     this.newPassword = "";
     this.reconfirmPassword = "";
     this.code = "";
-    this.captchaValid=false;
+    this.captchaValid = false;
     this.initRandomStr();
-    this.isNoti=false;
-    this.isNoti1=false;
-    this.isNoti2=false;
+    this.isNoti = false;
+    this.isNoti1 = false;
+    this.isNoti2 = false;
   }
 }

@@ -14,4 +14,5 @@ export class AccountManViewModel {
     osType: any;
     deviceToken: any;
     salt: any;
+    accountCode:string;
 }

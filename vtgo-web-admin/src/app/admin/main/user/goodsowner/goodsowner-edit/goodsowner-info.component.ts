@@ -64,7 +64,7 @@ export class GoodsownerInfoComponent implements OnInit {
   Save(event) {
     // event.preventDefault();
     if (this.isSelectFile == true) {
-      this.uploadFileToServer(this.uploaderCMND, 'cmnd');
+      this.uploadFileToServer(this.uploaderCMND, 'cmnd-owner');
       this._entity = this.addEditForm.value;
     } else{
       this._entity = this.addEditForm.value;
@@ -104,7 +104,7 @@ export class GoodsownerInfoComponent implements OnInit {
     for (let item of fileListAsArray) {
       this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
     }
-    this.getUrlImg('CMND');
+    this.getUrlImg('cmnd-owner');
     this.isSelectFile = true;
   }
 

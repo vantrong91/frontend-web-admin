@@ -11,8 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  userName = this.cookie.get("email");
-  password= this.cookie.get("password");
+  userName = this.cookie.get("accountCode");
+  password = this.cookie.get("password");
   isError = false
   pageTitle = '';
   noti = '';
@@ -20,24 +20,26 @@ export class LoginComponent implements OnInit {
   isSaveAccount = false;
   currentUser: any;
 
-  constructor(private router: Router,  private cookie: CookieService,private modalServices: NgbModal,
+  constructor(private router: Router, private cookie: CookieService, private modalServices: NgbModal,
     @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
 
   login(loginForm: NgForm) {
     this.userName = loginForm.form.value.userName;
     this.password = loginForm.form.value.password;
     this.user = new LoginViewModel();
-    this.user.email = this.userName;
+    this.user.accountCode = this.userName;
     this.user.password = this.password;
     this.authService.Login(this.user).subscribe((item: any) => {
       item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
+
       if (item !== null) {
         if (item.status === 0) {
           this.router.navigate(['/admin/main']);
           if (this.isSaveAccount == true) {
             this.cookie.deleteAll();
+            this.cookie.set("accountCode", this.user.accountCode);
             this.cookie.set("email", this.user.email);
-            this.cookie.set("password", this.user.password);         
+            this.cookie.set("password", this.user.password);
           }
         }
       }

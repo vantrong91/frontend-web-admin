@@ -86,7 +86,7 @@ export class GoodsOwnerComponent implements OnInit {
                     this.dataService.Post('good-owner/delete', { accountId: id }).subscribe(
                         result => {
                             if (result.status === 0) {
-                                this.toastr.warning('Đã xóa chủ hàng có id là:' + id);
+                                this.toastr.info('Đã xóa chủ hàng Id = ' + id);
                                 this.loadData();
                             } else {
                                 this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');

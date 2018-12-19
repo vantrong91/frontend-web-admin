@@ -86,13 +86,14 @@ export class ChangeAvatarComponent implements OnInit {
       frmImg.append('files', item);
     }
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
-      response => {      
+      response => {
         if (response.status == 200) {
           this.accountInfo = new AccountManViewModel();
           this.accountInfo.accountId = this.currentUser[0].accountId;
           this.accountInfo.fileAvata = this.changeAvatar.value.fileAvatar;
           this.accountInfo.fullName = this.currentUser[0].fullName;
           this.accountInfo.phoneNumber = this.currentUser[0].phoneNumber;
+          this.accountInfo.email = this.currentUser[0].email;
           this.closeModalEvent.emit(this.accountInfo.fileAvata);
           this.dataService.Post('account-man/updateInfo', this.accountInfo).subscribe(
             response => {
@@ -103,30 +104,36 @@ export class ChangeAvatarComponent implements OnInit {
                 localStorage.removeItem(SystemConfig.CURRENT_USER);
                 this.dataService.Post('account-man/get-by-id', { accountId: this.accountInfo.accountId }).subscribe(
                   (response2: any) => {
-                    localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response2))
+                    localStorage.setItem(SystemConfig.CURRENT_USER, JSON.stringify(response2));
                   }
                 )
                 this.toastr.info('Đã đổi ảnh đại diện thành công!');
-                this.imgSrcPre = this.getUrlImg('AVATA') + this.changeAvatar.value.fileAvatar;            
+                this.imgSrcPre = this.getUrlImg('AVATA') + this.changeAvatar.value.fileAvatar;
                 this.spinner.hide();
                 this.closeForm.emit();
               }
               else {
                 this.toastr.error('Đã có lỗi xảy ra!');
               }
+            },
+            error => {
+              console.log(error);
             }
           );
+        } else {
+          this.toastr.error('Không thể tải lên ảnh đại diện!!!...');
+          this.spinner.hide();
         }
       },
       error => {
-        this.toastr.error('Không thể tải lên ảnh đại diện!!!...');
+        this.toastr.error('Lỗi tải ảnh lên!!!...');
       }
     );
-  }
 
+  }
   saveAvatar() {
     this.spinner.show();
-    this.uploadFileToServer(this.uploaderAVATAR, 'avatar');    
+    this.uploadFileToServer(this.uploaderAVATAR, 'avatar');
   }
 
   getUrlImg(folder: string) {
