@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AccountViewModel, IAccountServiceToken, IAccountService, IHelperServiceToken, IHelperService, SearchModel } from '../../../../core'
+import { AccountViewModel, IAccountServiceToken, IAccountService, IHelperServiceToken, IHelperService, SearchModel, AccountTypeConstant } from '../../../../core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -16,6 +16,7 @@ export class AccountComponent implements OnInit {
   txtNoti = '';
 
   constructor(private modalService: NgbModal,
+    private toast: ToastrService,
     @Inject(IAccountServiceToken) private accountService: IAccountService,
     @Inject(IHelperServiceToken) private helperService: IHelperService) { }
   open(content) {
@@ -52,18 +53,19 @@ export class AccountComponent implements OnInit {
       this.search(this.searhObject);
   }
 
+  accounTypeChange(event) {
+    this.searhObject.searchParam2 = event.target.value;
+    this.search(this.searhObject);
+  }
+
   onSubmit(event) {
     this._entity = event;
     this.accountService.Create(this._entity).subscribe((response: any) => {
       if (response.status === 0) {
         this.initData();
-        this.isShow = true;
-        setTimeout(() => {
-          this.isShow = false;
-        }, 2500);
-        this.txtNoti = 'Thêm thành công tài khoản ' + this._entity.fullName;
+        this.toast.success("Tạo tài khoản thành công!", "Thông báo");
       } else {
-        this.txtNoti = 'Xảy ra lỗi. Xin vui lòng thử lại';
+        this.toast.error("Không thể tạo tài khoản..", "Đã xảy ra lỗi");
       }
     })
   }

@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControlName, FormArray } from '@angular/forms';
-import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService } from 'src/app/core';
+import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService, AccountTypeConstant } from 'src/app/core';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-info',
@@ -38,11 +39,12 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   @Output() closeModalEvent = new EventEmitter<any>();
   constructor(private dataService: DataService,
     private fb: FormBuilder,
+    private toast: ToastrService,
     @Inject(IAccountServiceToken) private accountService: IAccountService) {
     this.addEditForm = this.fb.group({
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?\d{9,15}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?\d{7,15}$/)]],
       password: ['', [Validators.required,
       Validators.minLength(3),
       Validators.maxLength(50)]],
@@ -105,23 +107,21 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
     this.groupImg();
   }
 
-  groupImg(){
-    console.log(this.addEditForm.controls.fileAvata);
-    
+  groupImg() {
+    // console.log(this.addEditForm.controls.fileAvata);
     this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.setValue(e.file.name));
   }
 
   onSave(event) {
     this.uploadFileToServer(this.uploaderAVATA.queue, 'avatar');
     this._entity = this.addEditForm.value;
-    console.log(this._entity);
     this.accountViewModelChange.emit(this._entity);
     this.closeModalEvent.emit();
   }
 
-  uploadFileToServer(data: Array<any>, type: string){
+  uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
-    for(let i = 0; i< data.length; i++){
+    for (let i = 0; i < data.length; i++) {
       frmImg.append('files', data[i]._file);
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
@@ -134,6 +134,50 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   checkEmailPhone(event, type) {
     let searchParam = `{"searchParam": "` + event.target.value.toLowerCase() + `"}`;
     this.search(searchParam, type);
+  }
+
+  checkPhone() {
+    let account = new AccountViewModel();
+
+    let phoneNumber = this.addEditForm.value.phoneNumber;
+    let accountType = (Number)(this.addEditForm.value.accountType);
+    switch (accountType) {
+      case AccountTypeConstant.ACCOUNTANT:
+        account.accountCode = "KT" + phoneNumber;
+        break;
+      case AccountTypeConstant.BUSINESS:
+        account.accountCode = "KD" + phoneNumber;
+        break;
+      case AccountTypeConstant.INSURANCE:
+        account.accountCode = "BH" + phoneNumber;
+        break;
+      case AccountTypeConstant.MANAGE:
+        account.accountCode = "QL" + phoneNumber;
+        break;
+      case AccountTypeConstant.SUPPORT:
+        account.accountCode = "HT" + phoneNumber;
+        break;
+      case AccountTypeConstant.TECHNICAL:
+        account.accountCode = "KTH" + phoneNumber;
+        break;
+      default:
+        account.accountCode = "US" + phoneNumber;
+    }
+    this.accountService.GetByAccCode(account).subscribe(
+      response => {
+        if (response.data.length != 0) {
+          this.phoneValid = false;
+          this.toast.error("Số điện thoại đã được sử dụng loại tài khoản này", "Thông báo", {
+            disableTimeOut: true,
+            closeButton: true
+          });
+        } else {
+          this.phoneValid = true;
+          this.toast.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
+        }
+      },
+      error => console.log(error)
+    );
   }
   search(search, type) {
     switch (type) {
@@ -173,17 +217,14 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
               if (response.data.length === 0) {
                 this.isShow = true;
                 this.mailValid = true;
-                setTimeout(() => {
-                  this.isShow = false
-                }, 2000);
-                this.txtNoti = 'Email có thể sử dụng';
+                this.toast.success("Email có thể sử dụng!", '', { closeButton: true });
               } else {
                 this.isShow = true;
                 this.mailValid = false;
-                setTimeout(() => {
-                  this.isShow = false;
-                }, 2000);
-                this.txtNoti = 'Email đã được sử dụng';
+                this.toast.error('Email đã được sử dụng', 'Thông báo', {
+                  disableTimeOut: true,
+                  closeButton: true
+                });
               }
             }
           );

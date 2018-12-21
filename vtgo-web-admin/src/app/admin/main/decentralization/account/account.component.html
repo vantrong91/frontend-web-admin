@@ -1,13 +1,29 @@
 <div class="row mt-2">
+  <div class="col-md-3 my-auto">
+    <select id="accountType" class="form-control" placement="bottom" ngbTooltip="Loại tài khoản" tabindex="1" (change)="accounTypeChange($event)">
+      <option value=null selected>&#45;&#45; Tất cả &#45;&#45;</option>
+      <option value="0">Admin</option>
+      <option value="1">Lái xe</option>
+      <option value="2">Chủ hàng</option>
+      <option value="3">Chủ Phương tiện</option>
+      <!-- <option value="4">Khách</option> -->
+      <option value="5">Bộ phận Kinh doanh</option>
+      <option value="6">Bộ phận Hỗ trợ</option>
+      <option value="7">Bộ phận Kế toán</option>
+      <option value="8">Bộ phận Kỹ thuật</option>
+      <option value="9">Bộ phận Quản lý</option>
+      <option value="10">Bộ phận Bảo hiểm</option>
+    </select>
+  </div>
   <div class="col-md-4 my-auto">
-    <input type="text" [(ngModel)]="searhObject.searchParam" #searchData name="searchParam" class="form-control input-search-admin" placeholder="Nhập SĐT, Tên hoặc Email"
-      (keyup)="searchByPressEnter($event)">
+    <input type="text" [(ngModel)]="searhObject.searchParam" #searchData name="searchParam" class="form-control input-search-admin"
+      placeholder="Nhập SĐT, Tên hoặc Email" (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searhObject)" placement="bottom" ngbTooltip="Tìm kiếm"><i
-        class="fa fa-search" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searhObject)" placement="bottom"
+      ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
-  <div class="col-md-1 offset-md-6">
+  <div class="col-md-1 offset-md-3">
     <button type="button" class="btn btn-success w-100" (click)="open(content)" placement="bottom" ngbTooltip="Thêm mới Tài khoản"><i
         class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
     <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>

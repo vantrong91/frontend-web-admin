@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService, AuthenService, AccountViewModel, SearchModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
-
+import { AccountTypeConstant } from 'src/app/core';
 @Component({
   selector: 'app-technical',
   templateUrl: './technical.component.html',
@@ -35,10 +35,8 @@ export class TechnicalComponent implements OnInit {
 
   loadData() {
     this.searchParam = new SearchModel();
-    this.searchParam.searchParam2 = 8;
+    this.searchParam.searchParam2 = AccountTypeConstant.TECHNICAL;
     this.search(this.searchParam);
-    console.log(this.searchParam);
-
   }
 
 

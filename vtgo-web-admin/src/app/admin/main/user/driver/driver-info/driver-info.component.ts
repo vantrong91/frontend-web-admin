@@ -1,7 +1,11 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
 import { DriverViewModel } from './../driver-model/driver.model';
-import { DataService } from '../../../../../core/services/data.service';
+import {
+    DataService, AccountService,
+    AccountTypeConstant, AccountViewModel,
+    IAccountServiceToken
+} from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
@@ -88,6 +92,7 @@ export class DriverInfoComponent implements OnInit {
         private dataService: DataService,
         private toastrService: ToastrService,
         private formBuilder: FormBuilder,
+        @Inject(IAccountServiceToken) private accountService: AccountService,
         @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
         @Inject(IAddressServiceToken) private addressService: IAddressService) {
         this.addEditForm = this.formBuilder.group({
@@ -163,7 +168,7 @@ export class DriverInfoComponent implements OnInit {
         )
     }
 
-    
+
     ChangingValue(event) {
         this.searchEthnic.searchParam2 = event.target.value;
         this.addressService.getProvince(this.searchEthnic).subscribe(
@@ -264,27 +269,7 @@ export class DriverInfoComponent implements OnInit {
                     })
                 }
                 else {
-
-                    this.dataService.Post('driver/search', search).subscribe(
-                        response => {
-                            if (response.data.length === 0) {
-                                this.phoneValid = true;
-                                this.toastrService.clear();
-                                this.toastrService.success("Số điện thoại có thể sử dụng!", "Thông báo", {
-                                    closeButton: true,
-                                    extendedTimeOut: 1000
-                                });
-                            } else {
-                                this.phoneValid = false;
-                                this.toastrService.clear();
-                                this.toastrService.error("Số điện thoại đã được sử dụng.", "Thông báo", {
-                                    closeButton: true,
-                                    tapToDismiss: true,
-                                    // disableTimeOut: true
-                                });
-                            }
-                        }
-                    );
+                    this.checkPhone();
                 }
                 break;
             case 'email':
@@ -296,26 +281,7 @@ export class DriverInfoComponent implements OnInit {
                     })
                 }
                 else {
-                    this.dataService.Post('driver/search', search).subscribe(
-                        response => {
-                            if (response.data.length === 0) {
-                                this.mailValid = true;
-                                this.toastrService.clear();
-                                this.toastrService.success(type + " có thể sử dụng!", "Thông báo", {
-                                    closeButton: true,
-                                    extendedTimeOut: 1000
-                                });
-                            } else {
-                                this.mailValid = false;
-                                this.toastrService.clear();
-                                this.toastrService.error(type + " đã được sử dụng.", "Thông báo", {
-                                    closeButton: true,
-                                    tapToDismiss: true,
-                                    // disableTimeOut: true
-                                });
-                            }
-                        }
-                    );
+                    this.checkEmail();
                 }
                 break;
             default:
@@ -323,22 +289,82 @@ export class DriverInfoComponent implements OnInit {
         }
     }
 
+    checkEmail() {
+        let searchMode = new SearchModel();
+        searchMode.searchParam = this.addEditForm.value.email;
+        console.log(searchMode);
+
+
+        this.accountService.GetByEmail(searchMode).subscribe(
+            response => {
+                if (response.data.length != 0) {
+                    this.phoneValid = false;
+                    this.toastrService.error("Email đã được sử dụng", "Thông báo", {
+                        disableTimeOut: true,
+                        closeButton: true
+                    });
+                } else {
+                    this.phoneValid = true;
+                    this.toastrService.success("Email có thể sử dụng!", '', { closeButton: true });
+                }
+            },
+            error => console.log(error)
+        );
+    }
+
+    checkPhone() {
+        let account = new AccountViewModel();
+        let phoneNumber = this.addEditForm.value.phoneNumber;
+        account.accountCode = "LX" + phoneNumber;
+
+        this.accountService.GetByAccCode(account).subscribe(
+            response => {
+                if (response.data.length != 0) {
+                    this.phoneValid = false;
+                    this.toastrService.error("Số điện thoại đã được sử dụng cho Lái xe", "Thông báo", {
+                        disableTimeOut: true,
+                        closeButton: true
+                    });
+                } else {
+                    this.phoneValid = true;
+                    this.toastrService.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
+                }
+            },
+            error => console.log(error)
+        );
+    }
+
     Save(event) {
-        if (this.isAdd) {
-            console.log('add new img');
-            this.uploadFileToServer(this.uploaderACD.queue, 'acd');
-            this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
-            this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
-            this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+        if (this.uploaderACD.queue.length == 0) {
+            this.toastrService.error("Chưa chọn Ảnh chân dung");
         }
-        else
-            this._entity.attachProperties = this.oldAttachPro;
-        this._entity = this.addEditForm.value;
+        if (this.uploaderCMND.queue.length == 0) {
+            this.toastrService.error("Chưa chọn Chứng minh nhân dân/ Căn cước");
+        }
+        if (this.uploaderGPLX.queue.length == 0) {
+            this.toastrService.error("Chưa chọn ảnh Giấy phép lái xe");
+        }
+        if (this.uploaderSHK.queue.length == 0) {
+            this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
+        }
+        if (this.uploaderACD.queue.length > 0 && this.uploaderCMND.queue.length > 0
+            && this.uploaderGPLX.queue.length > 0 && this.uploaderSHK.queue.length > 0) {
+            if (this.isAdd) {
+                this.uploadFileToServer(this.uploaderACD.queue, 'acd');
+                this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
+                this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
+                this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+            }
+            else
+                this._entity.attachProperties = this.oldAttachPro;
+            this._entity = this.addEditForm.value;
 
 
-        this.convert();
-        this.driverViewModelChange.emit(this._entity);
-        this.closeModalEvent.emit();
+            this.convert();
+            this.driverViewModelChange.emit(this._entity);
+            this.closeModalEvent.emit();
+        }
+
     }
 
     uploadFileToServer(data: Array<any>, type: string) {

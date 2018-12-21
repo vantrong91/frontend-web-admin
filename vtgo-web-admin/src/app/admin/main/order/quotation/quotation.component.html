@@ -110,7 +110,7 @@
           <strong class="tbl-header">Giá vận chuyển</strong>
         </ng-template>
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span class="">{{value}}</span>
+          <span class="">{{value|currency:'':'':'0.0'}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="state" [width]="250">

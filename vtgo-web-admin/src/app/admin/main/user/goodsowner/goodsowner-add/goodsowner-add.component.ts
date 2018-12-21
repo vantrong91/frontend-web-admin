@@ -1,8 +1,8 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
 import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
-import { DataService } from 'src/app/core';
+import { DataService, IAccountServiceToken, AccountService, AccountViewModel } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 @Component({
   selector: 'app-goodsowner-add',
@@ -15,6 +15,7 @@ export class GoodsownerAddComponent implements OnInit {
   public addEditForm: FormGroup;
   uploaderCMND: FileList;
   isSelectFile = false;
+  phoneValid = false;
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
@@ -29,7 +30,9 @@ export class GoodsownerAddComponent implements OnInit {
   @Output() closeForm = new EventEmitter<any>();
 
 
-  constructor(private formBuilder: FormBuilder, private dataService: DataService, private toastr: ToastrService) {
+  constructor(
+    @Inject(IAccountServiceToken) private accountService: AccountService,
+    private formBuilder: FormBuilder, private dataService: DataService, private toastr: ToastrService) {
     this.addEditForm = this.formBuilder.group({
       accountId: [''],
       fullName: ['', Validators.required],
@@ -64,6 +67,29 @@ export class GoodsownerAddComponent implements OnInit {
       this.toastr.warning('Bạn chưa chọn Chứng minh nhân dân', 'Cảnh báo');
     }
 
+  }
+
+  checkPhone() {
+    let account = new AccountViewModel();
+    let phoneNumber = this.addEditForm.value.phoneNumber;
+    account.accountCode = "CH" + phoneNumber;
+
+    this.accountService.GetByAccCode(account).subscribe(
+      response => {
+        if (response.data.length != 0) {
+          this.phoneValid = false;
+          this.toastr.clear();
+          this.toastr.error("Số điện thoại đã được sử dụng cho Chủ hàng", "Thông báo", {
+            disableTimeOut: true,
+            closeButton: true
+          });
+        } else {
+          this.phoneValid = true;
+          this.toastr.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
+        }
+      },
+      error => console.log(error)
+    );
   }
 
   convert() {

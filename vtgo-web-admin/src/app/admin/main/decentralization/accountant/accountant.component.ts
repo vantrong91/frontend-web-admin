@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService, AuthenService, SearchModel, AccountViewModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
+import { AccountTypeConstant } from 'src/app/core';
 
 @Component({
   selector: 'app-accountant',
@@ -33,7 +34,7 @@ export class AccountantComponent implements OnInit {
 
   loadData() {
     this.searchParam = new SearchModel();
-    this.searchParam.searchParam2 = 7;
+    this.searchParam.searchParam2 = AccountTypeConstant.ACCOUNTANT;
     this.search(this.searchParam);
     console.log(this.searchParam);
 

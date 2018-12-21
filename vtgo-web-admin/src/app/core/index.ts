@@ -73,3 +73,4 @@ export * from './tokens/bank-list.service.token';
 
 // Export Constant
 export * from './constant/address.constant.modal';
+export * from './constant/account-type.constant.modal';

@@ -1,44 +1,46 @@
 <form [formGroup]="addEditForm" novalidate>
   <div class="form-group row my-3">
+    <label for="accountType" class="col-sm-2 col-form-label text-md-right">Loại tài khoản </label>
+    <div class="col-sm-4">
+      <select [ngClass]="{'is-invalid': displayMessage.accountType}" class="custom-select form-control" id="accountType"
+        formControlName="accountType" tabindex="1">
+        <option value=null disabled selected>&#45;&#45; Chọn loại tài khoản &#45;&#45;</option>
+        <option value="5">Bộ phận Kinh doanh</option>
+        <option value="6">Bộ phận Hỗ trợ</option>
+        <option value="7">Bộ phận Kế toán</option>
+        <option value="8">Bộ phận Kỹ thuật</option>
+        <option value="9">Bộ phận Quản lý</option>
+        <option value="10">Bộ phận Bảo hiểm</option>
+      </select>
+      <span class="invalid-feedback">
+        {{displayMessage.accountType}}
+      </span>
+    </div>
     <label for="fullName" class="col-sm-2 col-form-label text-md-right">Họ và tên </label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="fullName" name="fullName" placeholder="" formControlName="fullName"
-        tabindex="1" [ngClass]="{'is-invalid': displayMessage.fullName}" />
+        tabindex="2" [ngClass]="{'is-invalid': displayMessage.fullName}" />
       <span class="invalid-feedback">
         {{displayMessage.fullName}}
       </span>
     </div>
-    <label for="email" class="col-sm-2 col-form-label text-md-right">Email (duy nhất) </label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" id="email" formControlName="email" tabindex="2" [ngClass]="{'is-invalid': displayMessage.email}"
-        (focusout)="checkEmailPhone($event,'email')" />
-      <span class="invalid-feedback">
-        {{displayMessage.email}}
-      </span>
-    </div>
+
   </div>
   <div class="form-group row my-3">
     <label for="phoneNumber" class="col-sm-2 col-form-label text-md-right">Số điện thoại </label>
     <div class="col-sm-4">
       <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" tabindex="3" [ngClass]="{'is-invalid': displayMessage.phoneNumber}"
-        (focusout)="checkEmailPhone($event, 'phoneNumber')" />
+        (focusout)="checkPhone()" />
       <span class="invalid-feedback">
         {{displayMessage.phoneNumber}}
       </span>
     </div>
-    <label for="accountType" class="col-sm-2 col-form-label text-md-right">Loại tài khoản </label>
+    <label for="email" class="col-sm-2 col-form-label text-md-right">Email </label>
     <div class="col-sm-4">
-      <select [ngClass]="{'is-invalid': displayMessage.accountType}" class="custom-select form-control" id="accountType"
-        formControlName="accountType" tabindex="4">
-        <option value=null disabled selected>&#45;&#45; Chọn loại tài khoản &#45;&#45;</option>
-        <option value="5">Bộ phận kinh doanh</option>
-        <option value="6">Bộ phận hỗ trợ</option>
-        <option value="7">Bộ phận kế toán</option>
-        <option value="8">Bộ phận kỹ thuật</option>
-        <option value="9">Bộ phận quản lý</option>
-      </select>
+      <input type="email" class="form-control" id="email" formControlName="email" tabindex="4" [ngClass]="{'is-invalid': displayMessage.email}"
+        (focusout)="checkEmailPhone($event,'email')" />
       <span class="invalid-feedback">
-        {{displayMessage.accountType}}
+        {{displayMessage.email}}
       </span>
     </div>
   </div>
@@ -54,7 +56,7 @@
     <label for="confirmPassword" class="col-sm-2 col-form-label text-md-right">Nhập lại mật khẩu </label>
     <div class="col-sm-4">
       <input type="password" class="form-control" id="confirmPassword" placeholder="" formControlName="confirmPassword"
-        tabindex="5" [ngClass]="{'is-invalid': displayMessage.confirmPassword}">
+        tabindex="6" [ngClass]="{'is-invalid': displayMessage.confirmPassword}">
       <span class="invalid-feedback">
         {{displayMessage.confirmPassword}}
       </span>
@@ -64,7 +66,8 @@
     <label for="" class="col-sm-2 text-md-right">Ảnh đại diện</label>
     <div class="col-sm-6 ml-3 mr-3" formGroupName="fileAvata">
       <div class="row">
-        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01" (change)="groupImg()" ng2FileSelect [uploader]="uploaderAVATA">
+        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01"
+          (change)="groupImg()" ng2FileSelect [uploader]="uploaderAVATA" tabindex="7">
         <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
       </div>
       <div class="row uploadList" *ngFor="let item of uploaderAVATA.queue">
@@ -75,7 +78,7 @@
           </div>
         </div>
         <div class="col-sm-1">
-          <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
+          <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();" tabindex="8"><i class="fa fa-times"
               aria-hidden="true"></i></button>
         </div>
       </div>
@@ -84,5 +87,4 @@
 </form>
 <div class="modal-footer">
   <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Lưu</button>
-  <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
 </div>

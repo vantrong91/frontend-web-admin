@@ -1,6 +1,6 @@
 <form [formGroup]="addEditForm" novalidate>
   <div class="row">
-    <div class="col-md-4 my-3">
+    <div class="col-md-4 my-3  h-210px">
       <div (click)="openImg(imgView,getUrlImg('AVATA'),keyArr)">
         <img class="imgavt" [src]="getUrlImg('AVATA') + keyArr" alt="" />
         <br>
@@ -34,11 +34,12 @@
         <div class="col-sm-8">
           <select id="accountType" class="form-control" formControlName="accountType" tabindex="4" readonly="readonly" disabled="true">
             <option value=null disabled selected>&#45;&#45; Chọn loại tài khoản &#45;&#45;</option>
-            <option value="5">Bộ phận kinh doanh</option>
-            <option value="6">Bộ phận hỗ trợ</option>
-            <option value="7">Bộ phận kế toán</option>
-            <option value="8">Bộ phận kỹ thuật</option>
-            <option value="9">Bộ phận quản lý</option>
+            <option value="5">Bộ phận Kinh doanh</option>
+            <option value="6">Bộ phận Hỗ trợ</option>
+            <option value="7">Bộ phận Kế toán</option>
+            <option value="8">Bộ phận Kỹ thuật</option>
+            <option value="9">Bộ phận Quản lý</option>
+            <option value="10">Bộ phận Bảo hiểm</option>
           </select>
         </div>
       </div>

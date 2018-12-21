@@ -29,6 +29,7 @@ const routes: Routes = [
       { path: 'manage', loadChildren: './decentralization/manage/manage.module#ManageModule' },
       { path: 'support', loadChildren: './decentralization/support/support.module#SupportModule' },
       { path: 'technical', loadChildren: './decentralization/technical/technical.module#TechnicalModule' },
+      { path: 'insurance', loadChildren: './decentralization/insurance/insurance.module#InsuranceModule' },
       //Quản lý danh mục
       { path: 'vehiclefines', loadChildren: './configuration/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
       { path: 'policy', loadChildren: './configuration/configpolicy/configpolicy.module#ConfigPolicyModule' },

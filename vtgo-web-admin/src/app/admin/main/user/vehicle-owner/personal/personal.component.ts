@@ -11,6 +11,7 @@ import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
 import { AddressConstant } from 'src/app/core/constant/address.constant.modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-personal',
@@ -87,6 +88,7 @@ export class PersonalComponent implements OnInit {
   /* Ctor */
   constructor(
     private dataService: DataService,
+    private toastrService: ToastrService,
     private modalServices: NgbModal,
     @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
     @Inject(IAddressServiceToken) private addressService: IAddressService,
@@ -148,25 +150,35 @@ export class PersonalComponent implements OnInit {
   }
 
   onSave(event) {
-    this._entity = this.addEditForm.value;
-    this.convert();
-    console.log(this._entity);
-
-    // if (this.isAdd) {
-    //   console.log('add new img');
-    //   this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
-    //   this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
-    //   this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
-    //   this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
-    // }
-    // else {
-    //   this._entity.attachProperties = this.oldAttachPro;
-    // }
-    // // if (this.addEditForm.valid) {
-    // this._entity.vehicleOwnerType = 1;
-    // this.personViewModelChange.emit(this._entity);
-    // this.closeForm.emit();
-    // // }
+    if (this.uploaderCMND.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Chứng minh/ Căn cước");
+    }
+    if (this.uploaderSHK.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
+    }
+    if (this.uploaderGPKDVT.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
+    }
+    if (this.uploaderGPDHVT.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
+    }
+    if (this.uploaderCMND.queue.length > 0 && this.uploaderSHK.queue.length > 0
+      && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
+      this._entity = this.addEditForm.value;
+      this.convert();
+      if (this.isAdd) {
+        this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
+        this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+        this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+        this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+      }
+      else {
+        this._entity.attachProperties = this.oldAttachPro;
+      }
+      this._entity.vehicleOwnerType = 1;
+      this.personViewModelChange.emit(this._entity);
+      this.closeForm.emit();
+    }
   }
 
   getEthnic() {

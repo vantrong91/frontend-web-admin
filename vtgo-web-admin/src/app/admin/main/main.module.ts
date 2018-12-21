@@ -4,7 +4,6 @@ import { MainComponent } from './main.component';
 import { ThemeModule } from '../theme/theme.module';
 import { MainRoutingModule } from './main.routing';
 
-
 @NgModule({
   imports: [
     CommonModule,

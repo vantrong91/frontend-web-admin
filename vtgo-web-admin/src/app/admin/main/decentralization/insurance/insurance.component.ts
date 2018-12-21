@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DataService, AuthenService, SearchModel, AccountViewModel } from 'src/app/core';
+import { DataService, AuthenService, AccountViewModel, SearchModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
 import { AccountTypeConstant } from 'src/app/core';
-
 @Component({
-  selector: 'app-manage',
-  templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.scss']
+  selector: 'app-insurance',
+  templateUrl: './insurance.component.html',
+  styleUrls: ['./insurance.component.scss']
 })
-export class ManageComponent implements OnInit {
+export class InsuranceComponent implements OnInit {
 
   rows = "";
   data = [];
@@ -35,11 +34,15 @@ export class ManageComponent implements OnInit {
 
   loadData() {
     this.searchParam = new SearchModel();
-    this.searchParam.searchParam2 = AccountTypeConstant.MANAGE;
+    this.searchParam.searchParam2 = AccountTypeConstant.INSURANCE;
     this.search(this.searchParam);
-    console.log(this.searchParam);
 
   }
+
+  txtSearch(event) {
+    this.search(this.searchParam);
+  }
+
 
   search(search) {
     this.dataService.Post('account-man/search', search).subscribe(
@@ -69,29 +72,17 @@ export class ManageComponent implements OnInit {
   }
 
   open(ele) {
-    // this.accountData = new AccountViewModel;
     this.modalServices
       .open(ele, { size: 'lg' })
       .result.then(
         result => {
           this.closeResult = `Close with: ${result}`;
         },
-        reason =>
-          (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
+        reason => { }
       );
 
   }
 
-  private getDismissReason(reason: any) {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with ${reason}`;
-    }
-  }
   openSm(del, id) {
     this.modalServices.open(del, { size: 'sm' })
       .result.then(
@@ -108,12 +99,10 @@ export class ManageComponent implements OnInit {
             }
           );
         },
-        reason =>
-          (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`)
+        reason => {
+
+        }
       );
   }
-
-
-
 
 }

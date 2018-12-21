@@ -21,19 +21,22 @@ export class ToStringPipe implements PipeTransform {
             return 'Khách';
         }
         if (value === 5) {
-            return 'Bộ phận kinh doanh';
+            return 'Bộ phận Kinh doanh';
         }
         if (value === 6) {
-            return 'Bộ phận hỗ trợ';
+            return 'Bộ phận Hỗ trợ';
         }
         if (value === 7) {
-            return 'Bộ phận kế toán';
+            return 'Bộ phận Kế toán';
         }
         if (value === 8) {
-            return 'Bộ phận kỹ thuật';
+            return 'Bộ phận Kỹ thuật';
         }
         if (value === 9) {
-            return 'Bộ phận quản lý';
+            return 'Bộ phận Quản lý';
+        }
+        if (value === 10) {
+            return 'Bộ phận Bảo hiểm';
         } else {
             return;
         }

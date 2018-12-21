@@ -10,6 +10,7 @@ import {
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company',
@@ -32,7 +33,7 @@ export class CompanyComponent implements OnInit {
 
   isAdd = false; //isAdd =true => add new; flase => edit
 
-  addressConstant=new AddressConstant();
+  addressConstant = new AddressConstant();
   searchAddress: SearchModel;
   lstAddress_Country = [];
   lstAddress_Province = [];
@@ -96,6 +97,7 @@ export class CompanyComponent implements OnInit {
   public addEditForm: FormGroup;
   /* Ctor */
   constructor(private dataService: DataService,
+    private toastrService: ToastrService,
     private modalServices: NgbModal,
     @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
     @Inject(IAddressServiceToken) private addressService: IAddressService,
@@ -157,26 +159,40 @@ export class CompanyComponent implements OnInit {
 
 
   onSave(event) {
-    this._entity = this.addEditForm.value;
-    this.convert();
-    if (this.isAdd) {
-      console.log('add new img');
-      this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
-      this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
-      this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
-      this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+    if (this.uploaderDAUCT.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Dấu công ty");
     }
-    else
-      this._entity.attachProperties = this.oldAttachPro;
-    this._entity.vehicleOwnerType = 0;
-    this.companyViewModelChange.emit(this._entity);
-    this.closeEvent.emit();
-    // }
+    if (this.uploaderDKKD.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Đăng ký kinh doanh");
+    }
+    if (this.uploaderGPKDVT.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
+    }
+    if (this.uploaderGPDHVT.queue.length == 0) {
+      this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
+    }
+    if (this.uploaderDAUCT.queue.length > 0 && this.uploaderDKKD.queue.length > 0
+      && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
+      this._entity = this.addEditForm.value;
+      this.convert();
+      if (this.isAdd) {
+        console.log('add new img');
+        this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
+        this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
+        this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
+        this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+      }
+      else
+        this._entity.attachProperties = this.oldAttachPro;
+      this._entity.vehicleOwnerType = 0;
+      this.companyViewModelChange.emit(this._entity);
+      this.closeEvent.emit();
+    }
   }
 
   getCountryProvince() {
     //getAllCountry
-    this.searchAddress.searchParam2 =this.addressConstant.COUNTRY;
+    this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Country = response.data;
@@ -258,7 +274,7 @@ export class CompanyComponent implements OnInit {
     this.addressService.getProvince(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
-        this.lstAddress_Province.unshift('');  
+        this.lstAddress_Province.unshift('');
         // this.lstAddress_District = [];
         // this.lstAddress_Wards = [];
       }
