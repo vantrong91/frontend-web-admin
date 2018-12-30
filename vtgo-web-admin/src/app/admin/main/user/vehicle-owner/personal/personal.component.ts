@@ -150,23 +150,24 @@ export class PersonalComponent implements OnInit {
   }
 
   onSave(event) {
-    if (this.uploaderCMND.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Chứng minh/ Căn cước");
-    }
-    if (this.uploaderSHK.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
-    }
-    if (this.uploaderGPKDVT.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
-    }
-    if (this.uploaderGPDHVT.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
-    }
-    if (this.uploaderCMND.queue.length > 0 && this.uploaderSHK.queue.length > 0
-      && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
-      this._entity = this.addEditForm.value;
-      this.convert();
-      if (this.isAdd) {
+    if (this.isAdd) {
+      if (this.uploaderCMND.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Chứng minh/ Căn cước");
+      }
+      if (this.uploaderSHK.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
+      }
+      if (this.uploaderGPKDVT.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
+      }
+      if (this.uploaderGPDHVT.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
+      }
+      if (this.uploaderCMND.queue.length > 0 && this.uploaderSHK.queue.length > 0
+        && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
+        this._entity = this.addEditForm.value;
+        this.convert();
+
         this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
         this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
         this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');

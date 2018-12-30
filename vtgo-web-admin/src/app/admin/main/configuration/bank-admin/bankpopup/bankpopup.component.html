@@ -1,0 +1,47 @@
+<form [formGroup]="addEditForm">
+  <ngb-tabset>
+    <ngb-tab title="Thông tin thông tin ngân hàng">
+
+      <ng-template ngbTabContent>
+        <div class="form-group row my-3">
+          <input type="hidden" class="form-control" id="accountId" name="accountId" placeholder="AccountId" value="1"
+            formControlName="accountId" tabindex="0" />
+          <label for="bankCode" class="col-sm-2 col-form-label text-md-right">Mã ngân hàng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="bankCode" name="bankCode" placeholder="Mã ngân hàng"
+              formControlName="bankCode" tabindex="1" />
+          </div>
+          <label for="bankName" class="col-sm-2 col-form-label text-md-right">Tên ngân hàng</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Tên ngân hàng"
+              formControlName="bankName" tabindex="2" />
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="fullName" class="col-sm-2 col-form-label text-md-right">Họ và tên</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Họ và tên"
+              formControlName="fullName" tabindex="3" />
+          </div>
+          <label for="bankNumber" class="col-sm-2 col-form-label text-md-right">Số tài khoản</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="bankNumber" name="bankNumber" placeholder="Số tài khoản"
+              formControlName="bankNumber" tabindex="4" />
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <label for="bankBranch" class="col-sm-2 col-form-label text-md-right">Chi nhánh</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="bankBranch" name="bankBranch" placeholder="Chi nhánh"
+              formControlName="bankBranch" tabindex="5" />
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+  <div class="modal-footer">
+    <button type="button" *ngIf="addEditForm.valid==true" class="btn btn-success" (click)="onSave($event)" tabindex="6">Lưu</button>
+    <button type="button" *ngIf="addEditForm.valid!=true" class="btn btn-default" tabindex="6">Lưu</button>
+  </div>
+</form>

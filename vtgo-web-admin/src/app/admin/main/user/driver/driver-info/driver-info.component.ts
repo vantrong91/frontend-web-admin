@@ -1,17 +1,14 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
-import { DriverViewModel } from './../driver-model/driver.model';
-import {
-    DataService, AccountService,
-    AccountTypeConstant, AccountViewModel,
-    IAccountServiceToken
-} from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
-import { saveAs } from 'file-saver';
-import { Parser } from '@angular/compiler';
-import { Driver } from 'selenium-webdriver/ie';
-import { ICategoryService, ICategoryServiceToken, SearchModel, IAddressServiceToken, IAddressService } from 'src/app/core';
+import {
+    DataService, DriverViewModel,
+    SearchModel, AccountViewModel,
+    AccountService, IAccountServiceToken,
+    ICategoryService, ICategoryServiceToken,
+    IAddressServiceToken, IAddressService, IDataServiceToken
+} from 'src/app/core';
 // import * as $ from 'jquery';
 
 @Component({
@@ -89,9 +86,9 @@ export class DriverInfoComponent implements OnInit {
 
 
     constructor(
-        private dataService: DataService,
         private toastrService: ToastrService,
         private formBuilder: FormBuilder,
+        @Inject(IDataServiceToken) private dataService: DataService,
         @Inject(IAccountServiceToken) private accountService: AccountService,
         @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
         @Inject(IAddressServiceToken) private addressService: IAddressService) {
@@ -335,36 +332,35 @@ export class DriverInfoComponent implements OnInit {
     }
 
     Save(event) {
-        if (this.uploaderACD.queue.length == 0) {
-            this.toastrService.error("Chưa chọn Ảnh chân dung");
-        }
-        if (this.uploaderCMND.queue.length == 0) {
-            this.toastrService.error("Chưa chọn Chứng minh nhân dân/ Căn cước");
-        }
-        if (this.uploaderGPLX.queue.length == 0) {
-            this.toastrService.error("Chưa chọn ảnh Giấy phép lái xe");
-        }
-        if (this.uploaderSHK.queue.length == 0) {
-            this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
-        }
-        if (this.uploaderACD.queue.length > 0 && this.uploaderCMND.queue.length > 0
-            && this.uploaderGPLX.queue.length > 0 && this.uploaderSHK.queue.length > 0) {
-            if (this.isAdd) {
+        if (this.isAdd) {
+            if (this.uploaderACD.queue.length == 0) {
+                this.toastrService.error("Chưa chọn ảnh chân dung");
+            }
+            if (this.uploaderCMND.queue.length == 0) {
+                this.toastrService.error("Chưa chọn ảnh Chứng minh nhân dân/ Căn cước");
+            }
+            if (this.uploaderGPLX.queue.length == 0) {
+                this.toastrService.error("Chưa chọn ảnh Giấy phép lái xe");
+            }
+            if (this.uploaderSHK.queue.length == 0) {
+                this.toastrService.error("Chưa chọn ảnh Sổ hộ khẩu");
+            }
+            if (this.uploaderACD.queue.length > 0 && this.uploaderCMND.queue.length > 0
+                && this.uploaderGPLX.queue.length > 0 && this.uploaderSHK.queue.length > 0) {
+                this.toastrService.clear();
                 this.uploadFileToServer(this.uploaderACD.queue, 'acd');
                 this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
                 this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
                 this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
             }
-            else
-                this._entity.attachProperties = this.oldAttachPro;
-            this._entity = this.addEditForm.value;
-
-
-            this.convert();
-            this.driverViewModelChange.emit(this._entity);
-            this.closeModalEvent.emit();
         }
+        else
+            this._entity.attachProperties = this.oldAttachPro;
+        this._entity = this.addEditForm.value;
 
+        this.convert();
+        this.driverViewModelChange.emit(this._entity);
+        this.closeModalEvent.emit();
     }
 
     uploadFileToServer(data: Array<any>, type: string) {

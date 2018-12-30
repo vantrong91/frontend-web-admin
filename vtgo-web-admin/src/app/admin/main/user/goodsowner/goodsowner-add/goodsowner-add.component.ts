@@ -1,8 +1,7 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
-import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
-import { DataService, IAccountServiceToken, AccountService, AccountViewModel } from 'src/app/core';
+import { OwnerViewModel,DataService, IAccountServiceToken, AccountService, AccountViewModel } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 @Component({
   selector: 'app-goodsowner-add',

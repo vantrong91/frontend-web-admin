@@ -1,11 +1,12 @@
-import { DriverViewModel } from './driver-model/driver.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-import { DataService } from '../../../../core/services/data.service';
-import { AuthenService } from '../../../../core/services/authen.service';
-import { enterView } from '@angular/core/src/render3/instructions';
 import { ToastrService } from 'ngx-toastr';
-import { ICategoryServiceToken, ICategoryService, SearchModel, IAddressServiceToken, IAddressService } from 'src/app/core';
+import {
+    DriverViewModel, SearchModel,
+    DataService, AuthenService,
+    ICategoryServiceToken, ICategoryService,
+    IAddressServiceToken, IAddressService
+} from 'src/app/core';
 
 
 @Component({
@@ -99,7 +100,7 @@ export class DriverComponent implements OnInit {
     searchByPressEnter(event) {
 
         if (event.keyCode == 13)
-          this.search(event.target.value);
+            this.search(event.target.value);
     }
     getUrlImg(folder: string) {
         this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';

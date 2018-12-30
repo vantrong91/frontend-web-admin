@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchModel, DataService, AuthenService } from 'src/app/core';
+import { BankAdminModel } from 'src/app/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { DataService, AuthenService, SearchModel } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
-import { FeeViewModel } from 'src/app/core/models/fee.model';
 
 @Component({
-  selector: 'app-feebanks',
-  templateUrl: './feebanks.component.html',
-  styleUrls: ['./feebanks.component.scss']
+  selector: 'app-bank-admin',
+  templateUrl: './bank-admin.component.html',
+  styleUrls: ['./bank-admin.component.scss']
 })
-export class FeebanksComponent implements OnInit {
+export class BankAdminComponent implements OnInit {
+
+
 
   rows: any;
   searchParam: SearchModel;
   isAdd = false;
-  _entityFee: FeeViewModel;
+  _entity: BankAdminModel;
 
   constructor(
     private modalServices: NgbModal,
@@ -35,7 +37,7 @@ export class FeebanksComponent implements OnInit {
 
 
   search(search) {
-    this.dataService.Post('trans-fee/search', search).subscribe(
+    this.dataService.Post('bank/search-bank-ad', search).subscribe(
       response => {
         if (response.status === 200) {
           this.rows = response.data;
@@ -49,8 +51,12 @@ export class FeebanksComponent implements OnInit {
       this.search(this.searchParam);
   }
 
+  getBankAd(event) {
+    console.log(event);
+    this._entity = event;
+  }
   onAddFeeBank(event) {
-    this.dataService.Post('trans-fee/create', event).subscribe(
+    this.dataService.Post('bank/create-bank-ad', event).subscribe(
       response => {
         if (response.status === 0) {
           this.toastr.success('Đã thêm thành công ngân hàng!');
@@ -64,7 +70,7 @@ export class FeebanksComponent implements OnInit {
   }
 
   onEditFeeBank(event) {
-    this.dataService.Post('trans-fee/update', event).subscribe(
+    this.dataService.Post('bank/update-bank-ad', event).subscribe(
       response => {
         if (response.message === "Successful") {
           this.loadData();
@@ -79,7 +85,7 @@ export class FeebanksComponent implements OnInit {
   }
 
   open(ele) {
-    this._entityFee = new FeeViewModel();
+    this._entity = new BankAdminModel();
     this.modalServices
       .open(ele, { size: 'lg' })
       .result.then(
@@ -89,30 +95,15 @@ export class FeebanksComponent implements OnInit {
       );
   }
 
-  getDriver(event) {
-    this._entityFee = event;
-  }
-
-
-  private getDismissReason(reason: any) {
-    switch (reason) {
-      case ModalDismissReasons.ESC:
-        return 'by pressing ESC';
-      case ModalDismissReasons.BACKDROP_CLICK:
-        return 'by clicking on a backdrop';
-      default:
-        return `with ${reason}`;
-    }
-  }
 
   openSm(del, id) {
     this.modalServices.open(del, { size: 'sm' })
       .result.then(
         result => {
-          this.dataService.Post('trans-fee/delete', { transferId: id }).subscribe(
+          this.dataService.Post('bank/delete-bank-ad', { bankCode: id }).subscribe(
             result => {
               if (result.status === 0) {
-                this.toastr.warning('Đã xóa ngân hàng có mã ngân hàng là:' + id);
+                this.toastr.warning('Đã xóa ngân hàng mã ' + id);
                 this.loadData();
               } else {
                 this.toastr.error('Đã xảy ra lỗi!', 'Cảnh báo');
@@ -122,6 +113,5 @@ export class FeebanksComponent implements OnInit {
         },
         reason => { });
   }
-
 
 }

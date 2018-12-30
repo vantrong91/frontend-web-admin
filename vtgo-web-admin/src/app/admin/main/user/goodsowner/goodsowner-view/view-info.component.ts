@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { OwnerViewModel } from '../model/owner.model';
-import { DataService } from 'src/app/core';
+import {OwnerViewModel, DataService } from 'src/app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

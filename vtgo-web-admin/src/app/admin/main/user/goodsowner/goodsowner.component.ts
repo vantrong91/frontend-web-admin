@@ -1,12 +1,10 @@
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-
-import { OwnerSearch } from './model/owner.search';
 import { DataService } from '../../../../core/services/data.service';
 import { AuthenService } from '../../../../core/services/authen.service';
 import { enterView } from '@angular/core/src/render3/instructions';
-import { OwnerViewModel } from './model/owner.model';
 import { ToastrService } from 'ngx-toastr';
+import { OwnerViewModel, SearchModel } from 'src/app/core';
 
 @Component({
     selector: 'app-goodsowner',
@@ -19,7 +17,7 @@ export class GoodsOwnerComponent implements OnInit {
     expanded: any = {};
     rows: any = '';
     closeResult: string;
-    searchParam: OwnerSearch;
+    searchParam: SearchModel;
     _entityOwner: OwnerViewModel;
     constructor(private modalServices: NgbModal,
         private dataService: DataService,
@@ -31,7 +29,7 @@ export class GoodsOwnerComponent implements OnInit {
         this.loadData();
     }
     loadData() {
-        this.searchParam = new OwnerSearch();
+        this.searchParam = new SearchModel();
         this.searchParam.searchParam = '';
         this.search(this.searchParam);
     }

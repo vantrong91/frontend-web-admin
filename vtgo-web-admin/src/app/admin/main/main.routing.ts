@@ -35,7 +35,7 @@ const routes: Routes = [
       { path: 'policy', loadChildren: './configuration/configpolicy/configpolicy.module#ConfigPolicyModule' },
       { path: 'category', loadChildren: './configuration/category/category.module#CategoryModule' },
       { path: 'feebanks', loadChildren: './configuration/feebanks/feebanks.module#FeeBanksModule' },
-     
+      { path: 'bankadmin', loadChildren: './configuration/bank-admin/bank-admin.module#BankAdminModule' },
       // Cài đặt tài khoản
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule' },
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule' },
