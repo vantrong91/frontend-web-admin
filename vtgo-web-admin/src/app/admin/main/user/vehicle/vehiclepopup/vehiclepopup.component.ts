@@ -222,7 +222,6 @@ export class VehiclepopupComponent implements OnInit {
       frmImg.append('files', data[i]._file);
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
-          console.log(response);
         }
       )
     }

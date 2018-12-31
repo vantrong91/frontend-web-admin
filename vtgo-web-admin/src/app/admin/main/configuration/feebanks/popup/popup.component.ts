@@ -47,7 +47,6 @@ export class PopupComponent implements OnInit {
 
   Save(event) {
     this._entity = this.addEditForm.value;
-    console.log(this._entity);
     this.feeViewModelChange.emit(this._entity);
     this.closeForm.emit();
   }

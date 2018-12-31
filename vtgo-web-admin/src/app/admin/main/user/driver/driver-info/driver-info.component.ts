@@ -71,7 +71,6 @@ export class DriverInfoComponent implements OnInit {
             }
             this._entity = new DriverViewModel();
             this._entity = driver;
-            console.log(this._entity);
             this.addEditForm.reset(this._entity);
             this.oldAttachPro = this._entity.attachProperties;
         } else {
@@ -326,8 +325,7 @@ export class DriverInfoComponent implements OnInit {
                     this.phoneValid = true;
                     this.toastrService.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
                 }
-            },
-            error => console.log(error)
+            }
         );
     }
 
@@ -370,7 +368,6 @@ export class DriverInfoComponent implements OnInit {
             frmImg.append('files', data[i]._file);
         this.dataService.postFile('upload/' + type, frmImg).subscribe(
             response => {
-                console.log(response);
                 // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
                 //     closeButton: true,
                 //     tapToDismiss: true,

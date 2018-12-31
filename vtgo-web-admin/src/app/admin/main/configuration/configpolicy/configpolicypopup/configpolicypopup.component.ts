@@ -14,7 +14,6 @@ export class ConfigpolicypopupComponent implements OnInit {
 
   @Input() set configPolicyViewModel(policy: PolicyViewModel) {
     if (policy.policyId !== 0) {
-      console.log(policy);
       this._entity = new PolicyViewModel();
       this._entity = policy;
       this.addEditForm.reset(this._entity);

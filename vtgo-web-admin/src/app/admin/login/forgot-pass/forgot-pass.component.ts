@@ -80,7 +80,6 @@ export class ForgotPassComponent implements OnInit {
       this.EmailModel.email = this.email;
       this.dataService.Post('email/send', this.EmailModel).subscribe(
         response => {
-          console.log(response);
           if (response.status === 0) {
             this.toastr.info("Email đã được gửi");
             this.spinner.hide();
@@ -103,7 +102,6 @@ export class ForgotPassComponent implements OnInit {
   }
 
   resetPassword() {
-    console.log(this.accountByEmail);
     this.saltModel = new SendSaltModel;
     this.saltModel.salt = this.accountByEmail[0].salt; 
     if (this.accountByEmail[0].salt == this.code) {

@@ -63,8 +63,6 @@ export class ConfigVehiclefinesComponent implements OnInit {
     )
   }
   onSumit(pk){
-    console.log(pk);
-    
     this.submitted = !this.submitted;
   }
 
@@ -86,11 +84,9 @@ export class ConfigVehiclefinesComponent implements OnInit {
 
   onEditCategory(event) {
     this._entity = event;
-    console.log(event);
     this.categoryService.Put(this._entity).subscribe(
       (response: any) => {
         if (response.status === 0) {
-          console.log(response);
           this.initData();
           this.isShow = true;
           setTimeout(() => {

@@ -86,8 +86,7 @@ export class GoodsownerAddComponent implements OnInit {
           this.phoneValid = true;
           this.toastr.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
         }
-      },
-      error => console.log(error)
+      }
     );
   }
 

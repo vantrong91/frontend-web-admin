@@ -22,7 +22,6 @@ export class ViewInfoComponent implements OnInit {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
-      // console.log(owner);
       // if (owner.dateOfBirth == null)
       //   owner.dateOfBirth = 0;
       this.keyArr = Object.values(this._entity.attachProperties);

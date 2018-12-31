@@ -15,7 +15,6 @@ export class CategorypopupComponent implements OnInit {
     if (category !== null) {
       this._entity = new CategoryViewModel;
       this._entity = category;
-      console.log(this._entity);
       this.addEditForm.reset(category);
     }else{
       this._entity = new CategoryViewModel();

@@ -188,8 +188,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
                 });
           }
         }
-      },
-      error => console.log(error)
+      }
     );
   }
 
@@ -208,8 +207,6 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
         }
       },
       error => {
-        console.log(error);
-
         this.toastr.clear();
         this.toastr.error("Lỗi máy chủ. Xin vui lòng thử lại", "Thông báo...");
       }

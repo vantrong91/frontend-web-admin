@@ -52,7 +52,6 @@ export class BankAdminComponent implements OnInit {
   }
 
   getBankAd(event) {
-    console.log(event);
     this._entity = event;
   }
   onAddFeeBank(event) {

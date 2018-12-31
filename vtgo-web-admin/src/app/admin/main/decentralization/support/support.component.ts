@@ -36,7 +36,6 @@ export class SupportComponent implements OnInit {
     this.searchParam = new SearchModel();
     this.searchParam.searchParam2 = AccountTypeConstant.SUPPORT;
     this.search(this.searchParam);
-    console.log(this.searchParam);
 
   }
 

@@ -28,7 +28,6 @@ export class TechnicalpopupComponent implements OnInit {
       this._entity = new AccountViewModel();
       this._entity = accountData;
       this.keyArr = this._entity.fileAvata;
-      console.log(this._entity);
       
       this.addEditForm.reset(accountData);
     } else {

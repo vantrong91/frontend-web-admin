@@ -13,7 +13,9 @@ import {
   IQuotationServiceToken,
   IHelperService,
   IHelperServiceToken,
-  DataService
+  DataService,
+  AdminConstant,
+  BalanceModel
 } from '../../../../core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { OrderCompleteModel } from 'src/app/core/models/ordercomplete.mode';
@@ -56,7 +58,9 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   //balanceHis
   balanceHis: BalanceHisModel;
   ip: any;
-
+  //balance Info
+  balanceAdmin: BalanceModel;
+  balanceGoodOwner: BalanceModel;
 
   @ViewChild('orderTable') _orderTable: DatatableComponent;
 
@@ -115,11 +119,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   }
   getDataFromInputMessage(mess) {
     this.inputMessOrderId = mess.slice(mess.indexOf('đơn hàng') + 'đơn hàng'.length, mess.length).trim();
-
-    // this.inputMessBankNumber = mess.slice(mess.indexOf('tài khoản') + 'tài khoản'.length, mess.indexOf(',', mess.indexOf(',', mess.indexOf('tài khoản')))).trim();
-    //   this.inputMessBankCode = mess.slice(mess.indexOf('ngân hàng') + 'ngân hàng'.length, mess.indexOf(',', mess.indexOf(',', mess.indexOf('ngân hàng')))).trim();
-    // this.inputMessOrderId = mess.slice(mess.indexOf('đơn hàng') + 'đơn hàng'.length, mess.indexOf('&', mess.indexOf('&', mess.indexOf('đơn hàng')))).trim();
-    //   this.inputMessUserCode = mess.slice(mess.indexOf('khách hàng') + 'khách hàng'.length, mess.length).trim();
   }
 
   openSm(del, row) {
@@ -129,7 +128,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.messageValid = false;
     this.orderId = row.orderId;
     this.getGoodOwner(row.accountId);
-    console.log(row);
+    // console.log(row);
 
     if (row.bankCode == null || row.bankCode == '')
       this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
@@ -139,8 +138,8 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
       `{  "orderId":"` + this.orderId + `",
         "bankCode":"`+ row.bankCode + `"}`).subscribe(response => {
-        console.log(this.inputMessOrderId);
-        console.log(response);
+        // console.log(this.inputMessOrderId);
+        // console.log(response);
         if (response.data != null)
           if (response.data.length != 0)
             this.authMessage = response.data[0].transferContent;
@@ -157,6 +156,33 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
 
     this.getPriceFromQuotation(this.orderId, del, row.orderId);
 
+  }
+  getBalanceInfo() {
+    this.dataService.Post('balance/get-by-id', { accountId: 1 }).subscribe(
+      response => {
+        if (response.data != null) {
+          this.balanceAdmin = response.data[0];
+          console.log(this.balanceAdmin.balance[1].AcctNumber);
+        } else {
+          this.toastr.error("Không tìm thấy AttcNumber")
+        }
+      },
+      error => {
+        this.toastr.error("Lỗi máy chủ");
+      }
+    );
+    this.dataService.Post('balance/get-by-id', { accountId: this.accountIdGoodOwner }).subscribe(
+      response => {
+        if (response.data != null) {
+          this.balanceGoodOwner = response.data[0];
+        } else {
+          this.toastr.error("Không tìm thấy AttcNumber")
+        }
+      },
+      error => {
+        this.toastr.error("Lỗi máy chủ");
+      }
+    );
   }
 
   getPriceFromQuotation(orderId: string, del: any, id: any) {
@@ -224,7 +250,8 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
 
           if (response.data.length != 0 && response.data[0].balance[1].Gross != null && response.data[0].balance[1].Consume) {
             this.accountIdGoodOwner = goodOwnerId;
-            this.currentBalanceGoodOwner = response.data[0].balance[1].Gross - response.data[0].balance[1].Consume
+            this.currentBalanceGoodOwner = response.data[0].balance[1].Gross - response.data[0].balance[1].Consume;
+            this.getBalanceInfo();
           }
           else
             this.currentBalanceGoodOwner = 0;
@@ -265,7 +292,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   }
 
   getContentPushFromAuthMess(authMess: string) {
-    let mess = authMess.split("_"); // format authmess = ĐH18.12.002.312_US0981234567;
+    let mess = authMess.split("_"); // format authMess = ĐH18.12.002.312_US0981234567;
     if (mess != null) {
       if (mess.length > 1)
         return "Thanh toán đơn hàng: " + mess[0] + ". Mã người dùng: " + mess[1];
@@ -291,7 +318,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
             this.currentBalanceGoodOwner,
             this.currentBalanceGoodOwner - money,
             this.ip.ip);
-          //admin: accountID = 1
+          //Thêm lịch sử admin: accountID = 1
           this.addBalanceHis(1, +money, 'Thanh toán đơn hàng ' + this.orderComplete.orderId, 0, 0, this.ip.ip)
           this.spinner.hide();
           this.toastr.success("Xác nhận thanh toán thành công!", "Thông báo", {
@@ -329,6 +356,8 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.balanceHis.balanceAfter = after;
     this.balanceHis.balanceBefor = before;
     this.balanceHis.time = temp.getTime();
+    this.balanceHis.fromAcctNumber = this.balanceGoodOwner.balance[1].AcctNumber;
+    this.balanceHis.toAcctNumber = this.balanceAdmin.balance[1].AcctNumber;
 
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {

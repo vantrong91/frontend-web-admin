@@ -76,7 +76,6 @@ export class DriverComponent implements OnInit {
         this.table.rowDetail.toggleExpandRow(row);
     }
     onDetailToggle(event) {
-        // console.log('Detail Toggled', event);
     }
 
     ngOnInit() {

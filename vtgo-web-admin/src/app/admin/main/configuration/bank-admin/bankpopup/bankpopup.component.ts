@@ -15,7 +15,6 @@ export class BankPopupComponent implements OnInit {
     if (bankAd !== null) {
       this._entity = new BankAdminModel;
       this._entity = bankAd;
-      console.log(this._entity);
       this.addEditForm.reset(bankAd);
     } else {
       this._entity = new BankAdminModel();
@@ -43,7 +42,6 @@ export class BankPopupComponent implements OnInit {
   onSave(event) {
     event.preventDefault();
     this._entity = this.addEditForm.value;
-    console.log(this._entity);
 
     this.bankAdminModelChange.emit(this._entity);
     this.closeModalEvent.emit();
