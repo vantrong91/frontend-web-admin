@@ -1,8 +1,7 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
-import { OwnerViewModel } from './../model/owner.model';
 import { ToastrService } from 'ngx-toastr';
-import { DataService } from 'src/app/core';
+import { DataService,OwnerViewModel } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

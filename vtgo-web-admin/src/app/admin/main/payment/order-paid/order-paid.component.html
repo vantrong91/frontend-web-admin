@@ -95,9 +95,8 @@
           </span>
         </ng-template>
         <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
-          <!-- <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row.orderId,row.accountId)" -->
           <button *ngIf="row.state==6" class="btn btn-success button-custom-admin ml-2" (click)="openSm(confirm,row)"
-            placement="bottom" ngbTooltip="Xác nhận thanh toán">
+            ngbTooltip="Xác nhận thanh toán">
             <i class="fa fa-money" aria-hidden="true"></i>
           </button>
           <button *ngIf="row.state!=6" class="btn btn-secondary button-custom-admin ml-2" placement="bottom" ngbTooltip="Không thể thanh toán">
@@ -132,7 +131,8 @@
     <br>inputMessUserCode _ {{inputMessUserCode}}
     <hr> -->
     <p>Nội dung thanh toán:</p>
-    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message" placeholder="Nhập nội dung thanh toán" (keyup)="checkInputMessage($event)"></textarea>
+    <textarea class="form-control" aria-label="With textarea" [(ngModel)]="message" placeholder="Nhập nội dung thanh toán"
+      (keyup)="checkInputMessage($event)"></textarea>
     <div class="input-group mb-3">
       <div class="input-group-append">
         <span class="input-group-text" id="basic-addon2">Số tiền thanh toán (VNĐ):</span>
@@ -148,8 +148,7 @@
     <small class="text-danger">{{!messageValid?'Nội dung thanh toán không đúng.':''}}</small>
     <button type="button" *ngIf="(paidValid && messageValid)" class="btn btn-success" (click)="c('Ok click')">Thanh
       toán</button>
-    <button type="button" *ngIf="!(paidValid && messageValid)" class="btn btn-secondary">Thanh
-      toán</button>
+    <button type="button" *ngIf="!(paidValid && messageValid)" class="btn btn-secondary">Thanh toán</button>
     <button type="button" class="btn btn-secondary" (click)="d('cancel click')">Hủy bỏ</button>
   </div>
 </ng-template>

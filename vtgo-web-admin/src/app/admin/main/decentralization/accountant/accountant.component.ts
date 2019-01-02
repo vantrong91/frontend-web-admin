@@ -36,7 +36,6 @@ export class AccountantComponent implements OnInit {
     this.searchParam = new SearchModel();
     this.searchParam.searchParam2 = AccountTypeConstant.ACCOUNTANT;
     this.search(this.searchParam);
-    console.log(this.searchParam);
 
   }
 

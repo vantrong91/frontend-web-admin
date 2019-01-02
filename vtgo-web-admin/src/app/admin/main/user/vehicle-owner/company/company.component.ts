@@ -159,23 +159,24 @@ export class CompanyComponent implements OnInit {
 
 
   onSave(event) {
-    if (this.uploaderDAUCT.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Dấu công ty");
-    }
-    if (this.uploaderDKKD.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Đăng ký kinh doanh");
-    }
-    if (this.uploaderGPKDVT.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
-    }
-    if (this.uploaderGPDHVT.queue.length == 0) {
-      this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
-    }
-    if (this.uploaderDAUCT.queue.length > 0 && this.uploaderDKKD.queue.length > 0
-      && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
-      this._entity = this.addEditForm.value;
-      this.convert();
-      if (this.isAdd) {
+    if (this.isAdd) {
+      if (this.uploaderDAUCT.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Dấu công ty");
+      }
+      if (this.uploaderDKKD.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Đăng ký kinh doanh");
+      }
+      if (this.uploaderGPKDVT.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Giấy giấy đăng ký vận tải");
+      }
+      if (this.uploaderGPDHVT.queue.length == 0) {
+        this.toastrService.error("Chưa chọn ảnh Giấy điều hành vận tải");
+      }
+      if (this.uploaderDAUCT.queue.length > 0 && this.uploaderDKKD.queue.length > 0
+        && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
+        this._entity = this.addEditForm.value;
+        this.convert();
+
         console.log('add new img');
         this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
         this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');

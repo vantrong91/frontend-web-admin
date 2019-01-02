@@ -36,7 +36,6 @@ export class CategoryComponent implements OnInit {
       (response: any) => {
         if (response.status === 0) {
           this.lstCategory = response.data;
-          console.log(response.data);
         }
       }
     )
@@ -46,7 +45,6 @@ export class CategoryComponent implements OnInit {
     this._entity = new CategoryViewModel();
     this.categoryService.GetById(pk).subscribe(
       (response: any) => {
-        console.log(response);
         if (response.status === 0) {
           this._entity = response.data[0];
         }

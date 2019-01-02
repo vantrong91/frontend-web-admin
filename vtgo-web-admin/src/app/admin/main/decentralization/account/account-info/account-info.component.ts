@@ -108,7 +108,6 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   }
 
   groupImg() {
-    // console.log(this.addEditForm.controls.fileAvata);
     this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.setValue(e.file.name));
   }
 
@@ -125,7 +124,6 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       frmImg.append('files', data[i]._file);
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
-          console.log(response);
         }
       )
     }
@@ -176,7 +174,9 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
           this.toast.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
         }
       },
-      error => console.log(error)
+      error => {
+        // console.log(error);
+      }
     );
   }
   search(search, type) {

@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col-md-4 my-auto">
+    <input type="text" name="searchParam" [(ngModel)]="searchParam.searchParam" class="form-control input-search-admin"
+      placeholder="Nhập Mã ngân hàng / Tên ngân hàng" (keyup)="searchByPressEnter($event)">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-success w-100" placement="bottom" ngbTooltip="Tìm kiếm" (click)="search(searchParam)"><i
+        class="fa fa-search" aria-hidden="true"></i></button>
+  </div>
+  <div class="col-md-1 offset-md-6">
+    <button type="button" class="btn btn-success w-100" (click)="isAdd = true;open(content);" placement="bottom"
+      ngbTooltip="Thêm Ngân hàng mới"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<!-- ======================================= tblBanksFee ========================================== -->
+
+<div class="row mt-2" [ngClass]="'d-block'">
+  <div class="col">
+    <div class="view-title">Danh sách ngân hàng</div>
+    <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]='rows' [sorts]="[{prop: 'fee', dir: 'desc'}]" [limit]="50">
+      <!-- Column Templates -->
+      <ngx-datatable-column name="Index" [width]="20">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>STT</strong>
+          </span>
+        </ng-template>
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <span>{{rowIndex+1}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="bankCode" [width]="50">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Mã ngân hàng</strong>
+          </span>
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span>{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="bankName" [width]="150">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Tên ngân hàng</strong>
+          </span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="bankNumber" [width]="70" [minWidth]="70">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Số tài khoản</strong>
+          </span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fullName" [width]="60">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Họ tên</strong>
+          </span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="bankBranch" [width]="60">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Chi nhánh</strong>
+          </span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="action" [width]="130" [maxWidth]="130">
+        <ng-template let-column="colmun" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template class="text-center" let-value="value" let-row="row">
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="isAdd=false;open(content); getBankAd(row);">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row.bankCode)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+<!-- ======================================= Modal ========================================== -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class=" modal-header">
+    <h3 class="modal-title" id="modal-basic-title">{{isAdd?'Thêm ngân hàng mới':'Chỉnh sửa thông tin ngân hàng'}}</h3>
+    <button class="close" aria-label="Close" (click)="d( 'Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-bankpopup [bankViewModel]="_entity" (closeModalEvent)="c('')" (bankAdminModelChange)="isAdd?onAddFeeBank($event):onEditFeeBank($event);"
+      (closeForm)="c('close from Save')"></app-bankpopup>
+  </div>
+</ng-template>
+
+
+<ng-template #del let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Thông báo</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Xác nhận xóa...?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="d( 'No-delete')">Không</button>
+    <button class="btn btn-danger" (click)="c( 'Yes-Delete')">Có</button>
+  </div>
+</ng-template>

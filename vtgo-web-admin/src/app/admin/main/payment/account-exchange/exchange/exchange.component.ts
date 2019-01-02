@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BalanceModel, SearchModel, DataService, AccountViewModel } from 'src/app/core';
+import { BalanceModel, SearchModel, DataService, AccountViewModel, AdminConstant } from 'src/app/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AccountManViewModel } from 'src/app/core/models/accountMan.model';
 import { BalanceHisModel } from 'src/app/core/models/balanceHis.model';
@@ -41,6 +41,10 @@ export class ExchangeComponent implements OnInit {
 
   hisContent = '';
   widrawalContent = '';
+
+  //balance Info
+  balanceAdmin: BalanceModel;
+  balanceUser: BalanceModel;
 
   public reconfirmForm: FormGroup;
   temp: any;
@@ -121,8 +125,38 @@ export class ExchangeComponent implements OnInit {
             this.closeForm.emit();
           } else {
             this.ArrBalance = Object.values(this._entityBalance[0].balance);
+            this.getBalanceInfo();
           }
         }
+      }
+    );
+  }
+
+  getBalanceInfo() {
+    //get balance admin
+    this.dataService.Post('balance/get-by-id', { accountId: 1 }).subscribe(
+      response => {
+        if (response.data != null) {
+          this.balanceAdmin = response.data[0];
+        } else {
+          this.toastr.error("Không tìm thấy AttcNumber")
+        }
+      },
+      error => {
+        this.toastr.error("Lỗi máy chủ");
+      }
+    );
+    //get balance người nộp hoặc trừ tiền
+    this.dataService.Post('balance/get-by-id', { accountId: this.balanceHisId.accountId }).subscribe(
+      response => {
+        if (response.data != null) {
+          this.balanceUser = response.data[0];
+        } else {
+          this.toastr.error("Không tìm thấy AttcNumber")
+        }
+      },
+      error => {
+        this.toastr.error("Lỗi máy chủ");
       }
     );
   }
@@ -216,6 +250,7 @@ export class ExchangeComponent implements OnInit {
     this.isShow = true;
   }
 
+  //Thêm lịch sử trừ tiền người dùng
   addBalanceHis() {
     const temp = new Date();
     this.balanceHis = new BalanceHisModel;
@@ -227,7 +262,34 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.balanceAfter = (this.balanceHis.balanceBefor - this.reconfirmForm.value.transferAmount - parseInt(this.fee));
     this.balanceHis.time = temp.getTime();
-    console.log(this.balanceHis);
+    this.balanceHis.fromAcctNumber = this.balanceUser.balance[1].AcctNumber;
+    this.balanceHis.toAcctNumber = this.balanceAdmin.balance[1].AcctNumber;
+
+    this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
+      response => {
+        if (response.status === 0) {
+          this.addBalanceHisAdmin()
+          // this.toastr.success('Đã thêm lịch sử thành công', 'Thông báo');
+        }
+        else {
+          this.toastr.error('Lịch sử rút xảy ra lỗi!', 'Cảnh báo');
+        }
+      }
+    );
+  }
+  addBalanceHisAdmin() {
+    const temp = new Date();
+    this.balanceHis = new BalanceHisModel;
+    this.balanceHis.accountId = AdminConstant.ACCOUNT_ID;
+    this.balanceHis.hisType = "UPDATE_BALANCE";
+    this.balanceHis.amount = -this.transaction.change;
+    this.balanceHis.hisContent = this.balanceHis.hisType + "|1|" + this.balanceHis.amount + "|" + this.widrawalContent;
+    this.balanceHis.iP = this.ip.ip;
+    this.balanceHis.balanceBefor = (this.balanceAdmin.balance[1].Gross - this.balanceAdmin.balance[1].Consume - this.balanceAdmin.balance[1].Reserve);
+    this.balanceHis.balanceAfter = (this.balanceHis.balanceBefor + this.reconfirmForm.value.transferAmount - parseInt(this.fee));
+    this.balanceHis.time = temp.getTime();
+    this.balanceHis.fromAcctNumber = this.balanceUser.balance[1].AcctNumber;
+    this.balanceHis.toAcctNumber = this.balanceAdmin.balance[1].AcctNumber;
 
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
@@ -241,6 +303,7 @@ export class ExchangeComponent implements OnInit {
     );
   }
 
+  //Thêm lịch sử nộp tiền người dùng
   addBalanceHisPayment() {
     const temp = new Date();
     this.balanceHis = new BalanceHisModel;
@@ -252,6 +315,34 @@ export class ExchangeComponent implements OnInit {
     this.balanceHis.balanceBefor = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve);
     this.balanceHis.balanceAfter = (this.ArrBalance[0].Gross - this.ArrBalance[0].Consume - this.ArrBalance[0].Reserve + this.transaction.change);
     this.balanceHis.time = temp.getTime();
+    this.balanceHis.fromAcctNumber = this.balanceAdmin.balance[1].AcctNumber;
+    this.balanceHis.toAcctNumber = this.balanceUser.balance[1].AcctNumber;
+    this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
+      response => {
+        if (response.status === 0) {
+          this.addBalanceHisPaymentAdmin();
+          // this.toastr.success('Đã thêm lịch sử thành công', 'Thông báo');
+        }
+        else {
+          this.toastr.error('Lịch sử nạp xảy ra lỗi!', 'Cảnh báo');
+        }
+      }
+    );
+  }
+//thêm lịch sử rút trừ tiền admin (k trừ tiền, chỉ thêm lịch sử)
+  addBalanceHisPaymentAdmin() {
+    const temp = new Date();
+    this.balanceHis = new BalanceHisModel;
+    this.balanceHis.accountId = AdminConstant.ACCOUNT_ID;
+    this.balanceHis.hisType = "UPDATE_BALANCE";
+    this.balanceHis.amount = -this.transaction.change;
+    this.balanceHis.hisContent = this.balanceHis.hisType + "|1|" + this.balanceHis.amount + "|" + this.hisContent;
+    this.balanceHis.iP = this.ip.ip;
+    this.balanceHis.balanceBefor = (this.balanceAdmin.balance[1].Gross - this.balanceAdmin.balance[1].Consume - this.balanceAdmin.balance[1].Reserve);
+    this.balanceHis.balanceAfter = (this.balanceHis.balanceBefor - this.transaction.change);
+    this.balanceHis.time = temp.getTime();
+    this.balanceHis.fromAcctNumber = this.balanceAdmin.balance[1].AcctNumber;
+    this.balanceHis.toAcctNumber = this.balanceUser.balance[1].AcctNumber;
     this.dataService.Post('balance-his/create', this.balanceHis).subscribe(
       response => {
         if (response.status === 0) {
@@ -263,7 +354,6 @@ export class ExchangeComponent implements OnInit {
       }
     );
   }
-
 
 
 

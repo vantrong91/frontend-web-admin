@@ -171,7 +171,6 @@ export class ChangePwComponent implements OnInit {
       this.captchaValid = true;
     else
       this.captchaValid = false;
-    console.log(this.captchaValid);
   }
   save() {
     this.changePassword();

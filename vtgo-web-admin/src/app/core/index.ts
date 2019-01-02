@@ -38,6 +38,9 @@ export * from './models/policy.model';
 export * from './models/transaction.model';
 export * from './models/balanceHis.model';
 export * from './models/address.model';
+export * from './models/driver.model';
+export * from './models/owner.model';
+export * from './models/bank-admin.model';
 // Export Service
 export * from './services/authen.service';
 export * from './services/config.service';
@@ -74,3 +77,4 @@ export * from './tokens/bank-list.service.token';
 // Export Constant
 export * from './constant/address.constant.modal';
 export * from './constant/account-type.constant.modal';
+export * from './constant/admin.constant.modal';

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { OwnerViewModel } from '../model/owner.model';
-import { DataService } from 'src/app/core';
+import {OwnerViewModel, DataService } from 'src/app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -23,7 +22,6 @@ export class ViewInfoComponent implements OnInit {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
       this._entity = owner;
-      // console.log(owner);
       // if (owner.dateOfBirth == null)
       //   owner.dateOfBirth = 0;
       this.keyArr = Object.values(this._entity.attachProperties);
