@@ -89,7 +89,6 @@ export class VehicleComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
-    console.log(row);
     if (row.licenceIssueBy > 0) {
       this.isToggle = true;
     } else {
@@ -164,15 +163,19 @@ export class VehicleComponent implements OnInit {
   onSubmitVehicle(event) {
     this._entityVehicle = event;
     this.vehicleService.Create(this._entityVehicle).subscribe((response: any) => {
-      if (response.status === 0) {
+      if (response.status === 0 || response.data.length) {
         this.initData();
         this.isShow = true;
         setTimeout(() => {
           this.isShow = false;
         }, 2000);
         this.txtNoti = 'Thêm thành công';
-      } else {
-        this.txtNoti = 'Có lỗi xảy ra, thêm thất bại';
+      } if(response.status === 403) {
+        this.isShow = true;
+        setTimeout(() => {
+          this.isShow = false;
+        }, 2000);
+        this.txtNoti = 'Xảy ra lỗi: ' + response.message;
       }
     })
   }
