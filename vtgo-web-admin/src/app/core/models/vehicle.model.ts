@@ -26,11 +26,13 @@ export class VehicleViewModel {
     itineraryMonitoring: string;
     itineraryMonitoringIssueDate: any;
     itineraryMonitoringExpDate: any;
+    ipMonitoring: string;
+    carBadges: string; //Phu hieu xe
+    carBaIssDate: any;
+    carBaExpDate: any;
     //attachProperties: Array<any>;
     attachProperties: any;
     state: string;
     driverId: number;
     driverName: string;
-    stt?: any;
-    i?: any;
 }

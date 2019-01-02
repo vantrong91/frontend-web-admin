@@ -49,8 +49,8 @@
               </div>
               <div class="row">
                 <div class="col-4">
-                  <label class="badge-light">Tên Lái xe</label>
-                  <div>{{row.driverName}}</div>
+                  <label class="badge-light">IP Giám sát hành trình</label>
+                  <div>{{row.ipMonitoring}}</div>
                 </div>
                 <div class="col-4">
                   <label class="badge-light">Biển số</label>
@@ -133,6 +133,20 @@
               </div>
               <div class="row">
                 <div class="col-4">
+                  <label class="badge-light">Phù hiệu xe</label>
+                  <div>{{row.carBadges}}</div>
+                </div>
+                <div class="col-4">
+                  <label class="badge-light">Ngày cấp</label>
+                  <div>{{row.carBaIssDate | date: 'dd/MM/yyyy'}}</div>
+                </div>
+                <div class="col-4">
+                  <label class="badge-light">Ngày hết hạn</label>
+                  <div>{{row.carBaExpDate | date: 'dd/MM/yyyy'}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
                   <i>Các giấy tờ liên quan của phương tiện:</i>
                 </div>
               </div>
@@ -180,7 +194,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Bảo hiểm dân sự xe">
+            <ngb-tab title="BH dân sự xe">
               <ng-template ngbTabContent>
                 <div class="container imgView">
                   <div class="row mt-3">
@@ -201,7 +215,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Bảo hiểm hàng hóa xe">
+            <ngb-tab title="BH hàng hóa xe">
               <ng-template ngbTabContent>
                 <div class="container imgView">
                   <div class="row mt-2">
@@ -222,7 +236,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab title="Xác nhận xe gắn t.bị GS">
+            <ngb-tab title="XN xe gắn t.bị GS">
               <ng-template ngbTabContent>
                 <div class="container imgView">
                   <div class="row mt-2">
@@ -234,6 +248,48 @@
                       <ng-container *ngFor="let el of row.attachProperties?.GXNTBGS">
                         <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('GXNTBGS'),el)">
                           <img [src]="getUrlImg('GXNTBGS') +el" alt="" />
+                          <br>
+                          <div class="text-center img-name">{{el}}</div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Phù hiệu xe">
+              <ng-template ngbTabContent>
+                <div class="container imgView">
+                  <div class="row mt-2">
+                    <div class="col-9">
+                      <p>• Ảnh chụp phù hiệu xe (ảnh chụp hai mặt giấy tờ): 
+                        {{(row.attachProperties?.APHXE===undefined||row.attachProperties?.APHXE.length==0)?'Không
+                        có ảnh':''}}
+                      </p>
+                      <ng-container *ngFor="let el of row.attachProperties?.APHXE">
+                        <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('APHXE'),el)">
+                          <img [src]="getUrlImg('APHXE') +el" alt="" />
+                          <br>
+                          <div class="text-center img-name">{{el}}</div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Ảnh chụp xe">
+              <ng-template ngbTabContent>
+                <div class="container imgView">
+                  <div class="row mt-2">
+                    <div class="col-9">
+                      <p>• Ảnh chụp xe (phía trước, phía sau và hông xe): 
+                        {{(row.attachProperties?.ACHXE===undefined||row.attachProperties?.ACHXE.length==0)?'Không
+                        có ảnh':''}}
+                      </p>
+                      <ng-container *ngFor="let el of row.attachProperties?.ACHXE">
+                        <div class="col-sm-4" (click)="openImg(imgView,getUrlImg('ACHXE'),el)">
+                          <img [src]="getUrlImg('ACHXE') +el" alt="" />
                           <br>
                           <div class="text-center img-name">{{el}}</div>
                         </div>

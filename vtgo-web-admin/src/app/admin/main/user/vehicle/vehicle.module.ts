@@ -13,7 +13,9 @@ import {
   IVehicleServiceToken,
   VehicleService,
   IAddressServiceToken,
-  AddressService
+  AddressService,
+  IVehicleOwnerServiceToken,
+  VehicleOwnerService
 } from '../../../../core';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -41,6 +43,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     useClass: VehicleService
   },{
     provide: IAddressServiceToken, 
-    useClass: AddressService}]
+    useClass: AddressService},
+  {provide: IVehicleOwnerServiceToken,
+  useClass: VehicleOwnerService}]
 })
 export class VehicleModule { }

@@ -4,11 +4,12 @@ import {
   VehicleViewModel, DataService,
   IVehicleServiceToken, IVehicleService,
   SearchModel, CategoryViewModel,
-  IAddressServiceToken, IAddressService
+  IAddressServiceToken, IAddressService, IVehicleOwnerServiceToken, IVehicleOwnerService
 } from '../../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -29,6 +30,12 @@ export class VehiclepopupComponent implements OnInit {
   lstCategory: any;
   lstAddress: any;
   lstVehicle: any;
+  typeOwner = '';
+  loaiXe = '';
+  taiTrong = '';
+  maXe = '';
+  tuyenXe = '';
+  bienSo = '';
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
@@ -41,6 +48,11 @@ export class VehiclepopupComponent implements OnInit {
   attachmentBHHHXE: any = [];
   uploaderGXNTBGS: FileUploader = new FileUploader({ url: 'GXNTBGS' });
   attachmentGXNTBGS: any = [];
+  uploaderAPHXE: FileUploader = new FileUploader({ url: 'APHXE' });
+  attachmentAPHXE: any = [];
+  uploaderACHXE: FileUploader = new FileUploader({ url: 'ACHXE' });
+  attachmentACHXE: any = [];
+
 
   public addEditForm: FormGroup;
 
@@ -61,6 +73,10 @@ export class VehiclepopupComponent implements OnInit {
           "DKYXE": [
           ],
           "DKIEMXE": [
+          ],
+          "ACHXE": [
+          ],
+          "APHXE": [
           ]
         };
       }
@@ -87,8 +103,10 @@ export class VehiclepopupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private dataService: DataService,
+    private toastrService: ToastrService,
     @Inject(IVehicleServiceToken) private vehicleService: IVehicleService,
-    @Inject(IAddressServiceToken) private addressService: IAddressService) {
+    @Inject(IAddressServiceToken) private addressService: IAddressService,
+    @Inject(IVehicleOwnerServiceToken) private ownerService: IVehicleOwnerService) {
     this.addEditForm = this.formBuilder.group({
       vehicleId: '',
       ownerId: '',
@@ -113,16 +131,22 @@ export class VehiclepopupComponent implements OnInit {
       itineraryMonitoring: '',
       itineraryMonitoringIssueDate: '',
       itineraryMonitoringExpDate: '',
+      carBadges: '',
+      carBaIssDate: '',
+      carBaExpDate: '',
       attachProperties: this.formBuilder.group({
         GXNTBGS: new FormArray([]),
         BHHHXE: new FormArray([]),
         BHDSXE: new FormArray([]),
         DKYXE: new FormArray([]),
-        DKIEMXE: new FormArray([])
+        DKIEMXE: new FormArray([]),
+        ACHXE: new FormArray([]),
+        APHXE: new FormArray([])
       }),
       state: '',
       driverId: '',
       driverName: '',
+      ipMonitoring: '',
     });
     this.uploaderDKYXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
     };
@@ -133,6 +157,10 @@ export class VehiclepopupComponent implements OnInit {
     this.uploaderBHHHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
     };
     this.uploaderGXNTBGS.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    };
+    this.uploaderACHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    };
+    this.uploaderAPHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
     };
   }
 
@@ -166,22 +194,30 @@ export class VehiclepopupComponent implements OnInit {
         break;
       case 'GXNTBGS':
         break;
+      case 'ACHXE':
+        break;
+      case 'APHXE':
+        break;
       default:
         console.log("Error selectFile");
     }
     this.groupImg();
   }
   groupImg(): any {
-    this, this.addEditForm.controls.attachProperties.value.DKYXE.length = 0;
-    this, this.addEditForm.controls.attachProperties.value.DKIEMXE.length = 0;
-    this, this.addEditForm.controls.attachProperties.value.BHHHXE.length = 0;
-    this, this.addEditForm.controls.attachProperties.value.BHDSXE.length = 0;
-    this, this.addEditForm.controls.attachProperties.value.GXNTBGS.length = 0;
+    this.addEditForm.controls.attachProperties.value.DKYXE.length = 0;
+    this.addEditForm.controls.attachProperties.value.DKIEMXE.length = 0;
+    this.addEditForm.controls.attachProperties.value.BHHHXE.length = 0;
+    this.addEditForm.controls.attachProperties.value.BHDSXE.length = 0;
+    this.addEditForm.controls.attachProperties.value.GXNTBGS.length = 0;
+    this.addEditForm.controls.attachProperties.value.ACHXE.length = 0;
+    this.addEditForm.controls.attachProperties.value.APHXE.length = 0;
     this.uploaderDKYXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.DKYXE.push(e.file.name));
     this.uploaderDKIEMXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.DKIEMXE.push(e.file.name));
-    this.uploaderBHDSXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHHHXE.push(e.file.name));
-    this.uploaderBHHHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHDSXE.push(e.file.name));
+    this.uploaderBHDSXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHDSXE.push(e.file.name));
+    this.uploaderBHHHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHHHXE.push(e.file.name));
     this.uploaderGXNTBGS.queue.forEach(e => this.addEditForm.controls.attachProperties.value.GXNTBGS.push(e.file.name));
+    this.uploaderACHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.ACHXE.push(e.file.name));
+    this.uploaderAPHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.APHXE.push(e.file.name));
   }
 
   onSave(event) {
@@ -190,7 +226,9 @@ export class VehiclepopupComponent implements OnInit {
       this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
       this.uploadFileToServer(this.uploaderBHHHXE.queue, 'bhhhxe');
       this.uploadFileToServer(this.uploaderBHDSXE.queue, 'bhdsxe');
-      this.uploadFileToServer(this.uploaderGXNTBGS.queue, 'gxntbgs')
+      this.uploadFileToServer(this.uploaderGXNTBGS.queue, 'gxntbgs');
+      this.uploadFileToServer(this.uploaderACHXE.queue, 'achxe');
+      this.uploadFileToServer(this.uploaderAPHXE.queue, 'aphxe');
     }
     this._entity = this.addEditForm.value;
     if (!this.isAdd) {
@@ -204,28 +242,138 @@ export class VehiclepopupComponent implements OnInit {
 
   }
 
-  ChangingValue(event) {
-    this.searchObject = new SearchModel();
-    this.searchObject.searchParam2 = event.target.value;
-    this.vehicleService.GetListVehicleType(this.searchObject).subscribe(
-      (response: any) => {
-        if (response.status === 0) {
-          this.lstCategory = response.data;
-        }
-      }
-    )
-  }
-
   uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
     for (let i = 0; i < data.length; i++) {
       frmImg.append('files', data[i]._file);
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
-          console.log(response);
         }
       )
     }
+  }
+
+  checkOwnerId(event, key) {
+    switch (key) {
+      case 'id':
+        this.ownerService.GetOwnerById(event.target.value).subscribe((response: any) => {
+          if (response.data != null && response.data.length > 0) {
+            if (response.data[0].vehicleOwnerType === 0) {
+              this.typeOwner = 'CT.';
+            } else {
+              this.typeOwner = 'CN.';
+            }
+            this.maXe = this.typeOwner + this.tuyenXe + this.loaiXe + this.taiTrong + this.bienSo;
+          }
+          else {
+            this.toastrService.error("ID của chủ xe không tồn tại.", "Thông báo", {
+              closeButton: true,
+              tapToDismiss: true,
+            });
+          }
+        })
+        break;
+      case 'plate':
+        this.bienSo = event.target.value;
+        this.maXe = this.typeOwner + this.tuyenXe + this.loaiXe + this.taiTrong + this.bienSo;
+        break;
+      case 'route':
+        if (event.target.value === '71') {
+          this.tuyenXe = '1.';
+        } else {
+          this.tuyenXe = '0.';
+        }
+        this.maXe = this.typeOwner + this.tuyenXe + this.loaiXe + this.taiTrong + this.bienSo;
+        break;
+      case 'type':
+        this.searchObject = new SearchModel();
+        this.searchObject.searchParam2 = event.target.value;
+        this.vehicleService.GetListVehicleType(this.searchObject).subscribe(
+          (response: any) => {
+            if (response.status === 0) {
+              this.lstCategory = response.data;
+            }
+          }
+        );
+        switch (event.target.value) {
+          case '10':
+            this.loaiXe = '1.';
+            break;
+          case '18':
+            this.loaiXe = '2.';
+            break;
+          case '26':
+            this.loaiXe = '3.';
+            break;
+          case '34':
+            this.loaiXe = '4.';
+            break;
+          case '42':
+            this.loaiXe = '5.';
+            break;
+          case '50':
+            this.loaiXe = '6.';
+            break;
+          case '51':
+            this.loaiXe = '7.';
+            break;
+          case '52':
+            this.loaiXe = '8.';
+            break;
+          case '53':
+            this.loaiXe = '9.';
+            break;
+          case '54':
+            this.loaiXe = '10.';
+            break;
+          case '62':
+            this.loaiXe = '11.';
+            break;
+          default:
+            this.loaiXe = '0';
+            break;
+        }
+        this.maXe = this.typeOwner + this.tuyenXe + this.loaiXe + this.taiTrong + this.bienSo;
+        break;
+      case 'weight':
+        var arr1 = ['11', '19', '27', '35', '55', '262', '43', '64', '241', '248', '255'];
+        var arr2 = ['12', '20', '28', '36', '56', '263', '44', '65', '242', '249', '256'];
+        var arr3 = ['13', '21', '29', '37', '57', '264', '45', '66', '243', '250', '257'];
+        var arr4 = ['14', '22', '30', '38', '58', '265', '46', '67', '244', '251', '258'];
+        var arr5 = ['15', '23', '31', '39', '59', '266', '47', '68', '245', '252', '259'];
+        var arr6 = ['16', '24', '32', '40', '60', '267', '48', '69', '246', '253', '260'];
+        var arr7 = ['17', '25', '33', '41', '61', '268', '49', '70', '247', '254', '261'];
+        if (arr1.includes(event.target.value)) {
+          this.taiTrong = '1.';
+        }
+        if (arr2.includes(event.target.value)) {
+          this.taiTrong = '2.';
+        }
+        if (arr3.includes(event.target.value)) {
+          this.taiTrong = '3.';
+        }
+        if (arr4.includes(event.target.value)) {
+          this.taiTrong = '4.'
+        }
+        if (arr5.includes(event.target.value)) {
+          this.taiTrong = '5.';
+        }
+        if (arr6.includes(event.target.value)) {
+          this.taiTrong = '6.';
+        }
+        if (arr7.includes(event.target.value)) {
+          this.taiTrong = '7.';
+        }
+        this.maXe = this.typeOwner + this.tuyenXe + this.loaiXe + this.taiTrong + this.bienSo;
+        break;
+
+      default:
+        console.log('a');
+        break;
+    }
+    this.addEditForm.patchValue({
+      vehicleCode: this.maXe,
+    });
   }
 
   convert() {
@@ -238,5 +386,7 @@ export class VehiclepopupComponent implements OnInit {
     this._entity.cargoInsuranceExpDate = new Date(this._entity.cargoInsuranceExpDate).getTime();
     this._entity.itineraryMonitoringIssueDate = new Date(this._entity.itineraryMonitoringIssueDate).getTime();
     this._entity.itineraryMonitoringExpDate = new Date(this._entity.itineraryMonitoringExpDate).getTime();
+    this._entity.carBaExpDate = new Date(this._entity.carBaExpDate).getTime();
+    this._entity.carBaIssDate = new Date(this._entity.carBaIssDate).getTime();
   }
 }

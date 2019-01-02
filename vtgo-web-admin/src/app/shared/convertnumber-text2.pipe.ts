@@ -76,40 +76,33 @@ export class ToStringPipe3 implements PipeTransform {
 })
 export class ToStringPipe4 implements PipeTransform {
     transform(value: any) {
-        if (value === 11 || value === 19 || value === 27 || value === 55 || value === 64) {
+        var arr1 = [11, 19, 27, 35, 55, 262, 43, 64, 241, 248, 255];
+        var arr2 = [12, 20, 28, 36, 56, 263, 44, 65, 242, 249, 256];
+        var arr3 = [13, 21, 29, 37, 57, 264, 45, 66, 243, 250, 257];
+        var arr4 = [14, 22, 30, 38, 58, 265, 46, 67, 244, 251, 258];
+        var arr5 = [15, 23, 31, 39, 59, 266, 47, 68, 245, 252, 259];
+        var arr6 = [16, 24, 32, 40, 60, 267, 48, 69, 246, 253, 260];
+        var arr7 = [17, 25, 33, 41, 61, 268, 49, 70, 247, 254, 261];
+        if(arr1.includes(value)){
             return 'Xe dưới 3,5 tấn';
         }
-        if (value === 12 || value === 20 || value === 28 || value === 56 || value === 65) {
+        if(arr2.includes(value)){
             return 'Xe từ 3,5 tấn đến 7 tấn';
         }
-        if (value === 13 || value === 21 || value === 29 || value === 57 || value === 66) {
+        if(arr3.includes(value)){
             return 'Xe từ 7 tấn đến 10 tấn';
         }
-        if (value === 14 || value === 22 || value === 30 || value === 58 || value === 67) {
+        if(arr4.includes(value)){
             return 'Xe từ 10 tấn đến 15 tấn';
         }
-        if (value === 15 || value === 23 || value === 31 || value === 39 || value === 59 || value === 68) {
+        if(arr5.includes(value)){
             return 'Xe từ 15 tấn đến 18 tấn';
         }
-        if (value === 16 || value === 24 || value === 32 || value === 40 || value === 60 || value === 69) {
+        if(arr6.includes(value)){
             return 'Xe từ 18 tấn đến 24 tấn';
         }
-        if (value === 17 || value === 25 || value === 33 || value === 41 || value === 61 || value === 70) {
-            return 'Xe trên 24 tấn';
-        }
-        if (value === 35) {
-            return 'Xe dưới 5 tấn';
-        }
-        if (value === 36) {
-            return 'Xe từ 5 tấn đến 8 tấn';
-        }
-        if (value === 37) {
-            return 'Xe từ 8 tấn đến 12 tấn'
-        }
-        if (value === 38) {
-            return 'Xe từ 12 tấn đến 15 tấn';
-        } else {
-            return 'Đang cập nhật';
+        if(arr7.includes(value)){
+            return 'Xe trên 24 tấn';;
         }
     }
 };
@@ -131,8 +124,8 @@ export class ToStringPipe4 implements PipeTransform {
 @Pipe({
     name: 'showTypeLicense'
 })
-export class TypeLicensePipe implements PipeTransform{
-    
+export class TypeLicensePipe implements PipeTransform {
+
     transform(value: any) {
         if (value === "8") {
             return 'FD';

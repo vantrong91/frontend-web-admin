@@ -1,5 +1,5 @@
 export class PersonalViewModel {
-
+ 
   constructor() {
     this.bankAccountLst = [];
     this.attachProperties = [];

@@ -89,6 +89,7 @@ export class VehicleComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
+    console.log(row);
     if (row.licenceIssueBy > 0) {
       this.isToggle = true;
     } else {
@@ -190,7 +191,7 @@ export class VehicleComponent implements OnInit {
           }, 2000);
           this.txtNoti = 'Sửa thành công';
         } else {
-          alert('ERROR');
+          this.txtNoti = 'Có lỗi xảy ra: ' + response.message;
         }
       }
     );
