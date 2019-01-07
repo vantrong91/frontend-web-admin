@@ -1,9 +1,8 @@
 {
   "BASE_API_1": "http://localhost:8086/vtgo-admin/v1/",
   "BASE_API": "http://103.90.220.148:8086/vtgo-admin/v1/",
-
   "BASE_URL_IMG": "http://api.vtgo.vn:5000/home/haivinh/IMAGE/",
-  "ORDER_PAID_MESSGAGE_TEMPLATE": "Tài khoản thụ hưởng Cty VTGO, tài khoản {bankNumber}, ngân hàng {bankCode}, Nội dung chuyển khoản Thanh toán đơn hàng {orderId} & Mã khách hàng {userCode}",
+  "URL_GET_TRANF_CONTENT_ODER_PAD": "http://103.90.220.148:8888/v1/wallet/info-message-tranfer",
   "PAGE_CONFIG": {
     "HeaderHeight": 50,
     "ColumnWith": 50,

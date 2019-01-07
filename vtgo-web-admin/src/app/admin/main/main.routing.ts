@@ -40,8 +40,7 @@ const routes: Routes = [
       { path: 'userinfo', loadChildren: './settings/user-info/user-info.module#UserInfoModule' },
       { path: 'changepw', loadChildren: './settings/change-pw/change-pw.module#ChangePwModule' },
 
-      //Quên mật khẩu
-      { path: 'mailbox', loadChildren: './mailbox/mailbox.module#MailboxModule' }
+     
     ]
   }
 ];

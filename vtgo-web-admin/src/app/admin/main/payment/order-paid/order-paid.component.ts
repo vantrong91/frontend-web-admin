@@ -65,6 +65,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
   @ViewChild('orderTable') _orderTable: DatatableComponent;
 
   constructor(
+    private configService: ConfigService,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private dataService: DataService,
@@ -133,7 +134,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
         disableTimeOut: true
       });
     //get Transf Content from Server to check before paid
-    this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
+    this.dataService.PostFromOtherURL(this.configService.getConfiguration().URL_GET_TRANF_CONTENT_ODER_PAD,
       `{  "orderId":"` + this.orderId + `",
         "bankCode":"`+ row.bankCode + `"}`).subscribe(response => {
         if (response.data != null)

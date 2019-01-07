@@ -100,8 +100,9 @@ export class AccountComponent implements OnInit {
     let accountChangeState = new AccountViewModel();
     accountChangeState.accountId = event.accountId;
     accountChangeState.state = event.state;
-
+    accountChangeState.email = event.email;
     console.log(accountChangeState);
+    this.toast.clear();
     this.accountService.ChangeState(accountChangeState).subscribe(
       response => {
         if (response.status === 0) {

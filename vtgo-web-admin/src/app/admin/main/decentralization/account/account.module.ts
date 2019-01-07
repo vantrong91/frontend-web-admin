@@ -10,6 +10,7 @@ import { SharedModule } from '../../../../shared';
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { IAccountServiceToken, AccountService } from '../../../../core';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
+
 @NgModule({
     imports: [
         CommonModule,

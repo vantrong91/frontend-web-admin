@@ -1,4 +1,4 @@
-export const AccountState = {
+export const AccountStateConstant = {
     CREATE: 0,
     ACTIVE: 1,
     BLOCK: 2,

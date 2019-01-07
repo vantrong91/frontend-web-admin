@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SystemConfig } from '../core';
+import { SystemConfig, AccountStateConstant } from '../core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,20 +17,20 @@ export class AdminComponent implements OnInit {
       let currentUser = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER)).data[0];
       if (currentUser != null) {
         switch (currentUser.state) {
-          case 1:
+          case AccountStateConstant.ACTIVE:
             this.router.navigate(['/admin/main']);
             break;
-          case 0:
+          case AccountStateConstant.CREATE:
             alert('Tài khoản chưa được xác nhận');
             localStorage.removeItem(SystemConfig.CURRENT_USER);
             this.router.navigate(['/admin/login']);
             break;
-          case 2:
+          case AccountStateConstant.BLOCK:
             alert('Tài khoản đã bị khóa');
             localStorage.removeItem(SystemConfig.CURRENT_USER);
             this.router.navigate(['/admin/login']);
             break;
-          case 3:
+          case AccountStateConstant.TERMINATE:
             alert('Tài khoản đã hết hạn');
             localStorage.removeItem(SystemConfig.CURRENT_USER);
             this.router.navigate(['/admin/login']);

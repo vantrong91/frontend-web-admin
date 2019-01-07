@@ -17,10 +17,10 @@
   </div>
   <div class="col-md-4 my-auto">
     <input type="text" [(ngModel)]="searhObject.searchParam" #searchData name="searchParam" class="form-control input-search-admin"
-      placeholder="Nhập SĐT, Tên hoặc Email" (keyup)="searchByPressEnter($event)">
+      placeholder="Nhập SĐT, Tên hoặc Email"  (keyup)="searchByPressEnter($event)">
   </div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-success w-100" (click)="searchByPressEnter(searhObject)" placement="bottom"
+    <button type="button" class="btn btn-success w-100" (click)="search(searhObject)" placement="bottom"
       ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
   <div class="col-md-1 offset-md-3">

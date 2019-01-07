@@ -105,6 +105,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
     if (!this.isAdd) {
       this.addEditForm.disable();
       this.addEditForm.get('accountId').enable();
+      this.addEditForm.get('email').enable();
       this.addEditForm.get('state').enable();
     }
   }

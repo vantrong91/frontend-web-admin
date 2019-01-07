@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LoginViewModel, IAuthenServiceToken, IAuthenService, SystemConfig } from 'src/app/core';
+import { LoginViewModel, IAuthenServiceToken, IAuthenService, SystemConfig, AccountTypeConstant, AccountStateConstant } from 'src/app/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       if (item !== null) {
         if (item.status === 0) {
           switch (item.data[0].state) {
-            case 1:
+            case AccountStateConstant.ACTIVE:
               if (this.isSaveAccount == true) {
                 this.cookie.deleteAll();
                 this.cookie.set("accountCode", this.user.accountCode);
@@ -47,15 +47,15 @@ export class LoginComponent implements OnInit {
               }
               this.router.navigate(['/admin/main']);
               break;
-            case 0:
+            case AccountStateConstant.CREATE:
               alert('Tài khoản chưa được xác nhận');
               localStorage.removeItem(SystemConfig.CURRENT_USER);
               break;
-            case 2:
+            case AccountStateConstant.BLOCK:
               alert('Tài khoản đã bị khóa');
               localStorage.removeItem(SystemConfig.CURRENT_USER);
               break;
-            case 3:
+            case AccountStateConstant.TERMINATE:
               alert('Tài khoản đã hết hạn');
               localStorage.removeItem(SystemConfig.CURRENT_USER);
               break;
