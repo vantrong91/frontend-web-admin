@@ -37,7 +37,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
         this.imgUrl = this.dataService.GetBaseUrlImg(folder) + '/';
         if (this.currentUser[0].fileAvata !== null) {
             return this.imgUrl + this.currentUser[0].fileAvata;
-            
+
         } else {
             return `http://placehold.it/50x50`;
         }
@@ -125,10 +125,10 @@ export class NavigationComponent implements AfterViewInit, OnInit {
             this.logoutService.Logout(this.currentUser[0].accountId).subscribe((response: any) => {
                 if (response) {
                     localStorage.removeItem(SystemConfig.CURRENT_USER);
+                    this.router.navigateByUrl('/admin/login');
                 }
             })
             //this.authService.Logout(item.data[0].accountId);
-            this.router.navigateByUrl('/admin/login');
         }, reason => (this.closeResult = `Dismissed ${this.getDismissReason(reason)}`));
 
     }

@@ -13,11 +13,34 @@ export class AdminComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.currentUser = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
-    if(this.currentUser !== null){
-      this.router.navigate([this.router.url]);
-    }else{
-
+    if (localStorage.getItem(SystemConfig.CURRENT_USER) != null) {
+      let currentUser = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER)).data[0];
+      if (currentUser != null) {
+        switch (currentUser.state) {
+          case 1:
+            this.router.navigate(['/admin/main']);
+            break;
+          case 0:
+            alert('Tài khoản chưa được xác nhận');
+            localStorage.removeItem(SystemConfig.CURRENT_USER);
+            this.router.navigate(['/admin/login']);
+            break;
+          case 2:
+            alert('Tài khoản đã bị khóa');
+            localStorage.removeItem(SystemConfig.CURRENT_USER);
+            this.router.navigate(['/admin/login']);
+            break;
+          case 3:
+            alert('Tài khoản đã hết hạn');
+            localStorage.removeItem(SystemConfig.CURRENT_USER);
+            this.router.navigate(['/admin/login']);
+            break;
+          default:
+            alert('Tài khoản không có quyền đăng nhập');
+            localStorage.removeItem(SystemConfig.CURRENT_USER);
+            this.router.navigate(['/admin/login']);
+        }
+      }
     }
   }
 

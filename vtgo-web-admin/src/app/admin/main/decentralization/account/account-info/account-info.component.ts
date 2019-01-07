@@ -1,11 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControlName, FormArray } from '@angular/forms';
-import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService, AccountTypeConstant } from 'src/app/core';
+import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService, AccountTypeConstant, AdminConstant } from 'src/app/core';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
-
 @Component({
   selector: 'app-account-info',
   templateUrl: './account-info.component.html',
@@ -26,12 +25,15 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   uploaderAVATA: FileUploader = new FileUploader({ url: 'AVATA' });
 
 
+  @Input() isAdd: boolean;
   @Input() set accountViewModel(account: AccountViewModel) {
     if (account.accountId !== 0) {
+      this.isAdd = false;
       this._entity = new AccountViewModel();
       this._entity = account;
       this.addEditForm.reset(account);
     } else {
+      this.isAdd = true;
       this.addEditForm.reset();
     }
   }
@@ -42,6 +44,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
     private toast: ToastrService,
     @Inject(IAccountServiceToken) private accountService: IAccountService) {
     this.addEditForm = this.fb.group({
+      accountId: [''],
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?\d{7,15}$/)]],
@@ -54,6 +57,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       // }),
       confirmPassword: ['', [Validators.required, compareValidator('password')]],
       accountType: ['', [Validators.required]],
+      state: ['', [Validators.required]]
     });
     this.uploaderAVATA.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 
@@ -81,6 +85,9 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       },
       accountType: {
         required: 'Hãy chọn loại tài khoản'
+      },
+      state: {
+        require: 'Chọn trạng thái'
       }
     }
     // Định nghĩa yêu cầu của validator cho người dùng với form
@@ -95,6 +102,11 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (!this.isAdd) {
+      this.addEditForm.disable();
+      this.addEditForm.get('accountId').enable();
+      this.addEditForm.get('state').enable();
+    }
   }
 
   selectFile(code: string) {
@@ -111,11 +123,17 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
     this.uploaderAVATA.queue.forEach(e => this.addEditForm.controls.fileAvata.setValue(e.file.name));
   }
 
-  onSave(event) {
+  onSave() {
     this.uploadFileToServer(this.uploaderAVATA.queue, 'avatar');
     this._entity = this.addEditForm.value;
     this.accountViewModelChange.emit(this._entity);
     this.closeModalEvent.emit();
+  }
+  onUpdate() {
+    this._entity = this.addEditForm.value;
+    this.accountViewModelChange.emit(this._entity);
+    this.closeModalEvent.emit();
+
   }
 
   uploadFileToServer(data: Array<any>, type: string) {
@@ -129,55 +147,76 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
     }
   }
 
+  resetPassword() {
+    if (confirm('Bạn có muốn khôi phục mật khẩu về mặc định?')) {
+      this._entity.password = AdminConstant.DEFAULT_PASSWORD;
+      this.accountService.Update(this._entity).subscribe(
+        response => {
+          if (response.status == 0)
+            this.toast.success('Tài khoản ' + this._entity.accountId + ' đã được khôi phục về mật khẩu mặc định', 'Thông báo', {
+              disableTimeOut: true
+            })
+          else
+            this.toast.error('Không thể khôi phục mật khẩu của tài khoản', 'Đã xảy ra lỗi');
+        },
+        error => { }
+      );
+    }
+    else {
+
+    }
+  }
   checkEmailPhone(event, type) {
     let searchParam = `{"searchParam": "` + event.target.value.toLowerCase() + `"}`;
     this.search(searchParam, type);
   }
 
   checkPhone() {
-    let account = new AccountViewModel();
+    if (this.isAdd) {
+      let account = new AccountViewModel();
 
-    let phoneNumber = this.addEditForm.value.phoneNumber;
-    let accountType = (Number)(this.addEditForm.value.accountType);
-    switch (accountType) {
-      case AccountTypeConstant.ACCOUNTANT:
-        account.accountCode = "KT" + phoneNumber;
-        break;
-      case AccountTypeConstant.BUSINESS:
-        account.accountCode = "KD" + phoneNumber;
-        break;
-      case AccountTypeConstant.INSURANCE:
-        account.accountCode = "BH" + phoneNumber;
-        break;
-      case AccountTypeConstant.MANAGE:
-        account.accountCode = "QL" + phoneNumber;
-        break;
-      case AccountTypeConstant.SUPPORT:
-        account.accountCode = "HT" + phoneNumber;
-        break;
-      case AccountTypeConstant.TECHNICAL:
-        account.accountCode = "KTH" + phoneNumber;
-        break;
-      default:
-        account.accountCode = "US" + phoneNumber;
-    }
-    this.accountService.GetByAccCode(account).subscribe(
-      response => {
-        if (response.data.length != 0) {
-          this.phoneValid = false;
-          this.toast.error("Số điện thoại đã được sử dụng loại tài khoản này", "Thông báo", {
-            disableTimeOut: true,
-            closeButton: true
-          });
-        } else {
-          this.phoneValid = true;
-          this.toast.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
-        }
-      },
-      error => {
-        // console.log(error);
+      let phoneNumber = this.addEditForm.value.phoneNumber;
+      let accountType = (Number)(this.addEditForm.value.accountType);
+      switch (accountType) {
+        case AccountTypeConstant.ACCOUNTANT:
+          account.accountCode = "KT" + phoneNumber;
+          break;
+        case AccountTypeConstant.BUSINESS:
+          account.accountCode = "KD" + phoneNumber;
+          break;
+        case AccountTypeConstant.INSURANCE:
+          account.accountCode = "BH" + phoneNumber;
+          break;
+        case AccountTypeConstant.MANAGE:
+          account.accountCode = "QL" + phoneNumber;
+          break;
+        case AccountTypeConstant.SUPPORT:
+          account.accountCode = "HT" + phoneNumber;
+          break;
+        case AccountTypeConstant.TECHNICAL:
+          account.accountCode = "KTH" + phoneNumber;
+          break;
+        default:
+          account.accountCode = "US" + phoneNumber;
       }
-    );
+      this.accountService.GetByAccCode(account).subscribe(
+        response => {
+          if (response.data.length != 0) {
+            this.phoneValid = false;
+            this.toast.error("Số điện thoại đã được sử dụng loại tài khoản này", "Thông báo", {
+              disableTimeOut: true,
+              closeButton: true
+            });
+          } else {
+            this.phoneValid = true;
+            this.toast.success("Số điện thoại có thể sử dụng!", '', { closeButton: true });
+          }
+        },
+        error => {
+          // console.log(error);
+        }
+      );
+    }
   }
   search(search, type) {
     switch (type) {

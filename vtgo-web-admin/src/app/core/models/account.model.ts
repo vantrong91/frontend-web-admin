@@ -15,4 +15,5 @@ export class AccountViewModel {
     deviceToken: any;
     salt: string;
     accountCode: string;
+    state: number;
 }

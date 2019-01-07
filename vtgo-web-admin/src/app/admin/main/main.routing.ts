@@ -33,7 +33,7 @@ const routes: Routes = [
       //Quản lý danh mục
       { path: 'vehiclefines', loadChildren: './configuration/config-vehiclefines/config-vehiclefines.module#ConfigVehiclefinesModule' },
       { path: 'policy', loadChildren: './configuration/configpolicy/configpolicy.module#ConfigPolicyModule' },
-      { path: 'category', loadChildren: './configuration/category/category.module#CategoryModule' },
+      // { path: 'category', loadChildren: './configuration/category/category.module#CategoryModule' },
       { path: 'feebanks', loadChildren: './configuration/feebanks/feebanks.module#FeeBanksModule' },
       { path: 'bankadmin', loadChildren: './configuration/bank-admin/bank-admin.module#BankAdminModule' },
       // Cài đặt tài khoản

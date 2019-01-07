@@ -19,7 +19,7 @@
   <div class="col">
     <div class="driver-view-title">Danh sách lái xe</div>
     <ngx-datatable #myTable class='material expandable' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-      [rowHeight]="50" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="50">
+      [rowHeight]="'auto'" [rows]='rows' [sorts]="[{prop: 'accountId', dir: 'desc'}]" [limit]="50">
       <!-- Row Detail Template -->
       <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -225,7 +225,7 @@
           {{value}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="action" [width]="130" [maxWidth]="130">
+      <ngx-datatable-column name="action" [width]="150" [maxWidth]="150">
         <ng-template let-column="colmun" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>Thao tác</strong>

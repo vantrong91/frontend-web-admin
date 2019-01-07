@@ -96,9 +96,8 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.orderListService.Get(searchModel).subscribe(
       (response: any) => {
         this.listOrder = response.data;
-        console.log(response.data);
       },
-      error => console.log(error)
+      error => console.log()
     );
   }
 
@@ -128,7 +127,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.messageValid = false;
     this.orderId = row.orderId;
     this.getGoodOwner(row.accountId);
-    // console.log(row);
 
     if (row.bankCode == null || row.bankCode == '')
       this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
@@ -138,8 +136,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.dataService.PostFromOtherURL('http://103.90.220.148:8888/v1/wallet/info-message-tranfer',
       `{  "orderId":"` + this.orderId + `",
         "bankCode":"`+ row.bankCode + `"}`).subscribe(response => {
-        // console.log(this.inputMessOrderId);
-        // console.log(response);
         if (response.data != null)
           if (response.data.length != 0)
             this.authMessage = response.data[0].transferContent;
@@ -151,7 +147,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
           this.toastr.error("Phương thức thanh toán hoặc ngân hàng không đúng", "Thông báo", {
             disableTimeOut: true
           });
-      }, error => console.log(error)
+      }, error => console.log()
       );
 
     this.getPriceFromQuotation(this.orderId, del, row.orderId);
@@ -162,7 +158,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
       response => {
         if (response.data != null) {
           this.balanceAdmin = response.data[0];
-          console.log(this.balanceAdmin.balance[1].AcctNumber);
         } else {
           this.toastr.error("Không tìm thấy AttcNumber")
         }
@@ -332,7 +327,6 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
             response => {
               if (response.status === 0) {
                 this.spinner.hide();
-                console.log("Rollback Chủ hàng: +" + (money));
                 this.payToAdmin(money);
               }
             });
@@ -391,9 +385,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
     this.orderListService.GetComplete(this.orderComplete).subscribe(
       (response: any) => {
         this.listOrder = response.data;
-        console.log(this.listOrder);
-      },
-      error => console.log(error)
+      }
     );
   }
 
@@ -412,8 +404,8 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
 
   getState(state: number) {
     switch (state) {
-      case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
-      case 1: return 'Đơn do Chủ hàng tự chỉnh sửa';
+      // case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
+      // case 1: return 'Đơn do Chủ hàng tự chỉnh sửa';
       case 2: return 'Chỉnh sửa do Lái xe báo lỗi đơn hàng không đúng';
       case 3: return 'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được Tài xế xác nhận chuyến, được ký kết)';
       case 4: return 'Đơn chờ vận chuyển đã bốc hàng';
@@ -424,7 +416,7 @@ export class OrderPaidComponent implements OnInit, AfterViewChecked {
       case 10: return 'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)';
       case 11: return 'Đơn hàng bị sự cố (sự cố do Lái xe, đang chuyển bị sự cố, Quản lý thị trường, Hải quan giữ lại …)';
       default:
-        return 'Lỗi dữ liệu';
+        return 'Không xác định';
     }
   }
 

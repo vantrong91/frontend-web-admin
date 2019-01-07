@@ -119,8 +119,8 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
 
   getState(state: number) {
     switch (state) {
-      case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
-      case 1: return 'Đơn do Chủ hàng tự chỉnh sửa';
+      // case 0: return 'Đơn hàng chưa ký kết (có báo giá nếu có dữ liệu báo giá, không có báo giá nếu không có dữ liệu)';
+      // case 1: return 'Đơn do Chủ hàng tự chỉnh sửa';
       case 2: return 'Chỉnh sửa do Lái xe báo lỗi đơn hàng không đúng';
       case 3: return 'Đơn chờ vận chuyển chưa bốc hàng còn x ngày (đã được Tài xế xác nhận chuyến, được ký kết)';
       case 4: return 'Đơn chờ vận chuyển đã bốc hàng';
@@ -131,7 +131,7 @@ export class OrderListComponent implements OnInit, AfterViewChecked {
       case 10: return 'Đơn hàng hết hạn (Hệ thống tự update khi hết hạn)';
       case 11: return 'Đơn hàng bị sự cố (sự cố do Lái xe, đang chuyển bị sự cố, Quản lý thị trường, Hải quan giữ lại …)';
       default:
-        return 'Lỗi dữ liệu';
+        return 'Không xác định';
     }
   }
 }

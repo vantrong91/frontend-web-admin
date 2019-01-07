@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
   currentUser: any;
 
   constructor(private router: Router, private cookie: CookieService, private modalServices: NgbModal,
-    @Inject(IAuthenServiceToken) private authService: IAuthenService) { }
+    @Inject(IAuthenServiceToken) private authService: IAuthenService) {
+
+  }
 
   login(loginForm: NgForm) {
     this.userName = loginForm.form.value.userName;
@@ -29,17 +31,37 @@ export class LoginComponent implements OnInit {
     this.user = new LoginViewModel();
     this.user.accountCode = this.userName;
     this.user.password = this.password;
+
     this.authService.Login(this.user).subscribe((item: any) => {
       item = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER));
 
       if (item !== null) {
         if (item.status === 0) {
-          this.router.navigate(['/admin/main']);
-          if (this.isSaveAccount == true) {
-            this.cookie.deleteAll();
-            this.cookie.set("accountCode", this.user.accountCode);
-            this.cookie.set("email", this.user.email);
-            this.cookie.set("password", this.user.password);
+          switch (item.data[0].state) {
+            case 1:
+              if (this.isSaveAccount == true) {
+                this.cookie.deleteAll();
+                this.cookie.set("accountCode", this.user.accountCode);
+                this.cookie.set("email", this.user.email);
+                this.cookie.set("password", this.user.password);
+              }
+              this.router.navigate(['/admin/main']);
+              break;
+            case 0:
+              alert('Tài khoản chưa được xác nhận');
+              localStorage.removeItem(SystemConfig.CURRENT_USER);
+              break;
+            case 2:
+              alert('Tài khoản đã bị khóa');
+              localStorage.removeItem(SystemConfig.CURRENT_USER);
+              break;
+            case 3:
+              alert('Tài khoản đã hết hạn');
+              localStorage.removeItem(SystemConfig.CURRENT_USER);
+              break;
+            default:
+              alert('Tài khoản không có quyền đăng nhập');
+              localStorage.removeItem(SystemConfig.CURRENT_USER);
           }
         }
       }
@@ -56,6 +78,13 @@ export class LoginComponent implements OnInit {
     this.isError = false;
   }
   ngOnInit() {
+    if (localStorage.getItem(SystemConfig.CURRENT_USER) != null) {
+      let currentUser = JSON.parse(localStorage.getItem(SystemConfig.CURRENT_USER)).data[0];
+      if (currentUser != null) {
+        if (currentUser.state === 1)
+          this.router.navigate(['/admin/main']);
+      }
+    }
   }
 
   saveAccount(event) {

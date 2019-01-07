@@ -24,11 +24,20 @@ export class AccountService {
     Create(entity: AccountViewModel): Observable<any> {
         return this.dataService.Post(`${this.URL_API_ACCOUNT}/create`, entity);
     }
+    Update(entity: AccountViewModel): Observable<any> {
+        return this.dataService.Post(`${this.URL_API_ACCOUNT}/update`, entity);
+    }
     Logout(accountId: number): Observable<any> {
         return this.dataService.Post(`${this.URL_API_ACCOUNT}/logout`, { accountId: accountId });
     }
     GetByAccCode(account: AccountViewModel): Observable<any> {
         return this.dataService.Post(`${this.URL_API_ACCOUNT}/get-by-acc-code`, account);
+    }
+    ChangeState(account: AccountViewModel) {
+        return this.dataService.Post(`${this.URL_API_ACCOUNT}/change-state`, account);
+    }
+    Delete(account: AccountViewModel) {
+        return this.dataService.Post(`${this.URL_API_ACCOUNT}/delete`, account);
     }
 
 }

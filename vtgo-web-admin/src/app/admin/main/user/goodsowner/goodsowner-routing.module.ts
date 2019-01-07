@@ -3,9 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { GoodsOwnerComponent } from './goodsowner.component';
 const routes: Routes = [
   {
-    path: '', component: GoodsOwnerComponent, data: {
+    path: '',
+    component: GoodsOwnerComponent,
+    data: {
       title: 'VTGO Chủ hàng',
-      urls: [{ title: 'Trang chủ', url: '/admin/main'}, {title: 'Chủ hàng'}]
+      urls: [{ title: 'Trang chủ', url: '/admin/main' }, { title: 'Chủ hàng' }]
     }
 
   }

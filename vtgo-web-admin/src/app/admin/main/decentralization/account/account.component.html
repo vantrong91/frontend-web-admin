@@ -24,8 +24,8 @@
       ngbTooltip="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
   <div class="col-md-1 offset-md-3">
-    <button type="button" class="btn btn-success w-100" (click)="open(content)" placement="bottom" ngbTooltip="Thêm mới Tài khoản"><i
-        class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-success w-100" (click)="isAdd=true; open(content)" placement="bottom"
+      ngbTooltip="Thêm mới Tài khoản"><i class="fa fa-user-plus fs-18" aria-hidden="true"></i></button>
     <div #snackbar [class]="isShow ? 'snackbar show' : 'snackbar'">{{txtNoti}}</div>
   </div>
 </div>
@@ -34,8 +34,9 @@
   <div class="col">
     <div class="owner-view-title">Tài khoản</div>
     <ngx-datatable class="material selection-cell datatable table-shadow" [rows]='listAccount' [columnMode]='"force"'
-      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" #accountTable>
-      <ngx-datatable-column name="accountId" [minWidth]="100" [maxWidth]="100" prop="accountId" [resizeable]="false">
+      [headerHeight]='50' [footerHeight]='50' [rowHeight]='"auto"' [limit]="50" [sorts]="[{prop: 'accountId', dir: 'desc'}]"
+      #accountTable>
+      <ngx-datatable-column name="accountId" [minWidth]="80" [maxWidth]="80" prop="accountId" [resizeable]="false">
         <ng-template let-column="column" ngx-datatable-header-template>
           <span class="tbl-header">
             <strong>ID</strong>
@@ -85,18 +86,64 @@
           {{value | showData}}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column name="state" [width]="110" prop="state">
+        <ng-template let-column="column" ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Trạng thái</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span [ngClass]="value==0?'c-black':(value==1?'c-green':(value==2?'c-red':(value==3?'c-yellow':'c-black')))">
+            <i class="fa fa-circle" aria-hidden="true"></i> </span>
+          {{getState(value)}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="" [width]="100">
+        <ng-template ngx-datatable-header-template>
+          <span class="tbl-header">
+            <strong>Thao tác</strong>
+          </span>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button type="button" class="btn btn-warning button-custom-admin ml-2" (click)="isAdd = false; open(content,row)"
+            placement="bottom" ngbTooltip="Chỉnh sửa">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger button-custom-admin ml-2" (click)="openSm(del,row)" placement="bottom"
+            ngbTooltip="Xóa">
+            <i class="fa fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title" id="modal-basic-title">Account</h3>
+    <h3 class="modal-title" id="modal-basic-title">Thông tin tài khoản</h3>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <app-account-info [accountViewModel]="_entity" (accountViewModelChange)="onSubmit($event)" (closeModalEvent)="c('close from Save')"></app-account-info>
+    <app-account-info [accountViewModel]="_entity" [isAdd]="isAdd" (accountViewModelChange)="isAdd?onAddAccount($event):onEditAccount($event)"
+      (closeModalEvent)="c('close from Save')"></app-account-info>
+  </div>
+</ng-template>
+
+<ng-template #del let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Thông báo</h3>
+    <button type="button" class="close" aria-label="Close" (click)="d( 'Close')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Xác nhận xóa tài khoản {{idDelete}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="d('No-delete')">Không</button>
+    <button class="btn btn-danger" (click)="c('Yes-Delete')">Có</button>
   </div>
 </ng-template>

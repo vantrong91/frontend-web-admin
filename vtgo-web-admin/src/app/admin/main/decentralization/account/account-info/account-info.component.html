@@ -2,15 +2,19 @@
   <div class="form-group row my-3">
     <label for="accountType" class="col-sm-2 col-form-label text-md-right">Loại tài khoản </label>
     <div class="col-sm-4">
-      <select [ngClass]="{'is-invalid': displayMessage.accountType}" class="custom-select form-control" id="accountType"
-        formControlName="accountType" tabindex="1">
+      <select [ngClass]="{'is-invalid': displayMessage.accountType, 'mouse-hover': !isAdd}" class="custom-select form-control"
+        id="accountType" formControlName="accountType" tabindex="1">
+        <option value="5" [disabled]="!isAdd">Bộ phận Kinh doanh</option>
+        <option value="6" [disabled]="!isAdd">Bộ phận Hỗ trợ</option>
+        <option value="7" [disabled]="!isAdd">Bộ phận Kế toán</option>
+        <option value="8" [disabled]="!isAdd">Bộ phận Kỹ thuật</option>
+        <option value="9" [disabled]="!isAdd">Bộ phận Quản lý</option>
+        <option value="10" [disabled]="!isAdd">Bộ phận Bảo hiểm</option>
+        <option value="1" disabled>Lái xe</option>
+        <option value="2" disabled>Chủ hàng</option>
+        <option value="3" disabled>Chủ phương tiện</option>
         <option value=null disabled selected>&#45;&#45; Chọn loại tài khoản &#45;&#45;</option>
-        <option value="5">Bộ phận Kinh doanh</option>
-        <option value="6">Bộ phận Hỗ trợ</option>
-        <option value="7">Bộ phận Kế toán</option>
-        <option value="8">Bộ phận Kỹ thuật</option>
-        <option value="9">Bộ phận Quản lý</option>
-        <option value="10">Bộ phận Bảo hiểm</option>
+
       </select>
       <span class="invalid-feedback">
         {{displayMessage.accountType}}
@@ -44,7 +48,7 @@
       </span>
     </div>
   </div>
-  <div class="form-group row my-3">
+  <div class="form-group row my-3" [ngClass]="isAdd?'':'d-none'">
     <label for="password" class="col-sm-2 col-form-label text-md-right">Mật khẩu </label>
     <div class="col-sm-4">
       <input type="password" class="form-control" id="password" placeholder="" formControlName="password" tabindex="5"
@@ -63,28 +67,45 @@
     </div>
   </div>
   <div class="form-group row my-3">
-    <label for="" class="col-sm-2 text-md-right">Ảnh đại diện</label>
-    <div class="col-sm-6 ml-3 mr-3" formGroupName="fileAvata">
-      <div class="row">
-        <input type="file" accept="image/*" multiple class="custom-file-input form-control" id="inputGroupFile01"
-          (change)="groupImg()" ng2FileSelect [uploader]="uploaderAVATA" tabindex="7">
-        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
-      </div>
-      <div class="row uploadList" *ngFor="let item of uploaderAVATA.queue">
-        <div class="col-sm-6">{{item.file.name}}</div>
-        <div class="col-sm-4">
-          <div class="progress">
-            <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-          </div>
+    <label for="state" class="col-sm-2 col-form-label text-md-right">Trạng thái </label>
+    <div class="col-sm-4">
+      <select name="state" id="state" class="form-control" formControlName="state" [ngClass]="{'is-invalid': displayMessage.state}">
+        <option selected value=null disabled>&#45;&#45; Chọn trạng thái &#45;&#45;</option>
+        <option value="1">Hoạt động</option>
+        <option value="2">Bị khóa</option>
+        <option value="3">Hết hạn</option>
+        <option value="0">Chưa xác nhận</option>
+      </select>
+      <span class="invalid-feedback">
+        {{displayMessage.state}}
+      </span>
+    </div>
+    <label for="" class="col-sm-2 text-md-right" [ngClass]="isAdd?'':'d-none'">Ảnh đại diện</label>
+    <div class="col-sm-4" formGroupName="fileAvata" [ngClass]="isAdd?'':'d-none'">
+      <div class="container">
+        <div class="row">
+          <input type="file" accept="image/*" class="custom-file-input form-control" id="inputGroupFile01" (change)="groupImg()"
+            ng2FileSelect [uploader]="uploaderAVATA" tabindex="7">
+          <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
         </div>
-        <div class="col-sm-1">
-          <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();" tabindex="8"><i class="fa fa-times"
-              aria-hidden="true"></i></button>
+        <div class="row uploadList" *ngFor="let item of uploaderAVATA.queue">
+          <div class="col-sm-6">{{item.file.name}}</div>
+          <div class="col-sm-4">
+            <div class="progress">
+              <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();" tabindex="8"><i class="fa fa-times"
+                aria-hidden="true"></i></button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </form>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="onSave($event)" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Lưu</button>
+  <button class="btn btn-warning" *ngIf="!isAdd" (click)="resetPassword()">Khôi phục mật khẩu</button>
+  <button type="button" *ngIf="isAdd" class="btn btn-success" (click)="onSave()" [disabled]="!(mailValid && phoneValid && addEditForm.valid)">Lưu</button>
+  <button type="button" *ngIf="!isAdd" class="btn btn-success" (click)="onUpdate()">Cập nhật</button>
 </div>
