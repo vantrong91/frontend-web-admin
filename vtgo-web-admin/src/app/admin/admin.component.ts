@@ -18,7 +18,7 @@ export class AdminComponent implements OnInit {
       if (currentUser != null) {
         switch (currentUser.state) {
           case AccountStateConstant.ACTIVE:
-            this.router.navigate(['/admin/main']);
+            // this.router.navigate(['/admin/main']);
             break;
           case AccountStateConstant.CREATE:
             alert('Tài khoản chưa được xác nhận');

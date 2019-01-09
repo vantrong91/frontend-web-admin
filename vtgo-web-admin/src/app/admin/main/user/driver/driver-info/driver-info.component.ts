@@ -7,7 +7,7 @@ import {
     SearchModel, AccountViewModel,
     AccountService, IAccountServiceToken,
     ICategoryService, ICategoryServiceToken,
-    IAddressServiceToken, IAddressService, IDataServiceToken
+    IAddressServiceToken, IAddressService, IDataServiceToken, AddressCategoryModel
 } from 'src/app/core';
 // import * as $ from 'jquery';
 
@@ -22,7 +22,13 @@ export class DriverInfoComponent implements OnInit {
     oldAttachPro: any;
     mailValid = false;
     phoneValid = false;
+
     searchEthnic: SearchModel;
+
+    addrProvince: AddressCategoryModel = new AddressCategoryModel();
+    addrDistrict: AddressCategoryModel = new AddressCategoryModel();
+    addrCommune: AddressCategoryModel = new AddressCategoryModel();
+
     lstEthnic: any;
     lstContry: any;
     lstProvince: any;
@@ -33,7 +39,10 @@ export class DriverInfoComponent implements OnInit {
     addrwards2: any;
     lstTypeLicense: any;
 
-
+    imgSrcPreview_CMND = [];
+    imgSrcPreview_GPLX = [];
+    imgSrcPreview_ACD = [];
+    imgSrcPreview_SHK = [];
 
     uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
     uploaderGPLX: FileUploader = new FileUploader({ url: 'GPLX' });
@@ -136,6 +145,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.lstContry = [{ id: 1, name: "Việt Nam" }];
+
         this.searchEthnic = new SearchModel();
         this.searchEthnic.searchParam2 = 4;
         this.categoryService.Get(this.searchEthnic).subscribe(
@@ -143,17 +154,10 @@ export class DriverInfoComponent implements OnInit {
                 this.lstEthnic = response.data;
             }
         )
-        this.searchEthnic.searchParam2 = -1;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
-            (response: any) => {
-                this.lstContry = response.data;
-            }
-        )
-        this.searchEthnic.searchParam2 = 0;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+
+        this.addressService.getProvince(this.addrProvince).subscribe(
             (response: any) => {
                 this.lstProvince = response.data;
-                this.lstProvince2 = response.data;
             }
         )
         this.searchEthnic.searchParam2 = 6;
@@ -167,7 +171,7 @@ export class DriverInfoComponent implements OnInit {
 
     ChangingValue(event) {
         this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addressService.getProvince(this.addrProvince).subscribe(
             (response: any) => {
                 this.lstProvince = response.data;
             }
@@ -176,7 +180,7 @@ export class DriverInfoComponent implements OnInit {
 
     ChangingValue2(event) {
         this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addressService.getProvince(this.addrProvince).subscribe(
             (response: any) => {
                 this.lstProvince2 = response.data;
             }
@@ -184,9 +188,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ChagingValueProvince(event) {
-        console.log(event.target.value);
-        this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addrDistrict.codeId = event.target.value;
+        this.addressService.getDistrict(this.addrDistrict).subscribe(
             (response: any) => {
                 this.lstTown = response.data;
             }
@@ -194,9 +197,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ChagingValueProvince2(event) {
-        console.log(event.target.value);
-        this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addrDistrict.codeId = event.target.value;
+        this.addressService.getDistrict(this.addrDistrict).subscribe(
             (response: any) => {
                 this.lstTown2 = response.data;
             }
@@ -204,8 +206,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ChagingValueDistrict(event) {
-        this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addrCommune.codeId = event.target.value;
+        this.addressService.getCommune(this.addrCommune).subscribe(
             (response: any) => {
                 this.addrwards = response.data;
             }
@@ -213,8 +215,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ChagingValueDistrict2(event) {
-        this.searchEthnic.searchParam2 = event.target.value;
-        this.addressService.getProvince(this.searchEthnic).subscribe(
+        this.addrCommune.codeId = event.target.value;
+        this.addressService.getCommune(this.addrCommune).subscribe(
             (response: any) => {
                 this.addrwards2 = response.data;
             }
@@ -244,10 +246,62 @@ export class DriverInfoComponent implements OnInit {
         this.addEditForm.controls.attachProperties.value.ACD.length = 0;
         this.addEditForm.controls.attachProperties.value.GPLX.length = 0;
         this.addEditForm.controls.attachProperties.value.SHK.length = 0;
-        this.uploaderCMND.queue.forEach(el => this.addEditForm.controls.attachProperties.value.CMND.push(el.file.name));
-        this.uploaderACD.queue.forEach(el => this.addEditForm.controls.attachProperties.value.ACD.push(el.file.name));
-        this.uploaderGPLX.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPLX.push(el.file.name));
-        this.uploaderSHK.queue.forEach(el => this.addEditForm.controls.attachProperties.value.SHK.push(el.file.name));
+        this.uploaderCMND.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.CMND.push(this.setNewFileName(el.file.name, index)));
+        this.uploaderACD.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.ACD.push(this.setNewFileName(el.file.name, index)));
+        this.uploaderGPLX.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPLX.push(this.setNewFileName(el.file.name, index)));
+        this.uploaderSHK.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.SHK.push(this.setNewFileName(el.file.name, index)));
+
+
+    }
+
+    loadPreviewCMND() {
+        this.imgSrcPreview_CMND = [];
+        for (let i = 0; i < this.uploaderCMND.queue.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(this.uploaderCMND.queue[i]._file);
+            reader.onload = () => {
+                this.imgSrcPreview_CMND.push(reader.result);
+            }
+        }
+    };
+    loadPreviewACD() {
+        this.imgSrcPreview_ACD = [];
+        for (let i = 0; i < this.uploaderACD.queue.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(this.uploaderACD.queue[i]._file);
+            reader.onload = () => {
+                this.imgSrcPreview_ACD.push(reader.result);
+            }
+        }
+    };
+    loadPreviewGPLX() {
+        this.imgSrcPreview_GPLX = [];
+        for (let i = 0; i < this.uploaderGPLX.queue.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(this.uploaderGPLX.queue[i]._file);
+            reader.onload = () => {
+                this.imgSrcPreview_GPLX.push(reader.result);
+            }
+        }
+    };
+    loadPreviewSHK() {
+        this.imgSrcPreview_SHK = [];
+        for (let i = 0; i < this.uploaderSHK.queue.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(this.uploaderSHK.queue[i]._file);
+            reader.onload = () => {
+                this.imgSrcPreview_SHK.push(reader.result);
+            }
+        }
+    };
+
+    setNewFileName(old_FileName: string, order): string {
+        ++order;
+        // format: tentheomay_SDT_STT
+        let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+        let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+        let newFileName = nameOnly + "_" + this.addEditForm.get('phoneNumber').value + "_" + order + fileFormat;
+        return newFileName.replace(/ /g, '');
     }
 
     checkEmailPhone(event, type) {
@@ -294,13 +348,13 @@ export class DriverInfoComponent implements OnInit {
         this.accountService.GetByEmail(searchMode).subscribe(
             response => {
                 if (response.data.length != 0) {
-                    this.phoneValid = false;
+                    this.mailValid = false;
                     this.toastrService.error("Email đã được sử dụng", "Thông báo", {
                         disableTimeOut: true,
                         closeButton: true
                     });
                 } else {
-                    this.phoneValid = true;
+                    this.mailValid = true;
                     this.toastrService.success("Email có thể sử dụng!", '', { closeButton: true });
                 }
             },
@@ -346,32 +400,33 @@ export class DriverInfoComponent implements OnInit {
             if (this.uploaderACD.queue.length > 0 && this.uploaderCMND.queue.length > 0
                 && this.uploaderGPLX.queue.length > 0 && this.uploaderSHK.queue.length > 0) {
                 this.toastrService.clear();
+                this.groupImg();
                 this.uploadFileToServer(this.uploaderACD.queue, 'acd');
                 this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
                 this.uploadFileToServer(this.uploaderGPLX.queue, 'gplx');
                 this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
+                this._entity = this.addEditForm.value;
+                this.convert();
+                this.driverViewModelChange.emit(this._entity);
+                this.closeModalEvent.emit();
             }
-        }
-        else
+        } else {
             this._entity.attachProperties = this.oldAttachPro;
-        this._entity = this.addEditForm.value;
-
-        this.convert();
-        this.driverViewModelChange.emit(this._entity);
-        this.closeModalEvent.emit();
+            this._entity = this.addEditForm.value;
+            this.convert();
+            this.driverViewModelChange.emit(this._entity);
+            this.closeModalEvent.emit();
+        }
     }
 
     uploadFileToServer(data: Array<any>, type: string) {
 
         var frmImg = new FormData();
         for (let i = 0; i < data.length; i++)
-            frmImg.append('files', data[i]._file);
+            frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
         this.dataService.postFile('upload/' + type, frmImg).subscribe(
             response => {
-                // this.toastrService.success("Tải " + type + " lên ảnh thành công!", "Thông báo", {
-                //     closeButton: true,
-                //     tapToDismiss: true,
-                // })
+                console.log(response);
             }
         );
     }

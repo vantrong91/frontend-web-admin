@@ -1,7 +1,7 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { DataService,OwnerViewModel } from 'src/app/core';
+import { DataService, OwnerViewModel } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,12 +16,11 @@ export class GoodsownerInfoComponent implements OnInit {
   public addEditForm: FormGroup;
   imgUrl = '';
   keyArr: any;
-  uploaderCMND: FileList;
+  uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
   ulrImgFull = '';
   imgName = '';
-  isSelectFile = false;
   imgOld: any;
-
+  imgSrcPreview = [];
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
       this._entity = new OwnerViewModel();
@@ -62,10 +61,11 @@ export class GoodsownerInfoComponent implements OnInit {
 
   Save(event) {
     // event.preventDefault();
-    if (this.isSelectFile == true) {
-      this.uploadFileToServer(this.uploaderCMND, 'cmnd-owner');
+    if (this.uploaderCMND.queue.length > 0) {
+      this.groupImg();
+      this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd-owner');
       this._entity = this.addEditForm.value;
-    } else{
+    } else {
       this._entity = this.addEditForm.value;
       this._entity.attachProperties = this.imgOld;
     }
@@ -80,31 +80,45 @@ export class GoodsownerInfoComponent implements OnInit {
 
   }
 
-  uploadFileToServer(data: FileList, type: string) {
-
+  uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
-    const fileListAsArray = Array.from(data);
-    for (let item of fileListAsArray) {
-      frmImg.append('files', item);
-    }
-
+    for (let i = 0; i < data.length; i++)
+      frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
+        console.log(response);
       }
     );
   }
 
+  setNewFileName(old_FileName: string, order): string {
+    ++order;
+    // format: tentheomay_SDT_STT
+    let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+    let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+    let newFileName = nameOnly + "_" + this.addEditForm.get('phoneNumber').value + "_" + order + fileFormat;
+    return newFileName.replace(/ /g, '');
+  }
 
-  propCMND: any;
-  selectFile(ev, type: string) {
-    this.addEditForm.value.attachProperties.CMND = [];
-    this.uploaderCMND = ev.target.files;
-    const fileListAsArray = Array.from(this.uploaderCMND);
-    for (let item of fileListAsArray) {
-      this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
+  loadPreviewCMND() {
+    this.imgSrcPreview = [];
+    for (let i = 0; i < this.uploaderCMND.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderCMND.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview.push(reader.result);
+      }
     }
-    this.getUrlImg('cmnd-owner');
-    this.isSelectFile = true;
+    console.log(this.imgSrcPreview);
+
+  };
+
+  selectFile() {
+  }
+
+  groupImg() {
+    this.addEditForm.controls.attachProperties.value.CMND.length = 0;
+    this.uploaderCMND.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.CMND.push(this.setNewFileName(el.file.name, index)));
   }
 
   getUrlImg(folder: string) {

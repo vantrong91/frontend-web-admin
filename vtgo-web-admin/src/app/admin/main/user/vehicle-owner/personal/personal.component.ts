@@ -150,6 +150,8 @@ export class PersonalComponent implements OnInit {
   }
 
   onSave(event) {
+    this._entity = this.addEditForm.value;
+    this.convert();
     if (this.isAdd) {
       if (this.uploaderCMND.queue.length == 0) {
         this.toastrService.error("Chưa chọn ảnh Chứng minh/ Căn cước");
@@ -165,9 +167,7 @@ export class PersonalComponent implements OnInit {
       }
       if (this.uploaderCMND.queue.length > 0 && this.uploaderSHK.queue.length > 0
         && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
-        this._entity = this.addEditForm.value;
-        this.convert();
-
+        this.groupImg();
         this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd');
         this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
         this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
@@ -177,6 +177,7 @@ export class PersonalComponent implements OnInit {
         this._entity.attachProperties = this.oldAttachPro;
       }
       this._entity.vehicleOwnerType = 1;
+
       this.personViewModelChange.emit(this._entity);
       this.closeForm.emit();
     }
@@ -197,7 +198,7 @@ export class PersonalComponent implements OnInit {
     //getAllCountry
 
     this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Country = response.data;
 
@@ -207,7 +208,7 @@ export class PersonalComponent implements OnInit {
 
     //get ALL Province of VN
     this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstContactAddress_Province = response.data;
@@ -219,18 +220,15 @@ export class PersonalComponent implements OnInit {
     this.bankListService.Get(new SearchModel).subscribe(
       response => {
         this.lstBank = response.data;
-      },
-      error => console.log(error)
+      }
     );
   }
 
   loadAddress() {
-
-
     //Load Address district from province
     if (Object.values(this._entity.address)[2] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.address)[2];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstAddress_District = response.data;
         }
@@ -239,7 +237,7 @@ export class PersonalComponent implements OnInit {
     // Load Address Ward from district
     if (Object.values(this._entity.address)[4] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstAddress_Wards = response.data;
         }
@@ -249,7 +247,7 @@ export class PersonalComponent implements OnInit {
     //Load contact Address district from province
     if (Object.values(this._entity.contactAddress)[1] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstContactAddress_District = response.data;
         }
@@ -258,7 +256,7 @@ export class PersonalComponent implements OnInit {
     // Load contact Address Ward from district
     if (Object.values(this._entity.contactAddress)[4] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstContactAddress_Wards = response.data;
         }
@@ -270,7 +268,7 @@ export class PersonalComponent implements OnInit {
   //On select change => reload list province address
   addressCountryChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstAddress_Province.unshift('');
@@ -280,7 +278,7 @@ export class PersonalComponent implements OnInit {
   //reload District
   addressProvinceChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_District = response.data;
         this.lstAddress_District.unshift('');
@@ -291,7 +289,7 @@ export class PersonalComponent implements OnInit {
   //reload Ward
   addressDistrictChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Wards = response.data;
         this.lstAddress_Wards.unshift('');
@@ -303,7 +301,7 @@ export class PersonalComponent implements OnInit {
   //get list Province of Contact Address
   contactAddressCountryChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_Province = response.data;
         this.lstContactAddress_Province.unshift('');
@@ -314,7 +312,7 @@ export class PersonalComponent implements OnInit {
   contactAddressProvinceChange(event) {
 
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_District = response.data;
         this.lstContactAddress_District.unshift('');
@@ -324,7 +322,7 @@ export class PersonalComponent implements OnInit {
   }
   contactAddressDistrictChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_Wards = response.data;
         this.lstContactAddress_Wards.unshift('');
@@ -357,16 +355,24 @@ export class PersonalComponent implements OnInit {
       this.addEditForm.controls.attachProperties.value.GPKDVT.length = 0;
     if (this.addEditForm.controls.attachProperties.value.GPDHVT.length)
       this.addEditForm.controls.attachProperties.value.GPDHVT.length = 0;
-    this.uploaderCMND.queue.forEach(el => this.addEditForm.controls.attachProperties.value.CMND.push(el.file.name));
-    this.uploaderSHK.queue.forEach(el => this.addEditForm.controls.attachProperties.value.SHK.push(el.file.name));
-    this.uploaderGPKDVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPKDVT.push(el.file.name));
-    this.uploaderGPDHVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPDHVT.push(el.file.name));
+    this.uploaderCMND.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.CMND.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderSHK.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.SHK.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderGPKDVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPKDVT.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderGPDHVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPDHVT.push(this.setNewFileName(el.file.name, index)));
+  }
+  setNewFileName(old_FileName: string, order): string {
+    ++order;
+    // format: tentheomay_SDT_STT
+    let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+    let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+    let newFileName = nameOnly + "_" + this.addEditForm.get('contactPhone').value + "_" + order + fileFormat;
+    return newFileName.replace(/ /g, '');
   }
   uploadFileToServer(data: Array<any>, type: string) {
 
     var frmImg = new FormData();
     for (let i = 0; i < data.length; i++)
-      frmImg.append('files', data[i]._file);
+      frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
         console.log(response.data);
@@ -450,97 +456,6 @@ export class PersonalComponent implements OnInit {
 
 
   initData() {
-    this.addEditForm.reset(this.obj());
   }
 
-  obj() {
-    return JSON.parse(`
-    {
-      "fullName": "ThaiPersonal",
-      "director": "Pham Huu Nam",
-      "taxCode": 1111,
-      "contactPhone": "017577799",
-      "email": "EmlNamePersional@gmail.com",
-      "fax": 22222,
-      "website": "Nam.vn",
-      "contactPerson": "tennguoilienhe",
-      "contactPersonPhone": "sdtlenhe",
-      "contactPersonEmail": "emaillienhe",
-
-      "moderator": "tennguoidieuhanh",
-      "moderatorLicense": "sogiayphepdieuhanh",
-      "businessTransportLicense": 33333,
-      "businessTransportLicenseIssueDate":  {
-        "year": 2012,
-        "month": 2,
-        "day": 2
-      },
-      "businessTransportLicenseExpDate":  {
-        "year": 2013,
-        "month": 3,
-        "day": 3
-      },
-      "moderatorLicenseIssueDate": {
-        "year": 2014,
-        "month": 4,
-        "day": 4
-      },
-      "moderatorLicenseExpDate": {
-        "year": 2015,
-        "month": 5,
-        "day": 5
-      },
-      "companyPhone": 2222,
-      "nationality": "vietNam",
-      "licenseNo": "123456",
-      "issueDate": {
-          "year": 2011,
-          "month": 1,
-          "day": 1
-      },
-      "issueBy": "NA",
-      "gender": 1,
-      "ethnic": "Kinh",
-      "vehicleOwnerType": 1,
-      "contactAddress": {
-          "country": "VN",
-          "province": "NA",
-          "wards": "HD",
-          "street": "sonhaduong",
-          "district": "ND"
-      },
-      "address": {
-          "country": "VN",
-          "householdNo": "sohokhau",
-          "province": "NA",
-          "wards": "HD",
-          "district": "ND"
-      },
-      "attachProperties": {
-          "GPKDVT": ["tesss2.jpg"],
-          "GPDHVT": ["tesss.jpg"],
-          "SHK": ["tesss.jpg"],
-          "CMND": ["cmnd2.jpg", "cmnd1.jpg"]
-      },
-      "bankAccountLst": [{
-          "accountId": null,
-          "bankCode": "AAAAA",
-          "accountNumber": "999999999999",
-          "branch": "NA",
-          "ownerName": "van2"
-      }, {
-          "accountId": null,
-          "bankCode": "",
-          "accountNumber": "888888888888",
-          "branch": "",
-          "ownerName": "Van3"
-      }, {
-          "accountId": null,
-          "bankCode": "CS",
-          "accountNumber": "777777777777",
-          "branch": "NA",
-          "ownerName": "van1"
-      }]
-  }`);
-  }
 }

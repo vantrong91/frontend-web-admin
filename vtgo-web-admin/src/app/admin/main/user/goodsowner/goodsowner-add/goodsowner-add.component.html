@@ -71,13 +71,26 @@
     <ngb-tab title="Hình ảnh đính kèm">
       <ng-template ngbTabContent>
         <div class="form-group row my-3">
-          <label class="col-md-6">Chứng minh nhân dân/Thẻ căn cước</label>
-          <div class="col-md-6 row">
-            <div class="col-md-12" formGroupName="attachProperties">
-              <input type="file" multiple class="form-control custom-file-input" id="inputGroupFile" (change)="selectFile($event,'CMND-OWNER')" />
+          <label class="col-sm-6">Chứng minh nhân dân/ Hộ chiếu/ Thẻ căn cước</label>
+          <div class="col-sm-6" formGroupName="attachProperties">
+            <div class="row">
+              <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
+                (change)="selectFile();loadPreviewCMND();" ng2FileSelect [uploader]="uploaderCMND" tabindex="28" />
               <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
                   aria-hidden="true"></i></label>
             </div>
+          </div>
+          <div class="col-sm-3" *ngFor="let item of uploaderCMND.queue; let i= index">
+            <div class="imgView">
+              <div class="text-right">
+                <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewCMND()">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <img [src]="imgSrcPreview[i]" alt="" />
+              <p>{{item.file.name}}</p>
+            </div>
+            <hr>
           </div>
         </div>
       </ng-template>

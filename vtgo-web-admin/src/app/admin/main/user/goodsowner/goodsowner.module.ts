@@ -9,6 +9,7 @@ import { GoodsownerInfoComponent } from './goodsowner-edit/goodsowner-info.compo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewInfoComponent } from './goodsowner-view/view-info.component';
 import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -19,8 +20,8 @@ import { GoodsownerAddComponent } from './goodsowner-add/goodsowner-add.componen
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
-
+    NgbModule,
+    FileUploadModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [

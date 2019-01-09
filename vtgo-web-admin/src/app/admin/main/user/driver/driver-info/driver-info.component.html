@@ -8,11 +8,10 @@
     </div>
     <label for="nationality" class="col-sm-2 col-form-label text-md-right">Quốc tịch <span class="text-danger">{{addEditForm.get('nationality').invalid&&addEditForm.get('nationality').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-        <select class="form-control" id="nationality" formControlName="nationality"
-          tabindex="2">
-          <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
-          <option *ngFor="let conntry of lstContry" value={{conntry.tenDinhDanh}}>{{conntry.tenDinhDanh}}</option>
-        </select>
+      <select class="form-control" id="nationality" formControlName="nationality" tabindex="2">
+        <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
+        <option *ngFor="let conntry of lstContry" value={{conntry.id}}>{{conntry.name}}</option>
+      </select>
     </div>
   </div>
   <div class="form-group row my-3">
@@ -30,10 +29,10 @@
   <div class="form-group row my-3">
     <label for="issueby" class="col-sm-2 col-form-label text-md-right">Nơi cấp <span class="text-danger">{{addEditForm.get('issueBy').invalid&&addEditForm.get('issueBy').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
-        <select class="form-control" id="issueby" formControlName="issueBy" tabindex="5">
-          <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-          <option *ngFor="let province of lstProvince" value={{province.tenDinhDanh}}>{{province.tenDinhDanh}}</option>
-        </select>
+      <select class="form-control" id="issueby" formControlName="issueBy" tabindex="5">
+        <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
+        <option *ngFor="let province of lstProvince" value={{province.provinceId}}>{{province.provinceName}}</option>
+      </select>
     </div>
     <label for="gender" class="col-sm-2 col-form-label text-md-right">Giới tính <span class="text-danger">{{addEditForm.get('gender').invalid&&addEditForm.get('gender').touched?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
@@ -52,7 +51,7 @@
         <option *ngFor="let ethnic of lstEthnic" value={{ethnic.pk}}>{{ethnic.item}}</option>
       </select>
     </div>
-    <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">{{addEditForm.get('email').touched&&(!mailValid||addEditForm.get('email').invalid)?'*':'&nbsp;'}}</span></label>
+    <label for="email" class="col-sm-2 col-form-label text-md-right">Email <span class="text-danger">{{addEditForm.get('email').touched&&(addEditForm.get('email').invalid)?'*':'&nbsp;'}}</span></label>
     <div class="col-sm-4">
       <input type="email" class="form-control" id="email" name="email" placeholder="" formControlName="email"
         (focusout)="isAdd?checkEmailPhone($event,'email'):''" tabindex="8" />
@@ -73,7 +72,7 @@
         <select class="form-control" id="addrcountry" (change)="ChangingValue($event)" formControlName="country"
           tabindex="10">
           <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
-          <option *ngFor="let conntry of lstContry" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+          <option *ngFor="let conntry of lstContry" value={{conntry.id}}>{{conntry.name}}</option>
         </select>
       </div>
       <label for="addrprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('address').get('province').invalid&&addEditForm.get('address').get('province').touched?'*':'&nbsp;'}}</span></label>
@@ -81,7 +80,7 @@
         <select class="form-control" (change)="ChagingValueProvince($event)" id="addrprovince" formControlName="province"
           tabindex="11">
           <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-          <option *ngFor="let province of lstProvince" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+          <option *ngFor="let province of lstProvince" value={{province.provinceId}}>{{province.provinceName}}</option>
         </select>
       </div>
     </div>
@@ -91,14 +90,14 @@
         <select class="form-control" (change)="ChagingValueDistrict($event)" id="addrdistrict" formControlName="district"
           tabindex="12">
           <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
-          <option *ngFor="let district of lstTown" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+          <option *ngFor="let district of lstTown" value={{district.districtId}}>{{district.districtName}}</option>
         </select>
       </div>
       <label for="addrwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('address').get('wards').invalid&&addEditForm.get('address').get('wards').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
         <select class="form-control" id="addrwards" formControlName="wards" tabindex="13">
           <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-          <option *ngFor="let addrward of addrwards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+          <option *ngFor="let addrward of addrwards" value={{addrward.communeId}}>{{addrward.communeName}}</option>
         </select>
       </div>
     </div>
@@ -118,7 +117,7 @@
         <select class="form-control" id="contactcountry" (change)="ChangingValue2($event)" formControlName="country"
           tabindex="15">
           <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
-          <option *ngFor="let conntry of lstContry" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+          <option *ngFor="let conntry of lstContry" value={{conntry.id}}>{{conntry.name}}</option>
         </select>
       </div>
       <label for="contactprovince" class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố <span class="text-danger">{{addEditForm.get('contactAddress').get('province').invalid&&addEditForm.get('contactAddress').get('province').touched?'*':'&nbsp;'}}</span></label>
@@ -126,7 +125,7 @@
         <select class="form-control" (change)="ChagingValueProvince2($event)" id="contactprovince" formControlName="province"
           tabindex="16">
           <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-          <option *ngFor="let province of lstProvince2" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+          <option *ngFor="let province of lstProvince" value={{province.provinceId}}>{{province.provinceName}}</option>
         </select>
       </div>
     </div>
@@ -136,14 +135,14 @@
         <select class="form-control" (change)="ChagingValueDistrict2($event)" id="contactdistrict" formControlName="district"
           tabindex="17">
           <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
-          <option *ngFor="let district of lstTown2" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+          <option *ngFor="let district of lstTown2" value={{district.districtId}}>{{district.districtName}}</option>
         </select>
       </div>
       <label for="contactwards" class="col-sm-2 col-form-label text-md-right">Phường/ Xã <span class="text-danger">{{addEditForm.get('contactAddress').get('wards').invalid&&addEditForm.get('contactAddress').get('wards').touched?'*':'&nbsp;'}}</span></label>
       <div class="col-sm-4">
         <select class="form-control" id="contactwards" formControlName="wards" tabindex="18">
           <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-          <option *ngFor="let addrward of addrwards2" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+          <option *ngFor="let addrward of addrwards2" value={{addrward.communeId}}>{{addrward.communeName}}</option>
         </select>
       </div>
     </div>
@@ -182,7 +181,7 @@
     <div class="col-sm-4">
       <select class="form-control" id="extissueby" formControlName="extIssueBy" tabindex="23">
         <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-        <option *ngFor="let province of lstProvince" value={{province.tenDinhDanh}}>{{province.tenDinhDanh}}</option>
+        <option *ngFor="let province of lstProvince" value={{province.provinceId}}>{{province.provinceName}}</option>
       </select>
     </div>
   </div>
@@ -226,92 +225,92 @@
       <div class="col-sm-6" formGroupName="attachProperties">
         <div class="row">
           <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
-            (change)="selectFile('CMND')" ng2FileSelect [uploader]="uploaderCMND" tabindex="28" />
+            (change)="selectFile('CMND');loadPreviewCMND();" ng2FileSelect [uploader]="uploaderCMND" tabindex="28" />
           <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
         </div>
-        <div class="row uploadList" *ngFor="let item of uploaderCMND.queue">
-          <div class="col-sm-6">{{item.file.name}}</div>
-          <div class="col-sm-4">
-            <div class="progress">
-              <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-            </div>
+      </div>
+      <div class="col-sm-3" *ngFor="let item of uploaderCMND.queue; let i= index">
+        <div class="imgView">
+          <div class="text-right">
+            <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewCMND()">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
           </div>
-          <div class="col-sm-1">
-            <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                aria-hidden="true"></i></button>
-          </div>
+
+          <img [src]="imgSrcPreview_CMND[i]" alt="" />
+          <p>{{item.file.name}}</p>
         </div>
+        <hr>
       </div>
     </div>
     <div class="form-group row my-3">
       <label class="col-sm-6">Ảnh chân dung </label>
       <div class="col-sm-6" formGroupName="attachProperties">
-        <div class="row">
-          <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
-            (change)="selectFile('ACD')" ng2FileSelect [uploader]="uploaderACD" tabindex="28" />
-          <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
-        </div>
-        <div class="row uploadList" *ngFor="let item of uploaderACD.queue">
-          <div class="col-sm-6">{{item.file.name}}</div>
-          <div class="col-sm-4">
-            <div class="progress">
-              <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-            </div>
+        <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
+          (change)="selectFile('ACD');loadPreviewACD()" ng2FileSelect [uploader]="uploaderACD" tabindex="28" />
+        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
+      </div>
+      <div class="col-sm-3" *ngFor="let item of uploaderACD.queue; let i= index">
+        <div class="imgView">
+          <div class="text-right">
+            <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewACD()">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
           </div>
-          <div class="col-sm-1">
-            <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                aria-hidden="true"></i></button>
-          </div>
+          <img [src]="imgSrcPreview_ACD[i]" alt="" />
+          <p>{{item.file.name}}</p>
         </div>
+        <hr>
       </div>
     </div>
     <div class="form-group row my-3">
       <label class="col-sm-6">Giấy phép lái xe (chụp 2 mặt giấy phép)</label>
       <div class="col-sm-6" formGroupName="attachProperties">
-        <div class="row">
-          <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
-            (change)="selectFile('GPLX')" ng2FileSelect [uploader]="uploaderGPLX" tabindex="28" />
-          <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
-        </div>
-        <div class="row uploadList" *ngFor="let item of uploaderGPLX.queue">
-          <div class="col-sm-6">{{item.file.name}}</div>
-          <div class="col-sm-4">
-            <div class="progress">
-              <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-            </div>
+        <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
+          (change)="selectFile('GPLX');loadPreviewGPLX()" ng2FileSelect [uploader]="uploaderGPLX" tabindex="28" />
+        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
+      </div>
+      <div class="col-sm-3" *ngFor="let item of uploaderGPLX.queue; let i= index">
+        <div class="imgView">
+          <div class="text-right">
+            <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGPLX()">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
           </div>
-          <div class="col-sm-1">
-            <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                aria-hidden="true"></i></button>
-          </div>
+          <img [src]="imgSrcPreview_GPLX[i]" alt="" />
+          <p>{{item.file.name}}</p>
         </div>
+        <hr>
       </div>
     </div>
     <div class="form-group row my-3">
       <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan)</label>
       <div class="col-sm-6" formGroupName="attachProperties">
-        <div class="row">
-          <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
-            (change)="selectFile('SHK')" ng2FileSelect [uploader]="uploaderSHK" tabindex="28" required />
-          <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
-        </div>
-        <div class="row uploadList" *ngFor="let item of uploaderSHK.queue">
-          <div class="col-sm-6">{{item.file.name}}</div>
-          <div class="col-sm-4">
-            <div class="progress">
-              <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-            </div>
-          </div>
-          <div class="col-sm-1">
-            <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                aria-hidden="true"></i></button>
-          </div>
-        </div>
+        <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control" id="inputGroupFile01"
+          (change)="selectFile('SHK');loadPreviewSHK()" ng2FileSelect [uploader]="uploaderSHK" tabindex="28" required />
+        <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
       </div>
+      <div class="col-sm-3" *ngFor="let item of uploaderSHK.queue; let i= index">
+          <div class="imgView">
+            <div class="text-right">
+              <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewSHK()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+            <img [src]="imgSrcPreview_SHK[i]" alt="" />
+            <p>{{item.file.name}}</p>
+          </div>
+          <hr>
+        </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" (click)="Save($event)" [disabled]="_entity.accountId===0?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
+    isADd: {{isAdd}} <br>
+    mailValid: {{mailValid}} <br>
+    phoneValid: {{phoneValid}} <br>
+    addEditForm.valid: {{addEditForm.valid}} <br>
+    mailValid&&phoneValid&&addEditForm.valid: {{mailValid&&phoneValid&&addEditForm.valid}}
+    <button class="btn btn-success" (click)="Save($event)" [disabled]="isAdd?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
       tabindex="32">Lưu</button>
   </div>
 </form>

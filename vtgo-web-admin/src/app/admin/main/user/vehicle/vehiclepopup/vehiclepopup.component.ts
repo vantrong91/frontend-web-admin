@@ -39,19 +39,12 @@ export class VehiclepopupComponent implements OnInit {
 
 
   uploaderDKYXE: FileUploader = new FileUploader({ url: 'DKYXE' });
-  attachmentDKYXE: any = [];
   uploaderDKIEMXE: FileUploader = new FileUploader({ url: 'DKIEMXE' });
-  attachmentDKIEMXE: any = [];
   uploaderBHDSXE: FileUploader = new FileUploader({ url: 'BHDSXE' });
-  attachmentBHDSXE: any = [];
   uploaderBHHHXE: FileUploader = new FileUploader({ url: 'BHHHXE' });
-  attachmentBHHHXE: any = [];
   uploaderGXNTBGS: FileUploader = new FileUploader({ url: 'GXNTBGS' });
-  attachmentGXNTBGS: any = [];
   uploaderAPHXE: FileUploader = new FileUploader({ url: 'APHXE' });
-  attachmentAPHXE: any = [];
   uploaderACHXE: FileUploader = new FileUploader({ url: 'ACHXE' });
-  attachmentACHXE: any = [];
 
 
   public addEditForm: FormGroup;
@@ -148,26 +141,12 @@ export class VehiclepopupComponent implements OnInit {
       driverName: '',
       ipMonitoring: '',
     });
-    this.uploaderDKYXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderDKIEMXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderBHDSXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderBHHHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderGXNTBGS.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderACHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
-    this.uploaderAPHXE.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    };
   }
 
   ngOnInit() {
     this.searchObject2 = new SearchModel();
     this.searchObject2.searchParam2 = 0;
-    this.addressService.getProvince(this.searchObject2).subscribe(
+    this.addressService.getProvince1(this.searchObject2).subscribe(
       (response: any) => {
         this.lstAddress = response.data;
       }
@@ -211,17 +190,26 @@ export class VehiclepopupComponent implements OnInit {
     this.addEditForm.controls.attachProperties.value.GXNTBGS.length = 0;
     this.addEditForm.controls.attachProperties.value.ACHXE.length = 0;
     this.addEditForm.controls.attachProperties.value.APHXE.length = 0;
-    this.uploaderDKYXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.DKYXE.push(e.file.name));
-    this.uploaderDKIEMXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.DKIEMXE.push(e.file.name));
-    this.uploaderBHDSXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHDSXE.push(e.file.name));
-    this.uploaderBHHHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.BHHHXE.push(e.file.name));
-    this.uploaderGXNTBGS.queue.forEach(e => this.addEditForm.controls.attachProperties.value.GXNTBGS.push(e.file.name));
-    this.uploaderACHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.ACHXE.push(e.file.name));
-    this.uploaderAPHXE.queue.forEach(e => this.addEditForm.controls.attachProperties.value.APHXE.push(e.file.name));
+    this.uploaderDKYXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.DKYXE.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderDKIEMXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.DKIEMXE.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderBHDSXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.BHDSXE.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderBHHHXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.BHHHXE.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderGXNTBGS.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.GXNTBGS.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderACHXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.ACHXE.push(this.setNewFileName(e.file.name, index)));
+    this.uploaderAPHXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.APHXE.push(this.setNewFileName(e.file.name, index)));
   }
 
+  setNewFileName(old_FileName: string, order): string {
+    ++order;
+    // format: tentheomay_licencePlate_STT
+    let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+    let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+    let newFileName = nameOnly + "_" + this.addEditForm.get('licencePlate').value + "_" + order + fileFormat;
+    return newFileName.replace(/ /g, '');
+  }
   onSave(event) {
     if (this.isAdd) {
+      this.groupImg();
       this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
       this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
       this.uploadFileToServer(this.uploaderBHHHXE.queue, 'bhhhxe');
@@ -237,6 +225,8 @@ export class VehiclepopupComponent implements OnInit {
       this._entity.ownerId = this.oldownerId;
     }
     this.convert();
+    console.log(this._entity);
+
     this.vehicleViewModelChange.emit(this._entity);
     this.closeModalEvent.emit();
 
@@ -245,9 +235,11 @@ export class VehiclepopupComponent implements OnInit {
   uploadFileToServer(data: Array<any>, type: string) {
     var frmImg = new FormData();
     for (let i = 0; i < data.length; i++) {
-      frmImg.append('files', data[i]._file);
+      frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
+          console.log(response);
+          
         }
       )
     }

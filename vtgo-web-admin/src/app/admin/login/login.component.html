@@ -1,6 +1,6 @@
 <div class="login-register" style="background-image:url(assets/admin/images/background/bg-login.png);">
   <div class="login-box card">
-    
+
     <div class="card-body">
       <form class="form-horizontal form-material" novalidate (ngSubmit)="login(loginForm)" #loginForm="ngForm"
         autocomplete="off">
@@ -9,7 +9,8 @@
         <div class="form-group ">
           <div class="col-xs-12">
             <input class="form-control" type="text" placeholder="Tài khoản" id="userNameId" [(ngModel)]="userName" name="userName"
-              #userNameVar="ngModel" required [ngClass]="{'is-invalid' : (userNameVar.touched || userNameVar.dirty) && !userNameVar.valid}" (focusout)="release()">
+              #userNameVar="ngModel" required [ngClass]="{'is-invalid' : (userNameVar.touched || userNameVar.dirty) && !userNameVar.valid}"
+              (focusout)="release()">
             <span class="invalid-feedback" *ngIf="(userNameVar.touched ||
                                                          userNameVar.dirty) &&
                                                          userNameVar.errors">
@@ -22,7 +23,8 @@
         <div class="form-group">
           <div class="col-xs-12">
             <input class="form-control" placeholder="Mật khẩu" type="password" id="passwordId" [(ngModel)]="password"
-              name="password" #passwordVar="ngModel" required [ngClass]="{'is-invalid' : (passwordVar.touched || passwordVar.dirty) && !passwordVar.valid }" (focusout)="release()">
+              name="password" #passwordVar="ngModel" required [ngClass]="{'is-invalid' : (passwordVar.touched || passwordVar.dirty) && !passwordVar.valid }"
+              (focusout)="release()">
             <span class="invalid-feedback" *ngIf="(passwordVar.touched ||
                                                          passwordVar.dirty) &&
                                                          passwordVar.errors">
@@ -34,11 +36,11 @@
         </div>
         <div class="form-group row">
           <div class="col-md-12 font-14">
-            <div class="checkbox checkbox-primary pull-left p-t-0" >
+            <div class="checkbox checkbox-primary pull-left p-t-0">
               <input id="checkbox-signup" type="checkbox" (change)="saveAccount($event)">
-              <label for="checkbox-signup"> Lưu lại </label>
+              <label for="checkbox-signup"> <a class="link"> Lưu lại</a> </label>
             </div>
-            <a class="text-dark pull-right" id="to-recover" (click)="open(forgot)"> Quên mật khẩu?</a>
+            <a class="text-dark pull-right link" id="to-recover" (click)="open(forgot)"> Quên mật khẩu?</a>
           </div>
         </div>
         <div class="form-group text-center m-t-20">

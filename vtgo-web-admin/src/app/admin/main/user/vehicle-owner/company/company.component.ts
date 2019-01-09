@@ -81,7 +81,6 @@ export class CompanyComponent implements OnInit {
       }
       this.addEditForm.reset(company);
     } else {
-      console.log('add New');
       //add New
       this.isAdd = true;
       this.addEditForm.reset();
@@ -159,6 +158,8 @@ export class CompanyComponent implements OnInit {
 
 
   onSave(event) {
+    this._entity = this.addEditForm.value;
+    this.convert();
     if (this.isAdd) {
       if (this.uploaderDAUCT.queue.length == 0) {
         this.toastrService.error("Chưa chọn ảnh Dấu công ty");
@@ -174,10 +175,7 @@ export class CompanyComponent implements OnInit {
       }
       if (this.uploaderDAUCT.queue.length > 0 && this.uploaderDKKD.queue.length > 0
         && this.uploaderGPKDVT.queue.length > 0 && this.uploaderGPDHVT.queue.length > 0) {
-        this._entity = this.addEditForm.value;
-        this.convert();
-
-        console.log('add new img');
+        this.groupImg();
         this.uploadFileToServer(this.uploaderDAUCT.queue, 'dauct');
         this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
         this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
@@ -186,6 +184,8 @@ export class CompanyComponent implements OnInit {
       else
         this._entity.attachProperties = this.oldAttachPro;
       this._entity.vehicleOwnerType = 0;
+
+
       this.companyViewModelChange.emit(this._entity);
       this.closeEvent.emit();
     }
@@ -194,7 +194,7 @@ export class CompanyComponent implements OnInit {
   getCountryProvince() {
     //getAllCountry
     this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Country = response.data;
 
@@ -204,7 +204,7 @@ export class CompanyComponent implements OnInit {
 
     //get ALL Province of VN
     this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstContactAddress_Province = response.data;
@@ -216,21 +216,16 @@ export class CompanyComponent implements OnInit {
     this.bankListService.Get(new SearchModel).subscribe(
       response => {
         this.lstBank = response.data;
-      },
-      error => console.log(error)
+      }
     );
   }
 
   loadAddress() {
-    // console.log(this._entity.address);
-    // console.log(Object.values(this._entity.address));
-    // console.log(this._entity.contactAddress);
-    // console.log(Object.values(this._entity.contactAddress));
 
     //Load Address district
     if (Object.values(this._entity.address)[1] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.address)[1];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstAddress_District = response.data;
         }
@@ -239,7 +234,7 @@ export class CompanyComponent implements OnInit {
     // Load Address Ward
     if (Object.values(this._entity.address)[4] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstAddress_Wards = response.data;
         }
@@ -249,7 +244,7 @@ export class CompanyComponent implements OnInit {
     //Load contact Address district
     if (Object.values(this._entity.contactAddress)[1] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstContactAddress_District = response.data;
         }
@@ -258,7 +253,7 @@ export class CompanyComponent implements OnInit {
     // Load contact Address Ward
     if (Object.values(this._entity.contactAddress)[4] != null) {
       this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
-      this.addressService.getProvince(this.searchAddress).subscribe(
+      this.addressService.getProvince1(this.searchAddress).subscribe(
         (response: any) => {
           this.lstContactAddress_Wards = response.data;
         }
@@ -269,10 +264,8 @@ export class CompanyComponent implements OnInit {
 
   //On select change => reload list province address
   addressCountryChange(event) {
-    console.log(event.target.value);
-
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstAddress_Province.unshift('');
@@ -283,9 +276,8 @@ export class CompanyComponent implements OnInit {
   }
   //reload District
   addressProvinceChange(event) {
-    console.log(event.target.value);
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_District = response.data;
         this.lstAddress_District.unshift('');
@@ -295,9 +287,8 @@ export class CompanyComponent implements OnInit {
   }
   //reload Ward
   addressDistrictChange(event) {
-    console.log(event.target.value);
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstAddress_Wards = response.data;
         this.lstAddress_Wards.unshift('');
@@ -309,7 +300,7 @@ export class CompanyComponent implements OnInit {
   //get list Province of Contact Address
   contactAddressCountryChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_Province = response.data;
         this.lstContactAddress_Province.unshift('');
@@ -320,9 +311,8 @@ export class CompanyComponent implements OnInit {
   }
 
   contactAddressProvinceChange(event) {
-    console.log(event.target.value);
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_District = response.data;
         this.lstContactAddress_District.unshift('');
@@ -332,7 +322,7 @@ export class CompanyComponent implements OnInit {
   }
   contactAddressDistrictChange(event) {
     this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince(this.searchAddress).subscribe(
+    this.addressService.getProvince1(this.searchAddress).subscribe(
       (response: any) => {
         this.lstContactAddress_Wards = response.data;
         this.lstContactAddress_Wards.unshift('');
@@ -369,7 +359,6 @@ export class CompanyComponent implements OnInit {
       default:
         alert("Đã xảy ra lỗi xin vui lòng thử lại!");
     }
-    // console.log(this.uploader.queue);
     this.groupImg();
   }
 
@@ -378,16 +367,24 @@ export class CompanyComponent implements OnInit {
     this.addEditForm.controls.attachProperties.value.DAUCT.length = 0;
     this.addEditForm.controls.attachProperties.value.GPKDVT.length = 0;
     this.addEditForm.controls.attachProperties.value.GPDHVT.length = 0;
-    this.uploaderDKKD.queue.forEach(el => this.addEditForm.controls.attachProperties.value.DKKD.push(el.file.name));
-    this.uploaderDAUCT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.DAUCT.push(el.file.name));
-    this.uploaderGPKDVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPKDVT.push(el.file.name));
-    this.uploaderGPDHVT.queue.forEach(el => this.addEditForm.controls.attachProperties.value.GPDHVT.push(el.file.name));
+    this.uploaderDKKD.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.DKKD.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderDAUCT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.DAUCT.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderGPKDVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPKDVT.push(this.setNewFileName(el.file.name, index)));
+    this.uploaderGPDHVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPDHVT.push(this.setNewFileName(el.file.name, index)));
+  }
+  setNewFileName(old_FileName: string, order): string {
+    ++order;
+    // format: tentheomay_SDT_STT
+    let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+    let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+    let newFileName = nameOnly + "_" + this.addEditForm.get('companyPhone').value + "_" + order + fileFormat;
+    return newFileName.replace(/ /g, '');
   }
   uploadFileToServer(data: Array<any>, type: string) {
 
     var frmImg = new FormData();
     for (let i = 0; i < data.length; i++)
-      frmImg.append('files', data[i]._file);
+      frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
         console.log(response.data);

@@ -87,7 +87,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
         required: 'Hãy chọn loại tài khoản'
       },
       state: {
-        require: 'Chọn trạng thái'
+        required: 'Hãy chọn trạng thái'
       }
     }
     // Định nghĩa yêu cầu của validator cho người dùng với form

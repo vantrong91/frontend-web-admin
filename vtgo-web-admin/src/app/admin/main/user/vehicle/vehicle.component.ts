@@ -95,12 +95,12 @@ export class VehicleComponent implements OnInit {
       this.isToggle = false;
     }
     if (this.isToggle) {
-      this.addressService.getById(row.licenceIssueBy).subscribe(
-        (response: any) => {
-          this.oldLicenceIssueBy = row.licenceIssueBy;
-          row.licenceIssueBy = response.data[0].tenDinhDanh;
-        }
-      );
+      // this.addressService.getById(row.licenceIssueBy).subscribe(
+      //   (response: any) => {
+      //     this.oldLicenceIssueBy = row.licenceIssueBy;
+      //     row.licenceIssueBy = response.data[0].tenDinhDanh;
+      //   }
+      // );
     }
     this._vehicleTable.rowDetail.toggleExpandRow(row);
   }

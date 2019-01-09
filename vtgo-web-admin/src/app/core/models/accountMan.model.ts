@@ -15,4 +15,6 @@ export class AccountManViewModel {
     deviceToken: any;
     salt: any;
     accountCode:string;
+    state:string;
+    bankCode: string;
 }

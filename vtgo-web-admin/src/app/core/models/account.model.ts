@@ -16,4 +16,5 @@ export class AccountViewModel {
     salt: string;
     accountCode: string;
     state: number;
+    bankCode: string;
 }

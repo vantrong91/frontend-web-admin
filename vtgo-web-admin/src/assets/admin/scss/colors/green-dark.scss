@@ -146,7 +146,7 @@ a.link {
 /*sidebar navigation
 *******************/
 .card-no-border .left-sidebar, .card-no-border .sidebar-nav{
-    background: $sidebar;
+    background:  linear-gradient(to right, #509b34 0%, #55ce63 500%);
 }
 .mini-sidebar .sidebar-nav{
     background: transparent;

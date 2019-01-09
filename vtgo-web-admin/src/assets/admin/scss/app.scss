@@ -2162,7 +2162,7 @@ Layouts
     }
     .left-sidebar,
     .sidebar-nav {
-        background: $themecolor;
+        background:  linear-gradient(to right, #509b34 0%, #55ce63 500%);
     }
     .sidebar-nav>ul>li>a.active {
         background: $white;

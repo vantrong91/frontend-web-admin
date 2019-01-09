@@ -1,8 +1,9 @@
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter, Pipe, Inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { OwnerViewModel,DataService, IAccountServiceToken, AccountService, AccountViewModel } from 'src/app/core';
+import { OwnerViewModel, DataService, IAccountServiceToken, AccountService, AccountViewModel } from 'src/app/core';
 import { FileUploader } from 'ng2-file-upload';
+import { forEach } from '@angular/router/src/utils/collection';
 @Component({
   selector: 'app-goodsowner-add',
   templateUrl: './goodsowner-add.component.html',
@@ -12,9 +13,11 @@ export class GoodsownerAddComponent implements OnInit {
 
   _entity: OwnerViewModel;
   public addEditForm: FormGroup;
-  uploaderCMND: FileList;
+  uploaderCMND: FileUploader = new FileUploader({ url: 'CMND' });
   isSelectFile = false;
   phoneValid = false;
+
+  imgSrcPreview = [];
 
   @Input() set ownerViewModel(owner: OwnerViewModel) {
     if (owner !== null || owner !== undefined) {
@@ -56,9 +59,9 @@ export class GoodsownerAddComponent implements OnInit {
 
   Save(event) {
     // event.preventDefault();
-    if (this.isSelectFile == true) {
-      this.uploadFileToServer(this.uploaderCMND, 'cmnd-owner');
+    if (this.uploaderCMND.queue != null && this.uploaderCMND.queue.length > 0) {
       this._entity = this.addEditForm.value;
+      this.uploadFileToServer(this.uploaderCMND.queue, 'cmnd-owner');
       this.convert();
       this.ownerViewModelChange.emit(this._entity);
       this.closeForm.emit();
@@ -67,7 +70,7 @@ export class GoodsownerAddComponent implements OnInit {
     }
 
   }
-
+ 
   checkPhone() {
     let account = new AccountViewModel();
     let phoneNumber = this.addEditForm.value.phoneNumber;
@@ -96,29 +99,43 @@ export class GoodsownerAddComponent implements OnInit {
   }
 
 
-  propCMND: any;
-  selectFile(ev, type: string) {
-    this.uploaderCMND = ev.target.files;
-    const fileListAsArray = Array.from(this.uploaderCMND);
-    for (let item of fileListAsArray) {
-      this.addEditForm.controls.attachProperties.value.CMND.push(item.name);
-    }
-    this.isSelectFile = true;
+  selectFile() {
+    this.groupImg();
   }
 
-  uploadFileToServer(data: FileList, type: string) {
+  groupImg() {
+    this.addEditForm.controls.attachProperties.value.CMND.length = 0;
+    this.uploaderCMND.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.CMND.push(this.setNewFileName(el.file.name, index)));
+  }
 
-    var frmImg = new FormData();
-    const fileListAsArray = Array.from(data);
-    for (let item of fileListAsArray) {
-      frmImg.append('files', item);
+  loadPreviewCMND() {
+    this.imgSrcPreview = [];
+    for (let i = 0; i < this.uploaderCMND.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderCMND.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview.push(reader.result);
+      }
     }
+  };
+
+  uploadFileToServer(data: Array<any>, type: string) {
+    var frmImg = new FormData();
+    for (let i = 0; i < data.length; i++)
+      frmImg.append('files', data[i]._file, this.setNewFileName(data[i]._file.name, i));
     this.dataService.postFile('upload/' + type, frmImg).subscribe(
       response => {
+        console.log(response);
       }
     );
   }
 
-
-
+  setNewFileName(old_FileName: string, order): string {
+    ++order;
+    // format: tentheomay_SDT_STT
+    let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
+    let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
+    let newFileName = nameOnly + "_" + this.addEditForm.get('phoneNumber').value + "_" + order + fileFormat;
+    return newFileName.replace(/ /g, '');
+  }
 }
