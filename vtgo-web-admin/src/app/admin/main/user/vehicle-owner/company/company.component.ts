@@ -5,7 +5,7 @@ import {
   SearchModel, AddressConstant,
   ICategoryServiceToken, ICategoryService,
   IAddressServiceToken, IAddressService,
-  IBankListServiceToken, IBankListService
+  IBankListServiceToken, IBankListService, AddressCategoryModel
 } from '../../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
@@ -35,17 +35,27 @@ export class CompanyComponent implements OnInit {
 
   addressConstant = new AddressConstant();
   searchAddress: SearchModel;
-  lstAddress_Country = [];
+
+  addrProvince: AddressCategoryModel = new AddressCategoryModel();
+  addrDistrict: AddressCategoryModel = new AddressCategoryModel();
+  addrCommune: AddressCategoryModel = new AddressCategoryModel();
+
+  lstAddress_Country = [{ id: 1, name: "Việt Nam" }];
   lstAddress_Province = [];
   lstAddress_District = [];
   lstAddress_Wards = [];
 
-  lstContactAddress_Country = [];
+  lstContactAddress_Country = [{ id: 1, name: "Việt Nam" }];
   lstContactAddress_Province = [];
   lstContactAddress_District = [];
   lstContactAddress_Wards = [];
 
   lstBank = [];
+
+  imgSrcPreview_DKKD = [];
+  imgSrcPreview_DAUCT = [];
+  imgSrcPreview_GPKDVT = [];
+  imgSrcPreview_GPDHVT = [];
 
   /* Private Vảiables */
   _entity: CompanyViewModel;
@@ -148,7 +158,7 @@ export class CompanyComponent implements OnInit {
       this.addEditForm.enable();
     }
     this.searchAddress = new SearchModel();
-    this.getCountryProvince();
+    this.getAllProvince();
     this.getBankList();
 
     if (!this.isAdd) {
@@ -180,31 +190,21 @@ export class CompanyComponent implements OnInit {
         this.uploadFileToServer(this.uploaderDKKD.queue, 'dkkd');
         this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
         this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+        this._entity.vehicleOwnerType = 0;
+        this.companyViewModelChange.emit(this._entity);
+        this.closeEvent.emit();
       }
-      else
-        this._entity.attachProperties = this.oldAttachPro;
+    } else {
+      this._entity.attachProperties = this.oldAttachPro;
       this._entity.vehicleOwnerType = 0;
-
-
       this.companyViewModelChange.emit(this._entity);
       this.closeEvent.emit();
     }
   }
 
-  getCountryProvince() {
-    //getAllCountry
-    this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_Country = response.data;
-
-        this.lstContactAddress_Country = response.data;
-      }
-    )
-
-    //get ALL Province of VN
-    this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+  getAllProvince() {
+    let searchPr = new AddressCategoryModel()
+    this.addressService.getProvince(searchPr).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstContactAddress_Province = response.data;
@@ -213,19 +213,20 @@ export class CompanyComponent implements OnInit {
   }
 
   getBankList() {
-    this.bankListService.Get(new SearchModel).subscribe(
-      response => {
-        this.lstBank = response.data;
-      }
-    );
+    // this.bankListService.Get(new SearchModel).subscribe(
+    //   response => {
+    //     this.lstBank = response.data;
+    //   }
+    // );
   }
 
   loadAddress() {
+    console.log(this._entity);
 
     //Load Address district
     if (Object.values(this._entity.address)[1] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.address)[1];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrDistrict.codeId = Object.values(this._entity.address)[1];
+      this.addressService.getDistrict(this.addrDistrict).subscribe(
         (response: any) => {
           this.lstAddress_District = response.data;
         }
@@ -233,8 +234,8 @@ export class CompanyComponent implements OnInit {
     }
     // Load Address Ward
     if (Object.values(this._entity.address)[4] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrCommune.codeId = Object.values(this._entity.address)[4];
+      this.addressService.getCommune(this.addrCommune).subscribe(
         (response: any) => {
           this.lstAddress_Wards = response.data;
         }
@@ -243,8 +244,8 @@ export class CompanyComponent implements OnInit {
 
     //Load contact Address district
     if (Object.values(this._entity.contactAddress)[1] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrDistrict.codeId = Object.values(this._entity.contactAddress)[1];
+      this.addressService.getDistrict(this.addrDistrict).subscribe(
         (response: any) => {
           this.lstContactAddress_District = response.data;
         }
@@ -252,8 +253,8 @@ export class CompanyComponent implements OnInit {
     }
     // Load contact Address Ward
     if (Object.values(this._entity.contactAddress)[4] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrCommune.codeId = Object.values(this._entity.contactAddress)[4];
+      this.addressService.getCommune(this.addrCommune).subscribe(
         (response: any) => {
           this.lstContactAddress_Wards = response.data;
         }
@@ -264,20 +265,12 @@ export class CompanyComponent implements OnInit {
 
   //On select change => reload list province address
   addressCountryChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_Province = response.data;
-        this.lstAddress_Province.unshift('');
-        // this.lstAddress_District = [];
-        // this.lstAddress_Wards = [];
-      }
-    )
+
   }
   //reload District
   addressProvinceChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrDistrict.codeId = event.target.value;
+    this.addressService.getDistrict(this.addrDistrict).subscribe(
       (response: any) => {
         this.lstAddress_District = response.data;
         this.lstAddress_District.unshift('');
@@ -287,11 +280,10 @@ export class CompanyComponent implements OnInit {
   }
   //reload Ward
   addressDistrictChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrCommune.codeId = event.target.value;
+    this.addressService.getCommune(this.addrCommune).subscribe(
       (response: any) => {
         this.lstAddress_Wards = response.data;
-        this.lstAddress_Wards.unshift('');
       }
     )
   }
@@ -299,20 +291,12 @@ export class CompanyComponent implements OnInit {
   /////////////////////////////////////////////////contact Addr
   //get list Province of Contact Address
   contactAddressCountryChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstContactAddress_Province = response.data;
-        this.lstContactAddress_Province.unshift('');
-        // this.lstContactAddress_District=[];
-        // this.lstContactAddress_Wards = [];
-      }
-    )
+
   }
 
   contactAddressProvinceChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrDistrict.codeId = event.target.value;
+    this.addressService.getDistrict(this.addrDistrict).subscribe(
       (response: any) => {
         this.lstContactAddress_District = response.data;
         this.lstContactAddress_District.unshift('');
@@ -321,11 +305,10 @@ export class CompanyComponent implements OnInit {
     )
   }
   contactAddressDistrictChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrCommune.codeId = event.target.value;
+    this.addressService.getCommune(this.addrCommune).subscribe(
       (response: any) => {
         this.lstContactAddress_Wards = response.data;
-        this.lstContactAddress_Wards.unshift('');
       }
     )
   }
@@ -390,6 +373,47 @@ export class CompanyComponent implements OnInit {
         console.log(response.data);
       }
     );
+  }
+
+  loadPreviewDKKD() {
+    this.imgSrcPreview_DKKD = [];
+    for (let i = 0; i < this.uploaderDKKD.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderDKKD.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_DKKD.push(reader.result);
+      }
+    }
+  }
+  loadPreviewDAUCT() {
+    this.imgSrcPreview_DAUCT = [];
+    for (let i = 0; i < this.uploaderDAUCT.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderDAUCT.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_DAUCT.push(reader.result);
+      }
+    }
+  }
+  loadPreviewGPKDVT() {
+    this.imgSrcPreview_GPKDVT = [];
+    for (let i = 0; i < this.uploaderGPKDVT.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderGPKDVT.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_GPKDVT.push(reader.result);
+      }
+    }
+  }
+  loadPreviewGPDHVT() {
+    this.imgSrcPreview_GPDHVT = [];
+    for (let i = 0; i < this.uploaderGPDHVT.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderGPDHVT.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_GPDHVT.push(reader.result);
+      }
+    }
   }
 
 
@@ -472,103 +496,4 @@ export class CompanyComponent implements OnInit {
     }
   }
   onbusinessLicenseIssueDateSelect(event) { }
-
-
-  initData() {
-
-    this.addEditForm.reset(this.obj());
-  }
-
-  obj() {
-    return JSON.parse(`
-      {
-        "fullName": "ThaiCompany",
-        "director": "tengiamdoc",
-        "taxCode": "123456",
-        "contactPhone": "0999888111",
-        "email": "ThaiCompany001@gmail.com",
-        "fax": "012344777",
-        "website": "webcompany.vn",
-        "contactPerson": "tennguoilienhe",
-        "contactPersonPhone": "sdtlenhe",
-        "contactPersonEmail": "emaillienhe",
-        "businessLicense": "sogiayphepKDVT",
-        "businessLicenseIssueDate": {
-            "year": 2018,
-            "month": 6,
-            "day": 4
-        },
-        "businessLicenseIssueBy": "noicap",
-        "moderator": "tennguoidieuhanh",
-        "moderatorLicense": "sogiayphepdieuhanh",
-        "moderatorLicenseIssueDate": {
-            "year": 2018,
-            "month": 6,
-            "day": 4
-        },
-        "moderatorLicenseExpDate": {
-            "year": 2018,
-            "month": 6,
-            "day": 4
-        },
-        "companyPhone": "0777797777",
-        "businessTransportLicense": "12333",
-        "businessTransportLicenseIssueDate": {
-            "year": 2018,
-            "month": 6,
-            "day": 4
-        },
-        "businessTransportLicenseExpDate": {
-          "year": 2011,
-          "month": 1,
-          "day": 1
-      },
-        "nationality": null,
-        "licenseNo": null,
-        "issueDate": 0,
-        "issueBy": null,
-        "gender": 0,
-        "ethnic": null,
-        "vehicleOwnerType": 0,
-        "contactAddress": {
-            "country": "VN",
-            "province": "NA",
-            "wards": "HD",
-            "street": "sonhaduongCty",
-            "district": "ND"
-        },
-        "address": {
-            "country": "VN",
-            "householdNo": "sonhaduogCty",
-            "province": "NA",
-            "wards": "HD",
-            "district": "ND"
-        },
-        "attachProperties": {
-            "DKKD": ["testavata.jpg", "tesss.jpg"],
-            "GPKDVT": ["tesss2.jpg"],
-            "DAUCT": ["tesss.jpg"],
-            "GPDHVT": ["1538560824-458-13-1538556895-width650height458.png"]
-        },
-        "bankAccountLst": [{
-            "accountId": null,
-            "bankCode": "AAA",
-            "accountNumber": "177777777337",
-            "branch": "NA",
-            "ownerName": "van2"
-        }, {
-            "accountId": null,
-            "bankCode": "",
-            "accountNumber": "111112233422444",
-            "branch": "",
-            "ownerName": "Van3"
-        }, {
-            "accountId": null,
-            "bankCode": "CS",
-            "accountNumber": "2022222222331",
-            "branch": "NA",
-            "ownerName": "van1"
-        }]
-    }`);
-  }
 }

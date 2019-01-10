@@ -39,7 +39,7 @@ export class ExchangeComponent implements OnInit {
   fee = 0;
   linkBanking = '';
 
-  hisContent = '';
+  hisContent = 'Nộp tiền vào tài khoản ';
   widrawalContent = '';
 
   //balance Info
@@ -97,10 +97,11 @@ export class ExchangeComponent implements OnInit {
           this.accounts = response.data;
           this.Arr = Object.values(this.accounts);
           if (response.data.length != 0) {
+            console.log(response.data[0]);
             this.currentAccountId = response.data[0].accountId;
             this.currentAccountBankCode = response.data[0].bankCodeTran;
             this.getTransCodeFromSV();
-
+            this.hisContent = this.hisContent + response.data[0].accountCode;
           }
         }
       }
@@ -277,7 +278,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   payment() {
-    //check codeTran trước khi nạp tiền
+    //check số tiền nộp + codeTran trước khi nạp tiền
     if (this.reconfirmForm.get('transferAmount').value > 0) {
       let inputCodeTrans = this.reconfirmForm.get('inputCode').value;
       if (inputCodeTrans === this.codeTranferFromSV) {

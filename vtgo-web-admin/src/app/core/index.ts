@@ -41,6 +41,7 @@ export * from './models/address.model';
 export * from './models/driver.model';
 export * from './models/owner.model';
 export * from './models/bank-admin.model';
+export * from './models/data-address.model';
 export * from "./models/address-category.model";
 // Export Service
 export * from './services/authen.service';

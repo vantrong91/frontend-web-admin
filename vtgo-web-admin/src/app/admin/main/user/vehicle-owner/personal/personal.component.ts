@@ -5,7 +5,7 @@ import {
   DataService, SearchModel,
   ICategoryServiceToken, ICategoryService,
   IAddressServiceToken, IAddressService,
-  IBankListService, IBankListServiceToken
+  IBankListService, IBankListServiceToken, AddressCategoryModel
 } from '../../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
@@ -33,15 +33,19 @@ export class PersonalComponent implements OnInit {
 
   isAdd = false; //isAdd =true => add new;  flase => edit
 
+  addrProvince: AddressCategoryModel = new AddressCategoryModel();
+  addrDistrict: AddressCategoryModel = new AddressCategoryModel();
+  addrCommune: AddressCategoryModel = new AddressCategoryModel();
+
   //to get,set Address
   addressConstant = new AddressConstant();
   searchAddress = new SearchModel();;
-  lstAddress_Country = [];
+  lstAddress_Country = [{ id: 1, name: "Việt Nam" }];
   lstAddress_Province = [];
   lstAddress_District = [];
   lstAddress_Wards = [];
 
-  lstContactAddress_Country = [];
+  lstContactAddress_Country = [{ id: 1, name: "Việt Nam" }];
   lstContactAddress_Province = [];
   lstContactAddress_District = [];
   lstContactAddress_Wards = [];
@@ -142,7 +146,7 @@ export class PersonalComponent implements OnInit {
 
     this.getEthnic();
     this.getBankList();
-    this.getCountryProvince();
+    this.getAllProvince();
     if (!this.isAdd) {
       this.loadAddress();
     }
@@ -172,12 +176,14 @@ export class PersonalComponent implements OnInit {
         this.uploadFileToServer(this.uploaderSHK.queue, 'shk');
         this.uploadFileToServer(this.uploaderGPKDVT.queue, 'gpkdvt');
         this.uploadFileToServer(this.uploaderGPDHVT.queue, 'gpdhvt');
+        this._entity.vehicleOwnerType = 1;
+        this.personViewModelChange.emit(this._entity);
+        this.closeForm.emit();
       }
-      else {
-        this._entity.attachProperties = this.oldAttachPro;
-      }
+    }
+    else {
+      this._entity.attachProperties = this.oldAttachPro;
       this._entity.vehicleOwnerType = 1;
-
       this.personViewModelChange.emit(this._entity);
       this.closeForm.emit();
     }
@@ -194,21 +200,9 @@ export class PersonalComponent implements OnInit {
     );
   }
 
-  getCountryProvince() {
-    //getAllCountry
-
-    this.searchAddress.searchParam2 = this.addressConstant.COUNTRY;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_Country = response.data;
-
-        this.lstContactAddress_Country = response.data;
-      }
-    )
-
-    //get ALL Province of VN
-    this.searchAddress.searchParam2 = this.addressConstant.PROVINCE;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+  getAllProvince() {
+    let searchPr = new AddressCategoryModel();
+    this.addressService.getProvince(searchPr).subscribe(
       (response: any) => {
         this.lstAddress_Province = response.data;
         this.lstContactAddress_Province = response.data;
@@ -217,46 +211,48 @@ export class PersonalComponent implements OnInit {
   }
 
   getBankList() {
-    this.bankListService.Get(new SearchModel).subscribe(
-      response => {
-        this.lstBank = response.data;
-      }
-    );
+    // this.bankListService.Get(new SearchModel).subscribe(
+    //   response => {
+    //     this.lstBank = response.data;
+    //   }
+    // );
   }
 
   loadAddress() {
-    //Load Address district from province
+    console.log(this._entity);
+
+    //Load Address district
     if (Object.values(this._entity.address)[2] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.address)[2];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrDistrict.codeId = Object.values(this._entity.address)[2];
+      this.addressService.getDistrict(this.addrDistrict).subscribe(
         (response: any) => {
           this.lstAddress_District = response.data;
         }
       );
     }
-    // Load Address Ward from district
+    // Load Address Ward
     if (Object.values(this._entity.address)[4] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.address)[4];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrCommune.codeId = Object.values(this._entity.address)[4];
+      this.addressService.getCommune(this.addrCommune).subscribe(
         (response: any) => {
           this.lstAddress_Wards = response.data;
         }
       );
     }
 
-    //Load contact Address district from province
+    //Load contact Address district
     if (Object.values(this._entity.contactAddress)[1] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[1];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrDistrict.codeId = Object.values(this._entity.contactAddress)[1];
+      this.addressService.getDistrict(this.addrDistrict).subscribe(
         (response: any) => {
           this.lstContactAddress_District = response.data;
         }
       );
     }
-    // Load contact Address Ward from district
+    // Load contact Address Ward
     if (Object.values(this._entity.contactAddress)[4] != null) {
-      this.searchAddress.searchParam2 = Object.values(this._entity.contactAddress)[4];
-      this.addressService.getProvince1(this.searchAddress).subscribe(
+      this.addrCommune.codeId = Object.values(this._entity.contactAddress)[4];
+      this.addressService.getCommune(this.addrCommune).subscribe(
         (response: any) => {
           this.lstContactAddress_Wards = response.data;
         }
@@ -265,20 +261,15 @@ export class PersonalComponent implements OnInit {
 
   }
 
+
   //On select change => reload list province address
   addressCountryChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstAddress_Province = response.data;
-        this.lstAddress_Province.unshift('');
-      }
-    )
+
   }
   //reload District
   addressProvinceChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrDistrict.codeId = event.target.value;
+    this.addressService.getDistrict(this.addrDistrict).subscribe(
       (response: any) => {
         this.lstAddress_District = response.data;
         this.lstAddress_District.unshift('');
@@ -288,11 +279,10 @@ export class PersonalComponent implements OnInit {
   }
   //reload Ward
   addressDistrictChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrCommune.codeId = event.target.value;
+    this.addressService.getCommune(this.addrCommune).subscribe(
       (response: any) => {
         this.lstAddress_Wards = response.data;
-        this.lstAddress_Wards.unshift('');
       }
     )
   }
@@ -300,19 +290,12 @@ export class PersonalComponent implements OnInit {
   /////////////////////////////////////////////////contact Addr
   //get list Province of Contact Address
   contactAddressCountryChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
-      (response: any) => {
-        this.lstContactAddress_Province = response.data;
-        this.lstContactAddress_Province.unshift('');
-      }
-    )
+
   }
 
   contactAddressProvinceChange(event) {
-
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrDistrict.codeId = event.target.value;
+    this.addressService.getDistrict(this.addrDistrict).subscribe(
       (response: any) => {
         this.lstContactAddress_District = response.data;
         this.lstContactAddress_District.unshift('');
@@ -321,15 +304,13 @@ export class PersonalComponent implements OnInit {
     )
   }
   contactAddressDistrictChange(event) {
-    this.searchAddress.searchParam2 = event.target.value;
-    this.addressService.getProvince1(this.searchAddress).subscribe(
+    this.addrCommune.codeId = event.target.value;
+    this.addressService.getCommune(this.addrCommune).subscribe(
       (response: any) => {
         this.lstContactAddress_Wards = response.data;
-        this.lstContactAddress_Wards.unshift('');
       }
     )
   }
-
 
 
   //show img

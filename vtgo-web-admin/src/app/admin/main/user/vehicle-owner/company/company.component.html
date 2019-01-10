@@ -83,7 +83,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="addressCountryChange($event)"
                 formControlName="country" tabindex="12">
                 <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
-                <option *ngFor="let conntry of lstAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+                <option *ngFor="let conntry of lstAddress_Country" value={{conntry.id}}>{{conntry.name}}</option>
               </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger"></span></label>
@@ -91,7 +91,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressProvinceChange($event)"
                 id="addrprovince" formControlName="province" tabindex="13">
                 <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-                <option *ngFor="let province of lstAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+                <option *ngFor="let province of lstAddress_Province" value={{province.provinceId}}>{{province.provinceName}}</option>
               </select>
             </div>
           </div>
@@ -101,7 +101,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="addressDistrictChange($event)"
                 id="addrdistrict" formControlName="district" tabindex="14">
                 <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
-                <option *ngFor="let district of lstAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+                <option *ngFor="let district of lstAddress_District" value={{district.districtId}}>{{district.districtName}}</option>
               </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger"></span></label>
@@ -109,7 +109,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
                 tabindex="15">
                 <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-                <option *ngFor="let addrward of lstAddress_Wards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+                <option *ngFor="let addrward of lstAddress_Wards" value={{addrward.communeId}}>{{addrward.communeName}}</option>
               </select>
             </div>
           </div>
@@ -130,7 +130,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrcountry" (change)="contactAddressCountryChange($event)"
                 formControlName="country" tabindex="17">
                 <option selected value=null disabled>&#45;&#45; Chọn quốc gia &#45;&#45;</option>
-                <option *ngFor="let conntry of lstContactAddress_Country" value={{conntry.pk}}>{{conntry.tenDinhDanh}}</option>
+                <option *ngFor="let conntry of lstContactAddress_Country" value={{conntry.id}}>{{conntry.name}}</option>
               </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Tỉnh/Thành phố<span class="text-danger"></span></label>
@@ -138,7 +138,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressProvinceChange($event)"
                 id="addrprovince" formControlName="province" tabindex="18">
                 <option selected value=null disabled>&#45;&#45; Chọn tỉnh/thành phố &#45;&#45;</option>
-                <option *ngFor="let province of lstContactAddress_Province" value={{province.pk}}>{{province.tenDinhDanh}}</option>
+                <option *ngFor="let province of lstContactAddress_Province" value={{province.provinceId}}>{{province.provinceName}}</option>
               </select>
             </div>
           </div>
@@ -148,7 +148,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" (change)="contactAddressDistrictChange($event)"
                 id="addrdistrict" formControlName="district" tabindex="19">
                 <option selected value=null disabled>&#45;&#45; Chọn quận/huyện &#45;&#45;</option>
-                <option *ngFor="let district of lstContactAddress_District" value={{district.pk}}>{{district.tenDinhDanh}}</option>
+                <option *ngFor="let district of lstContactAddress_District" value={{district.districtId}}>{{district.districtName}}</option>
               </select>
             </div>
             <label class="col-sm-2 col-form-label text-md-right">Phường/Xã<span class="text-danger"></span></label>
@@ -156,7 +156,7 @@
               <select class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="addrwards" formControlName="wards"
                 tabindex="20">
                 <option selected value=null disabled>&#45;&#45; Chọn phường/xã &#45;&#45;</option>
-                <option *ngFor="let addrward of lstContactAddress_Wards" value={{addrward.pk}}>{{addrward.tenDinhDanh}}</option>
+                <option *ngFor="let addrward of lstContactAddress_Wards" value={{addrward.communeId}}>{{addrward.communeName}}</option>
               </select>
             </div>
           </div>
@@ -170,7 +170,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="Giấy cấp phép liên quan"> 
+    <ngb-tab title="Giấy cấp phép liên quan">
       <ng-template ngbTabContent>
         <div>Giấy đăng ký kinh doanh</div>
         <div class="form-group row my-3">
@@ -186,7 +186,7 @@
             <div class="form-group">
               <div class="input-group">
                 <input class="form-control  mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
-                  #blid="ngbDatepicker" formControlName="businessLicenseIssueDate"  tabindex="23">
+                  #blid="ngbDatepicker" formControlName="businessLicenseIssueDate" tabindex="23">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="blid.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -198,7 +198,7 @@
           <label class="col-sm-2 col-form-label text-md-right">Nơi cấp<span class="text-danger"></span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" placeholder="Nơi cấp"
-              formControlName="businessLicenseIssueBy"  tabindex="24">
+              formControlName="businessLicenseIssueBy" tabindex="24">
           </div>
         </div>
         <hr class="hr-border-color mb-1">
@@ -207,7 +207,7 @@
           <label for="TranLic" class="col-sm-2 col-form-label text-md-right">Số giấy phép<span class="text-danger"></span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="TranLic" placeholder="Số giấy phép kinh doanh vận tải"
-              formControlName="businessTransportLicense"  tabindex="25">
+              formControlName="businessTransportLicense" tabindex="25">
           </div>
         </div>
         <div class="row mb-1">
@@ -216,7 +216,7 @@
             <div class="form-group">
               <div class="input-group">
                 <input class="form-control  mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
-                  #btlid="ngbDatepicker" formControlName="businessTransportLicenseIssueDate"  tabindex="26">
+                  #btlid="ngbDatepicker" formControlName="businessTransportLicenseIssueDate" tabindex="26">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btlid.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -230,7 +230,7 @@
             <div class="form-group">
               <div class="input-group">
                 <input class="form-control  mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
-                  #btled="ngbDatepicker" formControlName="businessTransportLicenseExpDate"  tabindex="27">
+                  #btled="ngbDatepicker" formControlName="businessTransportLicenseExpDate" tabindex="27">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="btled.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -247,12 +247,12 @@
           <label for="Mod" class="col-sm-2 col-form-label text-md-right">Họ và tên<span class="text-danger"></span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="Mod" placeholder="Người điều hành vận tải"
-              formControlName="moderator"  tabindex="28">
+              formControlName="moderator" tabindex="28">
           </div>
           <label for="ModLic" class="col-sm-2 col-form-label text-md-right">Số giấy phép<span class="text-danger"></span></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" [ngClass]="{'mouse-hover': noneShow}" id="ModLic" placeholder="Số giây phép điều hành vận tải"
-              formControlName="moderatorLicense"  tabindex="29">
+              formControlName="moderatorLicense" tabindex="29">
           </div>
         </div>
         <div class="row mb-1">
@@ -261,7 +261,7 @@
             <div class="form-group">
               <div class="input-group">
                 <input class="form-control  mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
-                  #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate"  tabindex="30">
+                  #mlid="ngbDatepicker" formControlName="moderatorLicenseIssueDate" tabindex="30">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="mlid.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -396,88 +396,88 @@
             <label class="col-sm-6">Đăng ký kinh doanh:</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('DKKD')"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('DKKD');loadPreviewDKKD()"
                   ng2FileSelect [uploader]="uploaderDKKD" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderDKKD.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderDKKD.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewDKKD()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_DKKD[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Mẫu dấu công ty:</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('DAUCT')"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('DAUCT');loadPreviewDAUCT()"
                   ng2FileSelect [uploader]="uploaderDAUCT" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderDAUCT.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderDAUCT.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewDAUCT()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_DAUCT[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải:</label>
-            <div class="col-sm-6">
+            <div class="col-sm-6 ">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('GPKDVT')"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('GPKDVT');loadPreviewGPKDVT()"
                   ng2FileSelect [uploader]="uploaderGPKDVT" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGPKDVT.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderGPKDVT.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGPKDVT()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_GPKDVT[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Giấy phép điều hành vận tải:</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('GPDHVT')"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="selectFile('GPDHVT');loadPreviewGPDHVT()"
                   ng2FileSelect [uploader]="uploaderGPDHVT" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGPDHVT.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderGPDHVT.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGPDHVT()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_GPDHVT[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
 

@@ -5,8 +5,9 @@ import {
     DriverViewModel, SearchModel,
     DataService, AuthenService,
     ICategoryServiceToken, ICategoryService,
-    IAddressServiceToken, IAddressService
+    IAddressServiceToken, IAddressService, AddressCategoryModel
 } from 'src/app/core';
+import { ifError } from 'assert';
 
 
 @Component({
@@ -33,9 +34,24 @@ export class DriverComponent implements OnInit {
     ulrImgFull = '';
     imgName = '';
 
+    searchProvince: AddressCategoryModel = new AddressCategoryModel();
+    searchDistrict: AddressCategoryModel = new AddressCategoryModel();
+    searchCommune: AddressCategoryModel = new AddressCategoryModel();
 
+    dataAddress = new Array();
+    dataContactAddress = new Array();
+    lstProvince = new Array();
+    lstDistrict = new Array();
+    lstCommune = new Array();
 
+    viewAccountId: number;
+    viewProvince = 'Tỉnh...';
+    viewDistrict = 'Huyện...';
+    viewCommune = 'Xã...';
 
+    viewContactProvince = 'Tỉnh...';
+    viewContactDistrict = 'Huyện...';
+    viewContactCommune = 'Xã...';
 
     constructor(private modalServices: NgbModal,
         private dataService: DataService,
@@ -46,44 +62,203 @@ export class DriverComponent implements OnInit {
     ) { }
 
     toggleExpandRow(row) {
-        if (row.address != null && row.contactAddress != null) {
-            if (row.ethnic > 0 || row.address.wards > 0 || row.contactAddress.wards > 0) {
-                this.isToggle = true;
-            } else {
-                this.isToggle = false;
+        this.viewAccountId =  row.accountId;
+        if (!this.checkToggleAddress(this.viewAccountId)) {
+            this.viewProvince = 'Tỉnh...';
+            this.viewDistrict = 'Huyện...';
+            this.viewCommune = 'Xã...';
+            if (row.address != null) {
+                this.loadProvinceByCode(row.address);
             }
         }
-        if (this.isToggle) {
-            this.categoryService.GetById(row.ethnic).subscribe(
-                (response: any) => {
-                    this.oldEthnic = row.ethnic;
-                    row.ethnic = response.data[0].item;
-                }
-            );
-            this.addressService.getById(row.contactAddress.wards).subscribe(
-                (response: any) => {
-                    this.oldContactAddress = row.contactAddress.wards;
-                    row.contactAddress.wards = response.data[0].tenDayDu;
-                }
-            );
-            this.addressService.getById(row.address.wards).subscribe(
-                (response: any) => {
-                    this.oldAddress = row.address.wards;
-                    row.address.wards = response.data[0].tenDayDu;
-                }
-            )
+        if (!this.checkToggleContactAddress(this.viewAccountId)) {
+            this.viewContactProvince = 'Tỉnh...';
+            this.viewContactDistrict = 'Huyện...';
+            this.viewContactCommune = 'Xã...';
+            
+
+            if (row.contactAddress != null) {
+                this.loadContactProvinceByCode(row.contactAddress);
+            }
+        } else {
+            console.log("Đã load!");
         }
         this.table.rowDetail.toggleExpandRow(row);
     }
     onDetailToggle(event) {
     }
 
+    checkToggleAddress(accountId) {
+        let loadded = false;
+        if (this.dataAddress != null)
+            this.dataAddress.forEach(item => {
+                if (item.accountId == accountId)
+                    loadded = true;
+            });
+        return loadded;
+    }
+
+    checkToggleContactAddress(accountId) {
+        let loadded = false;
+        if (this.dataContactAddress != null)
+            this.dataContactAddress.forEach(item => {
+                if (item.accountId == accountId)
+                    loadded = true;
+            });
+        return loadded;
+    }
+
+    getAddressToShow(accountId) {
+        let address = '';
+        if (this.dataAddress != null)
+            this.dataAddress.forEach((item, index) => {
+                if (item.accountId == accountId)
+                    address = this.dataAddress[index].address.wards + '. ' + this.dataAddress[index].address.district + '. ' + this.dataAddress[index].address.province;
+            });
+        return address;
+    }
+    getContactAddressToShow(accountId) {
+        let address = '';
+        if (this.dataContactAddress != null)
+            this.dataContactAddress.forEach((item, index) => {
+                if (item.accountId == accountId)
+                    address = this.dataContactAddress[index].address.wards + '. ' + this.dataContactAddress[index].address.district + '. ' + this.dataContactAddress[index].address.province;
+            });
+        return address;
+    }
+    addressLoadding(address) {
+        if (address != null && address.wards != null && address.district != null && address.province != null)
+            return this.viewCommune + '. ' + this.viewDistrict + '. ' + this.viewProvince;
+        else return 'Chưa có dữ liệu.';
+    }
+
+    addressContactLoadding(address) {
+        if (address != null && address.wards != null && address.district != null && address.province != null)
+            return this.viewContactCommune + '. ' + this.viewContactDistrict + '. ' + this.viewContactProvince;
+        else return 'Chưa có dữ liệu.';
+    }
+
+    loadProvinceByCode(address) {
+        let codeProvince = address.province;
+        if (codeProvince != null) {
+            let province = 'Tỉnh...'
+            this.lstProvince.forEach(item => {
+                if (item.provinceId == codeProvince) {
+                    province = item.provinceName;
+                    this.viewProvince = province;
+                    //get All district of Province
+                    this.addressService.getDistrict({ codeId: codeProvince }).subscribe(
+                        response => {
+                            if (response.data.length > 0) {
+                                this.lstDistrict = response.data;
+                                if (address.district != null) {
+                                    this.loadDistrictByCode(address.district, 1);
+                                    if (address.wards != null) {
+                                        //get All CommuneOf District
+                                        this.addressService.getCommune({ codeId: address.district }).subscribe(
+                                            response => {
+                                                if (response.data.length > 0) {
+                                                    this.lstCommune = response.data;
+                                                    this.loadCommuneByCode(address.wards, 1);
+                                                    console.log("addressPush:" + this.viewCommune + '-' + this.viewDistrict + '-' + this.viewProvince);
+                                                    this.dataAddress.push({
+                                                        accountId: this.viewAccountId,
+                                                        address: {
+                                                            province: this.viewProvince,
+                                                            district: this.viewDistrict,
+                                                            wards: this.viewCommune
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }
+
+    loadContactProvinceByCode(address) {
+        let codeProvince = address.province;
+        if (codeProvince != null) {
+            let province = 'Tỉnh...'
+            this.lstProvince.forEach(item => {
+                if (item.provinceId == codeProvince) {
+                    province = item.provinceName;
+                    this.viewContactProvince = province;
+                    //get All district of Province
+                    this.addressService.getDistrict({ codeId: codeProvince }).subscribe(
+                        response => {
+                            if (response.data.length > 0) {
+                                this.lstDistrict = response.data;
+                                if (address.district != null) {
+                                    this.loadDistrictByCode(address.district, 2);
+                                    if (address.wards != null) {
+                                        //get All CommuneOf District
+                                        this.addressService.getCommune({ codeId: address.district }).subscribe(
+                                            response => {
+                                                if (response.data.length > 0) {
+                                                    this.lstCommune = response.data;
+                                                    this.loadCommuneByCode(address.wards, 2);
+
+                                                    console.log("Contact addressPush:" + this.viewContactCommune + '-' + this.viewContactDistrict + '-' + this.viewContactProvince);
+                                                    this.dataContactAddress.push({
+                                                        accountId: this.viewAccountId,
+                                                        address: {
+                                                            province: this.viewContactProvince,
+                                                            district: this.viewContactDistrict,
+                                                            wards: this.viewContactCommune
+                                                        }
+
+                                                    });
+
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }
+    loadDistrictByCode(codeDistrict, type) {
+        let district = 'Huyện...'
+        this.lstDistrict.forEach(item => {
+            if (item.districtId == codeDistrict) {
+                district = item.districtName;
+            }
+        });
+        if (type == 1)//load address
+            this.viewDistrict = district;
+        if (type == 2)//load contactaddress
+            this.viewContactDistrict = district;
+    }
+    loadCommuneByCode(codeCommune, type) {
+        let commune = 'Xã...'
+        this.lstCommune.forEach(item => {
+            if (item.communeId == codeCommune) {
+                commune = item.communeName;
+            }
+        });
+        if (type == 1)//load address
+            this.viewCommune = commune;
+        if (type == 2)//load contactaddress
+            this.viewContactCommune = commune;
+    }
     ngOnInit() {
         this.loadData();
     }
     loadData() {
         let search = '';
         this.search(search);
+        this.loadAllProvince();
     }
 
     search(search) {
@@ -91,11 +266,20 @@ export class DriverComponent implements OnInit {
             response => {
                 if (response.status === 0) {
                     this.rows = response.data;
+                    console.log(this.rows);
                 }
             }
         );
     }
 
+    loadAllProvince() {
+        this.addressService.getProvince(this.searchProvince).subscribe(
+            response => {
+                if (response.data != null)
+                    this.lstProvince = response.data;
+            }
+        );
+    }
     searchByPressEnter(event) {
 
         if (event.keyCode == 13)

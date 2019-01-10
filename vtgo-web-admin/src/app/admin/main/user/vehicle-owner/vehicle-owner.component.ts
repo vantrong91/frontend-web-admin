@@ -158,7 +158,7 @@ export class VehicleOwnerComponent implements OnInit, AfterViewChecked {
     this.vehicleOwnerService.Create(event).subscribe(
       response => {
         if (response.status === 0) {
-          this.toastr.success("Đã thêm khách hàng doanh nghiệp!", "Thông báo...");
+          this.toastr.success("Đã thêm khách hàng!", "Thông báo...");
           this.search(this.searchObject);
         }
         else {

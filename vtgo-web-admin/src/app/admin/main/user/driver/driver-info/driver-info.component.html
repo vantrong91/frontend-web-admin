@@ -305,11 +305,6 @@
     </div>
   </div>
   <div class="modal-footer">
-    isADd: {{isAdd}} <br>
-    mailValid: {{mailValid}} <br>
-    phoneValid: {{phoneValid}} <br>
-    addEditForm.valid: {{addEditForm.valid}} <br>
-    mailValid&&phoneValid&&addEditForm.valid: {{mailValid&&phoneValid&&addEditForm.valid}}
     <button class="btn btn-success" (click)="Save($event)" [disabled]="isAdd?!(mailValid&&phoneValid&&addEditForm.valid):addEditForm.invalid"
       tabindex="32">Lưu</button>
   </div>
