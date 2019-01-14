@@ -111,7 +111,7 @@
     </ngb-tab>
   </ngb-tabset>
   <div class="modal-footer">
-    {{codeTranferFromSV}}
+    <!-- {{codeTranferFromSV}} -->
     <button type="button" class="btn btn-success" (click)="withdrawal()" *ngIf="isWithdrawal" [disabled]="!reconfirmForm.valid">Rút
       tiền</button>
     <button type="button" class="btn btn-success" (click)="payment()" *ngIf="!isWithdrawal">Nộp tiền</button>

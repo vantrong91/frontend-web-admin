@@ -131,7 +131,7 @@ export class GoodsownerAddComponent implements OnInit {
   }
 
   setNewFileName(old_FileName: string, order): string {
-    ++order;
+    // ++order;
     // format: tentheomay_SDT_STT
     let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
     let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));

@@ -5,7 +5,7 @@ import {
   DataService, SearchModel,
   ICategoryServiceToken, ICategoryService,
   IAddressServiceToken, IAddressService,
-  IBankListService, IBankListServiceToken, AddressCategoryModel
+  IBankListService, IBankListServiceToken, AddressCategoryModel, IBanksServiceToken, IBanksService
 } from '../../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
@@ -55,6 +55,12 @@ export class PersonalComponent implements OnInit {
 
   lstBank = [];
 
+  imgSrcPreview_SHK = [];
+  imgSrcPreview_CMND = [];
+  imgSrcPreview_GPKDVT = [];
+  imgSrcPreview_GPDHVT = [];
+
+
   /* Private Vảiables */
   _entity: PersonalViewModel;
 
@@ -95,6 +101,7 @@ export class PersonalComponent implements OnInit {
     private toastrService: ToastrService,
     private modalServices: NgbModal,
     @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
+    @Inject(IBanksServiceToken) private banksService: IBanksService,
     @Inject(IAddressServiceToken) private addressService: IAddressService,
     @Inject(IBankListServiceToken) private bankListService: IBankListService,
     private formBuilder: FormBuilder) {
@@ -211,11 +218,13 @@ export class PersonalComponent implements OnInit {
   }
 
   getBankList() {
-    // this.bankListService.Get(new SearchModel).subscribe(
-    //   response => {
-    //     this.lstBank = response.data;
-    //   }
-    // );
+    let searchBanks = new SearchModel();
+    this.banksService.GetBankList(searchBanks).subscribe(
+      response => {
+        if (response.data != null)
+          this.lstBank = response.data;
+      }
+    );
   }
 
   loadAddress() {
@@ -341,8 +350,52 @@ export class PersonalComponent implements OnInit {
     this.uploaderGPKDVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPKDVT.push(this.setNewFileName(el.file.name, index)));
     this.uploaderGPDHVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPDHVT.push(this.setNewFileName(el.file.name, index)));
   }
+
+  loadPreviewSHK() {
+    this.imgSrcPreview_SHK = [];
+    for (let i = 0; i < this.uploaderSHK.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderSHK.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_SHK.push(reader.result);
+      }
+    }
+  }
+
+  loadPreviewCMND() {
+    this.imgSrcPreview_CMND = [];
+    for (let i = 0; i < this.uploaderCMND.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderCMND.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_CMND.push(reader.result);
+      }
+    }
+  }
+
+  loadPreviewGPKDVT() {
+    this.imgSrcPreview_GPKDVT = [];
+    for (let i = 0; i < this.uploaderGPKDVT.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderGPKDVT.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_GPKDVT.push(reader.result);
+      }
+    }
+  }
+  loadPreviewGPDHVT() {
+    this.imgSrcPreview_GPDHVT = [];
+    for (let i = 0; i < this.uploaderGPDHVT.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderGPDHVT.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreview_GPDHVT.push(reader.result);
+      }
+    }
+  }
+
   setNewFileName(old_FileName: string, order): string {
-    ++order;
+    // ++order;
     // format: tentheomay_SDT_STT
     let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
     let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));

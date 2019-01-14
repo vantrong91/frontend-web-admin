@@ -81,17 +81,17 @@
               <div class="row">
                 <strong class="col-2 text-right">- Giấy tờ:</strong>
                 <div class="col-3">
-                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}, Loại giấy phép: {{row.typeLicenseNo |
-                    showTypeLicense}}</div>
-                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{ row.issueDate | date:
-                    'dd/MM/yyyy'}}<br>&nbsp;&nbsp;&nbsp;&nbsp;Nơi cấp: {{row.issueBy}}
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.licenseNo}}
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;Loại giấy phép: {{row.typeLicenseNo |showTypeLicense}}</div>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{ row.issueDate | date:'dd/MM/yyyy'}}
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;Nơi cấp: <ng-container *ngFor="let item of lstProvince;let i = index">{{ row.issueBy==item.provinceId?item.provinceName:''}}</ng-container>
                   </div>
                 </div>
                 <strong class="col-3 text-right">- Giấy phép:</strong>
                 <div class="col-3">
                   <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Số: {{row.extLicenseNo}}</div>
-                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{row.extIssueDate | date:
-                    'dd/MM/yyyy'}}<br>&nbsp;&nbsp;&nbsp;&nbsp;Nơi cấp: {{row.extIssueBy}}
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;Ngày cấp: {{row.extIssueDate | date:'dd/MM/yyyy'}}
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;Nơi cấp: <ng-container *ngFor="let item of lstProvince;let i = index">{{ row.extIssueBy==item.provinceId?item.provinceName:''}}</ng-container>
                   </div>
                 </div>
               </div>

@@ -12,7 +12,7 @@ import { SharedModule } from '../../../../shared';
 import {
   IVehicleOwnerServiceToken,
   VehicleOwnerService,
-  ICategoryServiceToken, CategoryService, IAddressServiceToken, AddressService, IBankListServiceToken, BankListService
+  ICategoryServiceToken, CategoryService, IAddressServiceToken, AddressService, IBankListServiceToken, BankListService, IBanksServiceToken, BanksService
 } from '../../../../core';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -36,6 +36,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     { provide: IVehicleOwnerServiceToken, useClass: VehicleOwnerService },
     { provide: ICategoryServiceToken, useClass: CategoryService },
     { provide: IAddressServiceToken, useClass: AddressService },
-    { provide: IBankListServiceToken, useClass: BankListService }]
+    { provide: IBankListServiceToken, useClass: BankListService },
+    { provide: IBanksServiceToken, useClass: BanksService}
+]
 })
 export class VehicleOwnerModule { }

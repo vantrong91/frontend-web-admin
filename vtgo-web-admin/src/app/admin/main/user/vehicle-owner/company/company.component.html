@@ -291,7 +291,8 @@
       <ng-template ngbTabContent>
         <div class="" formArrayName="bankAccountLst" *ngFor="let bank of addEditForm.controls['bankAccountLst']['controls']; index as i">
           <div [formGroupName]="i">
-            <div class="row my-3 border-top" *ngIf="i>0">
+            <div class="row my-3 border-top">
+            <!-- <div class="row my-3 border-top" *ngIf="i>0"> -->
               <div class="col text-right mt-1">
                 <button class="btn btn-danger" (click)="onRemoveBankGroup($event,i)">
                   <span class="fa fa-trash-o"></span>
@@ -304,7 +305,7 @@
                 <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}"
                   [attr.disabled]="noneShow ? 'disabled' : null">
                   <option selected value=null disabled>&#45;&#45; Chọn Ngân hàng &#45;&#45;</option>
-                  <option *ngFor="let item of lstBank" [value]="item.bankCode">{{item.bankName}}</option>
+                  <option *ngFor="let item of lstBank" [value]="item.itemId">{{item.itemName}}</option>
                 </select>
                 <input type="hidden" formControlName="bankCode" name="bankCode" />
               </div>

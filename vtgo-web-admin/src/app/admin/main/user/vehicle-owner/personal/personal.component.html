@@ -25,8 +25,8 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
-                  ngbDatepicker #isdate="ngbDatepicker" formControlName="issueDate">
+                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
+                  #isdate="ngbDatepicker" formControlName="issueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="isdate.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -206,7 +206,7 @@
                 <select class="form-control" formControlName="bankCode" name="bankCode" [ngClass]="{'mouse-hover': noneShow}"
                   [attr.disabled]="noneShow ? 'disabled' : null">
                   <option selected value=null disabled>&#45;&#45; Chọn Ngân hàng &#45;&#45;</option>
-                  <option *ngFor="let item of lstBank" [value]="item.bankCode">{{item.bankName}}</option>
+                  <option *ngFor="let item of lstBank" [value]="item.itemId">{{item.itemName}}</option>
                 </select>
                 <input type="hidden" formControlName="bankCode" name="bankCode" />
               </div>
@@ -295,88 +295,88 @@
             <label class="col-sm-6">Sổ hộ khẩu (ảnh chụp trang bìa và các trang có liên quan):</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg()"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg();loadPreviewSHK()"
                   ng2FileSelect [uploader]="uploaderSHK" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderSHK.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderSHK.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewSHK()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_SHK[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Chứng minh thu/Hộ chiếu/Thẻ căn cước công dân của chủ xe (chụp 2 mặt của giấy tờ):</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg() "
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg();loadPreviewCMND() "
                   ng2FileSelect [uploader]="uploaderCMND" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderCMND.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderCMND.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewCMND()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_CMND[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Giấy phép kinh doanh vận tải (chụp 2 mặt giấy phép):</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg() "
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg();loadPreviewGPKDVT() "
                   ng2FileSelect [uploader]="uploaderGPKDVT" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGPKDVT.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderGPKDVT.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGPKDVT()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_GPKDVT[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <div class="form-group row my-3">
             <label class="col-sm-6">Giấy phép điều hành vận tải (chụp 2 mặt giấy phép):</label>
             <div class="col-sm-6">
               <div class="row">
-                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg()"
+                <input type="file" accept="image/*" multiple class="custom-file-input form-control" (change)="groupImg();loadPreviewGPDHVT()"
                   ng2FileSelect [uploader]="uploaderGPDHVT" tabindex="28" />
                 <label class="custom-file-label lbl-input" for=""><i class="fa fa-file-image-o" aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGPDHVT.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderGPDHVT.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGPDHVT()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreview_GPDHVT[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
         </div>
@@ -398,8 +398,8 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
-                  ngbDatepicker #businessTransportLicenseIssueDatepick="ngbDatepicker" formControlName="businessTransportLicenseIssueDate">
+                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
+                  #businessTransportLicenseIssueDatepick="ngbDatepicker" formControlName="businessTransportLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseIssueDatepick.toggle()"
                     type="button">
@@ -413,8 +413,8 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false"
-                  ngbDatepicker #businessTransportLicenseExpDatePick="ngbDatepicker" formControlName="businessTransportLicenseExpDate">
+                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
+                  #businessTransportLicenseExpDatePick="ngbDatepicker" formControlName="businessTransportLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="businessTransportLicenseExpDatePick.toggle()"
                     type="button">
@@ -445,8 +445,8 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false"
-                  ngbDatepicker #moderatorLicenseIssueDatePick="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
+                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
+                  #moderatorLicenseIssueDatePick="ngbDatepicker" formControlName="moderatorLicenseIssueDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseIssueDatePick.toggle()"
                     type="button">
@@ -460,8 +460,8 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control mouse-hover" placeholder="--Chọn ngày--"  (keypress)="false"
-                  ngbDatepicker #moderatorLicenseExpDatePick="ngbDatepicker" formControlName="moderatorLicenseExpDate">
+                <input class="form-control mouse-hover" placeholder="--Chọn ngày--" (keypress)="false" ngbDatepicker
+                  #moderatorLicenseExpDatePick="ngbDatepicker" formControlName="moderatorLicenseExpDate">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="moderatorLicenseExpDatePick.toggle()"
                     type="button">

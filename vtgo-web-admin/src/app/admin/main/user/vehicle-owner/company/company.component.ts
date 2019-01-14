@@ -5,7 +5,7 @@ import {
   SearchModel, AddressConstant,
   ICategoryServiceToken, ICategoryService,
   IAddressServiceToken, IAddressService,
-  IBankListServiceToken, IBankListService, AddressCategoryModel
+  IBankListServiceToken, IBankListService, AddressCategoryModel, IBanksServiceToken, IBanksService
 } from '../../../../../core';
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MyFormatter } from '../../../../../core/services/format-date.service';
@@ -56,6 +56,8 @@ export class CompanyComponent implements OnInit {
   imgSrcPreview_DAUCT = [];
   imgSrcPreview_GPKDVT = [];
   imgSrcPreview_GPDHVT = [];
+
+  
 
   /* Private Vảiables */
   _entity: CompanyViewModel;
@@ -111,6 +113,7 @@ export class CompanyComponent implements OnInit {
     @Inject(ICategoryServiceToken) private categoryService: ICategoryService,
     @Inject(IAddressServiceToken) private addressService: IAddressService,
     @Inject(IBankListServiceToken) private bankListService: IBankListService,
+    @Inject(IBanksServiceToken) private banksService: IBanksService,
 
     private formBuilder: FormBuilder) {
     this.addEditForm = this.formBuilder.group({
@@ -213,11 +216,14 @@ export class CompanyComponent implements OnInit {
   }
 
   getBankList() {
-    // this.bankListService.Get(new SearchModel).subscribe(
-    //   response => {
-    //     this.lstBank = response.data;
-    //   }
-    // );
+    let searchBanks = new SearchModel();
+    this.banksService.GetBankList(searchBanks).subscribe(
+      response => {
+        if (response.data != null)
+          this.lstBank = response.data;
+      }
+    );
+
   }
 
   loadAddress() {
@@ -356,7 +362,7 @@ export class CompanyComponent implements OnInit {
     this.uploaderGPDHVT.queue.forEach((el, index) => this.addEditForm.controls.attachProperties.value.GPDHVT.push(this.setNewFileName(el.file.name, index)));
   }
   setNewFileName(old_FileName: string, order): string {
-    ++order;
+    // ++order;
     // format: tentheomay_SDT_STT
     let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
     let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));

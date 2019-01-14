@@ -284,22 +284,22 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="DKYXEfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile01" (change)="selectFile('DKYXE')" ng2FileSelect [uploader]="uploaderDKYXE" />
+                  id="inputGroupFile01" (change)="selectFile('DKYXE');loadPreviewDKYXE()" ng2FileSelect [uploader]="uploaderDKYXE" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderDKYXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderDKYXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewDKYXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewDKYXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
 
@@ -308,23 +308,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile02" (change)="selectFile('DKIEMXE')" ng2FileSelect [uploader]="uploaderDKIEMXE"
+                  id="inputGroupFile02" (change)="selectFile('DKIEMXE');loadPreviewDKIEMXE()" ng2FileSelect [uploader]="uploaderDKIEMXE"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile02"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderDKIEMXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderDKIEMXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewDKIEMXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewDKIEMXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
 
@@ -333,23 +333,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile03" (change)="selectFile('BHDSXE')" ng2FileSelect [uploader]="uploaderBHDSXE"
+                  id="inputGroupFile03" (change)="selectFile('BHDSXE');loadPreviewBHDSXE()" ng2FileSelect [uploader]="uploaderBHDSXE"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile03"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderBHDSXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderBHDSXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewBHDSXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewBHDSXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
 
@@ -358,23 +358,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile04" (change)="selectFile('BHHHXE')" ng2FileSelect [uploader]="uploaderBHHHXE"
+                  id="inputGroupFile04" (change)="selectFile('BHHHXE');loadPreviewBHHHXE()" ng2FileSelect [uploader]="uploaderBHHHXE"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile01"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderBHHHXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderBHHHXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewBHHHXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewBHHHXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
 
@@ -383,23 +383,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile05" (change)="selectFile('GXNTBGS')" ng2FileSelect [uploader]="uploaderGXNTBGS"
+                  id="inputGroupFile05" (change)="selectFile('GXNTBGS');loadPreviewGXNTBGS()" ng2FileSelect [uploader]="uploaderGXNTBGS"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile05"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderGXNTBGS.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderGXNTBGS.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewGXNTBGS()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewGXNTBGS[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <!-- Phù hiệu xe -->
@@ -408,23 +408,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile06" (change)="selectFile('APHXE')" ng2FileSelect [uploader]="uploaderAPHXE"
+                  id="inputGroupFile06" (change)="selectFile('APHXE');loadPreviewAPHXE()" ng2FileSelect [uploader]="uploaderAPHXE"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile06"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderAPHXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderAPHXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewAPHXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewAPHXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
           <!-- Ảnh chụp xe -->
@@ -433,23 +433,23 @@
             <div class="col-sm-6" formGroupName="attachProperties">
               <div class="row">
                 <input type="file" accept="image/*" name="CMNDfiles[]" multiple class="custom-file-input form-control"
-                  id="inputGroupFile07" (change)="selectFile('ACHXE')" ng2FileSelect [uploader]="uploaderACHXE"
+                  id="inputGroupFile07" (change)="selectFile('ACHXE');loadPreviewACHXE()" ng2FileSelect [uploader]="uploaderACHXE"
                   tabindex="28" />
                 <label class="custom-file-label lbl-input" for="inputGroupFile07"><i class="fa fa-file-image-o"
                     aria-hidden="true"></i></label>
               </div>
-              <div class="row uploadList" *ngFor="let item of uploaderACHXE.queue">
-                <div class="col-sm-6">{{item.file.name}}</div>
-                <div class="col-sm-4">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+'%'}"></div>
-                  </div>
+            </div>
+            <div class="col-sm-3" *ngFor="let item of uploaderACHXE.queue; let i= index">
+              <div class="imgView">
+                <div class="text-right">
+                  <button type="button" class="btn btn-danger btn-remove-img " (click)="item.remove();groupImg();loadPreviewACHXE()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <div class="col-sm-1">
-                  <button type="button" class="btn btn-danger" (click)="item.remove();groupImg();"><i class="fa fa-times"
-                      aria-hidden="true"></i></button>
-                </div>
+                <img [src]="imgSrcPreviewACHXE[i]" alt="" />
+                <p>{{item.file.name}}</p>
               </div>
+              <hr>
             </div>
           </div>
         </div>

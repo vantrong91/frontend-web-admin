@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChildren, ElementRef, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControlName, FormArray } from '@angular/forms';
-import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService, AccountTypeConstant, AdminConstant } from 'src/app/core';
+import { AccountViewModel, GenericValidator, compareValidator, IAccountService, IAccountServiceToken, DataService, AccountTypeConstant, AdminConstant, ConfigService } from 'src/app/core';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FileUploader } from 'ng2-file-upload';
@@ -40,6 +40,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
   @Output() accountViewModelChange = new EventEmitter<AccountViewModel>();
   @Output() closeModalEvent = new EventEmitter<any>();
   constructor(private dataService: DataService,
+    private configService: ConfigService,
     private fb: FormBuilder,
     private toast: ToastrService,
     @Inject(IAccountServiceToken) private accountService: IAccountService) {
@@ -150,11 +151,11 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
 
   resetPassword() {
     if (confirm('Bạn có muốn khôi phục mật khẩu về mặc định?')) {
-      this._entity.password = AdminConstant.DEFAULT_PASSWORD;
+      this._entity.password = this.configService.getConfiguration().DEFAULT_PASSWORD_RESET;
       this.accountService.Update(this._entity).subscribe(
         response => {
           if (response.status == 0)
-            this.toast.success('Tài khoản ' + this._entity.accountId + ' đã được khôi phục về mật khẩu mặc định', 'Thông báo', {
+            this.toast.success('Tài khoản ' + this._entity.accountId + ' đã được khôi phục về mật khẩu mặc định: '+ this.configService.getConfiguration().DEFAULT_PASSWORD_RESET, 'Thông báo', {
               disableTimeOut: true
             })
           else
@@ -164,7 +165,7 @@ export class AccountInfoComponent implements OnInit, AfterViewInit {
       );
     }
     else {
-
+      // alert(this.configService.getConfiguration().DEFAULT_PASSWORD_RESET);
     }
   }
   checkEmailPhone(event, type) {

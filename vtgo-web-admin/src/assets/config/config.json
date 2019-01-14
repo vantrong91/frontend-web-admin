@@ -5,10 +5,14 @@
 
 
   "BASE_API": "http://api.vtgo.vn:8086/vtgo-admin/v1/",
+  "BASE_API_SHARE": "http://api.vtgo.vn:8888/v1/",
   "BASE_URL_IMG": "http://api.vtgo.vn:5000/u02/IMAGE/",
   "URL_GET_TRANF_CONTENT_ODER_PAD": "http://api.vtgo.vn:8888/v1/wallet/info-message-tranfer",
   "URL_GET_TRANF_CONTENT_PAYMENT": "http://api.vtgo.vn:8888/v1/wallet/info-message-topup",
+  
+  "DEFAULT_PASSWORD_RESET":"vtgo@123",
 
+  
   "PAGE_CONFIG": {
     "HeaderHeight": 50,
     "ColumnWith": 50,

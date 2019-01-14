@@ -9,6 +9,7 @@ import {
     ICategoryService, ICategoryServiceToken,
     IAddressServiceToken, IAddressService, IDataServiceToken, AddressCategoryModel
 } from 'src/app/core';
+import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 // import * as $ from 'jquery';
 
 @Component({
@@ -145,6 +146,8 @@ export class DriverInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (!this.isAdd)
+            this.loadAddress();
         this.lstContry = [{ id: 1, name: "Việt Nam" }];
 
         this.searchEthnic = new SearchModel();
@@ -168,6 +171,48 @@ export class DriverInfoComponent implements OnInit {
         )
     }
 
+
+
+    loadAddress() {
+        //Load Address district
+        if (this._entity.address.province != null) {
+            this.addrDistrict.codeId = this._entity.address.province
+            this.addressService.getDistrict(this.addrDistrict).subscribe(
+                (response: any) => {
+                    this.lstTown = response.data;
+                }
+            );
+        }
+        // Load Address Ward
+        if (this._entity.address.district != null) {
+            this.addrCommune.codeId = this._entity.address.district
+            this.addressService.getCommune(this.addrCommune).subscribe(
+                (response: any) => {
+                    this.addrwards = response.data;
+                }
+            );
+        }
+
+        //Load contact Address district
+        if (this._entity.contactAddress.province != null) {
+            this.addrDistrict.codeId = this._entity.contactAddress.province;
+            this.addressService.getDistrict(this.addrDistrict).subscribe(
+                (response: any) => {
+                    this.lstTown2 = response.data;
+                }
+            );
+        }
+        // Load contact Address Ward
+        if (this._entity.contactAddress.district != null) {
+            this.addrCommune.codeId = this._entity.contactAddress.district;
+            this.addressService.getCommune(this.addrCommune).subscribe(
+                (response: any) => {
+                    this.addrwards2 = response.data;
+                }
+            );
+        }
+
+    }
 
     ChangingValue(event) {
         this.searchEthnic.searchParam2 = event.target.value;
@@ -263,7 +308,7 @@ export class DriverInfoComponent implements OnInit {
                 this.imgSrcPreview_CMND.push(reader.result);
             }
         }
-    };
+    }
     loadPreviewACD() {
         this.imgSrcPreview_ACD = [];
         for (let i = 0; i < this.uploaderACD.queue.length; i++) {
@@ -273,7 +318,7 @@ export class DriverInfoComponent implements OnInit {
                 this.imgSrcPreview_ACD.push(reader.result);
             }
         }
-    };
+    }
     loadPreviewGPLX() {
         this.imgSrcPreview_GPLX = [];
         for (let i = 0; i < this.uploaderGPLX.queue.length; i++) {
@@ -283,7 +328,7 @@ export class DriverInfoComponent implements OnInit {
                 this.imgSrcPreview_GPLX.push(reader.result);
             }
         }
-    };
+    }
     loadPreviewSHK() {
         this.imgSrcPreview_SHK = [];
         for (let i = 0; i < this.uploaderSHK.queue.length; i++) {
@@ -293,10 +338,10 @@ export class DriverInfoComponent implements OnInit {
                 this.imgSrcPreview_SHK.push(reader.result);
             }
         }
-    };
+    }
 
     setNewFileName(old_FileName: string, order): string {
-        ++order;
+        order;
         // format: tentheomay_SDT_STT
         let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
         let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));

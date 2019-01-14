@@ -46,6 +46,14 @@ export class VehiclepopupComponent implements OnInit {
   uploaderAPHXE: FileUploader = new FileUploader({ url: 'APHXE' });
   uploaderACHXE: FileUploader = new FileUploader({ url: 'ACHXE' });
 
+  imgSrcPreviewDKYXE = [];
+  imgSrcPreviewDKIEMXE = [];
+  imgSrcPreviewBHDSXE = [];
+  imgSrcPreviewBHHHXE = [];
+  imgSrcPreviewGXNTBGS = [];
+  imgSrcPreviewACHXE = [];
+  imgSrcPreviewAPHXE = [];
+
 
   public addEditForm: FormGroup;
 
@@ -199,8 +207,79 @@ export class VehiclepopupComponent implements OnInit {
     this.uploaderAPHXE.queue.forEach((e, index) => this.addEditForm.controls.attachProperties.value.APHXE.push(this.setNewFileName(e.file.name, index)));
   }
 
+  loadPreviewDKYXE() {
+    this.imgSrcPreviewDKYXE = [];
+    for (let i = 0; i < this.uploaderDKYXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderDKYXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewDKYXE.push(reader.result);
+      }
+    }
+  }
+  loadPreviewDKIEMXE() {
+    this.imgSrcPreviewDKIEMXE = [];
+    for (let i = 0; i < this.uploaderDKIEMXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderDKIEMXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewDKIEMXE.push(reader.result);
+      }
+    }
+  }
+  loadPreviewBHDSXE() {
+    this.imgSrcPreviewBHDSXE = [];
+    for (let i = 0; i < this.uploaderBHDSXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderBHDSXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewBHDSXE.push(reader.result);
+      }
+    }
+  }
+  loadPreviewBHHHXE() {
+    this.imgSrcPreviewBHHHXE = [];
+    for (let i = 0; i < this.uploaderBHHHXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderBHHHXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewBHHHXE.push(reader.result);
+      }
+    }
+  }
+  loadPreviewGXNTBGS() {
+    this.imgSrcPreviewGXNTBGS = [];
+    for (let i = 0; i < this.uploaderGXNTBGS.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderGXNTBGS.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewGXNTBGS.push(reader.result);
+      }
+    }
+  }
+  loadPreviewACHXE() {
+    this.imgSrcPreviewACHXE = [];
+    for (let i = 0; i < this.uploaderACHXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderACHXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewACHXE.push(reader.result);
+      }
+    }
+  }
+  loadPreviewAPHXE() {
+    this.imgSrcPreviewAPHXE = [];
+    for (let i = 0; i < this.uploaderAPHXE.queue.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.uploaderAPHXE.queue[i]._file);
+      reader.onload = () => {
+        this.imgSrcPreviewAPHXE.push(reader.result);
+      }
+    }
+  }
+
   setNewFileName(old_FileName: string, order): string {
-    ++order;
+    // ++order;
     // format: tentheomay_licencePlate_STT
     let nameOnly = old_FileName.slice(0, old_FileName.lastIndexOf('.'));
     let fileFormat = old_FileName.slice(old_FileName.lastIndexOf('.'));
@@ -209,26 +288,54 @@ export class VehiclepopupComponent implements OnInit {
   }
   onSave(event) {
     if (this.isAdd) {
-      this.groupImg();
-      this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
-      this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
-      this.uploadFileToServer(this.uploaderBHHHXE.queue, 'bhhhxe');
-      this.uploadFileToServer(this.uploaderBHDSXE.queue, 'bhdsxe');
-      this.uploadFileToServer(this.uploaderGXNTBGS.queue, 'gxntbgs');
-      this.uploadFileToServer(this.uploaderACHXE.queue, 'achxe');
-      this.uploadFileToServer(this.uploaderAPHXE.queue, 'aphxe');
+      if (this.uploaderDKYXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Đăng ký xe');
+      if (this.uploaderDKIEMXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Đăng kiểm xe');
+      if (this.uploaderBHHHXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Bảo hiểm hàng hóa xe');
+      if (this.uploaderBHDSXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Bảo hiểm dân sự xe');
+      if (this.uploaderGXNTBGS.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Giấy xác thiết bị giám sát xe');
+      if (this.uploaderACHXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Chụp xe');
+      if (this.uploaderAPHXE.queue.length == 0)
+        this.toastrService.error('Chưa chọn ảnh Phù hiệu xe');
+      if (this.uploaderDKYXE.queue.length > 0 &&
+        this.uploaderDKIEMXE.queue.length > 0 &&
+        this.uploaderBHHHXE.queue.length > 0 &&
+        this.uploaderBHDSXE.queue.length > 0 &&
+        this.uploaderGXNTBGS.queue.length > 0 &&
+        this.uploaderACHXE.queue.length > 0 &&
+        this.uploaderAPHXE.queue.length > 0) {
+
+        this.uploadFileToServer(this.uploaderDKYXE.queue, 'dkyxe');
+        this.uploadFileToServer(this.uploaderDKIEMXE.queue, 'dkiemxe');
+        this.uploadFileToServer(this.uploaderBHHHXE.queue, 'bhhhxe');
+        this.uploadFileToServer(this.uploaderBHDSXE.queue, 'bhdsxe');
+        this.uploadFileToServer(this.uploaderGXNTBGS.queue, 'gxntbgs');
+        this.uploadFileToServer(this.uploaderACHXE.queue, 'achxe');
+        this.uploadFileToServer(this.uploaderAPHXE.queue, 'aphxe');
+
+        this.groupImg();
+        this.convert();
+        this.vehicleViewModelChange.emit(this._entity);
+        this.closeModalEvent.emit();
+      }
     }
     this._entity = this.addEditForm.value;
     if (!this.isAdd) {
       this._entity.attachProperties = this.oldAttachPro;
       this._entity.vehicleCode = this.oldvehicleCode;
       this._entity.ownerId = this.oldownerId;
+
+      this.convert();
+      this.vehicleViewModelChange.emit(this._entity);
+      this.closeModalEvent.emit();
     }
-    this.convert();
     console.log(this._entity);
 
-    this.vehicleViewModelChange.emit(this._entity);
-    this.closeModalEvent.emit();
 
   }
 
@@ -239,7 +346,7 @@ export class VehiclepopupComponent implements OnInit {
       this.dataService.postFile('upload/' + type, frmImg).subscribe(
         response => {
           console.log(response);
-          
+
         }
       )
     }

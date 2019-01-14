@@ -16,6 +16,7 @@ export * from './interfaces/icategory.service';
 export * from './interfaces/ipolicy.service';
 export * from './interfaces/iaddress.service';
 export * from './interfaces/ibank-list.service';
+export * from './interfaces/ibanks.services'
 
 // Export Model
 export * from './models/config.model';
@@ -60,6 +61,7 @@ export * from './services/policy.service';
 export * from './services/ip.service';
 export * from './services/address.service';
 export * from './services/bank-list.service';
+export * from './services/banks.service';
 // Export Token
 export * from './tokens/authen.service.token';
 export * from './tokens/data.service.token';
@@ -75,6 +77,7 @@ export * from './tokens/category.service.token';
 export * from './tokens/policy.service.token';
 export * from './tokens/address.service.token';
 export * from './tokens/bank-list.service.token';
+export * from './tokens/banks.service.token';
 
 // Export Constant
 export * from './constant/address.constant.modal';
